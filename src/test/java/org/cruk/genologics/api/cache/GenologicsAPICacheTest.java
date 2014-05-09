@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -70,6 +70,7 @@ public class GenologicsAPICacheTest
     protected Log logger = LogFactory.getLog(GenologicsAPICacheTest.class);
 
     protected AbstractApplicationContext context;
+    private boolean credentialsSet;
     protected GenologicsAPI api;
     protected GenologicsAPICache cacheAspect;
     protected RestCallTrackingAspect testAspect;
@@ -103,11 +104,7 @@ public class GenologicsAPICacheTest
         cacheAspect = context.getBean(GenologicsAPICache.class);
         testAspect = context.getBean(RestCallTrackingAspect.class);
 
-        boolean credentialsSet = UnitTestApplicationContextFactory.setCredentialsOnApi(api);
-
-        Assume.assumeTrue("Could not set credentials for the API, which is needed for this test. " +
-                          "Put a \"testcredentials.properties\" file on the class path.",
-                          credentialsSet);
+        credentialsSet = UnitTestApplicationContextFactory.setCredentialsOnApi(api);
     }
 
     @After
@@ -128,7 +125,7 @@ public class GenologicsAPICacheTest
     {
         Locatable l = new Artifact();
 
-        String base = api.getServerApiAddress();
+        String base = "http://limsdev.cri.camres.org:8080/v2/api/";
 
         l.setUri(new URI(base + "artifacts/234"));
 
@@ -149,9 +146,18 @@ public class GenologicsAPICacheTest
         assertEquals("Version wrong with state", 5432L, e.getVersion());
     }
 
+    private void checkCredentialsSet()
+    {
+        Assume.assumeTrue("Could not set credentials for the API, which is needed for this test. " +
+                          "Put a \"testcredentials.properties\" file on the class path.",
+                          credentialsSet);
+    }
+
     @Test
     public void testLoadOrRetrieve() throws Throwable
     {
+        checkCredentialsSet();
+
         //CacheManager mockCacheManager = EasyMock.createMock(CacheManager.class);
         //EasyMock.expect(mockCacheManager.getCache(Artifact.class.getName())).andReturn(value);
 
@@ -245,6 +251,8 @@ public class GenologicsAPICacheTest
     {
         Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
 
+        checkCredentialsSet();
+
         // Load reference links
 
         testAspect.setEnabled(true);
@@ -285,6 +293,8 @@ public class GenologicsAPICacheTest
     public void fullTest() throws Exception
     {
         Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
+
+        checkCredentialsSet();
 
         boolean runThisTest = Boolean.parseBoolean(System.getProperty("live.cache.test", Boolean.FALSE.toString()));
 
