@@ -1,0 +1,83 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/userdefined" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/configuration" schemaLocation="configuration.xsd"/>
+  <xs:complexType name="field">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Field is the value and data type of a user-defined field.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="unit" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[For numeric type fields, the unit of measure for the user-defined field's value.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The name of the user-defined field.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="cnf:field-type">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The type of data in the user-defined field.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Type is the name and user-defined fields of a user-defined type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="field" type="udf:field" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user-defined fields for the user-defined type.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the user-defined type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:element name="field" type="udf:field">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A User-Defined Field that is associated with the researcher.
+This element is repeated for each UDF associated with the researcher.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, unless the UDF has been configured as required.
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDF has been configured as required. If a current UDF is not provided, existing values are deleted.]]>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="type" type="udf:type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The User-Defined Type that is associated with the researcher.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, unless the UDT has been configured as required.
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDT has been configured as required. If a current UDT is not provided, existing values are deleted.]]>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

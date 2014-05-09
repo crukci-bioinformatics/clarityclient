@@ -1,0 +1,172 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/lab" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:lab="http://genologics.com/ri/lab" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/userdefined" schemaLocation="userdefined.xsd"/>
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="lab" type="lab:lab"/>
+  <xs:element name="labs" type="lab:labs"/>
+  <xs:complexType name="lab">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a lab.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the lab.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="billing-address" type="ri:address" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The lab's billing address.
+<br/>Always returns with GET: No, but can be empty if it returns
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, but system will return nodes with empty data
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but system will return nodes with empty data]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="shipping-address" type="ri:address" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The lab's shipping address.
+<br/>Always returns with GET: No, but can be empty if it returns
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, but system will return nodes with empty data
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but system will return nodes with empty data]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The User-Defined Type that is associated with the lab.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, unless the UDT has been configured as required.
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDT has been configured as required. If a current UDT is not provided, existing values are deleted.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:field" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A User-Defined Field that is associated with the lab.
+This element is repeated for each UDF associated with the lab.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, unless the UDF has been configured as required.
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDF has been configured as required. If a current UDF is not provided, existing values are deleted.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="ri:externalid" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[An identifier that allows an external system to retrieve information about the lab
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="website" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The lab's website.
+<br/>Always returns with GET: Yes, but can be empty
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the lab.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="labs">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of lab links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="lab" type="lab:lab-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Lab provides a URI linking to the detailed representation of a lab.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of labs,
+the previous-page element provides a URI that links to the previous page of labs.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of labs,
+the next-page element provides a URI that links to the next page of labs.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="lab-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Lab-link is a child element type of labs and provides a URI linking to the detailed representation of a lab.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the lab.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the lab.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

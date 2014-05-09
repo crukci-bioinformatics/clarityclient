@@ -1,0 +1,432 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/process" xmlns:file="http://genologics.com/ri/file" xmlns:prc="http://genologics.com/ri/process" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/file" schemaLocation="file.xsd"/>
+  <xs:import namespace="http://genologics.com/ri/userdefined" schemaLocation="userdefined.xsd"/>
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="process" type="prc:process"/>
+  <xs:element name="processes" type="prc:processes"/>
+  <xs:complexType name="process">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a process.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="type" type="prc:process-type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The type of the Process.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="date-run" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The date associated with the running of the Process, in YYYY-MM-DD format.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="technician" type="prc:technician" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Technician provides a URI linking to the detailed representation of the technician that ran the Process.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="input-output-map" type="prc:input-output-map" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each input-output-map relates one of the Process inputs to one of the outputs that was produced for that input.
+<br/>There will be a distinct input-output-map for each paring of Process input to Process output
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user-defined type of this Process.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDT has been configured as required. If a current UDT is not provided, existing values are deleted.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:field" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user-defined fields of this Process.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDF has been configured as required. If a current UDF is not provided, existing values are deleted.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="file:file" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each file provides a URI linking to the detailed representation of a file associated with the Process.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="protocol-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the protocol used to run the Process.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="instrument" type="prc:instrument" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Instrument provides a URI linking to the detailed representation of the instrument that ran the Process.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="process-parameter" type="prc:parameter" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The process parameter configured for EPP for the Process Type of the Process
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the Process.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Process.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="input-output-map">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Input-output-map is a child element of Process and relates one of the Process inputs to one of the outputs that was produced for that input.
+<p>There will be a distinct input-output-map for each pairing of Process input to Process output.</p>
+<p>If an input is not mapped to any outputs, the input will be listed with no outputs.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="input" type="prc:artifact" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Input provides a URI linking to the input Artifact for the input-output-map.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="output" type="prc:artifact" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Output provides a URI linking to the output Artifact for the input-output-map.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="artifact">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Artifact is a child element of input-output-map and provides a link to an Artifact that was either
+an input or output of the Process for the input-output-map.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="parent-process" type="prc:parent-process" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Parent-process provides a URI linking to the Process that created the Artifact.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMSID of the Artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="output-type" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The output type of the Artifact.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="output-generation-type" type="prc:output-generation-type">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[Specifies how the outputs were generated in
+relation to the inputs (COMPOUND, PER_REAGENT_LABEL, or PER_INPUT).
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Artifact before the Process was run.
+<p>Artifact URIs include a state query parameter, and the state changes as Processes are run on the Artifact.
+This allows linking to the values for the Artifact at a particular point in time, such as before executing the
+Process or after the Process completed. Values such as volume, concentration and qc-flag that are affected
+by Process execution are reflected for the particular state of the Artifact.</p>
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="post-process-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Artifact after the Process was run.
+<p>Artifact URIs include a state query parameter, and the state changes as Processes are run on the Artifact.
+This allows linking to the values for the Artifact at a particular point in time, such as before executing the
+Process or after the Process completed. Values such as volume, concentration and qc-flag that are affected
+by Process execution are reflected for the particular state of the Artifact.</p>
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="output-generation-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The available options for output-type generation.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PerInput"/>
+      <xs:enumeration value="PerAllInputs"/>
+      <xs:enumeration value="PerReagentLabel"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="parent-process">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Parent-process is a child element of Artifact and provides a URI linking to the Process that created the Artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMSID of the Process.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Process.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="instrument">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The instrument element provides a URI to the instrument that is responsible for running the process.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A URI that identifies and links to the desired Instrument.
+<br/>Creatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="parameter">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The parameter is a child element of process that integrates the Process with the External Program Integration
+plug-in (EPP). When a user runs the Process, the system automatically issues a command configured in the
+process parameter this element represents.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the process type parameter.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="process-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Process-type is a child element of process that identifies and provides a URI linking to the detailed
+representation of the process type that the process is associated with.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="uri" type="xs:anyURI">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The URI of the process type.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="technician">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Technician is a child element of Process and provides a URI linking to the detailed representation of the technician that ran the Process.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="first-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The first name of the technician.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="last-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The last name of the technician.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the technician.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="processes">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of process links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="process" type="prc:process-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Process provides a URI linking to the detailed representation of a process.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of processes,
+the previous-page element provides a URI that links to the previous page of processes.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of processes,
+the next-page element provides a URI that links to the next page of processes.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="process-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Process-link is a child element type of process and provides a URI linking to the detailed representation of a process.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMSID of the process.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the process.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

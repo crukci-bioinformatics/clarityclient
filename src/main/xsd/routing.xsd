@@ -1,0 +1,62 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/routing" xmlns:rt="http://genologics.com/ri/routing" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="routing" type="rt:routing"/>
+  <xs:complexType name="routing">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The root element for a routing API call]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="assign" type="rt:extArtifactAssignments" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A group of new Artifact to Workflow/Stage assignments]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="unassign" type="rt:extArtifactAssignments" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A group of Artifacts to unassign from Workflows/Stages]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="extArtifactAssignments">
+    <xs:sequence>
+      <xs:element name="artifact" type="rt:artifact" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A collection of artifacts to assign/unassign. Only the uri element is needed for each artifact.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="workflow-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The workflow to use for (un)assigning the samples. Is not needed if stage URI is set. If stageURI is not
+specified, the default stage in the workflow will be used for assignment.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="stage-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The stage to assign the samples to. The stage is tied to a workflow, so workflowURI is not needed if this
+attribute is set.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="artifact">
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Artifact.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

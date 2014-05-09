@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prj:project xmlns:udf="http://genologics.com/ri/userdefined"
+             xmlns:ri="http://genologics.com/ri"
+             xmlns:file="http://genologics.com/ri/file"
+             xmlns:prj="http://genologics.com/ri/project"
+             uri="http://limsdev.cri.camres.org:8080/api/v2/projects/ADM2" limsid="ADM2">
+    <name>ILMN E2E Validation Test</name>
+    <open-date>2013-01-18</open-date>
+    <researcher uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/1" />
+    <file:file limsid="ADM2-40-5" uri="http://limsdev.cri.camres.org:8080/api/v2/files/ADM2-40-5" />
+</prj:project>

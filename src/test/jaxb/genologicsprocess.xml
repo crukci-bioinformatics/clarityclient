@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prc:process xmlns:udf="http://genologics.com/ri/userdefined"
+             xmlns:file="http://genologics.com/ri/file"
+             xmlns:prc="http://genologics.com/ri/process"
+             uri="http://lims.cri.camres.org:8080/api/v2/processes/RPT-SLB-130123-24-558"
+             limsid="RPT-SLB-130123-24-558">
+    <type uri="http://lims.cri.camres.org:8080/api/v2/processtypes/19">Illumina Sample History Report 4.0</type>
+    <date-run>2013-01-23</date-run>
+    <technician uri="http://lims.cri.camres.org:8080/api/v2/researchers/5">
+        <first-name>Sarah</first-name>
+        <last-name>Leigh-Brown</last-name>
+    </technician>
+    <input-output-map>
+        <input post-process-uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A4PA1"
+               uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A4PA1"
+               limsid="ADM2A4PA1" />
+        <output uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A4RP2"
+                output-generation-type="PerInput" output-type="ResultFile" limsid="ADM2A4RP2" />
+    </input-output-map>
+    <input-output-map>
+        <input post-process-uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A7PA1"
+               uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A7PA1"
+               limsid="ADM2A7PA1" />
+        <output uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A7RP2"
+                output-generation-type="PerInput" output-type="ResultFile" limsid="ADM2A7RP2" />
+    </input-output-map>
+    <input-output-map>
+        <input post-process-uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A5PA1"
+               uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A5PA1"
+               limsid="ADM2A5PA1" />
+        <output uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A5RP2"
+                output-generation-type="PerInput" output-type="ResultFile" limsid="ADM2A5RP2" />
+    </input-output-map>
+    <input-output-map>
+        <input post-process-uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A2PA1"
+               uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A2PA1"
+               limsid="ADM2A2PA1">
+            <parent-process uri="http://lims.cri.camres.org:8080/api/v2/processes/151-548" limsid="151-548"/>
+        </input>
+        <output uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A2RP2"
+                output-generation-type="PerInput" output-type="ResultFile" limsid="ADM2A2RP2">
+            <parent-process uri="http://lims.cri.camres.org:8080/api/v2/processes/151-550" limsid="151-550"/>
+        </output>
+    </input-output-map>
+    <udf:type name="Unit Test Extra Type">
+        <udf:field type="Numeric" name="Amount" unit="cm">3.4</udf:field>
+        <udf:field type="Boolean" name="Correct">true</udf:field>
+    </udf:type>
+    <udf:field type="Boolean" name="Bioanalyzer QC (DNA) 4.0">true</udf:field>
+    <udf:field type="Boolean" name="NanoDrop QC (DNA) 4.0">false</udf:field>
+    <udf:field type="Boolean" name="PicoGreen QC (DNA) 4.0">false</udf:field>
+    <protocol-name>Sampling Protocol</protocol-name>
+    <instrument uri="http://limsdev.cri.camres.org:8080/api/v2/instruments/3"/>
+    <process-parameter name="Report creation script" />
+</prc:process>

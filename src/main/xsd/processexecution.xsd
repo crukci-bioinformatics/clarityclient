@@ -1,0 +1,272 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/processexecution" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/userdefined" schemaLocation="userdefined.xsd"/>
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="process" type="prx:process"/>
+  <xs:complexType name="process">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The process element defines the XML needed to run a process.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="type" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the Process (process type) that you want to run.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="technician" type="prx:technician" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The Technician element provides a URI to the user that is responsible for the Process.
+Once the Process completes, this user is listed as the Technician that ran the Process.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="date-run" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The date associated with the running of the Process, in YYYY-MM-DD format.
+If omitted, the current date will be used.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No , will default to the current date.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="input-output-map" type="prx:input-output-map" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The relationship of Process inputs to Process outputs.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A UDT to apply to the Process.
+This is an optional element.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, unless the UDT has been configured as required.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:field" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[UDFs to apply to the Process, if any.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No , unless the UDF has been configured as required.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="instrument" type="prx:instrument" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Instrument provides a URI linking to the detailed representation of the instrument that ran the Process.
+This instrument must have a single software defined to be valid for process execution.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="process-parameter" type="prx:parameter" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The process parameter configured for EPP for the Process Type of the Process
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="artifactbase" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The base representation of an Artifact in the context of Process execution, defining common elements for both input and output Artifacts.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="qc-flag" type="prx:qc-flag" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The QC flag for the Artifact being created. You can apply a QC flag to any Artifact in the system.
+This is an optional element.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="qc-flag">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The qc-flag element defines a QC value to apply to the input or output of the Process.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN"/>
+      <xs:enumeration value="PASSED"/>
+      <xs:enumeration value="FAILED"/>
+      <xs:enumeration value="CONTINUE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="input">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The input element provides URIs to one or more Artifacts that will be used by the Process.
+Input is a child element of input-output-map.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="prx:artifactbase">
+        <xs:attribute name="uri" type="xs:anyURI">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[A URI that identifies and links to further information about the input Artifact.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="input-output-map">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Processes link inputs to outputs and this relationship is called an input-output map.
+Input-output-map is a child element of the Process element.
+<p>
+When a Process creates multiple outputs per input, there is a distinct input-output map for each input to output relationship.
+When a Process produces a shared output, there is a single input-output map for the shared output and all its related inputs.
+<p>
+In situations where a Process is used to affect the properties of inputs only and therefore, does not create outputs, you can omit the output element.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="input" type="prx:input" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[This element provides a URI for input Artifacts in the input-output map.
+There may be cases where multiple inputs are associated with a single output, such as when working with a shared output.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="output" type="prx:output" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[This element provides information about the output Artifact that will be created by the Process.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="shared" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A value that specifies whether the input-output map applies to a single or shared output. To define a shared input-output map,
+use true. To define a single input-output map, use false. If the value is omitted, the system will default to false.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="instrument">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The instrument element provides a URI to the instrument that is responsible for running the process.
+This instrument must have a single software defined to be valid for process execution.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A URI that identifies and links to the desired Instrument.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="output">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The output element provides information about the Artifacts that will be created by the Process.
+Output is a child element of the input-output-map element.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="prx:artifactbase">
+        <xs:sequence>
+          <xs:element name="location" type="ri:location" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The container where the output Artifact will be placed.
+This child element is only used when working with Analyte or ResultFile outputs.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes for Analyte, No for ResultFile outputs.]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="type" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The type of output the system is creating. This value is case sensitive.
+Valid values are: ResultFile, SearchResultFile, Analyte, Gel 1D, Gel 2D, Gel Spot, and Image.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="parameter">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The parameter is a child element of process execution that integrates the Process with the External Program Integration
+plug-in (EPP). When a user runs the Process, the system automatically issues a command configured in the
+process parameter this element represents.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the process type parameter.
+Must match a parameter declared in the corresponding process type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="technician">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The technician element provides a URI to the user that is responsible for the Process.
+Once the Process completes, this user is listed as the technician that ran the Process.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A URI that identifies and links to the desired technician.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

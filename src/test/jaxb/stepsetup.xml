@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stp:setup xmlns:stp="http://genologics.com/ri/step" uri="http://limsdev.cri.camres.org:8080/api/v2/steps/24-126453/setup">
+    <step uri="http://limsdev.cri.camres.org:8080/api/v2/steps/24-126453" rel="steps"/>
+    <configuration uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/16/steps/52">MiSeq Load Cartridge</configuration>
+    <files>
+        <file name="SampleSheet.csv" limsid="92-1833858" artifact-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1833858" shared-result-file-index="1">
+            <message>Need to attach the sample sheet to something.</message>
+        </file>
+        <file name="Info.txt" limsid="92-1833859" artifact-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1833859" shared-result-file-index="2">
+            <message>Information on the thing.</message>
+        </file>
+    </files>
+</stp:setup>

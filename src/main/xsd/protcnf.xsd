@@ -1,0 +1,144 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/protocolconfiguration" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/stepconfiguration" schemaLocation="protstepcnf.xsd"/>
+  <xs:element name="protocol" type="protcnf:protocol"/>
+  <xs:element name="protocols" type="protcnf:protocols"/>
+  <xs:complexType name="protocol">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[<p> Detailed representation of a protocol.</p>
+<p> A protocol represents a collection of different steps.
+A protocol can be a QC protocol meaning samples go through the process
+mostly in parallel or a normal protocol, where samples go
+through in series.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="steps" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[List of steps the
+protocols is using]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="step" type="protstepcnf:step" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[List of steps the
+protocols is using]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="protocol-properties" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Protocol configuration properties.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="protocol-property" type="protcnf:protocol-property" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[Protocol configuration properties.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[Name of the represented protocol]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="index" type="xs:int">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[Index of the protocol]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI address of the current protocol]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="protocol-property">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Protocol-property is a child element of protocol containing key/value pairs for
+setting specific attributes of protocols.
+This information contains internally used properties that will change. These properties are
+suitable for use when copying protocols, but should not be manipulated.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The property name.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="value" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The property value.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="protocols">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Returns the representation of a list of protocols
+<p> A list of protocols available in the system,
+providing names and URIs to access more detailed representations of the
+protocols</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="protocol" type="protcnf:protocol-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each protocol provides a URI that links to a
+more detailed representation of the protocol]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="protocol-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[This list will contain a list of names and URIs
+for all available protocols in the system]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[Name of the protocol]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[the URI to access a more detailed
+representation of the protocol]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

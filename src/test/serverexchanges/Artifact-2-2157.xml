@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<art:artifact limsid="2-2157" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870" xmlns:con="http://genologics.com/ri/container" xmlns:res="http://genologics.com/ri/researcher" xmlns:ri="http://genologics.com/ri" xmlns:ver="http://genologics.com/ri/version" xmlns:inst="http://genologics.com/ri/instrument" xmlns:lab="http://genologics.com/ri/lab" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:file="http://genologics.com/ri/file" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:stg="http://genologics.com/ri/stage" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:smp="http://genologics.com/ri/sample" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:art="http://genologics.com/ri/artifact" xmlns:stp="http://genologics.com/ri/step" xmlns:prc="http://genologics.com/ri/process" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:rt="http://genologics.com/ri/routing" xmlns:exc="http://genologics.com/ri/exception" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:prj="http://genologics.com/ri/project" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration">
+    <name>SLX-6678</name>
+    <type>Analyte</type>
+    <output-type>Analyte</output-type>
+    <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/SLX-HMO-130610-122-2207" limsid="SLX-HMO-130610-122-2207"/>
+    <qc-flag>PASSED</qc-flag>
+    <location>
+        <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-436" limsid="27-436"/>
+        <value>1:1</value>
+    </location>
+    <working-flag>true</working-flag>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A33" limsid="MOH54A33"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A34" limsid="MOH54A34"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A35" limsid="MOH54A35"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A36" limsid="MOH54A36"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A37" limsid="MOH54A37"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A38" limsid="MOH54A38"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A39" limsid="MOH54A39"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A40" limsid="MOH54A40"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A41" limsid="MOH54A41"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A42" limsid="MOH54A42"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A43" limsid="MOH54A43"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A44" limsid="MOH54A44"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A45" limsid="MOH54A45"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A46" limsid="MOH54A46"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A47" limsid="MOH54A47"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A48" limsid="MOH54A48"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A49" limsid="MOH54A49"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A50" limsid="MOH54A50"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A51" limsid="MOH54A51"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A52" limsid="MOH54A52"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A53" limsid="MOH54A53"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A54" limsid="MOH54A54"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A55" limsid="MOH54A55"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A56" limsid="MOH54A56"/>
+    <reagent-label name="A002"/>
+    <reagent-label name="A004"/>
+    <reagent-label name="A005"/>
+    <reagent-label name="A006"/>
+    <reagent-label name="A012"/>
+    <reagent-label name="A013"/>
+    <reagent-label name="A014"/>
+    <reagent-label name="A019"/>
+    <reagent-label name="A007"/>
+    <reagent-label name="A015"/>
+    <reagent-label name="A016"/>
+    <reagent-label name="A018"/>
+    <reagent-label name="A001"/>
+    <reagent-label name="A010"/>
+    <reagent-label name="A020"/>
+    <reagent-label name="A008"/>
+    <reagent-label name="A003"/>
+    <reagent-label name="A009"/>
+    <reagent-label name="A025"/>
+    <reagent-label name="A022"/>
+    <reagent-label name="A011"/>
+    <reagent-label name="A021"/>
+    <reagent-label name="A023"/>
+    <reagent-label name="A027"/>
+</art:artifact>

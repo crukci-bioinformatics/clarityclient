@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prc:process xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:prc="http://genologics.com/ri/process" xmlns:file="http://genologics.com/ri/file" xmlns:inst="http://genologics.com/ri/instrument" xmlns:stp="http://genologics.com/ri/step" xmlns:ri="http://genologics.com/ri" xmlns:res="http://genologics.com/ri/researcher" xmlns:lab="http://genologics.com/ri/lab" xmlns:stg="http://genologics.com/ri/stage" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:smp="http://genologics.com/ri/sample" xmlns:con="http://genologics.com/ri/container" xmlns:ver="http://genologics.com/ri/version" xmlns:art="http://genologics.com/ri/artifact" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:prj="http://genologics.com/ri/project" xmlns:rt="http://genologics.com/ri/routing" xmlns:ns25="http://genologics.com/ri/controltype" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:exc="http://genologics.com/ri/exception" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration" limsid="24-110317" uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-110317">
+    <type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/48">MiSeq Run</type>
+    <date-run>2014-01-14</date-run>
+    <technician uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/128">
+        <first-name>Hannah</first-name>
+        <last-name>Haydon</last-name>
+    </technician>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249209" limsid="2-1715962" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249353">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-110314" limsid="24-110314"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1715975?state=1249248" limsid="92-1715975" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249209" limsid="2-1715962" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249353">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-110314" limsid="24-110314"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1715976?state=1249249" limsid="92-1715976" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249209" limsid="2-1715962" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249353">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-110314" limsid="24-110314"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1715977?state=1249250" limsid="92-1715977" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249209" limsid="2-1715962" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249353">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-110314" limsid="24-110314"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1715978?state=1249351" limsid="92-1715978" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249209" limsid="2-1715962" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249353">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-110314" limsid="24-110314"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1715979?state=1249352" limsid="92-1715979" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <udf:field name="Finish Date" type="Date">2014-01-14</udf:field>
+    <udf:field name="Run Type" type="String">null</udf:field>
+    <udf:field name="Status" type="String">Cycle 40 of 40</udf:field>
+    <udf:field name="Flow Cell ID" type="String">000000000-A6GWU</udf:field>
+    <udf:field name="Flow Cell Version" type="String">15028382</udf:field>
+    <udf:field name="Experiment Name" type="String">SLX-7712</udf:field>
+    <udf:field name="Read 1 Cycles" type="Numeric">40</udf:field>
+    <udf:field name="Output Folder" type="String">Z:\</udf:field>
+    <udf:field name="Run ID" type="String">140114_M01686_0088_000000000-A6GWU</udf:field>
+    <udf:field name="Reagent Cartridge ID" type="String">MS2001785-150V3</udf:field>
+    <udf:field name="Reagent Cartridge Part #" type="String">15043963</udf:field>
+    <udf:field name="Chemistry" type="String">Default</udf:field>
+    <udf:field name="Workflow" type="String">Resequencing</udf:field>
+    <udf:field name="PR2 Bottle ID" type="String">MS2211830-00PR2</udf:field>
+    <instrument uri="http://limsdev.cri.camres.org:8080/api/v2/instruments/1"/>
+    <process-parameter name="Update Sample Progress Status"/>
+</prc:process>

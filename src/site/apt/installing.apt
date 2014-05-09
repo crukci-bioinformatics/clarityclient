@@ -1,0 +1,43 @@
+Installation
+
+  The client can be used by including its JAR file and its dependencies
+in your class path.
+
+* With Maven
+
+  The client can be added as a dependency to your POM:
+
++---
+<dependency>
+    <groupId>org.cruk.genologics</groupId>
+    <artifactId>clarity-client</artifactId>
+    <version>2.18</version>
+</dependency>
++---
+
+  (Obviously, update the version number as later versions appear.)
+
+  We here at CRUK-CI's bioinformatics group will be publishing a Maven
+repository for our code in the near future. When we have this up you will
+be able to add it to your POM and fetch the code directly with Maven.
+Until that time, you'll need to get the source code and build it yourself
+(see below).
+
+* Without Maven
+
+  If you are not using Maven, you should also fetch this project's
+dependencies and add them to your class path. The dependencies are given
+in the {{{./dependencies.html}dependencies report}}.
+
+* Building from source
+
+  Assuming you have downloaded the source from GitHub, building the Java
+API client is simple. You will need Maven version 2.2 or newer. Then building
+is as simple as:
+
++---
+mvn install
++---
+
+  You need to run this command from the project's top level directory. It will
+build the client JAR file and install it in your local Maven cache.

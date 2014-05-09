@@ -1,0 +1,275 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/reagentlot" xmlns:lot="http://genologics.com/ri/reagentlot" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="reagent-lot" type="lot:reagent-lot"/>
+  <xs:element name="reagent-lots" type="lot:reagent-lots"/>
+  <xs:complexType name="reagent-lot">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a Reagent Lot]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="reagent-kit" type="lot:reagent-kit-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The simple representation of the Reagent Kit this lot is associated with.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the Reagent Lot.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="lot-number" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The lot number of the Reagent Lot.
+<br/>Always returns with GET: NO
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="created-date" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The date the Reagent Lot was created.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="last-modified-date" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The date that the Reagent Lot was last modified.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="expiry-date" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The expiry date of the Reagent Lot.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="created-by" type="lot:researcher" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The creator of the Reagent Lot.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="last-modified-by" type="lot:researcher" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user to last modify the reagent lot.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="storage-location" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The storage location of the Reagent Lot.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="notes" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Additional notes on the Reagent Lot
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="status" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The status of the Reagent Lot. PENDING, ACTIVE, or ARCHIVED.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Reagent Lot.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The limsid of the Reagent Lot.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagent-kit-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Reagent-Kit-Link is an element providing a URI linking to
+the detailed representation of a reagent kit.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the Reagent Kit.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Reagent Kit.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="researcher">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Researcher is a child element of the reagent lot. It provides a URI
+linking to the detailed representation of the required researcher.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the researcher.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagent-lots">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of Reagent Lots]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="reagent-lot" type="lot:reagent-lot-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The list of Reagent Lots.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The next page element, contains a link to the next page of reagent lots, if required.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The previous page element, contains a link to the previous page of reagent lots, if required.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Reagent Lots.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagent-lot-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Reagent-lot-link is a child element type of Reagent Lots and provides a URI linking to
+the detailed representation of a Reagent Lot.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The limsid of the Reagent Lot.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Reagent Lot.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

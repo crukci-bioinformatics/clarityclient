@@ -1,0 +1,491 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/sample" xmlns:file="http://genologics.com/ri/file" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ri="http://genologics.com/ri" xmlns:smp="http://genologics.com/ri/sample" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/file" schemaLocation="file.xsd"/>
+  <xs:import namespace="http://genologics.com/ri/userdefined" schemaLocation="userdefined.xsd"/>
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="details" type="smp:details"/>
+  <xs:element name="sample" type="smp:sample"/>
+  <xs:element name="samplecreation" type="smp:samplecreation"/>
+  <xs:element name="samples" type="smp:samples"/>
+  <xs:complexType name="details">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of resource details.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sample" type="smp:sample" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A list of detailed resource representations for retrieval/update.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="samplecreation" type="smp:samplecreation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A list of detailed resource representations for creation.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sample">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a sample.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="smp:samplebase">
+        <xs:sequence>
+          <xs:element name="control-type" type="smp:controlType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[Control Type provides a name and a URI linking to the detailed representation of the Control Type associated with the Sample.
+If a Control Type is associated, the Sample will not have an associated Project.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="controlType">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Control Type provides a name and a URI linking to the detailed representation of the Control Type associated with the Sample.
+If a Control Type is associated, the Sample will not have an associated Project.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Control Type.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The Name of the Control Type.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="samplebase">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[<p>The base representation of a Sample, defining common elements for both Sample and Sample creation.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the Sample.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="date-received" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The date the Sample was received.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but if not provided, any previous value is removed.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="date-completed" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The date the Sample was completed.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but if not provided, any previous value is removed.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="project" type="smp:project" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Project provides a URI linking to the detailed representation of the Project for the Sample.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="submitter" type="smp:submitter" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Submitter provides a URI linking to the detailed representation of the submitter for the Sample.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, but submitter must have valid credentials and if no value is provided, any
+previous value is removed.
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but submitter must have valid credentials and if no value is provided, any
+previous value is removed.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="artifact" type="smp:artifact" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Artifact provides a URI linking to the detailed representation of the Artifact for the Sample.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="biosource" type="smp:biosource" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Deprecated.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user-defined type of the Sample.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, unless the UDT has been configured as required.
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDT has been configured as required. If a current UDT is not provided, existing values are deleted.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:field" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user-defined fields of the Sample.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, unless the UDF has been configured as required.
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDF has been configured as required. If a current UDF is not provided, existing values are deleted.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="ri:externalid" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each external id is an identifier that allows looking up related information about the Sample from an external system.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="file:file" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each file provides a URI linking to the detailed representation of a file associated with the Sample.
+<br/>Always returns with GET: No, however if one or more files are attached to a given Sample they will be returned.
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No, files cannot be modified through the Samples resource. Use the Files resource instead.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the Sample.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Sample.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="artifact">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Artifact is a child element of Sample and provides a URI linking to the detailed representation of the artifact for the Sample.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the artifact.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="biosource">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Deprecated.
+Biosource is not supported in Clarity.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="description" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The description of the biosource.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:field" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user-defined fields of the biosource.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the biosource.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="project">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Project is a child element of Sample and provides a URI linking to the detailed representation of the Project for the Sample.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Project.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the Project.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="submitter">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Submitter is a child element of Sample and provides a URI linking to the detailed representation of the submitter for the Sample.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="first-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The first name of the submitter.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="last-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The last name of the submitter.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the submitter.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No, but if present submitter must be a valid technician.
+<br/>Updatable with PUT: Yes, but uri of submitter must be a valid technician.
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="samplecreation">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[<p>Sample creation is the detailed representation required when creating a new Sample in the system.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="smp:samplebase">
+        <xs:sequence>
+          <xs:element name="location" type="ri:location" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[The location of the Sample's artifact within a container.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="samples">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation for a list of sample links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="sample" type="smp:sample-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Sample provides a URI linking to the detailed representation of a sample.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of samples,
+the previous-page element provides a URI that links to the previous page of samples.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of samples,
+the next-page element provides a URI that links to the next page of samples.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sample-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Sample-link is a child element type of samples and provides a URI linking to the detailed representation of a sample.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMSID of the sample.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the sample.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

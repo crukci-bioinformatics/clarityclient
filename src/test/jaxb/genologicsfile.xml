@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<file:file xmlns:file="http://genologics.com/ri/file"
+           uri="http://limsdev.cri.camres.org:8080/api/v2/files/92-1390-40-155"
+           limsid="92-1390-40-155">
+    <attached-to>http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1390</attached-to>
+    <content-location>sftp://limsdev.cri.camres.org/home/glsftp/Process/2013/1/24-511/92-1390-40-155.xls</content-location>
+    <original-location>/opt/gls/clarity/ai/temp/runExternalProgram-24012013-6314272244129076814.24-511/92-1390.xls</original-location>
+    <is-published>false</is-published>
+</file:file>

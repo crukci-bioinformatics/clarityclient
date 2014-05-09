@@ -1,0 +1,334 @@
+/*
+ * CRUK-CI Genologics REST API Java Client.
+ * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.genologics.ri.artifact;
+
+import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
+import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
+
+import java.io.Serializable;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
+
+import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.LimsEntity;
+import com.genologics.ri.Linkable;
+import com.genologics.ri.LimsEntityLinkable;
+import com.genologics.ri.Location;
+import com.genologics.ri.artifactgroup.ArtifactGroup;
+import com.genologics.ri.configuration.FieldType;
+import com.genologics.ri.controltype.ControlType;
+import com.genologics.ri.file.GenologicsFile;
+import com.genologics.ri.process.GenologicsProcess;
+import com.genologics.ri.sample.Sample;
+import com.genologics.ri.userdefined.UDF;
+
+/**
+ *
+ * <p>
+ * The detailed representation of an Artifact.
+ * </p>
+ * <p>
+ * An Artifact represents the inputs to or outputs from a process. An Artifact
+ * is classified by its type (Analyte, ResultFile, etc).
+ * </p>
+ * <p>
+ * Artifacts do not support HTTP POST requests.
+ * </p>
+ */
+@GenologicsEntity(uriSection = "artifacts", updateable = true, stateful = true)
+@XmlRootElement(name = "artifact")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "artifact",
+         propOrder = { "name", "type", "outputType", "parentProcess", "qcFlag", "location",
+                       "workingFlag", "samples", "reagentLabels", "controlType", "fields", "file", "artifactGroups" })
+public class Artifact implements LimsEntity<Artifact>, Serializable
+{
+    private static final long serialVersionUID = -6880606486650133775L;
+
+    protected String name;
+
+    protected String type;
+
+    @XmlElement(name = "output-type")
+    protected String outputType;
+
+    @XmlElement(name = "parent-process")
+    protected ParentProcessLink parentProcess;
+
+    @XmlElement(name = "qc-flag")
+    protected QCFlag qcFlag;
+
+    @XmlElement(name = "location")
+    protected Location location;
+
+    @XmlElement(name = "working-flag")
+    protected Boolean workingFlag;
+
+    @XmlElement(name = "sample")
+    protected List<SampleLink> samples;
+
+    @XmlElement(name = "reagent-label")
+    protected List<ReagentLabel> reagentLabels;
+
+    @XmlElement(name = "control-type")
+    protected ControlTypeLink controlType;
+
+    @XmlElement(name = "field", namespace = UDF_NAMESPACE)
+    protected List<UDF> fields;
+
+    @XmlElement(name = "file", namespace = FILE_NAMESPACE)
+    protected GenologicsFile file;
+
+    @XmlElement(name = "artifact-group")
+    protected List<ArtifactGroupLink> artifactGroups;
+
+    @XmlAttribute(name = "limsid")
+    protected String limsid;
+
+    @XmlAttribute(name = "uri")
+    @XmlSchemaType(name = "anyURI")
+    protected URI uri;
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String value)
+    {
+        this.name = value;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String value)
+    {
+        this.type = value;
+    }
+
+    public String getOutputType()
+    {
+        return outputType;
+    }
+
+    public void setOutputType(String value)
+    {
+        this.outputType = value;
+    }
+
+    public ParentProcessLink getParentProcess()
+    {
+        return parentProcess;
+    }
+
+    public ParentProcessLink setParentProcess(LimsEntityLinkable<GenologicsProcess> link)
+    {
+        parentProcess = new ParentProcessLink(link);
+        return parentProcess;
+    }
+
+    public QCFlag getQCFlag()
+    {
+        return qcFlag;
+    }
+
+    public void setQCFlag(QCFlag value)
+    {
+        this.qcFlag = value;
+    }
+
+    public Location getLocation()
+    {
+        return location;
+    }
+
+    public void setLocation(Location value)
+    {
+        this.location = value;
+    }
+
+    public Boolean isWorkingFlag()
+    {
+        return workingFlag;
+    }
+
+    public void setWorkingFlag(Boolean value)
+    {
+        this.workingFlag = value;
+    }
+
+    public List<SampleLink> getSamples()
+    {
+        if (samples == null)
+        {
+            samples = new ArrayList<SampleLink>();
+        }
+        return samples;
+    }
+
+    public void setSamples(Collection<? extends LimsEntityLinkable<Sample>> links)
+    {
+        getSamples().clear();
+        for (LimsEntityLinkable<Sample> link : links)
+        {
+            samples.add(new SampleLink(link));
+        }
+    }
+
+    public List<ReagentLabel> getReagentLabels()
+    {
+        if (reagentLabels == null)
+        {
+            reagentLabels = new ArrayList<ReagentLabel>();
+        }
+        return reagentLabels;
+    }
+
+    public ReagentLabel addReagentLabel(ReagentLabel label)
+    {
+        getReagentLabels().add(label);
+        return label;
+    }
+
+    public ReagentLabel addReagentLabel(String labelName)
+    {
+        return addReagentLabel(new ReagentLabel(labelName));
+    }
+
+    public ControlTypeLink getControlType()
+    {
+        return controlType;
+    }
+
+    public void setControlType(Linkable<ControlType> link)
+    {
+        this.controlType = link == null ? null : new ControlTypeLink(link);
+    }
+
+    /**
+     * A User-Defined Field that is associated with the Artifact. This element
+     * is repeated for each UDF associated with the Artifact. <br/>
+     * Always returns with GET: No <br/>
+     * Updatable with PUT: Yes <br/>
+     * Required for PUT: No, unless the UDF has been configured as required. If
+     * a current UDF is not provided, existing values are deleted.
+     */
+    public List<UDF> getUserDefinedFields()
+    {
+        if (fields == null)
+        {
+            fields = new ArrayList<UDF>();
+        }
+        return this.fields;
+    }
+
+    public UDF getUserDefinedField(String name)
+    {
+        return UDF.getUDF(fields, name);
+    }
+
+    public UDF addUserDefinedField(UDF udf)
+    {
+        getUserDefinedFields().add(udf);
+        return udf;
+    }
+
+    public UDF addUserDefinedField(String name, FieldType type, String value)
+    {
+        return addUserDefinedField(new UDF(name, type, value));
+    }
+
+    /**
+     *
+     * File provides a URI linking to the detailed representation of the File
+     * associated with the Artifact. <br/>
+     * Always returns with GET: No <br/>
+     * Updatable with PUT: Yes, only supported for SearchResultFile, ResultFile,
+     * and SpotList type Artifacts. <br/>
+     * Required for PUT: No
+     */
+    public GenologicsFile getFile()
+    {
+        return file;
+    }
+
+    public void setFile(GenologicsFile value)
+    {
+        this.file = value == null ? null : new GenologicsFile(value);
+    }
+
+    public List<ArtifactGroupLink> getArtifactGroups()
+    {
+        if (artifactGroups == null)
+        {
+            artifactGroups = new ArrayList<ArtifactGroupLink>();
+        }
+        return this.artifactGroups;
+    }
+
+    public void setArtifactGroups(Collection<? extends Linkable<ArtifactGroup>> links)
+    {
+        getArtifactGroups().clear();
+        for (Linkable<ArtifactGroup> link : links)
+        {
+            artifactGroups.add(new ArtifactGroupLink(link));
+        }
+    }
+
+    public ArtifactGroupLink addArtifactGroup(Linkable<ArtifactGroup> link)
+    {
+        ArtifactGroupLink l = new ArtifactGroupLink(link);
+        getArtifactGroups().add(l);
+        return l;
+    }
+
+    public String getLimsid()
+    {
+        return limsid;
+    }
+
+    public void setLimsid(String value)
+    {
+        this.limsid = value;
+    }
+
+    public URI getUri()
+    {
+        return uri;
+    }
+
+    public void setUri(URI value)
+    {
+        this.uri = value;
+    }
+
+}

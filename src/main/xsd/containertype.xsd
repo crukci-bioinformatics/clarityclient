@@ -1,0 +1,243 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/containertype" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="container-type" type="ctp:container-type"/>
+  <xs:element name="container-types" type="ctp:container-types"/>
+  <xs:complexType name="container-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a container type.
+<p>The container type describes the physical characteristics of a class of containers such as
+the number of wells in the container as well as describing the coordinate system used for identifying
+those wells.</p>
+<p>The container type is described using a rectangular coordinate system. The
+characteristics of the horizontal axis are described by the x-dimension element, and the characteristics
+of the vertical dimension are described by the y-dimension child elements. The characteristics of
+each dimension included both the size in that dimension as well as the identification method for
+values in that dimension. Values can be identified either numerically where 0 is the first item or
+alphabetically where A is the first element. Additionally an offset can be specified which shifts the
+value of the first element by a fixed amount. When a well location is represented using the coordinate
+system, it is shown as Y-Value:X-Value (for example A:1).<p>
+<p>The following are examples of the coordinate system:<p>
+<ul>
+<li>Y-Dimension: alphabetic, size 1, offset 0. X-Dimension: numeric, size 1, offset 0. Size: 1. Valid value: A:0</li>
+<li>Y-Dimension: alphabetic, size 12, offset 0. X-Dimension: numeric, size 8, offset 0. Size: 96. Valid values: A:0 ... L:7</li>
+<li>Y-Dimension: alphabetic, size 8, offset 0. X-Dimension: numeric, size 12, offset 1. Size: 96. Valid values: A:1 ... H:12</li>
+</ul>
+<p>The container type also identifies wells in the container that are not available for storing
+samples or reagents, either because the configuration of the container requires those wells to
+be empty for the instrument configuration or because the well contains specific calibrants that
+are required by the instrument. The well location of the calibrant or unavailable wells is specified
+using the coordinate system that is described by the x-dimension and y-dimension of the container
+type.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="is-tube" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[is-tube describes if this container-type should be treated as a tube in the client interface.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="calibrant-well" type="ctp:calibrant-well" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Deprecated, this property is no longer supported.
+Each calibrant well identifies a well location that is reserved for calibrants in containers of the container type.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="unavailable-well" type="ctp:unavailable-well" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each unavailable well identifies a well location that cannot be used by containers of the container type to store artifacts or reagents.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="x-dimension" type="ctp:dimension" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[X-dimension describes the size and identification method of the horizontal axis of the coordinate system for the container type.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="y-dimension" type="ctp:dimension" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Y-dimension describes the size and identification method of the vertical axis of the coordinate system for the container type.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the container type.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the container type.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="calibrant-well">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Deprecated, this property is no longer supported.
+Calibrant-well is a child element of container type and identifies a well location that is
+reserved for calibrants in containers of the container type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The name of the calibrant in the well.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="dimension">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Dimension is a child element of container type and describes the size and identification method
+of the horizontal and vertical dimensions of the coordinate system of the container type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="is-alpha" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The is-alpha flag is used for identifying well location.
+<p>When is-alpha is true, the component of the well location from the dimension is represented
+using letters where A is the first value. Whe is-alpha is false, the component of the well
+location from the dimension is represented using numbers where 0 is the first value.</p>
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="offset" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The offset of this dimension.
+<p>If is-alpha is true, the system
+will ignore any value provided for POST and use 0 for alpha offset.</p>
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="size" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The size of this dimension, 1-100
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="unavailable-well">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Unavailable-well is a child element of container type and identifies a well location that
+cannot be used by containers of the container type to store artifacts or reagents.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+  <xs:complexType name="container-types">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation for a list of container type links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="container-type" type="ctp:container-type-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Container-type provides a URI linking to the detailed representation of a container type.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of container types,
+the previous-page element provides a URI that links to the previous page of container types.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of container types,
+the next-page element provides a URI that links to the next page of container types.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="container-type-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Container-type-link is a child element type of containers and provides a URI linking to the detailed representation of a container type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the container type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the container type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

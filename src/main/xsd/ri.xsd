@@ -1,0 +1,243 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="links" type="ri:links"/>
+  <xs:element name="index" type="ri:index"/>
+  <xs:complexType name="address">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Address contains the related fields of a mailing address.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="street" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The street of the address.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="city" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The city of the address.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="state" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The state of the address.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="country" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The country of the address.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="postalCode" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The postal code of the address.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="institution" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The institution of the address.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="department" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The department of the address.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="links">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of resource links.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="link" type="ri:link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Link provides a URI linking to the detailed representation of a resource.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="location">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[<p>Location provides a URI linking to the detailed representation of a Container along with the well location within that Container.</p>
+<p>Location is used by representations to describe their location within a Container. For example Artifact and
+reagent use location to describe which Container they are located in.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="container" type="ri:container" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The Container for the location.
+The Container element provides a URI linking to the detailed representation
+of the Container for the location.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="value" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Placement of Artifact in the Container.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="container">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Container is a child element of location and provides a URI linking to the detailed representation
+of the Container for the location.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the Container.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Container.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="externalid">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[An external id is a reference to an identifier in an external system that contains additional information
+about a representation within the API.
+<p>External id is supported on representations that contain links back to external systems.</p>
+<p>External id consists of two different URI type elements: id and URI. ID is the URI referencing
+the external system, and provides context and identification of the representation within that system. URI
+is the URI within the system, and provides a means of looking up the representation that the external id
+is associated with.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="id" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A URI identifying the representation in an external system.
+<p>The form of the id URI can be either a URL or URN, but it must include
+sufficient information to identify both the external system and the representation
+within that system.</p>
+<p>For a URN, the namespace identifier component should identify the external system.</p>
+<p>For a URL, the URL should be an absolute URL and not a relative URL to identify the external system.</p>]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI providing a link to the detailed representation that is identified by the external id.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="index">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Index is the entry point to a supported version of the API, providing a list of links to the available resources in that version in the system.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="link" type="ri:link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each link provides a URI to an available resource in the system.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A link provides a URI linking to an additional resource.
+<p>The link is modelled on the link element defined by the
+<a href="http://atompub.org/rfc4287.html">Atom Syndication Format</a>. The link includes
+a rel attribute that describes the URI of the link.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="rel" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The rel of the link.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the link.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="page">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The link to a page of additional content.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>
+<p>The previous-page and next-page elements are represented using the page type.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI linking to the page of additional content.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:element name="externalid" type="ri:externalid">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[An identifier that allows an external system to retrieve information about the researcher.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+</xs:schema>

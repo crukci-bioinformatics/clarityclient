@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<exc:exception xmlns:exc="http://genologics.com/ri/exception" category="Highest" code="ACODE">
+    <message>Could not find resource for relative : /v2/process-executions of full path: http://limsdev.cri.camres.org:8080/api/v2/process-executions</message>
+    <suggested-actions>Check URL</suggested-actions>
+</exc:exception>

@@ -1,0 +1,403 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/artifact" xmlns:file="http://genologics.com/ri/file" xmlns:art="http://genologics.com/ri/artifact" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/file" schemaLocation="file.xsd"/>
+  <xs:import namespace="http://genologics.com/ri/userdefined" schemaLocation="userdefined.xsd"/>
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="artifact" type="art:artifact"/>
+  <xs:element name="artifacts" type="art:artifacts"/>
+  <xs:element name="details" type="art:details"/>
+  <xs:complexType name="artifact">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[<p>The detailed representation of an Artifact.</p>
+<p>An Artifact represents the inputs to or outputs from a process. An Artifact is
+classified by its type (Analyte, ResultFile, etc).</p>
+<p>Artifacts do not support HTTP POST requests.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the Artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="type" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The type of Artifact.
+Artifact type describes the characteristics of the Artifact. For example, the
+type of the Artifact can be Analyte indicating it is a sample or submitted sample
+that resides in a container. Alternately, the type could be ResultFile indicating
+it is the output of instrument processing. Refer to the GenoLogics LIMS
+Help file for information on process inputs and outputs.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="output-type" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The output-type of the Artifact. In the client, this is a custom Display Name given to the Artifact type when
+configuring the process.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="parent-process" type="art:parent-process" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The process that produced the Artifact.
+The parent-process provides a URI linking to the detailed representation
+of the process that produced the Artifact.
+<br/>Always returns with GET: No, It is returned in all cases except the analyte artifact of the submitted
+sample case, which by definition cannot have a parent-process
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="qc-flag" type="art:qc-flag" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The qc-flag applied to the Artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but if not provided, QC is set to UNKNOWN.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="location" type="ri:location" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The Artifact's location in a container.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="working-flag" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The working-flag of the Artifact. In the client, this is referred to as the working status of an artifact.
+Working-flag indicates whether the Artifact is ready for use
+in additional Processes.
+<br/>Always returns with GET: No, only for Analytes
+<br/>Updatable with PUT: Yes, only supported for Analyte type Artifacts.
+<br/>Required for PUT: Yes, for Analyte only.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="sample" type="art:sample" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A submitted sample related to the Artifact.
+This element is repeated for each submitted sample that the artifact is related to.
+Each Sample provides a URI linking to the detailed representation of a
+submitted Sample for the Artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reagent-label" type="art:reagent-label" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A reagent label applied to the Artifact.
+This element is repeated for each reagent label applied to the Artifact.
+<p>
+Reagent labels can be explicitly added to Artifacts in different ways:
+</p>
+<ul>
+<li>in the client, when importing Samples;</li>
+<li>in the client, when running any Processes for adding Reagents;</li>
+<li>in the API, by updating an artifact representation to include reagent labels.</li>
+</ul>
+<p>Additionally, reagent labels will be automatically copied from inputs to outputs when a Process is run.</p>
+<p>Reagent labels are conventionally named after the type of reagent (see the Reagent Type endpoint) they correspond to.</p>
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but if not provided, reagent labels are cleared]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="control-type" type="art:control-type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The control type of the Artifact. Only control sample has control type.
+<br/>Always returns with GET: No, only for control sample
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="udf:field" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A User-Defined Field that is associated with the Artifact.
+This element is repeated for each UDF associated with the Artifact.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless the UDF has been configured as required. If a current UDF is not provided, existing values are deleted.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="file:file" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[File provides a URI linking to the detailed representation of the File associated with the Artifact.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes, only supported for SearchResultFile, ResultFile, and SpotList type Artifacts.
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="artifact-group" type="art:artifactgroup" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The artifact group that the Artifact belongs to. In the client, artifact groups are referred to as experiments.
+This element is repeated for each artifact group that the Artifact belongs to.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but if not provided, existing ArtifactGroups are cleared from Artifact.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the Artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="artifactgroup">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Artifact group is a child element of Artifact and provides a URI linking to the detailed representation of the artifact group that the Artifact belongs to.
+In the client, artifact groups are referred to as experiments.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact group.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the artifact group.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="control-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provide a URI linking to the control type if this artifact is a control sample]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the control type.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="parent-process">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Parent-process is a child element of Artifact and provides a URI
+linking to the detailed representation of the process that produced the Artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the process.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the process.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagent-label">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Reagent-label is a child element of Artifact and provides the name of a
+label or reagent that has been added to the Artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the label or reagent.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="sample">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Sample is a child element of Artifact and provides a URI linking
+to the detailed representation of a submitted Sample for the Artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the Sample.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Sample.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="qc-flag">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The qc-flag enumeration lists the possible values of the qc-flag element for the Artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN"/>
+      <xs:enumeration value="PASSED"/>
+      <xs:enumeration value="FAILED"/>
+      <xs:enumeration value="CONTINUE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="artifacts">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of artifact links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="artifact" type="art:artifact-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Artifact provides a URI linking to the detailed representation of an artifact.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of artifacts,
+the previous-page element provides a URI that links to the previous page of artifacts.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of artifacts,
+the next-page element provides a URI that links to the next page of artifacts.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="artifact-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Artifact-link is a child element type of artifacts and provides a URI linking to the detailed representation of an artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMSID of the artifact.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="details">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of resource details.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="artifact" type="art:artifact" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A list of detailed resource representations.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

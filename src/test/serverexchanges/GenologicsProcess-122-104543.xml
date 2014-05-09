@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prc:process xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:prc="http://genologics.com/ri/process" xmlns:file="http://genologics.com/ri/file" xmlns:inst="http://genologics.com/ri/instrument" xmlns:stp="http://genologics.com/ri/step" xmlns:ri="http://genologics.com/ri" xmlns:res="http://genologics.com/ri/researcher" xmlns:lab="http://genologics.com/ri/lab" xmlns:stg="http://genologics.com/ri/stage" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:smp="http://genologics.com/ri/sample" xmlns:con="http://genologics.com/ri/container" xmlns:ver="http://genologics.com/ri/version" xmlns:art="http://genologics.com/ri/artifact" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:prj="http://genologics.com/ri/project" xmlns:rt="http://genologics.com/ri/routing" xmlns:ns25="http://genologics.com/ri/controltype" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:exc="http://genologics.com/ri/exception" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration" limsid="122-104543" uri="http://limsdev.cri.camres.org:8080/api/v2/processes/122-104543">
+    <type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/4">Accept SLX</type>
+    <date-run>2013-12-12</date-run>
+    <technician uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/128">
+        <first-name>Hannah</first-name>
+        <last-name>Haydon</last-name>
+    </technician>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A27PA1?state=1219400" limsid="JOH1711A27PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A27PA1?state=1219400"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A28PA1?state=1219880" limsid="JOH1711A28PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A28PA1?state=1219880"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A41PA1?state=1219803" limsid="JOH1711A41PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A41PA1?state=1219803"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A42PA1?state=1219805" limsid="JOH1711A42PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A42PA1?state=1219805"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A31PA1?state=1219809" limsid="JOH1711A31PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A31PA1?state=1219809"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A32PA1?state=1219855" limsid="JOH1711A32PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A32PA1?state=1219855"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A29PA1?state=1219822" limsid="JOH1711A29PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A29PA1?state=1219822"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A30PA1?state=1219382" limsid="JOH1711A30PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A30PA1?state=1219382"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A35PA1?state=1219843" limsid="JOH1711A35PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A35PA1?state=1219843"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A36PA1?state=1219878" limsid="JOH1711A36PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A36PA1?state=1219878"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A45PA1?state=1219831" limsid="JOH1711A45PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A45PA1?state=1219831"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A46PA1?state=1219870" limsid="JOH1711A46PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A46PA1?state=1219870"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A39PA1?state=1219385" limsid="JOH1711A39PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A39PA1?state=1219385"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A40PA1?state=1219395" limsid="JOH1711A40PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A40PA1?state=1219395"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A37PA1?state=1219857" limsid="JOH1711A37PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A37PA1?state=1219857"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A38PA1?state=1219873" limsid="JOH1711A38PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A38PA1?state=1219873"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A11PA1?state=1219853" limsid="JOH1711A11PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A11PA1?state=1219853"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A12PA1?state=1219865" limsid="JOH1711A12PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A12PA1?state=1219865"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A25PA1?state=1219847" limsid="JOH1711A25PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A25PA1?state=1219847"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A26PA1?state=1219398" limsid="JOH1711A26PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A26PA1?state=1219398"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A15PA1?state=1219388" limsid="JOH1711A15PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A15PA1?state=1219388"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A16PA1?state=1219877" limsid="JOH1711A16PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A16PA1?state=1219877"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A13PA1?state=1219821" limsid="JOH1711A13PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A13PA1?state=1219821"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A14PA1?state=1219871" limsid="JOH1711A14PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A14PA1?state=1219871"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A19PA1?state=1219393" limsid="JOH1711A19PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A19PA1?state=1219393"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A20PA1?state=1219845" limsid="JOH1711A20PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A20PA1?state=1219845"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A34PA1?state=1219383" limsid="JOH1711A34PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A34PA1?state=1219383"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A33PA1?state=1219840" limsid="JOH1711A33PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A33PA1?state=1219840"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A23PA1?state=1219378" limsid="JOH1711A23PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A23PA1?state=1219378"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A24PA1?state=1219861" limsid="JOH1711A24PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A24PA1?state=1219861"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A21PA1?state=1219826" limsid="JOH1711A21PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A21PA1?state=1219826"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A22PA1?state=1219820" limsid="JOH1711A22PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A22PA1?state=1219820"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A48PA1?state=1219815" limsid="JOH1711A48PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A48PA1?state=1219815"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A47PA1?state=1219396" limsid="JOH1711A47PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A47PA1?state=1219396"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A44PA1?state=1219866" limsid="JOH1711A44PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A44PA1?state=1219866"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A43PA1?state=1219827" limsid="JOH1711A43PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A43PA1?state=1219827"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1712A1PA1?state=1219867" limsid="JOH1712A1PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1712A1PA1?state=1219867"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680986?state=1219778" limsid="2-1680986" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A22PA1?state=1219823" limsid="LAU1478A22PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A22PA1?state=1219823"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680985?state=1219777" limsid="2-1680985" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A21PA1?state=1219386" limsid="LAU1478A21PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A21PA1?state=1219386"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680985?state=1219777" limsid="2-1680985" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A15PA1?state=1219836" limsid="LAU1478A15PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A15PA1?state=1219836"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680985?state=1219777" limsid="2-1680985" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A16PA1?state=1219876" limsid="LAU1478A16PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A16PA1?state=1219876"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680985?state=1219777" limsid="2-1680985" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A19PA1?state=1219849" limsid="LAU1478A19PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A19PA1?state=1219849"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680985?state=1219777" limsid="2-1680985" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A20PA1?state=1219833" limsid="LAU1478A20PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A20PA1?state=1219833"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680985?state=1219777" limsid="2-1680985" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A17PA1?state=1219391" limsid="LAU1478A17PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A17PA1?state=1219391"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680985?state=1219777" limsid="2-1680985" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A2PA1?state=1219842" limsid="BRA1706A2PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A2PA1?state=1219842"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680988?state=1219780" limsid="2-1680988" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A1PA1?state=1219811" limsid="BRA1706A1PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A1PA1?state=1219811"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680988?state=1219780" limsid="2-1680988" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A3PA1?state=1219875" limsid="BRA1706A3PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A3PA1?state=1219875"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680988?state=1219780" limsid="2-1680988" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A11PA1?state=1219874" limsid="BRA1706A11PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A11PA1?state=1219874"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680987?state=1219779" limsid="2-1680987" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A12PA1?state=1219817" limsid="BRA1706A12PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A12PA1?state=1219817"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680987?state=1219779" limsid="2-1680987" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A13PA1?state=1219846" limsid="BRA1706A13PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A13PA1?state=1219846"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680987?state=1219779" limsid="2-1680987" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A14PA1?state=1219390" limsid="BRA1706A14PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A14PA1?state=1219390"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680987?state=1219779" limsid="2-1680987" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A15PA1?state=1219837" limsid="BRA1706A15PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A15PA1?state=1219837"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680987?state=1219779" limsid="2-1680987" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A4PA1?state=1219832" limsid="BRA1706A4PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A4PA1?state=1219832"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680990?state=1219782" limsid="2-1680990" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1712A2PA1?state=1219807" limsid="JOH1712A2PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1712A2PA1?state=1219807"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680991?state=1219783" limsid="2-1680991" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A5PA1?state=1219824" limsid="BRA1706A5PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A5PA1?state=1219824"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680990?state=1219782" limsid="2-1680990" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A6PA1?state=1219850" limsid="BRA1706A6PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A6PA1?state=1219850"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680990?state=1219782" limsid="2-1680990" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A7PA1?state=1219851" limsid="BRA1706A7PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A7PA1?state=1219851"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680989?state=1219781" limsid="2-1680989" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A8PA1?state=1219804" limsid="BRA1706A8PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A8PA1?state=1219804"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680989?state=1219781" limsid="2-1680989" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A9PA1?state=1219869" limsid="BRA1706A9PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A9PA1?state=1219869"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680989?state=1219781" limsid="2-1680989" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A10PA1?state=1219834" limsid="BRA1706A10PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/BRA1706A10PA1?state=1219834"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680989?state=1219781" limsid="2-1680989" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A23PA1?state=1219802" limsid="LAU1478A23PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A23PA1?state=1219802"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680992?state=1219784" limsid="2-1680992" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A4PA1?state=1219389" limsid="JOH1711A4PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A4PA1?state=1219389"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A3PA1?state=1219864" limsid="JOH1711A3PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A3PA1?state=1219864"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A10PA1?state=1219397" limsid="JOH1711A10PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A10PA1?state=1219397"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A9PA1?state=1219387" limsid="JOH1711A9PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A9PA1?state=1219387"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A17PA1?state=1219879" limsid="JOH1711A17PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A17PA1?state=1219879"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A18PA1?state=1219838" limsid="JOH1711A18PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A18PA1?state=1219838"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A6PA1?state=1219818" limsid="JOH1711A6PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A6PA1?state=1219818"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A5PA1?state=1219380" limsid="JOH1711A5PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A5PA1?state=1219380"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A34PA1?state=1219801" limsid="SLA701A34PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A34PA1?state=1219801"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A33PA1?state=1219844" limsid="SLA701A33PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A33PA1?state=1219844"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A42PA1?state=1219829" limsid="SLA701A42PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A42PA1?state=1219829"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A39PA1?state=1219806" limsid="SLA701A39PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A39PA1?state=1219806"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A8PA1?state=1219394" limsid="JOH1711A8PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A8PA1?state=1219394"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A7PA1?state=1219814" limsid="JOH1711A7PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A7PA1?state=1219814"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A2PA1?state=1219859" limsid="JOH1711A2PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A2PA1?state=1219859"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A1PA1?state=1219810" limsid="JOH1711A1PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/JOH1711A1PA1?state=1219810"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A38PA1?state=1219856" limsid="SLA701A38PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A38PA1?state=1219856"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A37PA1?state=1219384" limsid="SLA701A37PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A37PA1?state=1219384"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A6PA1?state=1219813" limsid="LAU1478A6PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A6PA1?state=1219813"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A7PA1?state=1219839" limsid="LAU1478A7PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A7PA1?state=1219839"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A41PA1?state=1219819" limsid="SLA701A41PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A41PA1?state=1219819"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A36PA1?state=1219392" limsid="SLA701A36PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A36PA1?state=1219392"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A40PA1?state=1219860" limsid="SLA701A40PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A40PA1?state=1219860"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A35PA1?state=1219377" limsid="SLA701A35PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/SLA701A35PA1?state=1219377"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680983?state=1219775" limsid="2-1680983" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A8PA1?state=1219862" limsid="LAU1478A8PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A8PA1?state=1219862"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A11PA1?state=1219379" limsid="LAU1478A11PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A11PA1?state=1219379"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A10PA1?state=1219830" limsid="LAU1478A10PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A10PA1?state=1219830"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A18PA1?state=1219812" limsid="LAU1478A18PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A18PA1?state=1219812"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680985?state=1219777" limsid="2-1680985" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A5PA1?state=1219863" limsid="LAU1478A5PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A5PA1?state=1219863"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A13PA1?state=1219816" limsid="LAU1478A13PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A13PA1?state=1219816"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A12PA1?state=1219808" limsid="LAU1478A12PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A12PA1?state=1219808"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A9PA1?state=1219841" limsid="LAU1478A9PA1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/LAU1478A9PA1?state=1219841"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680984?state=1219776" limsid="2-1680984" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <udf:field name="Approval Form Recieved" type="Boolean">true</udf:field>
+    <process-parameter name="Update Sample Progress Status"/>
+</prc:process>

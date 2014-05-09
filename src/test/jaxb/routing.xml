@@ -1,0 +1,14 @@
+<rt:routing xmlns:rt="http://genologics.com/ri/routing">
+    <assign stage-uri="http://localhost:8090/api/v2/configuration/workflows/7/stages/4">
+        <artifact uri="http://localhost:8090/api/v2/artifacts/5" />
+        <artifact uri="http://localhost:8090/api/v2/artifacts/6" />
+    </assign>
+    <assign workflow-uri="http://localhost:8090/api/v2/configuration/workflows/7">
+        <artifact uri="http://localhost:8090/api/v2/artifacts/8" />
+        <artifact uri="http://localhost:8090/api/v2/artifacts/9" />
+    </assign>
+    <unassign workflow-uri="http://localhost:8090/api/v2/configuration/workflows/10">
+        <artifact uri="http://localhost:8090/api/v2/artifacts/11" />
+        <artifact uri="http://localhost:8090/api/v2/artifacts/12" />
+    </unassign>
+</rt:routing>

@@ -1,0 +1,1472 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/step" xmlns:stp="http://genologics.com/ri/step" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/userdefined" schemaLocation="userdefined.xsd"/>
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="step" type="stp:step"/>
+  <xs:element name="actions" type="stp:actions"/>
+  <xs:element name="step-creation" type="stp:step-creation"/>
+  <xs:element name="details" type="stp:details"/>
+  <xs:element name="placements" type="stp:placements"/>
+  <xs:element name="pools" type="stp:pools"/>
+  <xs:element name="program-status" type="stp:program-status"/>
+  <xs:element name="lots" type="stp:reagents-lots"/>
+  <xs:element name="reagents" type="stp:reagents"/>
+  <xs:element name="setup" type="stp:setup"/>
+  <xs:complexType name="step">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The configuration information for the step run.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="actions" type="stp:actions-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding step actions.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reagents" type="stp:reagents-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding step reagents.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pools" type="stp:pools-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding step pools.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="placements" type="stp:placements-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding step placements.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reagent-lots" type="stp:reagent-lots-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding reagent lots for the step.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="program-status" type="stp:program-status-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding step program status, if one exists.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="setup" type="stp:setup-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding step setup.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="details" type="stp:details-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding step details.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="available-programs" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The programs available for direct triggering on the step.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="available-program" type="stp:available-program" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The programs available for direct triggering on the step.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI"/>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the Step/Process.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="current-state" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The current state of the step]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="available-program">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies a program that is available for a step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI to execute the program for this step (via POST, with no request entity).]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the program to execute. Matches the trigger name
+('name' attribute in the 'epp-trigger' element) in the protocol step configuration.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="step-configuration">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the configuration information for the step run.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="uri" type="xs:anyURI">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The URI of the protocol step.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="actions-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the actions applied or to be applied by the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of corresponding step actions resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="details-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the details for the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of corresponding step details resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="placements-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the output placements for the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of corresponding step placements resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="pools-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the pools added by the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of corresponding step pools resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="program-status-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the program status for the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of corresponding step program status resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagent-lots-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the reagent lots for the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the corresponding reagent lots resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagents-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the reagents added by the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of corresponding step reagents resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="setup-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the setup for the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of corresponding step setup resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="actions">
+    <xs:sequence>
+      <xs:element name="step" type="ri:link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The step (process).
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-actions" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[All samples belong to one step; these samples can move forward for another configured step work
+or need special handling, such as remove from the workflow they are in, leave in their existing
+queue for rework, or require view by a manager, etc...]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="next-action" type="stp:next-action" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[All samples belong to one step; these samples can move forward for another configured step work
+or need special handling, such as remove from the workflow they are in, leave in their existing
+queue for rework, or require view by a manager, etc...]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="escalation" type="stp:escalation" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The escalation details. When a step is under or completed review,
+escalation details include information on who requested the escalation,
+who attended to it and what samples were escalated.
+<br/>Always returns with GET: No (only available if set)
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No (omitting means clearing the escalation details)]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI"/>
+  </xs:complexType>
+  <xs:complexType name="next-action">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Sample next action or step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="artifact-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: no
+<br/>Required for PUT: yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="action" type="stp:action-type">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The next action for the sample.
+<br/>Always returns with GET: no; the sample may not have a next action.
+<br/>Updatable with PUT: yes
+<br/>Required for PUT. If the action is not present during an update, the existing action for the sample
+will be removed if there is one.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="step-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The next protocol step for the sample.
+<br/>Always returns with GET: no; the sample may not have a next step.
+<br/>Updatable with PUT: yes
+<br/>Required for PUT. If the step is not present during an update, the existing step for the sample
+will be removed if there is one.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="escalated-artifact">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Sample next action or step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="escalation">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Escalation details.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="request" type="stp:escalation-request" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The escalation request details.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="review" type="stp:escalation-review" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The review details. Only available after review is completed.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="escalated-artifacts" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[All samples marked for escalation.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="escalated-artifact" type="stp:escalated-artifact" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[All samples marked for escalation.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="escalation-request">
+    <xs:sequence>
+      <xs:element name="author" type="stp:user" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user that originated the escalation.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reviewer" type="stp:user" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The reviewer originally requested to review samples.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="date" type="xs:dateTime" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The time the escalation occurred.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="comment" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The comment entered by the user escalating the step.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="escalation-review">
+    <xs:sequence>
+      <xs:element name="author" type="stp:user" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user that actually reviewed the step.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="date" type="xs:dateTime" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The time the reviewer completed the step.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="comment" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The comment entered by the user reviewing the step.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="user">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Describes a user as required in the context of step escalations.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="first-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The first name of the user.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="last-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The last name of the user.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the user.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="action-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Special actions for samples.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="leave"/>
+      <xs:enumeration value="repeat"/>
+      <xs:enumeration value="remove"/>
+      <xs:enumeration value="review"/>
+      <xs:enumeration value="complete"/>
+      <xs:enumeration value="store"/>
+      <xs:enumeration value="nextstep"/>
+      <xs:enumeration value="rework"/>
+      <xs:enumeration value="unknown"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="step-creation">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A request to create a step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="container-type" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the container type to create an initial on-the-fly container for
+placing outputs in.
+<br/>Required for POST: Yes if the process has placeable outputs]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reagent-category" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the reagent category to use for the step.
+<br/>Required for POST: Yes for any reagent addition steps]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="inputs" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The inputs to the process.
+<br/>Required for POST: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="input" type="stp:creation-input" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The inputs to the process.
+<br/>Required for POST: Yes]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="creation-input">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Typically, provides a URI linking to the input artifact.
+Can also be used to designate control sample inputs (via its control type).
+One of 'uri' or 'control-type-uri' attributes must be provided, but not both.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the input artifact.
+<br/>Required for POST: Yes (if the input denotes a regular artifact)]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="control-type-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the control type to use.
+<br/>Required for POST: Yes (if the input denotes a control)]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="replicates" type="xs:long">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The number of replicates to generate for the input.
+<br/>Required for POST: No; If not specified, defaults to 1.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="details">
+    <xs:sequence>
+      <xs:element name="step" type="ri:link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The step (process).
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="input-output-maps" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each input-output-map relates one of the step inputs to one of the outputs that was produced for that input.
+There will be a distinct input-output-map for each pairing of step input to step output.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="input-output-map" type="stp:input-output-map" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[Each input-output-map relates one of the step inputs to one of the outputs that was produced for that input.
+There will be a distinct input-output-map for each pairing of step input to step output.
+<br/>Always returns with GET: Yes]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="fields" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user-defined fields of this Step.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless UDFs have been configured as required.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="field" type="udf:field" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The user-defined fields of this Step.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, unless UDFs have been configured as required.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="preset" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The preset name used for the step.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, if not provided, an existing preset selection will be cleared]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="instrument" type="stp:instrument" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Instrument provides a URI linking to the detailed representation of the instrument for the step.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, if not provided, an existing instrument selection will be cleared]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Step Details.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="input-output-map">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Input-output-map is a child element of Step and relates one of the Step inputs to one of the outputs that was produced for that input.
+<p>There will be a distinct input-output-map for each pairing of Step input to Step output.</p>
+<p>If an input is not mapped to any outputs, the input will be listed with no outputs.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="input" type="stp:artifact" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Input provides a URI linking to the input Artifact for the input-output-map.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="output" type="stp:artifact" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Output provides a URI linking to the output Artifact for the input-output-map.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="artifact">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Artifact is a child element of input-output-map and provides a link to an Artifact that was either
+an input or output of the Step for the input-output-map.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the artifact.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="type" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The type of the Artifact.
+<br/>Always returns with GET: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="output-generation-type" type="stp:output-generation-type">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[Specifies how the outputs were generated in relation to the inputs.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="output-generation-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The available options for output-type generation.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PerInput"/>
+      <xs:enumeration value="PerAllInputs"/>
+      <xs:enumeration value="PerReagentLabel"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="instrument">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The instrument element provides a URI to the selected instrument for the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="uri" type="xs:anyURI">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The URI of the instrument.
+<br/>Always returns with GET: Yes]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="placements">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a step's output artifact container placements]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="step" type="ri:link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step of the StepPlacements.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="selected-containers" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The selected containers for step placement.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="container" type="stp:container" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The selected containers for step placement.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="output-placements" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The output artifacts for this step with placement if they have one.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="output-placement" type="stp:output-placement" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The output artifacts for this step with placement if they have one.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the StepPlacements.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="container">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provides a URI linking to a selected container to be used for placement.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the container.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="output-placement">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provides a URI linking to the output artifact and container placement.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="location" type="ri:location" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The container placement for the artifact.
+<br/>Always returns with GET: No; the artifact may not have a placement.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No; If specified, any existing placement will be replaced with the new placement. If not specified, any existing placement will be removed.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="pools">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a step's pooled inputs.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="step" type="ri:link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The step (process).
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pooled-inputs" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The pooled input artifacts for this step.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="pool" type="stp:pooled-inputs" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The pooled input artifacts for this step.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="available-inputs" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The available input artifacts for this step.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="input" type="stp:input" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The available input artifacts for this step.
+<br/>Always returns with GET: Yes]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the StepPools.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="input">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provides input URI links.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="replicates" type="xs:long">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The number of available replicates for pooling.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="pooled-inputs">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provides pooled input groups.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="input" type="stp:input" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The pooled input artifacts for this pool.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The pool name.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="output-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the pooled output artifact.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="program-status">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The current EPP status for a step (supports automatically triggered programs only).]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="step" type="ri:link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The step (process).
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="status" type="stp:status" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The nature of the status.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="message" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The user-facing message for this status.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI to this status.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="status">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Describes the different natures of status for an external program.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OK"/>
+      <xs:enumeration value="ERROR"/>
+      <xs:enumeration value="WARNING"/>
+      <xs:enumeration value="RUNNING"/>
+      <xs:enumeration value="QUEUED"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="reagents-lots">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The list representation of a step's reagent lots.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="step" type="ri:link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The step (process).]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reagent-lots" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The reagent lots for this step.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="reagent-lot" type="stp:reagent-lot-link" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The reagent lots for this step.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the StepReagentLots.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagent-lot-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provides a URI linking to the reagent lot details.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the reagent lot.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The limsid of the reagent lot.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagents">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a step's output artifact reagents.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="step" type="ri:link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The step (process).
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="reagent-category" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The permitted reagent category of the step. Reagent labels used in the POST must be from this reagent category.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="output-reagents" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The output artifacts for this step.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="output" type="stp:output" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The output artifacts for this step.
+<br/>Always returns with GET: Yes]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the StepReagents.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="reagent-label">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Reagent-label is a child element of ExtStepReagentListElement and provides the name of a
+label or reagent that has been added to the Artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The reagent label name for the artifact.
+<br/>Always returns with GET: No; the artifact may not have a reagent label.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No; If specified, an existing reagent label will be replaced with the new label. If not specified, existing labels will be removed.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="output">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provides a URI linking to the output artifact and reagent label.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="reagent-label" type="stp:reagent-label" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The reagent labels for the artifact.
+<br/>Always returns with GET: No; the artifact may not have reagent labels.
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No; If specified, an existing reagent label will be replaced with the new label. If not specified, existing labels will be removed.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="setup">
+    <xs:sequence>
+      <xs:element name="step" type="ri:link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The step (process).
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="configuration" type="stp:step-configuration" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The protocol step configuration.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="files" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Collection of shared result file outputs.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="file" type="stp:file" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[Collection of shared result file outputs.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Step Setup.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="file">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The file element describes a shared result file output that will be displayed in the step-setup view.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The message to display for this shared result file in the step-setup view.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="shared-result-file-index" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The shared result file output index of the step output.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="artifact-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the artifact.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the file.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

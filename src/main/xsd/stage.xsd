@@ -1,0 +1,97 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/stage" xmlns:stg="http://genologics.com/ri/stage" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="stage" type="stg:stage"/>
+  <xs:complexType name="stage">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a stage.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="workflow" type="stg:workflow" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Workflow link for the stage.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="protocol" type="stg:protocol" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Protocol link for the stage.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="step" type="stg:step" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Protocol Step link for the stage.
+This is optional; only provided if non-QC protocol.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the stage.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The stage name will be the protocol step name if it exists, otherwise the protocol name.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="index" type="xs:int">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The index of the stage.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="protocol">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Protocol link for the stage.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the protocol.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="step">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Protocol Step link for the stage.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the protocol step.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="workflow">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Workflow link for the stage.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the workflow.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

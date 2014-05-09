@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<art:details xmlns:udf="http://genologics.com/ri/userdefined"
+             xmlns:file="http://genologics.com/ri/file"
+             xmlns:art="http://genologics.com/ri/artifact">
+    <art:artifact uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A8PA1" limsid="ADM2A8PA1">
+        <name>SLX-6078</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <parent-process  uri="http://lims.cri.camres.org:8080/api/v2/processes/122-1872" limsid="122-1872"/>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://lims.cri.camres.org:8080/api/v2/containers/27-12" limsid="27-12" />
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://lims.cri.camres.org:8080/api/v2/samples/ADM2A8" limsid="ADM2A8" />
+        <sample uri="http://lims.cri.camres.org:8080/api/v2/samples/ADM2A7" limsid="ADM2A7" />
+        <reagent-label name="Vinegar"/>
+        <reagent-label name="Baking Soda"/>
+        <udf:field type="Text" name="User Comments">Sample for unit tests.</udf:field>
+        <udf:field type="String" name="Multiplexed Library">None</udf:field>
+        <file:file limsid="92-5098-40-476" uri="http://lims.cri.camres.org:8080/api/v2/files/92-5098-40-476">
+            <attached-to>http://lims.cri.camres.org:8080/api/v2/artifacts/92-5098</attached-to>
+            <content-location>sftp://lims.cri.camres.org/home/glsftp/Process/2013/1/24-1488/92-5098-40-476.html</content-location>
+            <original-location>/opt/gls/clarity/ai/temp/runExternalProgram-25012013-2786448508091647588.24-1488/92-5098.html</original-location>
+            <is-published>false</is-published>
+        </file:file>
+        <artifact-group uri="http://lims.cri.camres.org:8080/api/v2/artifactgroups/55" name="SLX Sequencing for HiSeq"/>
+        <artifact-group uri="http://lims.cri.camres.org:8080/api/v2/artifactgroups/56" name="SLX Sequencing for MiSeq"/>
+    </art:artifact>
+    <art:artifact uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A8PA1" limsid="ADM2A8PA1">
+        <name>SLX-6078</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <parent-process  uri="http://lims.cri.camres.org:8080/api/v2/processes/122-1872" limsid="122-1872"/>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://lims.cri.camres.org:8080/api/v2/containers/27-12" limsid="27-12" />
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://lims.cri.camres.org:8080/api/v2/samples/ADM2A8" limsid="ADM2A8" />
+        <sample uri="http://lims.cri.camres.org:8080/api/v2/samples/ADM2A7" limsid="ADM2A7" />
+        <reagent-label name="Vinegar"/>
+        <reagent-label name="Baking Soda"/>
+        <udf:field type="Text" name="User Comments">Sample for unit tests.</udf:field>
+        <udf:field type="String" name="Multiplexed Library">None</udf:field>
+        <file:file limsid="92-5098-40-476" uri="http://lims.cri.camres.org:8080/api/v2/files/92-5098-40-476">
+            <attached-to>http://lims.cri.camres.org:8080/api/v2/artifacts/92-5098</attached-to>
+            <content-location>sftp://lims.cri.camres.org/home/glsftp/Process/2013/1/24-1488/92-5098-40-476.html</content-location>
+            <original-location>/opt/gls/clarity/ai/temp/runExternalProgram-25012013-2786448508091647588.24-1488/92-5098.html</original-location>
+            <is-published>false</is-published>
+        </file:file>
+        <artifact-group uri="http://lims.cri.camres.org:8080/api/v2/artifactgroups/55" name="SLX Sequencing for HiSeq"/>
+        <artifact-group uri="http://lims.cri.camres.org:8080/api/v2/artifactgroups/56" name="SLX Sequencing for MiSeq"/>
+    </art:artifact>
+</art:details>

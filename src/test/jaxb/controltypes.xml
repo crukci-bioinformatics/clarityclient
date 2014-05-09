@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ctrltp:control-types xmlns:ctrltp="http://genologics.com/ri/controltype" uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes">
+    <control-type uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/1" name="PhiX Ctrl 001"/>
+    <control-type uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/2" name="PhiX Ctrl 002"/>
+</ctrltp:control-types>

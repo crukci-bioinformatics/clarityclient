@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lab:lab xmlns:udf="http://genologics.com/ri/userdefined"
+         xmlns:ri="http://genologics.com/ri"
+         xmlns:lab="http://genologics.com/ri/lab"
+         uri="http://lims.cri.camres.org:8080/api/v2/labs/102">
+    <name>Unit Test Laboratory</name>
+    <billing-address>
+        <street>ABC</street>
+        <city>DEF</city>
+        <state>GHI</state>
+        <country>UK</country>
+        <postalCode>CB2</postalCode>
+        <institution>CRUK Cambridge Institute</institution>
+        <department>Automated Unit Tests</department>
+    </billing-address>
+    <shipping-address>
+        <street>QWE</street>
+        <city>RTY</city>
+        <state>UIO</state>
+        <country>FR</country>
+        <postalCode>WE31</postalCode>
+        <institution>Bill TO: CRUK Cambridge Institute</institution>
+        <department>Bio Core</department>
+    </shipping-address>
+    <udf:type name="Unit Test Extra Type">
+        <udf:field type="Numeric" name="Amount" unit="cm">3.4</udf:field>
+    </udf:type>
+    <udf:field type="Text" name="User Comments">What?</udf:field>
+    <udf:field type="Text" name="More Comments">Eh?</udf:field>
+    <ri:externalid id="thing1" uri="http://lims.cri.camres.org:8080/api/v2/external1"/>
+    <ri:externalid id="thing2" uri="http://lims.cri.camres.org:8080/api/v2/external2"/>
+    <website>http://www.cambridgecancer.org.uk/</website>
+</lab:lab>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ver:versions xmlns:ver="http://genologics.com/ri/version">
+    <version minor="r14" major="v2" uri="http://lims.cri.camres.org:8080/api/v2" />
+    <version minor="prerelease" major="prerelease" uri="http://lims.cri.camres.org:8080/api/prerelease" />
+</ver:versions>

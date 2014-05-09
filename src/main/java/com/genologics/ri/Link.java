@@ -1,0 +1,100 @@
+/*
+ * CRUK-CI Genologics REST API Java Client.
+ * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.genologics.ri;
+
+import java.io.Serializable;
+import java.net.URI;
+import java.util.regex.Pattern;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
+
+/**
+ * A link provides a URI linking to an additional resource.
+ * <p>
+ * The link is modelled on the link element defined by the
+ * <a href="http://atompub.org/rfc4287.html">Atom Syndication Format</a>.
+ * The link includes a rel attribute that describes the URI of the link.
+ * </p>
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "link")
+public class Link implements Locatable, Serializable
+{
+    private static final long serialVersionUID = 7144458168274015747L;
+
+    private static final Pattern PATH_SPLITTER = Pattern.compile("/+");
+
+    @XmlAttribute(name = "rel")
+    protected String relative;
+
+    @XmlAttribute(name = "uri")
+    @XmlSchemaType(name = "anyURI")
+    protected URI uri;
+
+    public Link()
+    {
+    }
+
+    public Link(String rel)
+    {
+        this.relative = rel;
+    }
+
+    public Link(String rel, URI uri)
+    {
+        this.relative = rel;
+        this.uri = uri;
+    }
+
+    public Link(Linkable<?> limsLink)
+    {
+        uri = limsLink.getUri();
+
+        String[] pathParts = PATH_SPLITTER.split(uri.toString());
+
+        // LIMS id should be the last part of the path.
+        // The relative part should be the second to last part.
+
+        relative = pathParts[pathParts.length - 2];
+    }
+
+    public String getRelative()
+    {
+        return relative;
+    }
+
+    public void setRelative(String rel)
+    {
+        this.relative = rel;
+    }
+
+    public URI getUri()
+    {
+        return uri;
+    }
+
+    public void setUri(URI uri)
+    {
+        this.uri = uri;
+    }
+}

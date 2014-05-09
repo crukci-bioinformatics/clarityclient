@@ -1,0 +1,48 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/exception" xmlns:exc="http://genologics.com/ri/exception" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="exception" type="exc:exception"/>
+  <xs:complexType name="exception">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Exception is a descriptive error message that is returned instead of the standard response for
+any request that the system was unable to process.
+<p>Exception will include a code corresponding to the HTTP response code of the error. Typical response
+codes are 400, indicating that the submitted request was not valid and cannot be reattempted without
+corrective action being taken, or 500 indicating that there was an internal error in the server when
+attempting to process the request. Refer to the section on HTTP response codes in the API reference
+documentation for further details about the categories and meanings of HTTP response codes.</p>
+<p>Exception will include a message element with a textual summary of the error, and may also provide a
+suggested-actions element with details on how to correct the problem.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[A textual summary of the exception.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="suggested-actions" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Suggested actions for how to correct the cause of the exception.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="category" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The category of the exception.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="code" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The HTTP response code of the exception.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

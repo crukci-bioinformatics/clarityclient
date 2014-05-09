@@ -1,0 +1,31 @@
+Reference Documentation
+
+* Genologics Documentation
+
+  The best documentation for the API behind this client is Genologics'
+own documentation for their API. This may not be publicly available, but
+fellow Genologics' customers should have access to this.
+
+    * {{{http://genologics.com/developer}Genologics Developer Site}}
+
+  The XSD files available from this site are the basis of the objects in
+this client.
+
+* Third Party Libraries
+
+  The client uses several third party libraries to work. Those interested
+can refer to the documentation for those projects.
+
+  * {{{http://spring.io/}The Spring Framework}}
+
+    * {{{http://spring.io/guides/gs/consuming-rest/}REST clients in Spring}}
+
+    * {{{http://projects.spring.io/spring-framework/}Core Spring}}
+
+  * {{{http://www.oracle.com/technetwork/articles/javase/index-140168.html}Java Architecture for XML Binding (JAXB)}}
+
+  * {{{http://hc.apache.org/httpclient-3.x/}Apache HTTP Client}}
+
+  * {{{http://ehcache.org/}Ehcache}}
+
+  * {{{http://maven.apache.org/}Apache Maven}}

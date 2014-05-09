@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<smp:details xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ri="http://genologics.com/ri" xmlns:file="http://genologics.com/ri/file" xmlns:smp="http://genologics.com/ri/sample">
+    <smp:sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MIS116A165" limsid="MIS116A165">
+        <name>GI-EA217</name>
+        <date-received>2011-05-09</date-received>
+        <project limsid="MIS116" uri="http://limsdev.cri.camres.org:8080/api/v2/projects/MIS116"/>
+        <submitter uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/37">
+            <first-name>Eric</first-name>
+            <last-name>Miska</last-name>
+        </submitter>
+        <artifact limsid="MIS116A165SAM1" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MIS116A165SAM1?state=7900"/>
+        <udf:field type="Numeric" name="Read Length">36</udf:field>
+        <udf:field type="String" name="Column">1</udf:field>
+        <udf:field type="Numeric" name="Concentration">-1</udf:field>
+        <udf:field type="String" name="Library Type">Other</udf:field>
+        <udf:field type="Numeric" name="Number of Lanes">1</udf:field>
+        <udf:field type="Numeric" name="Pool Size">-1</udf:field>
+        <udf:field type="String" name="Priority Status">Standard</udf:field>
+        <udf:field type="String" name="Reference Genome">Homo sapiens [GRCh37]</udf:field>
+        <udf:field type="String" name="Row">A</udf:field>
+        <udf:field type="String" name="Sample Source">Not Assigned</udf:field>
+        <udf:field type="String" name="Sample Type">RNA</udf:field>
+        <udf:field type="String" name="Sequencer">Not Assigned</udf:field>
+        <udf:field type="String" name="SLX Identifier">SLX-3867</udf:field>
+        <udf:field type="String" name="Submission Comments">MCF-7-1 siRNA</udf:field>
+        <udf:field type="String" name="Sequencing Type">Single Read</udf:field>
+        <udf:field type="String" name="Index Type">None</udf:field>
+        <udf:field type="Numeric" name="Volume">-1</udf:field>
+        <udf:field type="Numeric" name="Average Library Length">-1</udf:field>
+        <udf:field type="String" name="Version Number">Not Assigned</udf:field>
+        <udf:field type="String" name="Workflow">Not Assigned</udf:field>
+    </smp:sample>
+    <smp:sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/PAT117A25" limsid="PAT117A25">
+        <name>pBIN61_6149FP(A)</name>
+        <date-received>2013-03-08</date-received>
+        <project limsid="PAT117" uri="http://limsdev.cri.camres.org:8080/api/v2/projects/PAT117"/>
+        <submitter uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/38">
+            <first-name>Kanu</first-name>
+            <last-name>Patel</last-name>
+        </submitter>
+        <artifact limsid="PAT117A25SAM1" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/PAT117A25SAM1?state=7933"/>
+        <udf:field type="Numeric" name="Read Length">36</udf:field>
+        <udf:field type="String" name="Column">1</udf:field>
+        <udf:field type="Numeric" name="Concentration">-1</udf:field>
+        <udf:field type="String" name="Library Type">Other</udf:field>
+        <udf:field type="Numeric" name="Number of Lanes">1</udf:field>
+        <udf:field type="Numeric" name="Pool Size">-1</udf:field>
+        <udf:field type="String" name="Priority Status">Standard</udf:field>
+        <udf:field type="String" name="Reference Genome">Nicotiana benthamiana</udf:field>
+        <udf:field type="String" name="Row">A</udf:field>
+        <udf:field type="String" name="Sample Source">Not Assigned</udf:field>
+        <udf:field type="String" name="Sample Type">RNA</udf:field>
+        <udf:field type="String" name="Sequencer">Not Assigned</udf:field>
+        <udf:field type="String" name="SLX Identifier">SLX-6301</udf:field>
+        <udf:field type="String" name="Submission Comments">12 multiplexed samples</udf:field>
+        <udf:field type="String" name="Sequencing Type">Single Read</udf:field>
+        <udf:field type="String" name="Index Type">Truseq Small RNA</udf:field>
+        <udf:field type="Numeric" name="Volume">-1</udf:field>
+        <udf:field type="Numeric" name="Average Library Length">-1</udf:field>
+        <udf:field type="String" name="Version Number">Not Assigned</udf:field>
+        <udf:field type="String" name="Workflow">Not Assigned</udf:field>
+    </smp:sample>
+    <smp:sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/FOR200A2256" limsid="FOR200A2256">
+        <name>FLD0298</name>
+        <date-received>2013-04-11</date-received>
+        <project limsid="FOR200" uri="http://limsdev.cri.camres.org:8080/api/v2/projects/FOR200"/>
+        <submitter uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/177">
+            <first-name>Tim</first-name>
+            <last-name>Forshew</last-name>
+        </submitter>
+        <artifact limsid="FOR200A2256SAM1" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/FOR200A2256SAM1?state=24670"/>
+        <udf:field type="Numeric" name="Read Length">100</udf:field>
+        <udf:field type="String" name="Column">1</udf:field>
+        <udf:field type="Numeric" name="Concentration">-1</udf:field>
+        <udf:field type="String" name="Library Type">Other</udf:field>
+        <udf:field type="Numeric" name="Number of Lanes">1</udf:field>
+        <udf:field type="Numeric" name="Pool Size">-1</udf:field>
+        <udf:field type="String" name="Priority Status">Standard</udf:field>
+        <udf:field type="String" name="Reference Genome">Homo sapiens [GRCh37]</udf:field>
+        <udf:field type="String" name="Row">A</udf:field>
+        <udf:field type="String" name="Sample Source">Not Assigned</udf:field>
+        <udf:field type="String" name="Sample Type">DNA</udf:field>
+        <udf:field type="String" name="Sequencer">Not Assigned</udf:field>
+        <udf:field type="String" name="SLX Identifier">SLX-6454</udf:field>
+        <udf:field type="String" name="Submission Comments">Please use Fluidigm primers. Paired end 125 + barcode read. </udf:field>
+        <udf:field type="String" name="Sequencing Type">Paired End</udf:field>
+        <udf:field type="String" name="Index Type">Fluidigm</udf:field>
+        <udf:field type="Numeric" name="Volume">-1</udf:field>
+        <udf:field type="Numeric" name="Average Library Length">-1</udf:field>
+        <udf:field type="String" name="Version Number">Not Assigned</udf:field>
+        <udf:field type="String" name="Workflow">Not Assigned</udf:field>
+    </smp:sample>
+    <smp:sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/WEL240A24" limsid="WEL240A24">
+        <name>B64 PCR 8</name>
+        <date-received>2013-02-12</date-received>
+        <project limsid="WEL240" uri="http://limsdev.cri.camres.org:8080/api/v2/projects/WEL240"/>
+        <submitter uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/252">
+            <first-name>Richard</first-name>
+            <last-name>Wells</last-name>
+        </submitter>
+        <artifact limsid="WEL240A24SAM1" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/WEL240A24SAM1?state=34350"/>
+        <udf:field type="Numeric" name="Read Length">150</udf:field>
+        <udf:field type="String" name="Column">1</udf:field>
+        <udf:field type="Numeric" name="Concentration">-1</udf:field>
+        <udf:field type="String" name="Library Type">Other</udf:field>
+        <udf:field type="Numeric" name="Number of Lanes">1</udf:field>
+        <udf:field type="Numeric" name="Pool Size">-1</udf:field>
+        <udf:field type="String" name="Priority Status">Standard</udf:field>
+        <udf:field type="String" name="Reference Genome">Homo sapiens [GRCh37]</udf:field>
+        <udf:field type="String" name="Row">A</udf:field>
+        <udf:field type="String" name="Sample Source">Not Assigned</udf:field>
+        <udf:field type="String" name="Sample Type">DNA</udf:field>
+        <udf:field type="String" name="Sequencer">Not Assigned</udf:field>
+        <udf:field type="String" name="SLX Identifier">SLX-6196</udf:field>
+        <udf:field type="String" name="Submission Comments">This is a low complexity library of amplicons; discussed with James H to spike in extra PhiX.</udf:field>
+        <udf:field type="String" name="Sequencing Type">Paired End</udf:field>
+        <udf:field type="String" name="Index Type">Fluidigm</udf:field>
+        <udf:field type="Numeric" name="Volume">-1</udf:field>
+        <udf:field type="Numeric" name="Average Library Length">-1</udf:field>
+        <udf:field type="String" name="Version Number">Not Assigned</udf:field>
+        <udf:field type="String" name="Workflow">Not Assigned</udf:field>
+    </smp:sample>
+</smp:details>

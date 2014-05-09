@@ -1,0 +1,87 @@
+Using The CRUK-CI Client Within A J2EE Application Server
+
+  We have some services and utilities that we have deployed as WAR files
+within the Genologics JBoss installation (probably against Genologics'
+guidance). This has been successful, and it helps to keep everything in
+one place.
+
+  Remember if you do deploy into the same JBoss instance as is running
+Clarity, it won't hot-deploy your code, so you'll need a server restart
+if you change anything. You certainly won't want it to hot deploy on
+your production system.
+
+* Excluding provided dependencies
+
+  Some of the third party libraries that the client needs are provided
+in the shared library areas of JBoss 4.2.3 GA that is deployed with Clarity.
+You won't want to include these in your WAR file, so they need to be
+excluded from the dependency on the CRUK-CI client and  any that you
+need to use in your code added to the POM as "<provided>" libraries.
+
+  So, when you add the dependency on the client to your POM, it should
+look like this:
+
++---
+<dependency>
+    <groupId>org.cruk.genologics</groupId>
+    <artifactId>clarity-client</artifactId>
+    <version>2.18</version>
+    <exclusions>
+        <exclusion>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </exclusion>
+        <exclusion>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
++---
+
+  Then, if you want to use, say, <commons-logging> yourself:
+
++---
+<dependency>
+    <groupId>commons-logging</groupId>
+    <artifactId>commons-logging</artifactId>
+    <version>1.1.1</version>
+    <scope>provided</scope>
+</dependency>
++---
+
+* Using the cache in an application server
+
+  There isn't anything inherently wrong with using the cache in a service
+deployed in the application server, but if you leave the time objects can
+remain in the cache too long you're more likely to get stale information
+back from the client. We've found in practice that the cache is still very
+useful on the server, but you don't want objects to live in it for much
+longer than it takes to process individual calls to your service: one or
+two minutes is fine. Remember that the cache is shared, so multiple
+independent requests may hit the same objects in the cache when deployed
+in a server. A stand alone program is not going to have the same
+interference from different sources.
+
+  Take a copy of the <<<org/cruk/genologics/api/ehcache.xml>>> file from
+the JAR or the source of this project and adapt it to your needs, typically
+by reducing the <timeToLiveSeconds> attribute on each of the caches. Put
+this file in your WAR's resources in the same path, so:
+
++---
+WEB-INF/classes/org/cruk/genologics/api/ehcache.xml
++---
+
+  This will take precedence over the file in the client JAR.

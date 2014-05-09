@@ -1,0 +1,124 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/artifactgroup" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="artifactgroup" type="artgr:artifactgroup"/>
+  <xs:element name="artifactgroups" type="artgr:artifactgroups"/>
+  <xs:complexType name="artifactgroup">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[ArtifactGroups are created by the Lab Scientist interface for each workflow.
+The Operations Interface assigns samples to workflows by placing them into an artifactGroup.
+Seeing a sample in an artifactGroup in the API indicates that the sample has been assigned to a workflow of the same name.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the artifactGroup.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="artifacts" type="artgr:artifacts" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Artifacts provides a URI linking to the detailed representation of the artifacts for the artifactGroup.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifactGroup.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="artifacts">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Artifacts is a link to 1...n child artifacts, that belong to the artifactGroup
+The link to an artifactList, filtered on artifactgroupID]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifacts filter.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="artifactgroups">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of artifactGroup links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="artifactgroup" type="artgr:artifactgroup-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[artifactGroups provides a URI linking to the detailed representation of a artifactGroups.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of artifactGroups,
+the previous-page element provides a URI that links to the previous page of artifactGroups.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of artifactGroups,
+the next-page element provides a URI that links to the next page of artifactGroups.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="artifactgroup-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[artifactGroup-link is a child element type of artifactGroup and provides a URI linking to the detailed representation of a artifactGroup.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the artifactGroup.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifactGroup.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

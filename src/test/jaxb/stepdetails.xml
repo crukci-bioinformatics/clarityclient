@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<stp:details xmlns:udf="http://genologics.com/ri/userdefined" xmlns:stp="http://genologics.com/ri/step" uri="http://limsdev.cri.camres.org:8080/api/v2/steps/24-125791/details">
+    <step uri="http://limsdev.cri.camres.org:8080/api/v2/steps/24-125791" rel="steps"/>
+    <configuration uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/18/steps/55">Illumina Sequencing Run</configuration>
+    <input-output-maps>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829780" limsid="2-1829780"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829797" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829797"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829780" limsid="2-1829780"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829795" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829795"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829780" limsid="2-1829780"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829792" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829792"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829780" limsid="2-1829780"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829794" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829794"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829780" limsid="2-1829780"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829796" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829796"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829780" limsid="2-1829780"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829793" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829793"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829779" limsid="2-1829779"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829794" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829794"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829779" limsid="2-1829779"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829792" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829792"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829779" limsid="2-1829779"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829793" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829793"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829779" limsid="2-1829779"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829797" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829797"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829779" limsid="2-1829779"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829796" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829796"/>
+        </input-output-map>
+        <input-output-map>
+            <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1829779" limsid="2-1829779"/>
+            <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1829795" output-generation-type="PerAllInputs" type="ResultFile" limsid="92-1829795"/>
+        </input-output-map>
+    </input-output-maps>
+    <fields>
+        <udf:field type="String" name="Run Type">Single Read Dual Indexing Run</udf:field>
+        <udf:field type="String" name="TruSeq SBS Kit Type">TruSeq SBS Kit-HS (50 cycles)</udf:field>
+        <udf:field type="String" name="TruSeq SBS Kit lot #">x</udf:field>
+        <udf:field type="String" name="Experiment Name">H8K5AADXX</udf:field>
+        <udf:field type="Numeric" name="Index 1 Read Cycles">8</udf:field>
+        <udf:field type="Numeric" name="Index 2 Read Cycles">8</udf:field>
+        <udf:field type="String" name="Output Folder">S:\</udf:field>
+        <udf:field type="String" name="Control Lane">No Control Lane</udf:field>
+        <udf:field type="String" name="Flow Cell Version">HiSeq Rapid Flow Cell v1</udf:field>
+        <udf:field type="String" name="Status">Cycle 66 of 66</udf:field>
+        <udf:field type="String" name="Flow Cell Position">A</udf:field>
+        <udf:field type="Numeric" name="Read 1 Cycles">50</udf:field>
+        <udf:field type="Date" name="Finish Date">2014-03-28</udf:field>
+        <udf:field type="String" name="Flow Cell ID">H8K5AADXX</udf:field>
+        <udf:field type="String" name="Run ID">140327_D00408_0076_H8K5AADXX</udf:field>
+    </fields>
+    <preset>Standard</preset>
+    <instrument uri="http://limsdev.cri.camres.org:8080/api/v2/instruments/202">Vader-BobaFett [D00408]</instrument>
+</stp:details>

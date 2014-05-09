@@ -1,0 +1,161 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/file" xmlns:file="http://genologics.com/ri/file" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="details" type="file:details"/>
+  <xs:element name="file" type="file:file"/>
+  <xs:element name="files" type="file:files"/>
+  <xs:complexType name="details">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a batch of file resources.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="file" type="file:file" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="file">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[<p>The file element contains information about a file in the system.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="attached-to" type="xs:anyURI" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[This element contains a URI that identifies and links to further information about the resource that
+the file is attached to, such as a project, sample, process, or file-based artifact.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes, a file must always be attached to an entity, or capturedfile record.
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes, a file must always be attached to an entity, or capturedfile record.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="content-location" type="xs:anyURI" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[This element contains a URI that identifies and links to the network location of the file,
+which can be used to retrieve the file and process its contents.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes, must be valid location for system to read inbound file uri
+information from.
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="original-location" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[This element provides the original name and location of the file before it was imported into the system.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes, must be valid location for system to read inbound file location from.
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="is-published" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[This element specifies whether the file is displayed in LabLink.
+To publish a file to LabLink, use 'true'.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No, but if not provided or empty, value is set to false.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMS ID of the file.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A URI that identifies the file.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="file-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The file-link type provides a URI that links to information about a file in the system.
+<p>Elements of this type are used for lists of files, or by resources that have attached files to
+identify and link to further information about the file.</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A URI that identifies and links to further information about the file.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMSID of the file.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="files">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation for a list of file links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="file" type="file:file-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[File provides a URI linking to the detailed representation of a file.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of files,
+the previous-page element provides a URI that links to the previous page of files.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of files,
+the next-page element provides a URI that links to the next page of files.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

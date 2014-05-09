@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lot:reagent-lot xmlns:lot="http://genologics.com/ri/reagentlot" limsid="124-2" uri="http://limsdev.cri.camres.org:8080/api/v2/reagentlots/124-2">
+    <reagent-kit uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/2" name="Internal Genetics Kit"/>
+    <name>Batch 20</name>
+    <lot-number>8764</lot-number>
+    <created-date>2014-04-02</created-date>
+    <last-modified-date>2014-04-02</last-modified-date>
+    <expiry-date>2014-09-29</expiry-date>
+    <created-by uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/153"/>
+    <last-modified-by uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/153"/>
+    <storage-location>Freezer</storage-location>
+    <notes>Some note</notes>
+    <status>ACTIVE</status>
+</lot:reagent-lot>

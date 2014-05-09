@@ -1,0 +1,184 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/workflowconfiguration" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="workflow" type="wkfcnf:workflow"/>
+  <xs:element name="workflows" type="wkfcnf:workflows"/>
+  <xs:complexType name="workflow">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a Workflow.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="protocols" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The Protocols that belong to this Workflow.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="protocol" type="wkfcnf:protocol-link" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The Protocols that belong to this Workflow.
+<br/>Always returns with GET: Yes]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="stages" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The Stages that belong to this Workflow.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="stage" type="wkfcnf:stage-link" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The Stages that belong to this Workflow.
+<br/>Always returns with GET: Yes]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the Workflow.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Workflow.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="status" type="wkfcnf:status">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The status of the Workflow.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="protocol-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Protocol-link is a child element type of workflow and provides a URI linking to the detailed representation of a protocol.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the Protocol.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Protocol.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="stage-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a Stage (the portion of a workflow to which samples can be associated in order to
+be queued)]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the stage. This is the name of the Protocol Step to which the stage is assigned, except in the case
+of a QC Protocol where the name of the Protocol is used.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Stage.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="status">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The workflow status enumeration lists the possible workflow states.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PENDING"/>
+      <xs:enumeration value="ACTIVE"/>
+      <xs:enumeration value="ARCHIVED"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="workflows">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of Workflow links.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="workflow" type="wkfcnf:workflow-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The list of Workflows.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="workflow-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Workflow-link is a child element type of workflows and provides a URI linking to the detailed representation of a workflow.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the Workflow.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Workflow.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="status" type="wkfcnf:status">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The status of the Workflow.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

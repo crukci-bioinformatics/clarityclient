@@ -1,0 +1,46 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/version" xmlns:ver="http://genologics.com/ri/version" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="version" type="ver:version"/>
+  <xs:element name="versions" type="ver:versions"/>
+  <xs:complexType name="version">
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the version.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="major" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The major version of the version.
+<p>Major version indicates forward and backwards compatibility for API clients among minor versions
+within the major version.</p>]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="minor" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The minor version of the version.
+<p>Minor version indicates additional non-breaking changes to the version.</p>]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="versions">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Index is the base entry point to the API, providing a list of supported versions in the system.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="version" type="ver:version" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each version provides a URI to a supported version in the system.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

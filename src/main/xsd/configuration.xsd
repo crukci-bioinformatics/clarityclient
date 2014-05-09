@@ -1,0 +1,454 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/configuration" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="field" type="cnf:field"/>
+  <xs:element name="type" type="cnf:type"/>
+  <xs:element name="udfs" type="cnf:udfs"/>
+  <xs:element name="udfconfig-link" type="cnf:udfconfig-link"/>
+  <xs:element name="udts" type="cnf:udts"/>
+  <xs:element name="udtconfig-link" type="cnf:udtconfig-link"/>
+  <xs:complexType name="field">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of the configuration of a user-defined field.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the user-defined field.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="attach-to-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The item in the system that the User-Defined Field can be used with such as Sample, Project, Container
+or the name of a process.
+Values for this element can be divided into three categories: predefined values, dynamic values and unsupported/deprecated values.
+<p>
+Predefined values - predefined values are supported in the API and describe the kind of resource
+associated with the user-defined field. The currently supported values are: Project, Sample, Analyte, ResultFile and Container.
+</p>
+<p>Dynamic values - a dynamic value is used for user-defined fields configured on process types, and
+correspond to the process type name. When working with user-defined fields on process types, the attach-to-category element must
+be specified with a value of 'ProcessType'.</p>
+<p>Unsupported values - there are other values which associate user-defined fields with other items in the data model.
+These values may or may not correspond to the resources provided in the API. These values should not be relied on and may change
+in the future.</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="precision" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The number of decimal places used when displaying numeric values.
+<p>Only numeric user-defined fields support precision.</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="unit" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The unit of measurement associated with the user-defined field.
+<p>Only numeric user-defined fields support units.</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="type-definition" type="cnf:type-definition" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Type-definition provides a URI linking to the user-defined type associated with the User-Defined Field.
+This will only be populated if the UDF has been configured for a UDT.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="show-in-lablink" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies whether the user-defined field is displayed in LabLink.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="allow-non-preset-values" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies whether the User-Defined Field can accept manually-entered values or preset values.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="first-preset-is-default-value" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies that when multiple preset values are entered for a User-Defined Field, the first preset value is selected by default.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="show-in-tables" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies whether the user-defined field is added to a column when information is displayed in a table in the LIMS.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="is-editable" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with user-defined field associated with the outputs of a process, this option allows users to manually change UDF values.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="is-deviation" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies whether the User-Defined Field contains a deviation value.
+<p>When working with deviations, two values are collected for the user-defined field (parent-uri and child-uri).</p>
+<p>Only numeric user-defined fields support deviation</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="is-controlled-vocabulary" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies whether the user-defined field contains preset values that adhere to a hierarchical set of terms.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="parent-uri" type="xs:anyURI" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Parent-uri provides a URI linking to the parent user-defined field for the UDF.
+<p>Parent-uri is used to support standard deviation for numeric user-defined fields With standard deviation,
+the numeric value will be stored in the parent user-defined field, and the deviation value will be stored in the
+child user-defined field. The child user-defined field's is-deviation flag will be true.</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="child-uri" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Child-uri provides a URI linking to any child user-defined fields for the user-defined field.
+<p>Child-uri is used to support standard deviation for numeric user-defined fields. With standard deviation,
+the numeric value will be stored in the parent user-defined field, and the deviation value will be in the
+child user-defined field. The child user-defined field's is-deviation flag will be true.</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="preset" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Displays preset values associated with the user-defined field.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="min-value" type="xs:double" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The minimum value for the user-defined field. This is the lowest value that can be recorded for the UDF.
+<p>Only numeric user-defined fields support minValue.</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="max-value" type="xs:double" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The maximum value for the user-defined field. This is the highest value that can be recorded for the UDF.
+<p>Only numeric type user-defined fields support minValue.</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="is-required" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies whether the user-defined field is a mandatory field.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="attach-to-category" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies whether the User-Defined Field can be used with processes. If you want the UDF applied to a
+process, specify a value of ProcessType, and for the attach-to-name element, specify the name of the
+process. For all other UDFs, do not specify an attach-to-category value.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="type" type="cnf:field-type">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The type of user-defined field.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the user-defined field.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="type-definition">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Type-definition provides a URI linking to the user defined type associated with the user-defined field, if applicable.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the user defined type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the user defined type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="field-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The data types available for a user-defined field.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="String"/>
+      <xs:enumeration value="Text"/>
+      <xs:enumeration value="Boolean"/>
+      <xs:enumeration value="Numeric"/>
+      <xs:enumeration value="Date"/>
+      <xs:enumeration value="URI"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="field-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Field definition represents a user-defined field configured in the parent entity.
+It includes the name and a URI linking to the detailed representation
+of the configuration of a user defined field.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the user-defined field.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI linking to the configuration of the user-defined field.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of the configuration of a user defined type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="field-definition" type="cnf:field-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each field definition provides a URI linking to the detailed representation of the configuration of a user defined
+field for the user defined type.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="attach-to-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The item in the system that the User-Defined Type can be used with such as Sample, Project, Container
+or the name of a process.
+Values for this element can be divided into three categories: predefined values, dynamic values and unsupported/deprecated values.
+<p>
+Predefined values - predefined values are supported in the API and describe the kind of resource
+associated with the user-defined type. The currently supported values are: Project, Sample, and Container.
+</p>
+<p>Dynamic values - a dynamic value is used for user-defined types configured on process types, and
+correspond to the process type name. When working with user-defined types on process types, the attach-to-category element must
+be specified with a value of 'ProcessType'.</p>
+<p>Unsupported values - there are other values which associate user-defined types with other items in the data model.
+These values may or may not correspond to the resources provided in the API. These values should not be relied on and may change
+in the future.</p>]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="attach-to-category" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies whether the User-Defined Type can be used with processes. If you want the UDT applied to a
+process, specify a value of ProcessType, and for the attach-to-name element, specify the name of the
+process. For all other UDTs, do not specify an attach-to-category value.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the user defined type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the user defined type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="udfs">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of user defined field configuration links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="udfconfig" type="cnf:udfconfig-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Udfconfig provides a URI linking to the detailed representation of the configuration for a user defined field.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Previous-page provides a URI linking to the previous page of user defined field configuration links.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Next-page provides a URI linking to the next page of user defined field configuration links.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="udfconfig-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Udfconfig-link is a child element type of udfs and provides a URI linking to the detailed representation of the configuration for a user defined field.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the user defined field configuration.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="attach-to-name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The attach to name for the user defined field.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the user defined field.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="attach-to-category" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[Specifies whether the User-Defined Field can be used with processes. If you want the UDF applied to a
+process, specify a value of ProcessType, and for the attach-to-name element, specify the name of the
+process. For all other UDFs, do not specify an attach-to-category value.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="udts">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of user defined type configuration links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="udtconfig" type="cnf:udtconfig-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Udtconfig provides a URI linking to the detailed representation of the configuration for a user defined type.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Previous-page provides a URI linking to the previous page of user defined type configuration links.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Next-page provides a URI linking to the next page of user defined type configuration links.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="udtconfig-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Udtconfig-link is a child element type of udts and provides a URI linking to the detailed representation of the configuration for a user defined type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the user defined type configuration.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the user defined type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="attach-to-name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The attach to name for the user defined field.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="attach-to-category" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[Specifies whether the User-Defined Type can be used with processes. If you want the UDT applied to a
+process, specify a value of ProcessType, and for the attach-to-name element, specify the name of the
+process. For all other UDTs, do not specify an attach-to-category value.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

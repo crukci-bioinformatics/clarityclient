@@ -1,0 +1,390 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/processtype" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/configuration" schemaLocation="configuration.xsd"/>
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="process-type" type="ptp:process-type"/>
+  <xs:element name="process-types" type="ptp:process-types"/>
+  <xs:complexType name="process-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The process-type element contains the XML representation of a type of process configured in the system.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="field-definition" type="cnf:field-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each field definition provides a URI linking to the configuration of a user-defined field for the process type.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="parameter" type="ptp:parameter" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each parameter is a named value or file for the process type.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="type-definition" type="ptp:type-definition" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each type definition provides a URI linking to the configuration of a user-defined type for the process type.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="process-input" type="ptp:process-input" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[List of enabled inputs for this process type.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="process-output" type="ptp:process-output" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[List of enabled outputs for this process type.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="process-type-attribute" type="ptp:process-type-attribute" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[List of configuration attributes for this process type.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the process type.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the process type.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="invocation-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The available options for epp invocation type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PostProcess"/>
+      <xs:enumeration value="PreProcess"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="output-generation-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The available options for output-type generation.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PerInput"/>
+      <xs:enumeration value="PerAllInputs"/>
+      <xs:enumeration value="PerReagentLabel"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="process-input">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Process-input is a child element of process type specifying the available input types for the process]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="artifact-type" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The artifact type for the input.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="display-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The display name for the input.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="remove-working-flag" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Deprecated, this property is no longer supported.
+Whether the working flag should be removed from the input when the process runs.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="process-output">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Process-output is a child element of process type specifying the configured output generation types for the process]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="artifact-type" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Artifact type for this output.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="display-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The display name for the input.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="output-generation-type" type="ptp:output-generation-type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies how the outputs are generated in
+relation to the inputs (COMPOUND, PER_REAGENT_LABEL, or PER_INPUT).
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="variability-type" type="ptp:variability-type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Specifies how the process determines the
+number of outputs to generated (FIXED, VARIABLE, or VARIABLE_BY_INPUT).
+<br/>Always returns with GET: Yes for FIXED output, No otherwise]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="number-of-outputs" type="xs:int" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Number of outputs to generate (only applies if variabilityType is FIXED).
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="output-name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Pattern for specifying how the output name is generated.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="field-definition" type="cnf:field-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each field definition provides a URI linking to the configuration of a user-defined field for the output type.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="assign-working-flag" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Deprecated, this property is no longer supported.
+Whether the working flag should be assigned to the output when the process runs.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="parameter">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The parameter element integrates the process with the External Program Integration plug-in (EPP).
+When a user runs the process, the system automatically issue a command, or submits files and
+scripts to third-party programs for further processing. The parameter element is a child
+element of process-type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="file" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Deprecated, this property is no longer supported.
+The file of the parameter.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="string" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The value of the parameter.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="run-program-per-event" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Deprecated, this property is no longer supported.
+Should the EPP run once for each process related event?
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="channel" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The epp channel of this script.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="invocation-type" type="ptp:invocation-type" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Deprecated, this property is no longer supported.
+The epp invocation type of this script.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the process type parameter.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="process-type-attribute">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Process-type-attributes is a child element of process type containing key/value pairs for
+setting specific attributes that can be set for process types. This information
+contains internally used parameters that will change. These parameters are
+suitable for use when copying process types, but should not be manipulated.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[Specifies which attribute that the value will be set to.
+<br/>Always returns with GET: Yes]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="type-definition">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Type-definition is a child element of process type providing a URI linking to the configuration of a user-defined type for the process type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the user-defined type.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI linking to the configuration of a user-defined type for the process type.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="variability-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The available options for output-type variability.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Fixed"/>
+      <xs:enumeration value="Variable"/>
+      <xs:enumeration value="VariableByInput"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="process-types">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation for a list of process type links.
+<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+the request result set is larger than the system maximum, the list represents a paged view of the overall
+results, and the previous-page and next-page elements provide URIs linking to the previous or next page
+of links in the overall results.
+</p>]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="process-type" type="ptp:process-type-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Process-type provides a URI linking to the detailed representation of a process type.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of process types,
+the previous-page element provides a URI that links to the previous page of process types.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of process types,
+the next-page element provides a URI that links to the next page of process types.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="process-type-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Process-type-link is a child element type of process types and provides a URI linking to the detailed representation of a process type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the process type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the process type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

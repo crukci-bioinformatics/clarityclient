@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prc:process xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:prc="http://genologics.com/ri/process" xmlns:file="http://genologics.com/ri/file" xmlns:inst="http://genologics.com/ri/instrument" xmlns:stp="http://genologics.com/ri/step" xmlns:ri="http://genologics.com/ri" xmlns:res="http://genologics.com/ri/researcher" xmlns:lab="http://genologics.com/ri/lab" xmlns:stg="http://genologics.com/ri/stage" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:smp="http://genologics.com/ri/sample" xmlns:con="http://genologics.com/ri/container" xmlns:ver="http://genologics.com/ri/version" xmlns:art="http://genologics.com/ri/artifact" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:prj="http://genologics.com/ri/project" xmlns:rt="http://genologics.com/ri/routing" xmlns:ns25="http://genologics.com/ri/controltype" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:exc="http://genologics.com/ri/exception" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration" limsid="24-110314" uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-110314">
+    <type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/47">MiSeq Load Cartridge</type>
+    <date-run>2014-01-14</date-run>
+    <technician uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/128">
+        <first-name>Hannah</first-name>
+        <last-name>Haydon</last-name>
+    </technician>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1709045?state=1245241" limsid="2-1709045" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1709045?state=1245241">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-108291" limsid="24-108291"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1249209" limsid="2-1715962" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1709045?state=1245241" limsid="2-1709045" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1709045?state=1245241">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-108291" limsid="24-108291"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1715963?state=1249210" limsid="92-1715963" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1709045?state=1245241" limsid="2-1709045" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1709045?state=1245241">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-108291" limsid="24-108291"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1715964?state=1249211" limsid="92-1715964" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1709045?state=1245241" limsid="2-1709045" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1709045?state=1245241">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-108291" limsid="24-108291"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/92-1715965?state=1249212" limsid="92-1715965" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <udf:field name="Workflow" type="String">Resequencing</udf:field>
+    <udf:field name="OnlyGenerateFASTQ" type="Boolean">true</udf:field>
+    <udf:field name="Adapter" type="String">CTGTCTCTTATACACATCT</udf:field>
+    <udf:field name="FilterPCRDuplicates" type="Boolean">false</udf:field>
+    <udf:field name="GenomeFolder" type="String">Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA</udf:field>
+    <udf:field name="Read 1 Cycles" type="Numeric">40</udf:field>
+    <udf:field name="Experiment Name" type="String">SLX-7712</udf:field>
+    <protocol-name>MiSeq SE 40</protocol-name>
+    <process-parameter name="Generate SampleSheet CSV"/>
+</prc:process>

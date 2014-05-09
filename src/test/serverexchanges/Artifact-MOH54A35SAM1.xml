@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<art:artifact limsid="MOH54A35SAM1" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A35SAM1?state=1727" xmlns:con="http://genologics.com/ri/container" xmlns:res="http://genologics.com/ri/researcher" xmlns:ri="http://genologics.com/ri" xmlns:ver="http://genologics.com/ri/version" xmlns:inst="http://genologics.com/ri/instrument" xmlns:lab="http://genologics.com/ri/lab" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:file="http://genologics.com/ri/file" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:stg="http://genologics.com/ri/stage" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:smp="http://genologics.com/ri/sample" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:art="http://genologics.com/ri/artifact" xmlns:stp="http://genologics.com/ri/step" xmlns:prc="http://genologics.com/ri/process" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:rt="http://genologics.com/ri/routing" xmlns:exc="http://genologics.com/ri/exception" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:prj="http://genologics.com/ri/project" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration">
+    <name>T 17</name>
+    <type>Analyte</type>
+    <output-type>Analyte</output-type>
+    <qc-flag>UNKNOWN</qc-flag>
+    <location>
+        <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-435" limsid="27-435"/>
+        <value>A:3</value>
+    </location>
+    <working-flag>false</working-flag>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MOH54A35" limsid="MOH54A35"/>
+    <reagent-label name="A005"/>
+</art:artifact>

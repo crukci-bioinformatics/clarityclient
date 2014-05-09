@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<protcnf:protocols xmlns:protcnf="http://genologics.com/ri/protocolconfiguration">
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/20" name="LPS: Accept LPS"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/1" name="LPS: Truseq RNA Library Prep"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/4" name="LPS: Nextera DNA Library Prep"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/21" name="LPS: Exome Enrichment"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/5" name="LPS: TruSeq DNA Library Prep"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/6" name="LPS: TruSeq Exome Enrichment"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/9" name="LPS: Access Array"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/10" name="LPS: Truseq ChIP Library Prep"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/12" name="LPS: Library QC"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/11" name="LPS: Library QT"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/7" name="LPS: Library Prep Normalisation and Pooling"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/3" name="LPS: RNA Initial QC"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/2" name="LPS: DNA Initial QC"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/8" name="LPS: Nucleic Acid Normalisation"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/13" name="SLX: Accept SLX for Sequencing"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/14" name="SLX: SLX Library QT"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17" name="SLX: MiSeq Sequencing"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/15" name="SLX: HiSeq Clustering"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/16" name="SLX: HiSeq Sequencing"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/18" name="SLX: GAIIx Clustering"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/19" name="SLX: GAIIx Sequencing"/>
+    <protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/22" name="SLX: Resubmission Acceptance"/>
+</protcnf:protocols>

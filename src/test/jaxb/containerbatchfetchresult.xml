@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<con:details xmlns:udf="http://genologics.com/ri/userdefined"
+             xmlns:con="http://genologics.com/ri/container">
+    <con:container uri="http://lims.cri.camres.org:8080/api/v2/containers/27-1348" limsid="27-1348">
+        <name>Unit Test Tube Container</name>
+        <type uri="http://lims.cri.camres.org:8080/api/v2/containertypes/2" name="Tube" />
+        <occupied-wells>1</occupied-wells>
+        <placement uri="http://lims.cri.camres.org:8080/api/v2/artifacts/UNI202A1PA1" limsid="UNI202A1PA1">
+            <value>1:1</value>
+        </placement>
+        <placement uri="http://lims.cri.camres.org:8080/api/v2/artifacts/UNI202A1PA2" limsid="UNI202A1PA2">
+            <value>2:2</value>
+        </placement>
+        <udf:type name="Unit Test Extra Type">
+            <udf:field type="Numeric" name="Amount" unit="cm">3.4</udf:field>
+            <udf:field type="Boolean" name="Correct">true</udf:field>
+        </udf:type>
+        <udf:field type="Text" name="User Comments">Sample for unit tests.</udf:field>
+        <udf:field type="String" name="Multiplexed Library" unit="two">None</udf:field>
+        <state>Populated</state>
+    </con:container>
+    <con:container uri="http://lims.cri.camres.org:8080/api/v2/containers/27-1348" limsid="27-1348">
+        <name>Unit Test Tube Container</name>
+        <type uri="http://lims.cri.camres.org:8080/api/v2/containertypes/2" name="Tube" />
+        <occupied-wells>1</occupied-wells>
+        <placement uri="http://lims.cri.camres.org:8080/api/v2/artifacts/UNI202A1PA1" limsid="UNI202A1PA1">
+            <value>1:1</value>
+        </placement>
+        <placement uri="http://lims.cri.camres.org:8080/api/v2/artifacts/UNI202A1PA2" limsid="UNI202A1PA2">
+            <value>2:2</value>
+        </placement>
+        <udf:type name="Unit Test Extra Type">
+            <udf:field type="Numeric" name="Amount" unit="cm">3.4</udf:field>
+            <udf:field type="Boolean" name="Correct">true</udf:field>
+        </udf:type>
+        <udf:field type="Text" name="User Comments">Sample for unit tests.</udf:field>
+        <udf:field type="String" name="Multiplexed Library" unit="two">None</udf:field>
+        <state>Populated</state>
+    </con:container>
+</con:details>

@@ -1,0 +1,11 @@
+<stp:reagents xmlns:stp="http://genologics.com/ri/step" uri="http://localhost:8090/api/v2/steps/24-55/reagents">
+    <step rel="what" uri="http://localhost:8090/api/v2/configuration/protocols/12/steps/58" />
+    <configuration uri="http://localhost:8080/api/v2/configuration/protocols/12/steps/58">Library Pooling (Illumina SBS) 4.0</configuration>
+    <reagent-category>Truseq HT</reagent-category>
+    <output-reagents>
+        <output uri="http://localhost:8090/api/v2/artifacts/2-14545">
+            <reagent-label name="N701-N503 (TAAGGCGA-TATCCTCT)" />
+        </output>
+        <output uri="http://localhost:8090/api/v2/artifacts/2-14538" />
+    </output-reagents>
+</stp:reagents>

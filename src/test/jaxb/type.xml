@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cnf:type xmlns:cnf="http://genologics.com/ri/configuration"
+          uri="http://lims.cri.camres.org:8080/api/v2/configuration/udts/52"
+          name="Unit Test Extra Type 1">
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udfs/705" name="Unit Test Extra Type 1 Field" />
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udfs/706" name="Unit Test Extra Type 2 Field" />
+    <attach-to-name>Container</attach-to-name>
+    <attach-to-category>Tests</attach-to-category>
+</cnf:type>

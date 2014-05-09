@@ -1,0 +1,6 @@
+<stp:program-status xmlns:stp="http://genologics.com/ri/step" uri="http://localhost:8090/api/v2/steps/24-55/programstatus">
+    <step rel="hello" uri="http://localhost:8080/api/v2/steps/151-5052" />
+    <configuration uri="http://localhost:8080/api/v2/configuration/protocols/12/steps/58">ProtocolStepName</configuration>
+    <status>OK</status>
+    <message>The program is working.</message>
+</stp:program-status>

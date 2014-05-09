@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<art:artifact xmlns:udf="http://genologics.com/ri/userdefined" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:prc="http://genologics.com/ri/process" xmlns:file="http://genologics.com/ri/file" xmlns:inst="http://genologics.com/ri/instrument" xmlns:stp="http://genologics.com/ri/step" xmlns:ri="http://genologics.com/ri" xmlns:res="http://genologics.com/ri/researcher" xmlns:lab="http://genologics.com/ri/lab" xmlns:stg="http://genologics.com/ri/stage" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:smp="http://genologics.com/ri/sample" xmlns:con="http://genologics.com/ri/container" xmlns:ver="http://genologics.com/ri/version" xmlns:art="http://genologics.com/ri/artifact" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:prj="http://genologics.com/ri/project" xmlns:rt="http://genologics.com/ri/routing" xmlns:ns25="http://genologics.com/ri/controltype" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:exc="http://genologics.com/ri/exception" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration" limsid="2-1715962" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1715962?state=1251445">
+    <name>SLX-7712_NORM-1</name>
+    <type>Analyte</type>
+    <output-type>Analyte</output-type>
+    <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-110314" limsid="24-110314"/>
+    <qc-flag>PASSED</qc-flag>
+    <location>
+        <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-34101" limsid="27-34101"/>
+        <value>1:1</value>
+    </location>
+    <working-flag>true</working-flag>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/LAU1478A23" limsid="LAU1478A23"/>
+    <reagent-label name="No Index"/>
+    <udf:field name="% Phasing R1" type="Numeric">0.069</udf:field>
+    <udf:field name="Avg Q Score R1" type="Numeric">36.8</udf:field>
+    <udf:field name="% Prephasing R1" type="Numeric">0.0030</udf:field>
+    <udf:field name="%PF R1" type="Numeric">91.1</udf:field>
+    <udf:field name="Billable" type="String">Bill</udf:field>
+    <udf:field name="% Bases &gt;=Q30 R1" type="Numeric">97.7</udf:field>
+    <udf:field name="Billing Comments" type="String">9.4M reads. Low yield is likely to be library specific due to identified inaccuracies in length of library from Carroll research group.</udf:field>
+    <udf:field name="Intensity Cycle 1 R1" type="Numeric">165</udf:field>
+    <udf:field name="Yield PF (Gb) R1" type="Numeric">0.37</udf:field>
+    <udf:field name="% Aligned R1" type="Numeric">6.7</udf:field>
+    <udf:field name="% Error Rate R1" type="Numeric">0.11</udf:field>
+    <udf:field name="% Intensity Cycle 20 R1" type="Numeric">69.9</udf:field>
+    <udf:field name="Cluster Density (K/mm^2) R1" type="Numeric">429</udf:field>
+    <udf:field name="Clusters PF R1" type="Numeric">9447768</udf:field>
+    <udf:field name="Clusters Raw R1" type="Numeric">10368054</udf:field>
+</art:artifact>

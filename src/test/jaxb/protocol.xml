@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<protcnf:protocol uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17"
+                  index="16" name="SLX: MiSeq Sequencing"
+                  xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration"
+                  xmlns:protcnf="http://genologics.com/ri/protocolconfiguration">
+    <steps>
+        <step protocol-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17"
+              uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/49"
+              name="MiSeq Load Cartridge">
+            <protocol-step-index>1</protocol-step-index>
+            <process-type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/46">MiSeq Load Cartridge</process-type>
+            <permitted-containers>
+                <container-type>MiSeq Reagent Cartridge</container-type>
+                <container-type>Illumina Flow Cell</container-type>
+            </permitted-containers>
+            <transitions>
+                <transition next-step-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/50"
+                            sequence="2" name="MiSeq Run" />
+                <transition next-step-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/51"
+                            sequence="3" name="MiSeq Abort"/>
+            </transitions>
+            <queue-fields>
+                <queue-field detail="false" attach-to="Analyte" name="Sample Name" />
+                <queue-field detail="false" attach-to="Container" name="Well" />
+                <queue-field detail="false" attach-to="Container" name="Container Name" />
+                <queue-field detail="true" attach-to="Project" name="Project Name" />
+                <queue-field detail="true" attach-to="Container" name="LIMS ID (Container)" />
+                <queue-field detail="false" attach-to="Analyte" name="Waiting" />
+            </queue-fields>
+            <step-fields>
+                <step-field attach-to="ConfiguredProcess" name="Adapter" />
+                <step-field attach-to="ConfiguredProcess" name="FilterPCRDuplicates" />
+                <step-field attach-to="ConfiguredProcess" name="GenomeFolder" />
+                <step-field attach-to="Process" name="LIMS ID (Process)" />
+                <step-field attach-to="ConfiguredProcess" name="OnlyGenerateFASTQ" />
+                <step-field attach-to="ConfiguredProcess" name="PhiX control used?" />
+                <step-field attach-to="ConfiguredProcess" name="Read 1 Cycles" />
+                <step-field attach-to="ConfiguredProcess" name="Read 2 Cycles" />
+                <step-field attach-to="ConfiguredProcess" name="Workflow" />
+            </step-fields>
+            <sample-fields>
+                <sample-field attach-to="Analyte" name="Sample Name" />
+                <sample-field attach-to="Sample" name="SLX Identifier" />
+                <sample-field attach-to="Container" name="Container Name" />
+                <sample-field attach-to="Sample" name="Read Length" />
+                <sample-field attach-to="Analyte" name="Primer Set" />
+                <sample-field attach-to="Analyte" name="Workflow" />
+                <sample-field attach-to="Sample" name="Index Type" />
+                <sample-field attach-to="Sample" name="Reference Genome" />
+                <sample-field attach-to="Sample" name="Submission Comments" />
+            </sample-fields>
+            <step-properties>
+                <step-property value="false" name="qcProtocolStep" />
+                <step-property value="false" name="qcWithPlacement" />
+                <step-property value="false" name="measurementWithFile" />
+                <step-property value="" name="stepDetailsHeading" />
+                <step-property value="" name="sampleDetailsHeading" />
+            </step-properties>
+            <epp-triggers>
+                <epp-trigger type="MANUAL" name="Generate SampleSheet CSV" status="PLACEMENT"/>
+                <epp-trigger type="AUTOMATIC" name="Update Files" point="AFTER"/>
+            </epp-triggers>
+        </step>
+        <step protocol-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17"
+              uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/50"
+              name="MiSeq Run">
+            <protocol-step-index>2</protocol-step-index>
+            <process-type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/47">MiSeq Run</process-type>
+            <permitted-containers>
+                <container-type>Tube</container-type>
+            </permitted-containers>
+            <transitions />
+            <queue-fields>
+                <queue-field detail="false" attach-to="Analyte" name="Sample Name" />
+                <queue-field detail="false" attach-to="Sample" name="SLX Identifier" />
+                <queue-field detail="false" attach-to="Project" name="Project Owner" />
+                <queue-field detail="false" attach-to="Analyte" name="Normalized conc. (nM)" />
+                <queue-field detail="false" attach-to="Sample" name="Priority Status" />
+                <queue-field detail="false" attach-to="Analyte" name="Primer Set" />
+                <queue-field detail="false" attach-to="Sample" name="Index Type" />
+                <queue-field detail="false" attach-to="Sample" name="Submission Comments" />
+                <queue-field detail="false" attach-to="Sample" name="Read Length" />
+                <queue-field detail="true" attach-to="Project" name="Project Name" />
+                <queue-field detail="true" attach-to="Container" name="LIMS ID (Container)" />
+                <queue-field detail="false" attach-to="Analyte" name="Waiting" />
+            </queue-fields>
+            <step-fields>
+                <step-field attach-to="ConfiguredProcess" name="MiSeq Run Comments" />
+                <step-field attach-to="ConfiguredProcess" name="Finish Date" />
+                <step-field attach-to="ConfiguredProcess" name="Run Type" />
+                <step-field attach-to="ConfiguredProcess" name="Status" />
+                <step-field attach-to="ConfiguredProcess" name="Flow Cell ID" />
+                <step-field attach-to="ConfiguredProcess" name="Flow Cell Version" />
+                <step-field attach-to="ConfiguredProcess" name="Experiment Name" />
+                <step-field attach-to="ConfiguredProcess" name="Read 1 Cycles" />
+                <step-field attach-to="ConfiguredProcess" name="Index 1 Read Cycles" />
+                <step-field attach-to="ConfiguredProcess" name="Index 2 Read Cycles" />
+                <step-field attach-to="ConfiguredProcess" name="Read 2 Cycles" />
+                <step-field attach-to="ConfiguredProcess" name="Output Folder" />
+                <step-field attach-to="ConfiguredProcess" name="Run ID" />
+                <step-field attach-to="ConfiguredProcess" name="Reagent Cartridge ID" />
+                <step-field attach-to="ConfiguredProcess" name="Reagent Cartridge Part #" />
+                <step-field attach-to="ConfiguredProcess" name="Chemistry" />
+                <step-field attach-to="ConfiguredProcess" name="Workflow" />
+            </step-fields>
+            <sample-fields>
+                <sample-field attach-to="Analyte" name="Sample Name" />
+                <sample-field attach-to="Sample" name="SLX Identifier" />
+                <sample-field attach-to="Container" name="Container Name" />
+                <sample-field attach-to="Sample" name="Index Type" />
+                <sample-field attach-to="Sample" name="Sequencing Type" />
+                <sample-field attach-to="Sample" name="Read Length" />
+                <sample-field attach-to="Analyte" name="Yield PF (Gb) R1" />
+                <sample-field attach-to="Analyte" name="Cluster Density (K/mm^2) R1" />
+                <sample-field attach-to="Analyte" name="%PF R1" />
+                <sample-field attach-to="Analyte" name="% Bases &gt;=Q30 R1" />
+                <sample-field attach-to="Analyte" name="% Phasing R1" />
+                <sample-field attach-to="Analyte" name="% Prephasing R1" />
+                <sample-field attach-to="Analyte" name="% Error Rate R1" />
+                <sample-field attach-to="Analyte" name="% Aligned R1" />
+                <sample-field attach-to="Analyte" name="Avg Q Score R1" />
+                <sample-field attach-to="Analyte" name="Clusters PF R1" />
+                <sample-field attach-to="Analyte" name="Clusters Raw R1" />
+                <sample-field attach-to="Analyte" name="Intensity Cycle 1 R1" />
+                <sample-field attach-to="Analyte" name="% Intensity Cycle 20 R1" />
+                <sample-field attach-to="Analyte" name="Yield PF (Gb) R2" />
+                <sample-field attach-to="Analyte" name="Cluster Density (K/mm^2) R2" />
+                <sample-field attach-to="Analyte" name="%PF R2" />
+                <sample-field attach-to="Analyte" name="% Bases &gt;=Q30 R2" />
+                <sample-field attach-to="Analyte" name="% Phasing R2" />
+                <sample-field attach-to="Analyte" name="% Prephasing R2" />
+                <sample-field attach-to="Analyte" name="% Error Rate R2" />
+                <sample-field attach-to="Analyte" name="% Aligned R2" />
+                <sample-field attach-to="Analyte" name="Avg Q Score R2" />
+                <sample-field attach-to="Analyte" name="Clusters PF R2" />
+                <sample-field attach-to="Analyte" name="Clusters Raw R2" />
+                <sample-field attach-to="Analyte" name="% Intensity Cycle 20 R2" />
+            </sample-fields>
+            <step-properties>
+                <step-property value="true" name="qcProtocolStep" />
+                <step-property value="false" name="qcWithPlacement" />
+                <step-property value="false" name="measurementWithFile" />
+                <step-property value="" name="stepDetailsHeading" />
+                <step-property value="" name="sampleDetailsHeading" />
+            </step-properties>
+            <epp-triggers />
+        </step>
+    </steps>
+    <protocol-properties>
+        <protocol-property value="false" name="hidden" />
+        <protocol-property value="0" name="capacity" />
+        <protocol-property value="samplePrep" name="type" />
+    </protocol-properties>
+</protcnf:protocol>

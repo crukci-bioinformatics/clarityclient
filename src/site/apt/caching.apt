@@ -1,0 +1,73 @@
+Caching
+
+  Using the in-memory cache with the client can <<massively>> increase
+the speed a script can run. It accumulates a number of entities from REST API
+calls so subsequent calls to retrieve these same entities need not pass through
+to the API. This also has the effect to simplifying user code, as the script
+can make the calls through the
+<<<{{{./apidocs/org/cruk/genologics/api/GenologicsAPI.html}GenologicsAPI}}>>>
+interface without worrying
+about whether it already has some or all of the objects requested.
+
+  Like any client side caching, there are risks that an entity will be updated
+from elsewhere while the client holds an earlier copy of the object. This
+hasn't presented us much of a problem in EPP scripts (where this client is
+used a lot) as these run from beginning to end and then stop, so the lifetime
+of the cache is simply the duration of the script.
+
+  If used in a server environment, the cache can still be beneficial but it
+may need to be tweaked so objects don't live as long in the cache. We've found
+that most operations rarely hit the same objects from two different people
+(though this is a risk) and the performance gain much outweighs the risk of
+out of date information. The cache can be tuned or disabled as required by
+the application.
+
+* Enabling the cache
+
+  The cache is essentially an aspect around the main <<<GenologicsAPI>>>
+implementation. It is configured with Spring and can be enabled for an
+application by adding a file to Spring's application context path:
+
++---
+/org/cruk/genologics/api/genologics-cache-context.xml
++---
+
+  This configuration does require the general
+<<</org/cruk/genologics/api/genologics-client-context.xml>>> configuration
+to be in Spring's application context path as it depends on beans defined
+there.
+
+  <<<genologics-cache-context.xml>>> is provided in the client's JAR file.
+
+* Tuning the cache
+
+  The cache is controlled by the file:
+
++---
+/org/cruk/genologics/api/ehcache.xml
++---
+
+  This file is also provided in the client's JAR file. It provides caches
+for different entities that can be individually tuned for each class in
+the API. Any class that does not have a specific cache defined goes into
+the catch-all cache <com.genologics.ri.LimsEntity>.
+
+  If you do need to change the cache configuration, make a new
+<<<org/cruk/genologics/api/ehcache.xml>>> that appears in a folder or JAR
+before the client's JAR file in the class path.
+
+* Artifacts and their state parameter
+
+  The <<<Artifact>>> class provides some complication to the cache by
+always having a <state> parameter attached to its URIs. This means a given
+artifact can be returned in different states depending on the state in the
+URI. At present, the cache keeps the latest version of the Artifact currently
+requested. If a request is made for the same Artifact but of an earlier state,
+the cached version of the Artifact is returned, despite the fact that the
+state may not be the same. If a later version is requested to that in the
+cache, a fetch is made and the retrieved version replaces that in the cache.
+
+  A future refinement to the client API cache may be to offer different
+strategies for handling Artifacts. The current implementation is one;
+exact matches of state only and ignoring state altogether are two that may
+be more suitable to certain applications.

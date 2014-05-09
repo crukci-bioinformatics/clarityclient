@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prc:process limsid="122-54573" uri="http://limsdev.cri.camres.org:8080/api/v2/processes/122-54573" xmlns:con="http://genologics.com/ri/container" xmlns:res="http://genologics.com/ri/researcher" xmlns:ri="http://genologics.com/ri" xmlns:ver="http://genologics.com/ri/version" xmlns:inst="http://genologics.com/ri/instrument" xmlns:lab="http://genologics.com/ri/lab" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:file="http://genologics.com/ri/file" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:stg="http://genologics.com/ri/stage" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:smp="http://genologics.com/ri/sample" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:art="http://genologics.com/ri/artifact" xmlns:stp="http://genologics.com/ri/step" xmlns:prc="http://genologics.com/ri/process" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:rt="http://genologics.com/ri/routing" xmlns:exc="http://genologics.com/ri/exception" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:prj="http://genologics.com/ri/project" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration">
+    <type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/39">Library Pooling</type>
+    <date-run>2013-07-03</date-run>
+    <technician uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/140">
+        <first-name>Michelle</first-name>
+        <last-name>Osborne</last-name>
+    </technician>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458757?state=273599" limsid="2-458757" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458757?state=273599">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458758?state=273600" limsid="2-458758" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458758?state=273600">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458755?state=273597" limsid="2-458755" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458755?state=273597">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458756?state=273598" limsid="2-458756" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458756?state=273598">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458753?state=273595" limsid="2-458753" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458753?state=273595">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458760?state=273602" limsid="2-458760" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458760?state=273602">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458754?state=273596" limsid="2-458754" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458754?state=273596">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458761?state=273603" limsid="2-458761" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458761?state=273603">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458751?state=273593" limsid="2-458751" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458751?state=273593">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458752?state=273594" limsid="2-458752" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458752?state=273594">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458759?state=273601" limsid="2-458759" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-458759?state=273601">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-51381" limsid="24-51381"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-464938?state=278594" limsid="2-464938" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <udf:field name="Library Pooling Comment" type="Text">THIS WAS A RE-POOL OF SLX-7645 DUE TO AN INDEX IMBALANCE MOST LIKE LY CAUSED BY VARYING AMOUNTS OF ADAPTER DIMERS.</udf:field>
+    <process-parameter name="Update Sample Progress Status"/>
+</prc:process>

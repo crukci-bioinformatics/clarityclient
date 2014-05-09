@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prc:process limsid="24-52029" uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-52029" xmlns:con="http://genologics.com/ri/container" xmlns:res="http://genologics.com/ri/researcher" xmlns:ri="http://genologics.com/ri" xmlns:ver="http://genologics.com/ri/version" xmlns:inst="http://genologics.com/ri/instrument" xmlns:lab="http://genologics.com/ri/lab" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:file="http://genologics.com/ri/file" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:stg="http://genologics.com/ri/stage" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:smp="http://genologics.com/ri/sample" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:art="http://genologics.com/ri/artifact" xmlns:stp="http://genologics.com/ri/step" xmlns:prc="http://genologics.com/ri/process" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:rt="http://genologics.com/ri/routing" xmlns:exc="http://genologics.com/ri/exception" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:prj="http://genologics.com/ri/project" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration">
+    <type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/36">Lane Splitting</type>
+    <date-run>2013-06-21</date-run>
+    <technician uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/8">
+        <first-name>Sarah</first-name>
+        <last-name>Leigh-Brown</last-name>
+    </technician>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870" limsid="2-2157" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/SLX-HMO-130610-122-2207" limsid="SLX-HMO-130610-122-2207"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-461988?state=275253" limsid="2-461988" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870" limsid="2-2157" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/SLX-HMO-130610-122-2207" limsid="SLX-HMO-130610-122-2207"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-461989?state=275254" limsid="2-461989" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870" limsid="2-2157" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/SLX-HMO-130610-122-2207" limsid="SLX-HMO-130610-122-2207"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-461990?state=275255" limsid="2-461990" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870" limsid="2-2157" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=35870">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/SLX-HMO-130610-122-2207" limsid="SLX-HMO-130610-122-2207"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-461991?state=275256" limsid="2-461991" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-459783?state=274438" limsid="2-459783" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-459783?state=274438">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-52010" limsid="24-52010"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-461992?state=275257" limsid="2-461992" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-459783?state=274438" limsid="2-459783" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-459783?state=274438">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-52010" limsid="24-52010"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-461993?state=275258" limsid="2-461993" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-459783?state=274438" limsid="2-459783" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-459783?state=274438">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-52010" limsid="24-52010"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-461994?state=275259" limsid="2-461994" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-459783?state=274438" limsid="2-459783" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-459783?state=274438">
+            <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-52010" limsid="24-52010"/>
+        </input>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-461995?state=275260" limsid="2-461995" output-type="Analyte" output-generation-type="PerInput"/>
+    </input-output-map>
+</prc:process>

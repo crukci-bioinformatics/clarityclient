@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<protstepcnf:step protocol-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17"
+                  uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/49"
+                  name="MiSeq Load Cartridge"
+                  xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration">
+    <protocol-step-index>1</protocol-step-index>
+    <process-type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/46">MiSeq Load Cartridge</process-type>
+    <permitted-containers>
+        <container-type>MiSeq Reagent Cartridge</container-type>
+        <container-type>Illumina Flow Cell</container-type>
+    </permitted-containers>
+    <permitted-reagent-categories>
+        <reagent-category>Truseq LT</reagent-category>
+        <reagent-category>Ovation Ultralow</reagent-category>
+    </permitted-reagent-categories>
+    <required-reagent-kits>
+        <reagent-kit uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/1" name="TruSeq ChIP Sample Prep Kit 48 Samples - Set A"/>
+        <reagent-kit uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/2" name="Internal Genetics Kit"/>
+    </required-reagent-kits>
+    <permitted-control-types>
+        <control-type uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/1" />
+        <control-type uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/2" />
+    </permitted-control-types>
+    <transitions>
+        <transition next-step-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/50" sequence="2" name="MiSeq Run"/>
+        <transition next-step-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/51" sequence="3" name="MiSeq Abort"/>
+    </transitions>
+    <default-grouping>The Main Group</default-grouping>
+    <queue-fields>
+        <queue-field detail="false" attach-to="Analyte" name="Sample Name"/>
+        <queue-field detail="false" attach-to="Container" name="Well"/>
+        <queue-field detail="false" attach-to="Container" name="Container Name"/>
+        <queue-field detail="true" attach-to="Project" name="Project Name"/>
+        <queue-field detail="true" attach-to="Container" name="LIMS ID (Container)"/>
+        <queue-field detail="false" attach-to="Analyte" name="Waiting"/>
+    </queue-fields>
+    <step-fields>
+        <step-field attach-to="ConfiguredProcess" name="Adapter"/>
+        <step-field attach-to="ConfiguredProcess" name="FilterPCRDuplicates"/>
+        <step-field attach-to="ConfiguredProcess" name="GenomeFolder"/>
+        <step-field attach-to="Process" name="LIMS ID (Process)"/>
+        <step-field attach-to="ConfiguredProcess" name="OnlyGenerateFASTQ"/>
+        <step-field attach-to="ConfiguredProcess" name="PhiX control used?"/>
+        <step-field attach-to="ConfiguredProcess" name="Read 1 Cycles"/>
+        <step-field attach-to="ConfiguredProcess" name="Read 2 Cycles"/>
+        <step-field attach-to="ConfiguredProcess" name="Workflow"/>
+    </step-fields>
+    <sample-fields>
+        <sample-field attach-to="Analyte" name="Sample Name"/>
+        <sample-field attach-to="Sample" name="SLX Identifier"/>
+        <sample-field attach-to="Container" name="Container Name"/>
+        <sample-field attach-to="Sample" name="Read Length"/>
+        <sample-field attach-to="Analyte" name="Primer Set"/>
+        <sample-field attach-to="Analyte" name="Workflow"/>
+        <sample-field attach-to="Sample" name="Index Type"/>
+        <sample-field attach-to="Sample" name="Reference Genome"/>
+        <sample-field attach-to="Sample" name="Submission Comments"/>
+    </sample-fields>
+    <step-properties>
+        <step-property value="false" name="qcProtocolStep"/>
+        <step-property value="false" name="qcWithPlacement"/>
+        <step-property value="false" name="measurementWithFile"/>
+        <step-property value="" name="stepDetailsHeading"/>
+        <step-property value="" name="sampleDetailsHeading"/>
+    </step-properties>
+    <epp-triggers>
+        <epp-trigger type="MANUAL" name="Generate SampleSheet CSV" status="PLACEMENT"/>
+        <epp-trigger type="AUTOMATIC" name="Update Files" point="AFTER"/>
+    </epp-triggers>
+</protstepcnf:step>

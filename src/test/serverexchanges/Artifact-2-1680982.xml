@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<art:artifact xmlns:udf="http://genologics.com/ri/userdefined" xmlns:file="http://genologics.com/ri/file" xmlns:art="http://genologics.com/ri/artifact" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1680982?state=1219774" limsid="2-1680982">
+    <name>SLX-8079</name>
+    <type>Analyte</type>
+    <output-type>Analyte</output-type>
+    <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/122-104543" limsid="122-104543"/>
+    <qc-flag>UNKNOWN</qc-flag>
+    <location>
+        <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-30657" limsid="27-30657"/>
+        <value>1:1</value>
+    </location>
+    <working-flag>true</working-flag>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A27" limsid="JOH1711A27"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A28" limsid="JOH1711A28"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A29" limsid="JOH1711A29"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A30" limsid="JOH1711A30"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A23" limsid="JOH1711A23"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A24" limsid="JOH1711A24"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A25" limsid="JOH1711A25"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A26" limsid="JOH1711A26"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A19" limsid="JOH1711A19"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A20" limsid="JOH1711A20"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A21" limsid="JOH1711A21"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A22" limsid="JOH1711A22"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A15" limsid="JOH1711A15"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A16" limsid="JOH1711A16"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A17" limsid="JOH1711A17"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A18" limsid="JOH1711A18"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A44" limsid="JOH1711A44"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A43" limsid="JOH1711A43"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A46" limsid="JOH1711A46"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A45" limsid="JOH1711A45"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A40" limsid="JOH1711A40"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A39" limsid="JOH1711A39"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A42" limsid="JOH1711A42"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A41" limsid="JOH1711A41"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A36" limsid="JOH1711A36"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A35" limsid="JOH1711A35"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A38" limsid="JOH1711A38"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A37" limsid="JOH1711A37"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A32" limsid="JOH1711A32"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A31" limsid="JOH1711A31"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A34" limsid="JOH1711A34"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A33" limsid="JOH1711A33"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A47" limsid="JOH1711A47"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A48" limsid="JOH1711A48"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A3" limsid="JOH1711A3"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A4" limsid="JOH1711A4"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A5" limsid="JOH1711A5"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A6" limsid="JOH1711A6"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A1" limsid="JOH1711A1"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A2" limsid="JOH1711A2"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A11" limsid="JOH1711A11"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A12" limsid="JOH1711A12"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A13" limsid="JOH1711A13"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A14" limsid="JOH1711A14"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A7" limsid="JOH1711A7"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A8" limsid="JOH1711A8"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A9" limsid="JOH1711A9"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOH1711A10" limsid="JOH1711A10"/>
+    <reagent-label name="FLD0289"/>
+    <reagent-label name="FLD0290"/>
+    <reagent-label name="FLD0291"/>
+    <reagent-label name="FLD0292"/>
+    <reagent-label name="FLD0293"/>
+    <reagent-label name="FLD0294"/>
+    <reagent-label name="FLD0295"/>
+    <reagent-label name="FLD0296"/>
+    <reagent-label name="FLD0297"/>
+    <reagent-label name="FLD0298"/>
+    <reagent-label name="FLD0299"/>
+    <reagent-label name="FLD0300"/>
+    <reagent-label name="FLD0301"/>
+    <reagent-label name="FLD0302"/>
+    <reagent-label name="FLD0303"/>
+    <reagent-label name="FLD0304"/>
+    <reagent-label name="FLD0305"/>
+    <reagent-label name="FLD0306"/>
+    <reagent-label name="FLD0307"/>
+    <reagent-label name="FLD0308"/>
+    <reagent-label name="FLD0309"/>
+    <reagent-label name="FLD0310"/>
+    <reagent-label name="FLD0311"/>
+    <reagent-label name="FLD0312"/>
+    <reagent-label name="FLD0313"/>
+    <reagent-label name="FLD0314"/>
+    <reagent-label name="FLD0315"/>
+    <reagent-label name="FLD0316"/>
+    <reagent-label name="FLD0317"/>
+    <reagent-label name="FLD0318"/>
+    <reagent-label name="FLD0319"/>
+    <reagent-label name="FLD0320"/>
+    <reagent-label name="FLD0321"/>
+    <reagent-label name="FLD0322"/>
+    <reagent-label name="FLD0323"/>
+    <reagent-label name="FLD0324"/>
+    <reagent-label name="FLD0325"/>
+    <reagent-label name="FLD0326"/>
+    <reagent-label name="FLD0327"/>
+    <reagent-label name="FLD0328"/>
+    <reagent-label name="FLD0329"/>
+    <reagent-label name="FLD0330"/>
+    <reagent-label name="FLD0331"/>
+    <reagent-label name="FLD0332"/>
+    <reagent-label name="FLD0333"/>
+    <reagent-label name="FLD0334"/>
+    <reagent-label name="FLD0335"/>
+    <reagent-label name="FLD0336"/>
+</art:artifact>

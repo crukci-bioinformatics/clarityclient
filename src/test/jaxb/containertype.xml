@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ctp:container-type xmlns:ctp="http://genologics.com/ri/containertype"
+                    uri="http://limsdev.cri.camres.org:8080/api/v2/containertypes/154"
+                    name="A container with calibrant wells?">
+    <is-tube>false</is-tube>
+    <calibrant-well name="One">F:7</calibrant-well>
+    <calibrant-well name="Two">G:7</calibrant-well>
+    <calibrant-well name="Three">H:7</calibrant-well>
+    <calibrant-well name="Four">H:8</calibrant-well>
+    <unavailable-well>F:8</unavailable-well>
+    <unavailable-well>G:8</unavailable-well>
+    <x-dimension>
+        <is-alpha>false</is-alpha>
+        <offset>1</offset>
+        <size>8</size>
+    </x-dimension>
+    <y-dimension>
+        <is-alpha>true</is-alpha>
+        <offset>0</offset>
+        <size>8</size>
+    </y-dimension>
+</ctp:container-type>

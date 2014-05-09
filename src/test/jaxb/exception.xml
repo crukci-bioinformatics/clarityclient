@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exc:exception xmlns:exc="http://genologics.com/ri/exception" category="BAD" code="BROKEN">
+  <message>Something has gone very wrong.</message>
+  <suggested-actions>Get on the phone to Genologics.</suggested-actions>
+</exc:exception>

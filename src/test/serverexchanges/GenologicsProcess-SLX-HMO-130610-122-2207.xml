@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prc:process limsid="SLX-HMO-130610-122-2207" uri="http://limsdev.cri.camres.org:8080/api/v2/processes/SLX-HMO-130610-122-2207" xmlns:con="http://genologics.com/ri/container" xmlns:res="http://genologics.com/ri/researcher" xmlns:ri="http://genologics.com/ri" xmlns:ver="http://genologics.com/ri/version" xmlns:inst="http://genologics.com/ri/instrument" xmlns:lab="http://genologics.com/ri/lab" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:file="http://genologics.com/ri/file" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:stg="http://genologics.com/ri/stage" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:smp="http://genologics.com/ri/sample" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:art="http://genologics.com/ri/artifact" xmlns:stp="http://genologics.com/ri/step" xmlns:prc="http://genologics.com/ri/process" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:rt="http://genologics.com/ri/routing" xmlns:exc="http://genologics.com/ri/exception" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:prj="http://genologics.com/ri/project" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration">
+    <type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/55">Pool Accepted SLX</type>
+    <date-run>2013-06-05</date-run>
+    <technician uri="http://limsdev.cri.camres.org:8080/api/v2/researchers/132">
+        <first-name>Hisham</first-name>
+        <last-name>Mohammed</last-name>
+    </technician>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A45SAM1?state=1737" limsid="MOH54A45SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A45SAM1?state=1764"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A44SAM1?state=1736" limsid="MOH54A44SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A44SAM1?state=1751"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A33SAM1?state=1725" limsid="MOH54A33SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A33SAM1?state=1765"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A53SAM1?state=1745" limsid="MOH54A53SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A53SAM1?state=1760"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A42SAM1?state=1734" limsid="MOH54A42SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A42SAM1?state=1749"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A47SAM1?state=1739" limsid="MOH54A47SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A47SAM1?state=1762"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A46SAM1?state=1738" limsid="MOH54A46SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A46SAM1?state=1750"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A49SAM1?state=1741" limsid="MOH54A49SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A49SAM1?state=1772"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A54SAM1?state=1746" limsid="MOH54A54SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A54SAM1?state=1761"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A43SAM1?state=1735" limsid="MOH54A43SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A43SAM1?state=1771"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A35SAM1?state=1727" limsid="MOH54A35SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A35SAM1?state=1757"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A34SAM1?state=1726" limsid="MOH54A34SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A34SAM1?state=1759"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A52SAM1?state=1744" limsid="MOH54A52SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A52SAM1?state=1766"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A37SAM1?state=1729" limsid="MOH54A37SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A37SAM1?state=1768"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A50SAM1?state=1742" limsid="MOH54A50SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A50SAM1?state=1752"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A38SAM1?state=1730" limsid="MOH54A38SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A38SAM1?state=1754"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A56SAM1?state=1748" limsid="MOH54A56SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A56SAM1?state=1756"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A40SAM1?state=1732" limsid="MOH54A40SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A40SAM1?state=1773"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A41SAM1?state=1733" limsid="MOH54A41SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A41SAM1?state=1767"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A48SAM1?state=1740" limsid="MOH54A48SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A48SAM1?state=1755"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A39SAM1?state=1731" limsid="MOH54A39SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A39SAM1?state=1769"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A55SAM1?state=1747" limsid="MOH54A55SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A55SAM1?state=1753"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A36SAM1?state=1728" limsid="MOH54A36SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A36SAM1?state=1770"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A51SAM1?state=1743" limsid="MOH54A51SAM1" post-process-uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/MOH54A51SAM1?state=1763"/>
+        <output uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-2157?state=1758" limsid="2-2157" output-type="Analyte" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+</prc:process>

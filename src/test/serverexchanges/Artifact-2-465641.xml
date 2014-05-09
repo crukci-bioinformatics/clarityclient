@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<art:artifact limsid="2-465641" uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-465641?state=282184" xmlns:con="http://genologics.com/ri/container" xmlns:res="http://genologics.com/ri/researcher" xmlns:ri="http://genologics.com/ri" xmlns:ver="http://genologics.com/ri/version" xmlns:inst="http://genologics.com/ri/instrument" xmlns:lab="http://genologics.com/ri/lab" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:file="http://genologics.com/ri/file" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:stg="http://genologics.com/ri/stage" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:smp="http://genologics.com/ri/sample" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:art="http://genologics.com/ri/artifact" xmlns:stp="http://genologics.com/ri/step" xmlns:prc="http://genologics.com/ri/process" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:rt="http://genologics.com/ri/routing" xmlns:exc="http://genologics.com/ri/exception" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:prj="http://genologics.com/ri/project" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration">
+    <name>SLX-7487_NORM-1</name>
+    <type>Analyte</type>
+    <output-type>Analyte</output-type>
+    <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-54757" limsid="24-54757"/>
+    <qc-flag>UNKNOWN</qc-flag>
+    <location>
+        <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-11556" limsid="27-11556"/>
+        <value>1:1</value>
+    </location>
+    <working-flag>true</working-flag>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A9" limsid="MEN19A9"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A8" limsid="MEN19A8"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A7" limsid="MEN19A7"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A6" limsid="MEN19A6"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A5" limsid="MEN19A5"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A4" limsid="MEN19A4"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A3" limsid="MEN19A3"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A2" limsid="MEN19A2"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A12" limsid="MEN19A12"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A11" limsid="MEN19A11"/>
+    <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/MEN19A10" limsid="MEN19A10"/>
+    <reagent-label name="A002"/>
+    <reagent-label name="A004"/>
+    <reagent-label name="A005"/>
+    <reagent-label name="A006"/>
+    <reagent-label name="A012"/>
+    <reagent-label name="A019"/>
+    <reagent-label name="A007"/>
+    <reagent-label name="A016"/>
+    <reagent-label name="A001"/>
+    <reagent-label name="A010"/>
+    <reagent-label name="A020"/>
+    <udf:field name="Yield PF (Gb) R1" type="Numeric">0.12</udf:field>
+    <udf:field name="Yield PF (Gb) R2" type="Numeric">0.12</udf:field>
+    <udf:field name="Avg Q Score R1" type="Numeric">36.6</udf:field>
+    <udf:field name="Avg Q Score R2" type="Numeric">32.8</udf:field>
+    <udf:field name="% Bases &gt;=Q30 R1" type="Numeric">98.9</udf:field>
+    <udf:field name="% Bases &gt;=Q30 R2" type="Numeric">80.4</udf:field>
+    <udf:field name="Cluster Density (K/mm^2) R1" type="Numeric">544</udf:field>
+    <udf:field name="Cluster Density (K/mm^2) R2" type="Numeric">544</udf:field>
+    <udf:field name="Clusters Raw R1" type="Numeric">5271657</udf:field>
+    <udf:field name="Clusters Raw R2" type="Numeric">5271657</udf:field>
+    <udf:field name="Clusters PF R1" type="Numeric">4956935</udf:field>
+    <udf:field name="Clusters PF R2" type="Numeric">4956935</udf:field>
+    <udf:field name="%PF R1" type="Numeric">94</udf:field>
+    <udf:field name="%PF R2" type="Numeric">94</udf:field>
+    <udf:field name="Intensity Cycle 1 R1" type="Numeric">823</udf:field>
+    <udf:field name="Intensity Cycle 1 R2" type="Numeric">678</udf:field>
+    <udf:field name="% Intensity Cycle 20 R1" type="Numeric">84</udf:field>
+    <udf:field name="% Intensity Cycle 20 R2" type="Numeric">103.2</udf:field>
+    <udf:field name="% Phasing R1" type="Numeric">0.09</udf:field>
+    <udf:field name="% Phasing R2" type="Numeric">0.096</udf:field>
+    <udf:field name="% Prephasing R1" type="Numeric">0.144</udf:field>
+    <udf:field name="% Prephasing R2" type="Numeric">0.171</udf:field>
+    <udf:field name="% Aligned R1" type="Numeric">2.9</udf:field>
+    <udf:field name="% Aligned R2" type="Numeric">2.9</udf:field>
+    <udf:field name="% Error Rate R1" type="Numeric">0.08</udf:field>
+    <udf:field name="% Error Rate R2" type="Numeric">0.11</udf:field>
+</art:artifact>

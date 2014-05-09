@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ctrltp:control-type xmlns:ctrltp="http://genologics.com/ri/controltype"
+                     name="PhiX Ctrl 001"
+                     uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/1">
+    <supplier>Illumina</supplier>
+    <catalogue-number>123456</catalogue-number>
+    <website>http://www.cambridgediving.org.uk/</website>
+    <archived>false</archived>
+    <single-step>false</single-step>
+</ctrltp:control-type>

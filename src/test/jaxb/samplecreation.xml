@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<smp:samplecreation xmlns:udf="http://genologics.com/ri/userdefined"
+                    xmlns:ri="http://genologics.com/ri"
+                    xmlns:file="http://genologics.com/ri/file"
+                    xmlns:smp="http://genologics.com/ri/sample"
+                    uri="http://lims.cri.camres.org:8080/api/v2/samples/LEI162A92"
+                    limsid="LEI162A92">
+    <name>DO2264</name>
+    <date-received>2013-01-08</date-received>
+    <date-completed>2013-02-01</date-completed>
+    <project limsid="LEI162" uri="http://lims.cri.camres.org:8080/api/v2/projects/LEI162" />
+    <submitter uri="http://lims.cri.camres.org:8080/api/v2/researchers/5">
+        <first-name>Sarah</first-name>
+        <last-name>Leigh-Brown</last-name>
+    </submitter>
+    <artifact limsid="LEI162A92PA1" uri="http://lims.cri.camres.org:8080/api/v2/artifacts/LEI162A92PA1" />
+    <biosource name="What is a bio source?">
+        <description>No idea what it is yet</description>
+        <udf:field type="Text" name="Bio Comments">What?</udf:field>
+        <udf:field type="Text" name="Even More Comments">Eh?</udf:field>
+    </biosource>
+    <udf:type name="Unit Test Extra Type">
+        <udf:field type="Numeric" name="Amount" unit="cm">3.4</udf:field>
+    </udf:type>
+    <udf:field type="String" name="Sequencing Method">Single End</udf:field>
+    <udf:field type="String" name="Sample Type">DNA</udf:field>
+    <udf:field type="String" name="Reference Genome">homo_sapiens</udf:field>
+    <udf:field type="String" name="Pooling">Yes</udf:field>
+    <udf:field type="String" name="Application">ChIP-Seq</udf:field>
+    <udf:field type="String" name="Read Length">36</udf:field>
+    <udf:field type="String" name="Technology">HiSeq</udf:field>
+    <udf:field type="String" name="Barcode 1">AGTTCC</udf:field>
+    <udf:field type="String" name="SLX Identifier">6206</udf:field>
+    <udf:field type="String" name="Multiplexed Library">TruSeq DNA Low Throughput</udf:field>
+    <ri:externalid id="thing1" uri="http://lims.cri.camres.org:8080/api/v2/external1"/>
+    <ri:externalid id="thing2" uri="http://lims.cri.camres.org:8080/api/v2/external2"/>
+    <location>
+        <container uri="http://lims.cri.camres.org:8080/api/v2/containers/27-636" limsid="27-636"/>
+        <value>A:7</value>
+    </location>
+</smp:samplecreation>

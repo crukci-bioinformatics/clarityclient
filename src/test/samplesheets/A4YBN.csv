@@ -1,0 +1,28 @@
+[Header]
+Investigator Name,Hannah Haydon
+Project Name,20130115_GounarisI_JB_Arid1a_MEFs
+Experiment Name,SLX-7487
+Date,
+Workflow,LibraryQC
+Assay,TruSeq DNA/RNA
+Chemistry,Default
+[Reads]
+25
+25
+[Settings]
+OnlyGenerateFASTQ,0
+Adapter,CTGTCTCTTATACACATCT
+FilterPCRDuplicates,1
+[Data]
+Sample_ID,Sample_Name,Sample_Plate,Sample_Well,Sample_Project,index,I7_Index_ID,GenomeFolder
+MEN19A2,E23_M,27-9174,A:7,20130115_GounarisI_JB_Arid1a_MEFs,GCCAAT,A006,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A10,E23_input,27-9174,A:8,20130115_GounarisI_JB_Arid1a_MEFs,ATCACG,A001,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A3,E23_F1,27-9174,B:7,20130115_GounarisI_JB_Arid1a_MEFs,CTTGTA,A012,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A11,E28_input,27-9174,B:8,20130115_GounarisI_JB_Arid1a_MEFs,TAGCTT,A010,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A4,E28_M,27-9174,C:7,20130115_GounarisI_JB_Arid1a_MEFs,ACAGTG,A005,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A12,E29_input,27-9174,C:8,20130115_GounarisI_JB_Arid1a_MEFs,GTGGCC,A020,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A5,E28_F1,27-9174,D:7,20130115_GounarisI_JB_Arid1a_MEFs,GTGAAA,A019,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A6,E28_F2,27-9174,E:7,20130115_GounarisI_JB_Arid1a_MEFs,CGATGT,A002,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A7,E29_M,27-9174,F:7,20130115_GounarisI_JB_Arid1a_MEFs,TGACCA,A004,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A8,E29_F1,27-9174,G:7,20130115_GounarisI_JB_Arid1a_MEFs,CAGATC,A007,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA
+MEN19A9,E29_F2,27-9174,H:7,20130115_GounarisI_JB_Arid1a_MEFs,CCGTCC,A016,Homo_sapiens\UCSC\hg19\Sequence\WholeGenomeFASTA

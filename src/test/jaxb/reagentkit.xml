@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<kit:reagent-kit xmlns:kit="http://genologics.com/ri/reagentkit" uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/1">
+    <name>TruSeq ChIP Sample Prep Kit 48 Samples - Set A</name>
+    <supplier>Illumina</supplier>
+    <catalogue-number>IP-202-1012</catalogue-number>
+    <website>http://www.illumina.com/products/truseq_chip_sample_prep_kit.ilmn</website>
+    <archived>false</archived>
+</kit:reagent-kit>

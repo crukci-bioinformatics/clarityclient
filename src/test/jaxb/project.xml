@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prj:project xmlns:udf="http://genologics.com/ri/userdefined"
+             xmlns:ri="http://genologics.com/ri"
+             xmlns:file="http://genologics.com/ri/file"
+             xmlns:prj="http://genologics.com/ri/project"
+             uri="http://lims.cri.camres.org:8080/api/v2/projects/ADM1"
+             limsid="ADM1">
+    <name>Validation Test Project</name>
+    <open-date>2013-01-17</open-date>
+    <close-date>2013-01-31</close-date>
+    <invoice-date>2012-02-04</invoice-date>
+    <researcher uri="http://lims.cri.camres.org:8080/api/v2/researchers/1" />
+    <udf:type name="Unit Test Extra Type">
+        <udf:field type="Numeric" name="Amount" unit="cm">3.4</udf:field>
+        <udf:field type="Boolean" name="Correct">true</udf:field>
+    </udf:type>
+    <udf:field type="Text" name="User Comments">Sample for unit tests.</udf:field>
+    <udf:field type="String" name="Multiplexed Library" unit="two">None</udf:field>
+    <ri:externalid id="thing1" uri="http://lims.cri.camres.org:8080/api/v2/external1"/>
+    <ri:externalid id="thing2" uri="http://lims.cri.camres.org:8080/api/v2/external2"/>
+    <file:file limsid="ADM1-40-1" uri="http://lims.cri.camres.org:8080/api/v2/files/ADM1-40-1" />
+    <file:file limsid="PAJ13-40-116" uri="http://lims.cri.camres.org:8080/api/v2/files/PAJ13-40-116" />
+</prj:project>

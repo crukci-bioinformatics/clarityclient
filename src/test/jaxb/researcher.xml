@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<res:researcher xmlns:udf="http://genologics.com/ri/userdefined"
+                xmlns:ri="http://genologics.com/ri"
+                xmlns:res="http://genologics.com/ri/researcher"
+                uri="http://lims.cri.camres.org:8080/api/v2/researchers/204">
+    <first-name>Automated</first-name>
+    <last-name>Unit Test</last-name>
+    <phone>01223462349</phone>
+    <fax>83749287523</fax>
+    <email>thing@cruk.cam.ac.uk</email>
+    <lab uri="http://lims.cri.camres.org:8080/api/v2/labs/102" />
+    <udf:type name="Unit Test Extra Type">
+        <udf:field type="Numeric" name="Amount" unit="cm">3.4</udf:field>
+        <udf:field type="Boolean" name="Correct">true</udf:field>
+    </udf:type>
+    <udf:field type="Text" name="User Comments">Sample for unit tests.</udf:field>
+    <udf:field type="String" name="Multiplexed Library" unit="two">None</udf:field>
+    <ri:externalid id="thing1" uri="http://lims.cri.camres.org:8080/api/v2/external1"/>
+    <ri:externalid id="thing2" uri="http://lims.cri.camres.org:8080/api/v2/external2"/>
+    <credentials>
+        <username>unittest</username>
+        <password>pass</password>
+        <account-locked>false</account-locked>
+        <role roleName="systemadministrator" />
+        <role roleName="webclient" />
+        <role roleName="administrator" />
+        <role roleName="labtech" />
+    </credentials>
+    <initials>UNT</initials>
+</res:researcher>

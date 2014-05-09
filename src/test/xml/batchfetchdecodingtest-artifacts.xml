@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<art:details xmlns:udf="http://genologics.com/ri/userdefined"
+             xmlns:file="http://genologics.com/ri/file"
+             xmlns:art="http://genologics.com/ri/artifact">
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/ADM1A1PA1?state=1366" limsid="ADM1A1PA1">
+        <name>Patient Df.32</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <qc-flag>PASSED</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-1" limsid="27-1" />
+            <value>A:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/ADM1A1" limsid="ADM1A1" />
+        <udf:field type="Numeric" name="Concentration">23</udf:field>
+        <udf:field type="String" name="Conc. Units">nmol/l</udf:field>
+    </art:artifact>
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/ADM1A2PA1?state=1365" limsid="ADM1A2PA1">
+        <name>Isolate xC.32</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <qc-flag>PASSED</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-2" limsid="27-2" />
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/ADM1A2" limsid="ADM1A2" />
+        <udf:field type="Numeric" name="Concentration">88</udf:field>
+        <udf:field type="String" name="Conc. Units">nmol/l</udf:field>
+    </art:artifact>
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/ADM1A3PA1?state=1" limsid="ADM1A3PA1">
+        <name>Isolate xC.33</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-3" limsid="27-3" />
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/ADM1A3" limsid="ADM1A3" />
+    </art:artifact>
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/ADM1A4PA1?state=3" limsid="ADM1A4PA1">
+        <name>Algae filtrate xY-577</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-4" limsid="27-4" />
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/ADM1A4" limsid="ADM1A4" />
+    </art:artifact>
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/ADM2A1PA1?state=717" limsid="ADM2A1PA1">
+        <name>SLX-6071</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-5" limsid="27-5" />
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/ADM2A1" limsid="ADM2A1" />
+        <artifact-group name="ILMN E2E Validation Test" uri="http://limsdev.cri.camres.org:8080/api/v2/artifactgroups/2" />
+    </art:artifact>
+</art:details>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<art:details xmlns:udf="http://genologics.com/ri/userdefined" xmlns:file="http://genologics.com/ri/file" xmlns:art="http://genologics.com/ri/artifact">
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000622?state=609322" limsid="2-1000622">
+        <name>SLX-7443</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/122-63035" limsid="122-63035"/>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-13627" limsid="27-13627"/>
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/PIS809A96" limsid="PIS809A96"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/PIS809A97" limsid="PIS809A97"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/PIS809A112" limsid="PIS809A112"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/PIS809A113" limsid="PIS809A113"/>
+        <reagent-label name="FLD0001"/>
+        <reagent-label name="FLD0002"/>
+    </art:artifact>
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000623?state=609323" limsid="2-1000623">
+        <name>SLX-7204</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/122-63035" limsid="122-63035"/>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-13633" limsid="27-13633"/>
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A38" limsid="BRA509A38"/>
+        <reagent-label name="A005"/>
+    </art:artifact>
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000624?state=609324" limsid="2-1000624">
+        <name>SLX-7106</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/122-63035" limsid="122-63035"/>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-13635" limsid="27-13635"/>
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A60" limsid="BRA509A60"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A59" limsid="BRA509A59"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A58" limsid="BRA509A58"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A57" limsid="BRA509A57"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A56" limsid="BRA509A56"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A55" limsid="BRA509A55"/>
+        <reagent-label name="A002"/>
+        <reagent-label name="A004"/>
+        <reagent-label name="A005"/>
+        <reagent-label name="A006"/>
+        <reagent-label name="A012"/>
+        <reagent-label name="A007"/>
+    </art:artifact>
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000625?state=609325" limsid="2-1000625">
+        <name>SLX-7111</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/122-63035" limsid="122-63035"/>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-13630" limsid="27-13630"/>
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A36" limsid="BRA509A36"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A35" limsid="BRA509A35"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/BRA509A34" limsid="BRA509A34"/>
+        <reagent-label name="A005"/>
+        <reagent-label name="A006"/>
+        <reagent-label name="A015"/>
+    </art:artifact>
+    <art:artifact uri="http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000605?state=1302434" limsid="2-1000605">
+        <name>SLX7128_NORM-1</name>
+        <type>Analyte</type>
+        <output-type>Analyte</output-type>
+        <parent-process uri="http://limsdev.cri.camres.org:8080/api/v2/processes/24-63028" limsid="24-63028"/>
+        <qc-flag>UNKNOWN</qc-flag>
+        <location>
+            <container uri="http://limsdev.cri.camres.org:8080/api/v2/containers/27-13613" limsid="27-13613"/>
+            <value>1:1</value>
+        </location>
+        <working-flag>true</working-flag>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOZ751A13" limsid="JOZ751A13"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOZ751A16" limsid="JOZ751A16"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOZ751A17" limsid="JOZ751A17"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOZ751A14" limsid="JOZ751A14"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOZ751A15" limsid="JOZ751A15"/>
+        <sample uri="http://limsdev.cri.camres.org:8080/api/v2/samples/JOZ751A18" limsid="JOZ751A18"/>
+        <reagent-label name="A004"/>
+        <reagent-label name="A005"/>
+        <reagent-label name="A006"/>
+        <reagent-label name="A012"/>
+        <reagent-label name="A019"/>
+        <reagent-label name="A007"/>
+    </art:artifact>
+</art:details>
+

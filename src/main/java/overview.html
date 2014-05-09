@@ -1,0 +1,45 @@
+<body>
+<p>
+This project is the Cambridge Research UK Cambridge Institute (CRUK-CI)
+Java client for Genologics' REST API.
+</p>
+
+<p>
+It wraps a REST client to allow Java objects to be used for working with
+the Clarity system. The object to XML translations are handled automatically,
+as are the HTTP exchanges. It requires the Spring framework and uses many of
+its features.
+</p>
+
+<p>
+The model classes were originally generated from Genologics' XSD schema
+documents. They are embellished with interfaces to distinguish between the
+actual entities and the links to those entities. The classes as presented here
+should allow users of this client to work with the Clarity API with minimal
+overhead.
+</p>
+
+<p>
+The XSD files are packaged with this project: all rights to these belong
+to Genologics.
+</p>
+
+<p>
+To use the client, create a Spring application context including the file
+<code>org/cruk/genologics/api/genologics-client-context.xml</code>, from which
+you can obtain the bean "<code>genologicsAPI</code>". If you wish to use the
+caching facility, also add the file
+<code>org/cruk/genologics/api/genologics-cache-context.xml</code> to the
+application context path.
+</p>
+
+
+@author Richard Bowers (richard.bowers@cruk.cam.ac.uk)
+
+@see <a href="http://genologics.com/developer">Genologics Developer Documentation</a>
+@see <a href="http://spring.io/">The Spring Framework</a>
+@see <a href="http://www.oracle.com/technetwork/articles/javase/index-140168.html">Java Architecture for XML Binding (JAXB)</a>
+@see <a href="http://hc.apache.org/httpclient-3.x/">Apache HTTP Client</a>
+@see <a href="http://ehcache.org/">Ehcache</a>
+
+</body>

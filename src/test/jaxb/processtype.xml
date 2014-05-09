@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ptp:process-type xmlns:ptp="http://genologics.com/ri/processtype"
+                  uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11"
+                  name="Bioanalyzer QC (Library Validation) 4.0">
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11/fields/107" name="Criteria 1 - Source Data Field" />
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11/fields/108" name="Criteria 1 - Operator" />
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11/fields/109" name="Criteria 1 - Threshold Value" />
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11/fields/110" name="Criteria 2 - Source Data Field" />
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11/fields/111" name="Criteria 2 - Operator" />
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11/fields/112" name="Criteria 2 - Threshold Value" />
+    <field-definition uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11/fields/577" name="Comment" />
+    <parameter name="Parse Bioanalyzer XML and assign QC flags">
+        <string>bash -c &quot;/usr/bin/java -jar /opt/gls/clarity/extensions/ngs-common/v4/EPP/ngs-extensions.jar -i
+            {processURI:v2:http} -u {username} -p {password} script:parseBioAnalyzer -inputFile
+            {compoundOutputFileLuid0} -log {compoundOutputFileLuid3} -configFile
+            '/opt/gls/clarity/extensions/conf/bioanalyzer/defaultBioAnalyzerDNAConfig.groovy' script:assignQC -log
+            {compoundOutputFileLuid4} -qcResult {compoundOutputFileLuid5}&quot;</string>
+        <run-program-per-event>false</run-program-per-event>
+        <channel>limsserver</channel>
+        <invocation-type>PostProcess</invocation-type>
+    </parameter>
+    <parameter name="Do some other stuff">
+        <string>java SomeClass</string>
+        <run-program-per-event>true</run-program-per-event>
+        <channel>limsserver</channel>
+        <invocation-type>PostProcess</invocation-type>
+    </parameter>
+    <type-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udts/51" name="UDT1" />
+    <type-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udts/54" name="UDT2" />
+    <process-input>
+        <artifact-type>Analyte</artifact-type>
+        <display-name>Analyte</display-name>
+        <remove-working-flag>false</remove-working-flag>
+    </process-input>
+    <process-input>
+        <artifact-type>File</artifact-type>
+        <display-name>Previous Result File</display-name>
+        <remove-working-flag>true</remove-working-flag>
+    </process-input>
+    <process-output>
+        <artifact-type>ResultFile</artifact-type>
+        <display-name>ResultFile</display-name>
+        <output-generation-type>PerInput</output-generation-type>
+        <variability-type>Fixed</variability-type>
+        <number-of-outputs>1</number-of-outputs>
+        <output-name>Bioanalyzer Measurement</output-name>
+        <field-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udfs/18" name="Concentration" />
+        <field-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udfs/19" name="Conc. Units" />
+        <assign-working-flag>true</assign-working-flag>
+    </process-output>
+    <process-output>
+        <artifact-type>ResultFile</artifact-type>
+        <display-name>SharedResultFile</display-name>
+        <output-generation-type>PerAllInputs</output-generation-type>
+        <variability-type>Fixed</variability-type>
+        <number-of-outputs>6</number-of-outputs>
+        <output-name>{LIST:Bioanalyzer XML Result File (required),Result File,PDF Summary File,Bioanalyzer XML Parsing Log File,QC Assignment Log File,QC Assignment Report}</output-name>
+        <field-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udfs/18" name="Concentration" />
+        <field-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udfs/19" name="Conc. Units" />
+        <assign-working-flag>false</assign-working-flag>
+    </process-output>
+    <process-type-attribute name="Enabled">true</process-type-attribute>
+    <process-type-attribute name="Family">Configured</process-type-attribute>
+    <process-type-attribute name="ContextCode">BLQ</process-type-attribute>
+    <process-type-attribute name="OutputContextCode">BI</process-type-attribute>
+    <process-type-attribute name="ShowInButtonBar">false</process-type-attribute>
+    <process-type-attribute name="ShowInExplorer">true</process-type-attribute>
+    <process-type-attribute name="OpenPostProcess">true</process-type-attribute>
+    <process-type-attribute name="SupportsExternalProgram">true</process-type-attribute>
+    <process-type-attribute name="ProcessGroup">2b. Library Validation QC</process-type-attribute>
+    <process-type-attribute name="InheritsQC">false</process-type-attribute>
+    <process-type-attribute name="VolumeAdjustmentType">None</process-type-attribute>
+    <process-type-attribute name="QCAdjustmentType">None</process-type-attribute>
+    <process-type-attribute name="ModifyInputOutput">All</process-type-attribute>
+    <process-type-attribute name="IconConstant">REAGENT</process-type-attribute>
+    <process-type-attribute name="ConsumeVolume">false</process-type-attribute>
+    <process-type-attribute name="OnlyEnableDoneAtLastPanel">true</process-type-attribute>
+    <process-type-attribute name="ProcessTabView">Display the UDF information associated with all the outputs</process-type-attribute>
+    <process-type-attribute name="OutputContainerType">BioAnalyzer DNA 1000 Chip</process-type-attribute>
+    <process-type-attribute name="DefaultPlacementPattern">Place samples horizontally</process-type-attribute>
+    <process-type-attribute name="OutputSorting">Input LIMS ID</process-type-attribute>
+    <process-type-attribute name="SkipInputPanel">true</process-type-attribute>
+</ptp:process-type>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<cnf:field xmlns:cnf="http://genologics.com/ri/configuration"
+           uri="http://lims.cri.camres.org:8080/api/v2/configuration/udfs/310"
+           type="Numeric">
+    <name>Avg Q Score R1</name>
+    <attach-to-name>Analyte</attach-to-name>
+    <precision>1</precision>
+    <unit>points</unit>
+    <type-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udts/52" name="Unit Test Extra Type 1"/>
+    <show-in-lablink>true</show-in-lablink>
+    <allow-non-preset-values>true</allow-non-preset-values>
+    <first-preset-is-default-value>false</first-preset-is-default-value>
+    <show-in-tables>true</show-in-tables>
+    <is-editable>false</is-editable>
+    <is-deviation>false</is-deviation>
+    <is-controlled-vocabulary>false</is-controlled-vocabulary>
+    <parent-uri>http://lims.cri.camres.org:8080/api/v2/configuration/udfs/51</parent-uri>
+    <child-uri>http://lims.cri.camres.org:8080/api/v2/configuration/udfs/53</child-uri>
+    <child-uri>http://lims.cri.camres.org:8080/api/v2/configuration/udfs/54</child-uri>
+    <preset>Preset One</preset>
+    <preset>Preset Two</preset>
+    <min-value>4.0</min-value>
+    <max-value>20.0</max-value>
+    <is-required>false</is-required>
+    <attach-to-category>Tests</attach-to-category>
+</cnf:field>

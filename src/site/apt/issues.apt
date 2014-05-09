@@ -1,0 +1,5 @@
+Known Issues
+
+  [[1]] Possible issues with versions of <<<Artifact>>>s and their storage
+in the cache. {{{./caching.html#Artifacts_and_their_state_parameter}See the
+caching page for details.}}

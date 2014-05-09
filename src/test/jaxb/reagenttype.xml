@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<rtp:reagent-type xmlns:rtp="http://genologics.com/ri/reagenttype"
+                  uri="http://lims.cri.camres.org:8080/api/v2/reagenttypes/337"
+                  name="A712-A508 (AGGAGTGG-TAGACCTA)">
+    <special-type name="Index">
+        <attribute value="AGGAGTGG-TAGACCTA" name="Sequence" />
+        <attribute value="AGGAGTGG" name="Barcode 1" />
+        <attribute value="TAGACCTA" name="Barcode 2" />
+    </special-type>
+    <reagent-category>TruSeq Custom Amplicon Dual-index (A7-A5)</reagent-category>
+</rtp:reagent-type>

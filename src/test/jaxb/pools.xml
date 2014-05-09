@@ -1,0 +1,18 @@
+<stp:pools uri="http://localhost:8080/api/v2/steps/151-5052/pooling" xmlns:stp="http://genologics.com/ri/step">
+    <step rel="stuff" uri="http://localhost:8080/api/v2/steps/151-5052" />
+    <configuration uri="http://localhost:8080/api/v2/configuration/protocols/12/steps/58">Library Pooling (Illumina SBS) 4.0</configuration>
+    <pooled-inputs>
+        <pool name="Pool 1" output-uri="http://localhost:8080/api/v2/artifacts/2-21121">
+            <input uri="http://localhost:8080/api/v2/artifacts/2-23103" replicates="2" />
+            <input uri="http://localhost:8080/api/v2/artifacts/2-23104" replicates="4" />
+        </pool>
+        <pool name="Pool 2" output-uri="http://localhost:8080/api/v2/artifacts/2-21122">
+            <input uri="http://localhost:8080/api/v2/artifacts/2-23105" />
+            <input uri="http://localhost:8080/api/v2/artifacts/2-23106" />
+        </pool>
+    </pooled-inputs>
+    <available-inputs>
+        <input uri="http://localhost:8080/api/v2/artifacts/2-23107" replicates="5" />
+        <input uri="http://localhost:8080/api/v2/artifacts/2-23108" />
+    </available-inputs>
+</stp:pools>

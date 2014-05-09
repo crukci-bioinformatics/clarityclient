@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/DECORATION/1.4.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.4.0 http://maven.apache.org/xsd/decoration-1.4.0.xsd"
+         name="CRUK-CI Genologics API Client">
+
+    <body>
+        <menu name="User Guide">
+            <item name="Introduction" href="/index.html">
+                <description>
+                    The CRUK-CI Genologics Java Client provides the Java or Groovy developer
+                    a means to work with Genologics' REST API using objects rather than XML
+                    or DOM document trees.
+                </description>
+            </item>
+            <item name="Installation" href="/installing.html">
+                <description>
+                    How to build the client and include it in your programs.
+                </description>
+            </item>
+            <item name="Usage" href="/usageoverview.html">
+                <description>
+                    How to work with the client in your own code.
+                </description>
+                <item name="Spring Configuration" href="/spring.html">
+                    <description>
+                        Getting the client from Spring.
+                    </description>
+                </item>
+                <item name="Basic Usage" href="/usage.html">
+                    <description>
+                        Initialising the client and calling its methods.
+                    </description>
+                </item>
+                <item name="Caching" href="/caching.html">
+                    <description>
+                        How to use the cache to speed up your scripts.
+                    </description>
+                </item>
+                <item name="Server Deployment" href="/serverside.html">
+                    <description>
+                        How to use the client as part of a service running
+                        within an application or web server.
+                    </description>
+                </item>
+            </item>
+            <item name="Known Issues" href="/issues.html">
+                <description>
+                    Issues and ommissions.
+                </description>
+            </item>
+            <item name="Reference Documentation" href="/references.html">
+                <description>
+                    Further documentation for the keen reader.
+                </description>
+            </item>
+        </menu>
+        <menu ref="reports"/>
+    </body>
+</project>
+

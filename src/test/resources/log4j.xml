@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+
+<log4j:configuration debug="false">
+
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p ${chunk}{1} [%t] - %m%n"/>
+        </layout>
+    </appender>
+
+    <category name="org.cruk">
+        <priority value="ERROR"/>
+    </category>
+
+    <category name="org.cruk.genologics.api.tools">
+        <priority value="ERROR"/>
+    </category>
+
+    <category name="org.cruk.genologics.api.debugging.HttpClientTimingAspect">
+        <priority value="OFF"/>
+    </category>
+
+    <category name="org.cruk.genologics.api.debugging.RestClientSnoopingAspect">
+        <priority value="OFF"/>
+    </category>
+
+    <category name="org.cruk.genologics.api.cache.GenologicsAPICache">
+        <priority value="WARN"/>
+    </category>
+    <category name="org.cruk.genologics.api.cache.GenologicsAPICacheTest">
+        <priority value="OFF"/>
+    </category>
+
+    <category name="org.springframework.web.client.RestTemplate">
+        <priority value="OFF"/>
+    </category>
+
+    <root>
+        <priority value="ERROR" />
+        <appender-ref ref="console"/>
+    </root>
+
+</log4j:configuration>
