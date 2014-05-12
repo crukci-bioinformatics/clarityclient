@@ -44,8 +44,6 @@ import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.Locatable;
 import com.genologics.ri.file.GenologicsFile;
-import com.genologics.ri.process.GenologicsProcess;
-import com.genologics.ri.step.ProcessStep;
 
 /**
  * A cache optionally deployed around a {@code GenologicsAPI} bean as an aspect.
@@ -694,53 +692,32 @@ public class GenologicsAPICache
     }
 
     /**
-     * Join point for the {@code GenologicsAPI.executeProcess} method.
-     * Run the process and store the resulting {@code GenologicsProcess} object in the cache.
+     * Join point for the methods that take an object in to perform an operation and
+     * return an object as a result (not necessarily object passed in). For example,
+     * {@code GenologicsAPI.executeProcess} and {@code GenologicsAPI.beginProcessStep}.
+     *
+     * <p>Run the operation and store the resulting object in the cache (if cacheable).</p>
      *
      * @param pjp The join point object.
      *
-     * @return The GenologicsProcess object created by the execution.
+     * @return The object created by the operation.
      *
      * @throws Throwable if there is an error.
      *
      * @see GenologicsAPI#executeProcess(com.genologics.ri.processexecution.ExecutableProcess)
-     */
-    public GenologicsProcess executeProcess(ProceedingJoinPoint pjp) throws Throwable
-    {
-        GenologicsProcess process = (GenologicsProcess)pjp.proceed();
-
-        if (isCacheable(process))
-        {
-            Ehcache cache = getCache(process.getClass());
-            cache.put(createCacheElement(process));
-        }
-
-        return process;
-    }
-
-    /**
-     * Join point for the {@code GenologicsAPI.beginProcessStep} method.
-     * Begin the step and store the resulting {@code ProcessStep} object in the cache.
-     *
-     * @param pjp The join point object.
-     *
-     * @return The ProcessStep object created by beginning the step.
-     *
-     * @throws Throwable if there is an error.
-     *
      * @see GenologicsAPI#beginProcessStep(com.genologics.ri.step.StepCreation)
      */
-    public ProcessStep beginProcessStep(ProceedingJoinPoint pjp) throws Throwable
+    public Locatable runSomething(ProceedingJoinPoint pjp) throws Throwable
     {
-        ProcessStep step = (ProcessStep)pjp.proceed();
+        Locatable result = (Locatable)pjp.proceed();
 
-        if (isCacheable(step))
+        if (isCacheable(result))
         {
-            Ehcache cache = getCache(step.getClass());
-            cache.put(createCacheElement(step));
+            Ehcache cache = getCache(result.getClass());
+            cache.put(createCacheElement(result));
         }
 
-        return step;
+        return result;
     }
 
     /**

@@ -67,10 +67,10 @@
             <aop:around method="updateAll" pointcut="execution(public * updateAll(..)) and bean(genologicsAPI)" />
             <aop:around method="delete" pointcut="execution(public * delete(..)) and bean(genologicsAPI)" />
             <aop:around method="deleteAll" pointcut="execution(public * deleteAll(..)) and bean(genologicsAPI)" />
-            <aop:around method="executeProcess" pointcut="execution(public * executeProcess(..)) and bean(genologicsAPI)" />
-            <aop:around method="beginProcessStep" pointcut="execution(public * beginProcessStep(..)) and bean(genologicsAPI)" />
             <aop:around method="uploadFile" pointcut="execution(public * uploadFile(..)) and bean(genologicsAPI)" />
             <aop:around method="deleteAndRemoveFile" pointcut="execution(public * deleteAndRemoveFile(..)) and bean(genologicsAPI)" />
+            <aop:around method="runSomething" pointcut="execution(public * executeProcess(..)) and bean(genologicsAPI)" />
+            <aop:around method="runSomething" pointcut="execution(public * beginProcessStep(..)) and bean(genologicsAPI)" />
         </aop:aspect>
     </aop:config>
 
