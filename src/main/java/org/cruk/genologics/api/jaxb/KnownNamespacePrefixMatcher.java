@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,6 +23,8 @@ import static com.genologics.ri.Namespaces.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.XMLConstants;
 
 import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
 import com.sun.xml.bind.v2.WellKnownNamespace;
@@ -42,8 +44,8 @@ public class KnownNamespacePrefixMatcher extends NamespacePrefixMapper
     {
         Map<String, String> map = new HashMap<String, String>();
 
-        map.put(WellKnownNamespace.XML_SCHEMA_INSTANCE, "xsi");
-        map.put(WellKnownNamespace.XML_SCHEMA, "xsd");
+        map.put(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi");
+        map.put(XMLConstants.W3C_XML_SCHEMA_NS_URI, "xsd");
         map.put(WellKnownNamespace.XML_MIME_URI, "xmime");
 
         map.put(ROOT_NAMESPACE, "ri");
