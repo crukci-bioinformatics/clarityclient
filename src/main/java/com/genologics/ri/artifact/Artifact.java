@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -76,7 +76,7 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
     protected String type;
 
     @XmlElement(name = "output-type")
-    protected String outputType;
+    protected OutputType outputType;
 
     @XmlElement(name = "parent-process")
     protected ParentProcessLink parentProcess;
@@ -135,12 +135,12 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
         this.type = value;
     }
 
-    public String getOutputType()
+    public OutputType getOutputType()
     {
         return outputType;
     }
 
-    public void setOutputType(String value)
+    public void setOutputType(OutputType value)
     {
         this.outputType = value;
     }

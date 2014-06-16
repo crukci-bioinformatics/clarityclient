@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.Location;
+import com.genologics.ri.artifact.OutputType;
 import com.genologics.ri.container.Container;
 
 /**
@@ -42,18 +43,18 @@ public class Output extends ArtifactBase
     protected Location location;
 
     @XmlAttribute(name = "type")
-    protected String type;
+    protected OutputType type;
 
     public Output()
     {
     }
 
-    public Output(String type)
+    public Output(OutputType type)
     {
         this.type = type;
     }
 
-    public Output(String type, LimsEntityLinkable<Container> container, String position)
+    public Output(OutputType type, LimsEntityLinkable<Container> container, String position)
     {
         this.type = type;
         setLocation(container, position);
@@ -76,12 +77,12 @@ public class Output extends ArtifactBase
         return this.location;
     }
 
-    public String getType()
+    public OutputType getType()
     {
         return type;
     }
 
-    public void setType(String type)
+    public void setType(OutputType type)
     {
         this.type = type;
     }

@@ -52,6 +52,7 @@ import com.genologics.ri.LimsEntity;
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.Locatable;
 import com.genologics.ri.artifact.Artifact;
+import com.genologics.ri.artifact.OutputType;
 import com.genologics.ri.container.Container;
 import com.genologics.ri.containertype.ContainerType;
 import com.genologics.ri.containertype.ContainerTypeLink;
@@ -443,7 +444,7 @@ public class GenologicsAPICacheTest
 
         iomap.setShared(true);
         iomap.setInputs(Arrays.asList(artifacts));
-        iomap.setOutput("Analyte", poolContainer, "1:1");
+        iomap.setOutput(OutputType.ANALYTE, poolContainer, "1:1");
 
         GenologicsProcess poolProcess = api.executeProcess(execProcess);
         assertNotNull("No pool process returned", poolProcess);

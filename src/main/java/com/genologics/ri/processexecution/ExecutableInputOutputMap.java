@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
+import com.genologics.ri.artifact.OutputType;
 import com.genologics.ri.container.Container;
 
 /**
@@ -114,7 +115,7 @@ public class ExecutableInputOutputMap implements Serializable
         return this.output;
     }
 
-    public Output setOutput(String type, LimsEntityLinkable<Container> container, String position)
+    public Output setOutput(OutputType type, LimsEntityLinkable<Container> container, String position)
     {
         this.output = new Output(type, container, position);
         return this.output;

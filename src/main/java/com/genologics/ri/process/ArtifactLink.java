@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 import com.genologics.ri.LimsEntityLink;
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.artifact.Artifact;
+import com.genologics.ri.artifact.OutputType;
 
 /**
  *
@@ -52,7 +53,7 @@ public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
     protected String limsid;
 
     @XmlAttribute(name = "output-type")
-    protected String outputType;
+    protected OutputType outputType;
 
     @XmlAttribute(name = "output-generation-type")
     protected OutputGenerationType outputGenerationType;
@@ -113,12 +114,12 @@ public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
         this.limsid = limsid;
     }
 
-    public String getOutputType()
+    public OutputType getOutputType()
     {
         return outputType;
     }
 
-    public void setOutputType(String outputType)
+    public void setOutputType(OutputType outputType)
     {
         this.outputType = outputType;
     }

@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -1358,9 +1358,15 @@ public class GenologicsAPITools
                 for (InputOutputMap iomap : p.getInputOutputMaps())
                 {
                     ArtifactLink output = iomap.getOutput();
-                    if (output != null && currentLimsId.equals(iomap.getInput().getLimsid()) && "Analyte".equals(output.getOutputType()))
+                    if (output != null && currentLimsId.equals(iomap.getInput().getLimsid()))
                     {
-                        outputs.put(output.getLimsid(), output);
+                        switch (output.getOutputType())
+                        {
+                            case ANALYTE:
+                            case SAMPLE:
+                                outputs.put(output.getLimsid(), output);
+                                break;
+                        }
                     }
                 }
 
