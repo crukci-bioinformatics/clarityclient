@@ -148,12 +148,12 @@
             <url>ssh://git@github.com/crukci-bioinformatics/clarityclient</url>
         </site>
         <repository>
-            <id>uk-cri-lbio01</id>
-            <url>sftp://uk-cri-lbio01.crnet.org/var/www/html/maven</url>
+            <id>bioinformatics</id>
+            <url>sftp://internal-bioinformatics.cruk.cam.ac.uk/var/www/html/maven</url>
         </repository>
         <snapshotRepository>
-            <id>uk-cri-lbio01</id>
-            <url>sftp://uk-cri-lbio01.crnet.org/var/www/html/maven</url>
+            <id>bioinformatics</id>
+            <url>sftp://internal-bioinformatics.cruk.cam.ac.uk/var/www/html/maven</url>
         </snapshotRepository>
     </distributionManagement>
 
