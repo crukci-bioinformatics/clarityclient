@@ -29,31 +29,31 @@
     <version>2.18-SNAPSHOT</version>
 
     <name>CRUK-CI Genologics API Client</name>
-    
+
     <description>
         A Java client for working with Genologics' REST API.
     </description>
-    
+
     <url>http://crukci-bioinformatics.github.io/clarityclient</url>
 
     <inceptionYear>2013</inceptionYear>
-    
+
     <scm>
         <connection>scm:git:https://github.com/crukci-bioinformatics/clarityclient</connection>
         <developerConnection>scm:git:ssh://git@github.com/crukci-bioinformatics/clarityclient</developerConnection>
         <url>https://github.com/crukci-bioinformatics/clarityclient</url>
     </scm>
-    
+
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/crukci-bioinformatics/clarityclient/issues</url>
     </issueManagement>
-    
+
     <organization>
         <name>Cancer Research UK Cambridge Institute</name>
         <url>http://www.cruk.cam.ac.uk</url>
     </organization>
-    
+
     <developers>
         <developer>
             <name>Richard Bowers</name>
@@ -65,7 +65,7 @@
             </roles>
         </developer>
     </developers>
-    
+
     <licenses>
         <license>
             <name>GNU General Public License, version 3.0</name>
@@ -149,11 +149,11 @@
         </site>
         <repository>
             <id>bioinformatics</id>
-            <url>sftp://internal-bioinformatics.cruk.cam.ac.uk/var/www/html/maven</url>
+            <url>scpexe://internal-bioinformatics.cruk.cam.ac.uk/var/www/html/maven</url>
         </repository>
         <snapshotRepository>
             <id>bioinformatics</id>
-            <url>sftp://internal-bioinformatics.cruk.cam.ac.uk/var/www/html/maven</url>
+            <url>scpexe://internal-bioinformatics.cruk.cam.ac.uk/var/www/html/maven</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -162,6 +162,11 @@
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
                 <artifactId>wagon-ssh</artifactId>
+                <version>2.6</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
                 <version>2.6</version>
             </extension>
         </extensions>
