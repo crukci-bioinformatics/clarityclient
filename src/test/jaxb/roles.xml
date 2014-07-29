@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<role:roles xmlns:role="http://genologics.com/ri/role"
+            uri="http://localhost:8090/api/v2/roles">
+    <role name="researcher" uri="http://localhost:8090/api/v2/roles/10"/>
+    <role name="systemadministrator" uri="http://localhost:8090/api/v2/roles/1"/>
+    <role name="genomics" uri="http://localhost:8090/api/v2/roles/14"/>
+</role:roles>

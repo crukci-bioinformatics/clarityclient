@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -72,7 +72,7 @@ public class GenologicsAPIToolsTest
         api = context.getBean("toolsTestAPI", GenologicsAPI.class);
 
         // Doesn't matter for tests, as it's not going to go to the real server anyway.
-        api.setServer(new URL("http://limsdev.cri.camres.org"));
+        api.setServer(new URL("http://limsdev.cruk.cam.ac.uk"));
 
         tools = new GenologicsAPITools();
         tools.setGenologicsAPI(api);

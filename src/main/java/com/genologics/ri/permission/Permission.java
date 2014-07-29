@@ -24,16 +24,20 @@ import java.net.URI;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.Linkable;
 
 /**
  * @since 2.19
  */
+@GenologicsEntity(uriSection = "permissions")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "permission", propOrder = { "name", "action", "description" })
+@XmlRootElement(name = "permission")
 public class Permission implements Linkable<Permission>, Serializable
 {
     private static final long serialVersionUID = 5000872708185118382L;

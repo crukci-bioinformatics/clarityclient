@@ -21,10 +21,10 @@
         <username>unittest</username>
         <password>pass</password>
         <account-locked>false</account-locked>
-        <role roleName="systemadministrator" />
-        <role roleName="webclient" />
-        <role roleName="administrator" />
-        <role roleName="labtech" />
+        <role roleName="systemadministrator" name="sysadmin" uri="http://localhost:8090/api/v2/roles/1" />
+        <role roleName="webclient" uri="http://localhost:8090/api/v2/roles/4" />
+        <role roleName="administrator" uri="http://localhost:8090/api/v2/roles/2" />
+        <role roleName="labtech" name="genomics" uri="http://localhost:8090/api/v2/roles/14" />
     </credentials>
     <initials>UNT</initials>
 </res:researcher>

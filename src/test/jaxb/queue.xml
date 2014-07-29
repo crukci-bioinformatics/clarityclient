@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<que:queue xmlns:que="http://genologics.com/ri/queue"
+           uri="http://limsdev.cri.camres.org:8080/api/v2/queues/STEP11"
+           protocol-step-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/49"
+           name="MiSeq Load Cartridge">
+    <artifacts>
+        <artifact uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A8PA1" limsid="ADM2A8PA1">
+            <queue-time>2014-04-02T13:05:01.895Z</queue-time>
+            <location>
+                <container uri="http://lims.cri.camres.org:8080/api/v2/containers/27-12" limsid="27-12" />
+                <value>1:1</value>
+            </location>
+        </artifact>
+        <artifact uri="http://lims.cri.camres.org:8080/api/v2/artifacts/ADM2A8PA1" limsid="ADM2A8PA1">
+            <queue-time>2014-04-02T15:05:34.768Z</queue-time>
+            <location>
+                <container uri="http://lims.cri.camres.org:8080/api/v2/containers/27-12" limsid="27-12" />
+                <value>1:1</value>
+            </location>
+        </artifact>
+    </artifacts>
+    <previous-page uri="http://limsdev.cri.camres.org:8080/api/v2/queues/STEP11?start-index=1"/>
+    <next-page uri="http://limsdev.cri.camres.org:8080/api/v2/queues/STEP11?start-index=1000"/>
+</que:queue>

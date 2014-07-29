@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<role:role xmlns:role="http://genologics.com/ri/role"
+           uri="http://localhost:8090/api/v2/roles/10"
+           built-in="true">
+    <name>researcher</name>
+    <researchers>
+        <researcher first-name="Automated" last-name="Unit Test" uri="http://lims.cri.camres.org:8080/api/v2/researchers/204"/>
+        <researcher first-name="Harry" last-name="Biscuit" uri="http://lims.cri.camres.org:8080/api/v2/researchers/20"/>
+        <researcher first-name="Pip" last-name="Bin" uri="http://lims.cri.camres.org:8080/api/v2/researchers/21"/>
+    </researchers>
+    <permissions>
+        <permission action="commit" name="Committer" uri="http://localhost:8090/api/v2/permissions/p1"/>
+        <permission action="select" name="Reader" uri="http://localhost:8090/api/v2/permissions/p2"/>
+    </permissions>
+</role:role>

@@ -29,9 +29,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.Linkable;
 import com.genologics.ri.Page;
 import com.genologics.ri.PaginatedBatch;
 
@@ -48,9 +51,11 @@ import com.genologics.ri.PaginatedBatch;
  *
  * @since 2.19
  */
+@GenologicsEntity(uriSection = "queue", cacheable = false)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "queue", propOrder = { "artifacts", "previousPage", "nextPage" })
-public class Queue implements PaginatedBatch<ArtifactLink>, Serializable
+@XmlRootElement(name = "queue")
+public class Queue implements PaginatedBatch<ArtifactLink>, Linkable<Queue>, Serializable
 {
     private static final long serialVersionUID = 4372664462524847744L;
 

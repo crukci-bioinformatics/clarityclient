@@ -28,9 +28,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.Linkable;
 
 /**
@@ -39,8 +41,10 @@ import com.genologics.ri.Linkable;
  *
  * @since 2.19
  */
+@GenologicsEntity(uriSection = "roles", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "role", propOrder = { "name", "researchers", "permissions" })
+@XmlRootElement(name = "role")
 public class Role implements Linkable<Role>, Serializable
 {
     private static final long serialVersionUID = 5417064490465819346L;

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<perm:permissions xmlns:perm="http://genologics.com/ri/permission"
+                  uri="http://localhost:8090/api/v2/permissions">
+    <permission action="commit" name="Committer" uri="http://localhost:8090/api/v2/permissions/p1"/>
+    <permission action="select" name="Reader" uri="http://localhost:8090/api/v2/permissions/p2"/>
+    <permission action="create" name="Creator" uri="http://localhost:8090/api/v2/permissions/p4"/>
+</perm:permissions>

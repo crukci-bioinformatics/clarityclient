@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -68,6 +68,8 @@ import com.genologics.ri.file.GenologicsFile;
 import com.genologics.ri.file.GenologicsFileBatchFetchResult;
 import com.genologics.ri.instrument.Instrument;
 import com.genologics.ri.lab.Lab;
+import com.genologics.ri.permission.Permission;
+import com.genologics.ri.permission.Permissions;
 import com.genologics.ri.process.GenologicsProcess;
 import com.genologics.ri.processexecution.ExecutableProcess;
 import com.genologics.ri.processtemplate.ProcessTemplate;
@@ -75,10 +77,13 @@ import com.genologics.ri.processtype.ProcessType;
 import com.genologics.ri.project.Project;
 import com.genologics.ri.protocolconfiguration.Protocol;
 import com.genologics.ri.protocolconfiguration.Protocols;
+import com.genologics.ri.queue.Queue;
 import com.genologics.ri.reagentkit.ReagentKit;
 import com.genologics.ri.reagentlot.ReagentLot;
 import com.genologics.ri.reagenttype.ReagentType;
 import com.genologics.ri.researcher.Researcher;
+import com.genologics.ri.role.Role;
+import com.genologics.ri.role.Roles;
 import com.genologics.ri.routing.Routing;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.sample.SampleBatchFetchResult;
@@ -423,6 +428,37 @@ public class JaxbAnnotationTest
         fetchMarshalAndCompare(StepCreation.class);
     }
 
+    // Clarity 3.1 additions
+
+    @Test
+    public void testPermissions() throws Throwable
+    {
+        fetchMarshalAndCompare(Permissions.class);
+    }
+
+    @Test
+    public void testPermission() throws Throwable
+    {
+        fetchMarshalAndCompare(Permission.class);
+    }
+
+    @Test
+    public void testQueue() throws Throwable
+    {
+        fetchMarshalAndCompare(Queue.class);
+    }
+
+    @Test
+    public void testRoles() throws Throwable
+    {
+        fetchMarshalAndCompare(Roles.class);
+    }
+
+    @Test
+    public void testRole() throws Throwable
+    {
+        fetchMarshalAndCompare(Role.class);
+    }
 
 
     private void fetchMarshalAndCompare(Class<?> entityClass) throws Throwable
