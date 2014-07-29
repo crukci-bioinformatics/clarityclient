@@ -1,0 +1,102 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/queue" xmlns:que="http://genologics.com/ri/queue" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="queue" type="que:queue"/>
+  <xs:complexType name="queue">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a queue.<br/><br/>
+It represents and is used to list all of the elements contained within a queue. A queue is a representation of
+samples that are ready to run through a Protocol Step.<br/><br/>
+Each artifact listed in the queue will contain elements to show when it was queued and its container location.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="artifacts" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Artifact provides a URI linking to the detailed representation of an artifact.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="artifact" type="que:artifact-link" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[Artifact provides a URI linking to the detailed representation of an artifact.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of artifacts,
+the previous-page element provides a URI that links to the previous page of artifacts.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[When working with large lists of artifacts,
+the next-page element provides a URI that links to the next page of artifacts.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the queue.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="protocol-step-uri" type="xs:anyURI"/>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the queue (protocol step)]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="artifact-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Artifact-link is a child element type of artifacts and provides a URI linking to the detailed representation of an artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="queue-time" type="xs:dateTime" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The Timestamp representing when the artifact was queued]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="location" type="ri:location" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The container placement of the artifact.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the artifact.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The LIMSID of the artifact.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

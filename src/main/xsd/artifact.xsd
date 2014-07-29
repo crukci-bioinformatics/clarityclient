@@ -8,10 +8,10 @@
   <xs:complexType name="artifact">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[<p>The detailed representation of an Artifact.</p>
-<p>An Artifact represents the inputs to or outputs from a process. An Artifact is
-classified by its type (Analyte, ResultFile, etc).</p>
-<p>Artifacts do not support HTTP POST requests.</p>]]>
+        <![CDATA[The detailed representation of an Artifact.<br/><br/>
+An Artifact represents the inputs to or outputs from a process. An Artifact is
+classified by its type (Analyte, ResultFile, etc).<br/><br/>
+Artifacts do not support HTTP POST requests.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -113,17 +113,16 @@ submitted Sample for the Artifact.
         <xs:annotation>
           <xs:documentation>
             <![CDATA[A reagent label applied to the Artifact.
-This element is repeated for each reagent label applied to the Artifact.
-<p>
+This element is repeated for each reagent label applied to the Artifact.<br/><br/>
 Reagent labels can be explicitly added to Artifacts in different ways:
-</p>
 <ul>
 <li>in the client, when importing Samples;</li>
 <li>in the client, when running any Processes for adding Reagents;</li>
 <li>in the API, by updating an artifact representation to include reagent labels.</li>
 </ul>
-<p>Additionally, reagent labels will be automatically copied from inputs to outputs when a Process is run.</p>
-<p>Reagent labels are conventionally named after the type of reagent (see the Reagent Type endpoint) they correspond to.</p>
+<br/><br/>
+Additionally, reagent labels will be automatically copied from inputs to outputs when a Process is run.
+Reagent labels are conventionally named after the type of reagent (see the Reagent Type endpoint) they correspond to.
 <br/>Always returns with GET: No
 <br/>Updatable with PUT: Yes
 <br/>Required for PUT: No, but if not provided, reagent labels are cleared]]>
@@ -329,12 +328,11 @@ to the detailed representation of a submitted Sample for the Artifact.]]>
   <xs:complexType name="artifacts">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The representation of a list of artifact links.
-<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+        <![CDATA[The representation of a list of artifact links.<br/><br/>
+The system enforces a maximum number of elements when generating the list of links. When the size of
 the request result set is larger than the system maximum, the list represents a paged view of the overall
 results, and the previous-page and next-page elements provide URIs linking to the previous or next page
-of links in the overall results.
-</p>]]>
+of links in the overall results.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

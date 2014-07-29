@@ -5,11 +5,11 @@
   <xs:complexType name="protocol">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[<p> Detailed representation of a protocol.</p>
-<p> A protocol represents a collection of different steps.
+        <![CDATA[Detailed representation of a protocol.<br/><br/>
+A protocol represents a collection of different steps.
 A protocol can be a QC protocol meaning samples go through the process
 mostly in parallel or a normal protocol, where samples go
-through in series.</p>]]>
+through in series.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -101,10 +101,10 @@ suitable for use when copying protocols, but should not be manipulated.]]>
   <xs:complexType name="protocols">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[Returns the representation of a list of protocols
-<p> A list of protocols available in the system,
+        <![CDATA[Returns the representation of a list of protocols.<br/><br/>
+A list of protocols available in the system,
 providing names and URIs to access more detailed representations of the
-protocols</p>]]>
+protocols.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

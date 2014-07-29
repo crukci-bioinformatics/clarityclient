@@ -5,30 +5,31 @@
   <xs:complexType name="container-type">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The detailed representation of a container type.
-<p>The container type describes the physical characteristics of a class of containers such as
+        <![CDATA[The detailed representation of a container type.<br/><br/>
+The container type describes the physical characteristics of a class of containers such as
 the number of wells in the container as well as describing the coordinate system used for identifying
-those wells.</p>
-<p>The container type is described using a rectangular coordinate system. The
+those wells.<br/><br/>
+The container type is described using a rectangular coordinate system. The
 characteristics of the horizontal axis are described by the x-dimension element, and the characteristics
 of the vertical dimension are described by the y-dimension child elements. The characteristics of
 each dimension included both the size in that dimension as well as the identification method for
 values in that dimension. Values can be identified either numerically where 0 is the first item or
 alphabetically where A is the first element. Additionally an offset can be specified which shifts the
 value of the first element by a fixed amount. When a well location is represented using the coordinate
-system, it is shown as Y-Value:X-Value (for example A:1).<p>
-<p>The following are examples of the coordinate system:<p>
+system, it is shown as Y-Value:X-Value (for example A:1).<br/><br/>
+The following are examples of the coordinate system:
 <ul>
 <li>Y-Dimension: alphabetic, size 1, offset 0. X-Dimension: numeric, size 1, offset 0. Size: 1. Valid value: A:0</li>
 <li>Y-Dimension: alphabetic, size 12, offset 0. X-Dimension: numeric, size 8, offset 0. Size: 96. Valid values: A:0 ... L:7</li>
 <li>Y-Dimension: alphabetic, size 8, offset 0. X-Dimension: numeric, size 12, offset 1. Size: 96. Valid values: A:1 ... H:12</li>
 </ul>
-<p>The container type also identifies wells in the container that are not available for storing
+<br/><br/>
+The container type also identifies wells in the container that are not available for storing
 samples or reagents, either because the configuration of the container requires those wells to
 be empty for the instrument configuration or because the well contains specific calibrants that
 are required by the instrument. The well location of the calibrant or unavailable wells is specified
 using the coordinate system that is described by the x-dimension and y-dimension of the container
-type.</p>]]>
+type.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -139,10 +140,10 @@ of the horizontal and vertical dimensions of the coordinate system of the contai
       <xs:element name="is-alpha" type="xs:boolean" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[The is-alpha flag is used for identifying well location.
-<p>When is-alpha is true, the component of the well location from the dimension is represented
+            <![CDATA[The is-alpha flag is used for identifying well location.<br/><br/>
+When is-alpha is true, the component of the well location from the dimension is represented
 using letters where A is the first value. Whe is-alpha is false, the component of the well
-location from the dimension is represented using numbers where 0 is the first value.</p>
+location from the dimension is represented using numbers where 0 is the first value.
 <br/>Always returns with GET: Yes
 <br/>Creatable with POST: Yes
 <br/>Required for POST: Yes]]>
@@ -152,9 +153,9 @@ location from the dimension is represented using numbers where 0 is the first va
       <xs:element name="offset" type="xs:int" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[The offset of this dimension.
-<p>If is-alpha is true, the system
-will ignore any value provided for POST and use 0 for alpha offset.</p>
+            <![CDATA[The offset of this dimension.<br/><br/>
+If is-alpha is true, the system
+will ignore any value provided for POST and use 0 for alpha offset.
 <br/>Always returns with GET: Yes
 <br/>Creatable with POST: Yes
 <br/>Required for POST: Yes]]>
@@ -185,12 +186,11 @@ cannot be used by containers of the container type to store artifacts or reagent
   <xs:complexType name="container-types">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The representation for a list of container type links.
-<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+        <![CDATA[The representation for a list of container type links.<br/><br/>
+The system enforces a maximum number of elements when generating the list of links. When the size of
 the request result set is larger than the system maximum, the list represents a paged view of the overall
 results, and the previous-page and next-page elements provide URIs linking to the previous or next page
-of links in the overall results.
-</p>]]>
+of links in the overall results.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

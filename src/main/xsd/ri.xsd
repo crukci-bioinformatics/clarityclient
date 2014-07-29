@@ -78,9 +78,9 @@
   <xs:complexType name="location">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[<p>Location provides a URI linking to the detailed representation of a Container along with the well location within that Container.</p>
-<p>Location is used by representations to describe their location within a Container. For example Artifact and
-reagent use location to describe which Container they are located in.</p>]]>
+        <![CDATA[Location provides a URI linking to the detailed representation of a Container along with the well location within that Container.<br/><br/>
+Location is used by representations to describe their location within a Container. For example Artifact and
+reagent use location to describe which Container they are located in.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -140,23 +140,23 @@ of the Container for the location.]]>
     <xs:annotation>
       <xs:documentation>
         <![CDATA[An external id is a reference to an identifier in an external system that contains additional information
-about a representation within the API.
-<p>External id is supported on representations that contain links back to external systems.</p>
-<p>External id consists of two different URI type elements: id and URI. ID is the URI referencing
+about a representation within the API.<br/><br/>
+External id is supported on representations that contain links back to external systems.<br/><br/>
+External id consists of two different URI type elements: id and URI. ID is the URI referencing
 the external system, and provides context and identification of the representation within that system. URI
 is the URI within the system, and provides a means of looking up the representation that the external id
-is associated with.</p>]]>
+is associated with.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:attribute name="id" type="xs:anyURI">
       <xs:annotation>
         <xs:documentation>
-          <![CDATA[A URI identifying the representation in an external system.
-<p>The form of the id URI can be either a URL or URN, but it must include
+          <![CDATA[A URI identifying the representation in an external system.<br/><br/>
+The form of the id URI can be either a URL or URN, but it must include
 sufficient information to identify both the external system and the representation
-within that system.</p>
-<p>For a URN, the namespace identifier component should identify the external system.</p>
-<p>For a URL, the URL should be an absolute URL and not a relative URL to identify the external system.</p>]]>
+within that system.<br/><br/>
+For a URN, the namespace identifier component should identify the external system.
+For a URL, the URL should be an absolute URL and not a relative URL to identify the external system.]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -187,10 +187,10 @@ within that system.</p>
   <xs:complexType name="link">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[A link provides a URI linking to an additional resource.
-<p>The link is modelled on the link element defined by the
+        <![CDATA[A link provides a URI linking to an additional resource.<br/><br/>
+The link is modelled on the link element defined by the
 <a href="http://atompub.org/rfc4287.html">Atom Syndication Format</a>. The link includes
-a rel attribute that describes the URI of the link.</p>]]>
+a rel attribute that describes the URI of the link.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:attribute name="rel" type="xs:string">
@@ -211,13 +211,12 @@ a rel attribute that describes the URI of the link.</p>]]>
   <xs:complexType name="page">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The link to a page of additional content.
-<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+        <![CDATA[The link to a page of additional content.<br/><br/>
+The system enforces a maximum number of elements when generating the list of links. When the size of
 the request result set is larger than the system maximum, the list represents a paged view of the overall
 results, and the previous-page and next-page elements provide URIs linking to the previous or next page
-of links in the overall results.
-</p>
-<p>The previous-page and next-page elements are represented using the page type.</p>]]>
+of links in the overall results.<br/><br/>
+The previous-page and next-page elements are represented using the page type.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:attribute name="uri" type="xs:anyURI">

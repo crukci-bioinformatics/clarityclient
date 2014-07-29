@@ -748,9 +748,9 @@ There will be a distinct input-output-map for each pairing of step input to step
   <xs:complexType name="input-output-map">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[Input-output-map is a child element of Step and relates one of the Step inputs to one of the outputs that was produced for that input.
-<p>There will be a distinct input-output-map for each pairing of Step input to Step output.</p>
-<p>If an input is not mapped to any outputs, the input will be listed with no outputs.</p>]]>
+        <![CDATA[Input-output-map is a child element of Step and relates one of the Step inputs to one of the outputs that was produced for that input.<br/><br/>
+There will be a distinct input-output-map for each pairing of Step input to Step output.
+If an input is not mapped to any outputs, the input will be listed with no outputs.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

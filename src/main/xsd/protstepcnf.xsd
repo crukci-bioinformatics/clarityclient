@@ -3,11 +3,11 @@
   <xs:complexType name="step">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[<p>Detailed representation of a Step</p>
-<p>Steps are the elements that compose
+        <![CDATA[Detailed representation of a Step.<br/><br/>
+Steps are the elements that compose
 protocols. They have various properties
 regarding different UDFs contained on each view of the step
-as well as configuration option and filters</p>]]>
+as well as configuration option and filters.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

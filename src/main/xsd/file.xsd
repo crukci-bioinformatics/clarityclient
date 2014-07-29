@@ -16,7 +16,7 @@
   <xs:complexType name="file">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[<p>The file element contains information about a file in the system.</p>]]>
+        <![CDATA[The file element contains information about a file in the system.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -102,8 +102,8 @@ To publish a file to LabLink, use 'true'.
     <xs:annotation>
       <xs:documentation>
         <![CDATA[The file-link type provides a URI that links to information about a file in the system.
-<p>Elements of this type are used for lists of files, or by resources that have attached files to
-identify and link to further information about the file.</p>]]>
+Elements of this type are used for lists of files, or by resources that have attached files to
+identify and link to further information about the file.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:attribute name="uri" type="xs:string">
@@ -124,12 +124,11 @@ identify and link to further information about the file.</p>]]>
   <xs:complexType name="files">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The representation for a list of file links.
-<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+        <![CDATA[The representation for a list of file links.<br/><br/>
+The system enforces a maximum number of elements when generating the list of links. When the size of
 the request result set is larger than the system maximum, the list represents a paged view of the overall
 results, and the previous-page and next-page elements provide URIs linking to the previous or next page
-of links in the overall results.
-</p>]]>
+of links in the overall results.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

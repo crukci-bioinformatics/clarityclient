@@ -1,0 +1,101 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/permission" xmlns:perm="http://genologics.com/ri/permission" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="permission" type="perm:permission"/>
+  <xs:element name="permissions" type="perm:permissions"/>
+  <xs:complexType name="permission">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a Permission]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Permission name. The combination of name and action must be unique.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="action" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Permission action. The combination of name and action must be unique.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="description" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Permission description
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Permission.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="permissions">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[API representation of a list of Permissions]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="permission" type="perm:permission-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The list of Permissions
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Permissions LIST endpoint
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="permission-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Permission-link is a child element type of permissions and provides a URI linking to the detailed representation of a Permission.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="action" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The action this Permission is granting
+<br/>Always returns with GET: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of this Permission
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Permission
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

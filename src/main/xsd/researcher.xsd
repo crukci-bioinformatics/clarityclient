@@ -212,7 +212,8 @@ cannot log into the system.
       <xs:element name="role" type="res:role" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[The type of system access assigned to the researcher's user account.
+            <![CDATA[The type of system access assigned to the researcher's user account. When adding a new role you must provide
+at least one of: URI, name, or roleName.
 <br/>Always returns with GET: Yes
 <br/>Creatable with POST: Yes
 <br/>Required for POST: Yes
@@ -250,14 +251,27 @@ You can repeat the element to provide a researcher with access to more
 than one area of the system. When submitting a PUT request to update a researcher's credentials
 (any child elements within the credentials element), your XML must include the current roles for the researcher.
 If you do not include all of the current roles, the system will remove the current data and the researcher will
-no longer have access to the system.]]>
+no longer have access to the system. When adding a new role you must provide at least one of: URI, name, or roleName.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:attribute name="roleName" type="xs:string">
       <xs:annotation>
         <xs:documentation>
-          <![CDATA[The name of the security role assigned to the researcher.
+          <![CDATA[The internal name of the security role assigned to the researcher. Only used by built-in roles.
 Acceptable values are: "systemadministrator", "administrator", "labtech", and "webclient".
+This attribute is deprecated and will be removed in the next major API version.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The user-facing name of the security role assigned to the researcher. Must be unique.
 <br/>Always returns with GET: Yes
 <br/>Creatable with POST: Yes
 <br/>Required for POST: Yes
@@ -266,16 +280,23 @@ Acceptable values are: "systemadministrator", "administrator", "labtech", and "w
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Role.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
   <xs:complexType name="researchers">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The representation of a list of researcher links.
-<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+        <![CDATA[The representation of a list of researcher links.<br/><br/>
+The system enforces a maximum number of elements when generating the list of links. When the size of
 the request result set is larger than the system maximum, the list represents a paged view of the overall
 results, and the previous-page and next-page elements provide URIs linking to the previous or next page
-of links in the overall results.
-</p>]]>
+of links in the overall results.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

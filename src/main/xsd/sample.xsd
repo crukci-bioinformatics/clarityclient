@@ -90,7 +90,7 @@ If a Control Type is associated, the Sample will not have an associated Project.
   <xs:complexType name="samplebase">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[<p>The base representation of a Sample, defining common elements for both Sample and Sample creation.</p>]]>
+        <![CDATA[The base representation of a Sample, defining common elements for both Sample and Sample creation.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -410,7 +410,7 @@ Biosource is not supported in Clarity.]]>
   <xs:complexType name="samplecreation">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[<p>Sample creation is the detailed representation required when creating a new Sample in the system.</p>]]>
+        <![CDATA[Sample creation is the detailed representation required when creating a new Sample in the system.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
@@ -433,12 +433,11 @@ Biosource is not supported in Clarity.]]>
   <xs:complexType name="samples">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The representation for a list of sample links.
-<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+        <![CDATA[The representation for a list of sample links.<br/><br/>
+The system enforces a maximum number of elements when generating the list of links. When the size of
 the request result set is larger than the system maximum, the list represents a paged view of the overall
 results, and the previous-page and next-page elements provide URIs linking to the previous or next page
-of links in the overall results.
-</p>]]>
+of links in the overall results.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,11 +19,15 @@
 package com.genologics.ri.researcher;
 
 import java.io.Serializable;
+import java.net.URI;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import com.genologics.ri.LimsLink;
 
 /**
  *
@@ -34,48 +38,130 @@ import javax.xml.bind.annotation.XmlType;
  * must include the current roles for the researcher. If you do not include all
  * of the current roles, the system will remove the current data and the
  * researcher will no longer have access to the system.
+ * When adding a new role you must provide at least one of: URI, name, or roleName.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "role")
-public class Role implements Serializable
+public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
 {
     public static final String SYSTEM_ADMIN_ROLE = "systemadministrator";
     public static final String CLARITY_ROLE = "labtech";
     public static final String ADMIN_ROLE = "administrator";
     public static final String LABLINK_ROLE = "webclient";
 
-    private static final long serialVersionUID = 8672841750737751034L;
+    private static final long serialVersionUID = -4641418115009008515L;
 
+    /**
+     * @deprecated Deprecated from version 2.19.
+     */
     @XmlAttribute(name = "roleName")
+    @Deprecated
     protected String roleName;
+
+    /**
+     * @since 2.19
+     */
+    @XmlAttribute(name = "name")
+    protected String name;
+
+    /**
+     * @since 2.19
+     */
+    @XmlAttribute(name = "uri")
+    @XmlSchemaType(name = "anyURI")
+    protected URI uri;
+
 
     public Role()
     {
     }
 
-    public Role(String roleName)
+    public Role(URI uri)
     {
-        this.roleName = roleName;
+        this.uri = uri;
+    }
+
+    public Role(URI uri, String name)
+    {
+        this.uri = uri;
+        this.name = name;
     }
 
     /**
-     * The name of the security role assigned to the researcher. Acceptable
-     * values are: "systemadministrator", "administrator", "labtech", and
-     * "webclient". <br/>
+     * The name of the security role assigned to the researcher.
+     * Only used by built-in roles.
+     * Acceptable  values are: "systemadministrator", "administrator", "labtech",
+     * and "webclient". <br/>
      * Always returns with GET: Yes <br/>
      * Creatable with POST: Yes <br/>
      * Required for POST: Yes <br/>
      * Updatable with PUT: Yes <br/>
      * Required for PUT: Yes
+     *
+     * @deprecated Deprecated from version 2.19.
      */
+    @Deprecated
     public String getRoleName()
     {
         return roleName;
     }
 
+    /**
+     * @deprecated Deprecated from version 2.19.
+     */
+    @Deprecated
     public void setRoleName(String value)
     {
         this.roleName = value;
+    }
+
+    /**
+     * The user-facing name of the security role assigned to the researcher. Must be unique.
+     * <br/>Always returns with GET: Yes
+     * <br/>Creatable with POST: Yes
+     * <br/>Required for POST: Yes
+     * <br/>Updatable with PUT: Yes
+     * <br/>Required for PUT: Yes
+     *
+     * @return The role name.
+     *
+     * @since 2.19
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * @since 2.19
+     */
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    /**
+     * @since 2.19
+     */
+    @Override
+    public URI getUri()
+    {
+        return uri;
+    }
+
+    /**
+     * @since 2.19
+     */
+    @Override
+    public void setUri(URI uri)
+    {
+        this.uri = uri;
+    }
+
+    @Override
+    public Class<com.genologics.ri.role.Role> getEntityClass()
+    {
+        return com.genologics.ri.role.Role.class;
     }
 
 }

@@ -144,11 +144,9 @@ Input is a child element of input-output-map.]]>
     <xs:annotation>
       <xs:documentation>
         <![CDATA[Processes link inputs to outputs and this relationship is called an input-output map.
-Input-output-map is a child element of the Process element.
-<p>
+Input-output-map is a child element of the Process element.<br/><br/>
 When a Process creates multiple outputs per input, there is a distinct input-output map for each input to output relationship.
-When a Process produces a shared output, there is a single input-output map for the shared output and all its related inputs.
-<p>
+When a Process produces a shared output, there is a single input-output map for the shared output and all its related inputs.<br/><br/>
 In situations where a Process is used to affect the properties of inputs only and therefore, does not create outputs, you can omit the output element.]]>
       </xs:documentation>
     </xs:annotation>

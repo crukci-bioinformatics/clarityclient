@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -36,6 +36,7 @@ public final class Namespaces
     public static final String FILE_NAMESPACE = "http://genologics.com/ri/file";
     public static final String INSTRUMENT_NAMESPACE = "http://genologics.com/ri/instrument";
     public static final String LAB_NAMESPACE = "http://genologics.com/ri/lab";
+    public static final String PERMISSION_NAMESPACE = "http://genologics.com/ri/permission";
     public static final String PROCESS_NAMESPACE = "http://genologics.com/ri/process";
     public static final String PROCESS_EXECUTION_NAMESPACE = "http://genologics.com/ri/processexecution";
     public static final String PROCESS_TEMPLATE_NAMESPACE = "http://genologics.com/ri/processtemplate";
@@ -43,9 +44,11 @@ public final class Namespaces
     public static final String PROJECT_NAMESPACE = "http://genologics.com/ri/project";
     public static final String PROPERTY_NAMESPACE = "http://genologics.com/ri/property";
     public static final String PROTOCOL_CONFIGURATION_NAMESPACE = "http://genologics.com/ri/protocolconfiguration";
+    public static final String QUEUE_NAMESPACE = "http://genologics.com/ri/queue";
     public static final String REAGENT_KIT_NAMESPACE = "http://genologics.com/ri/reagentkit";
     public static final String REAGENT_LOT_NAMESPACE = "http://genologics.com/ri/reagentlot";
     public static final String REAGENT_TYPE_NAMESPACE = "http://genologics.com/ri/reagenttype";
+    public static final String ROLE_NAMESPACE = "http://genologics.com/ri/role";
     public static final String ROUTING_NAMESPACE = "http://genologics.com/ri/routing";
     public static final String RESEARCHER_NAMESPACE = "http://genologics.com/ri/researcher";
     public static final String SAMPLE_NAMESPACE = "http://genologics.com/ri/sample";

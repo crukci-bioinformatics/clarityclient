@@ -25,33 +25,31 @@
           <xs:documentation>
             <![CDATA[The item in the system that the User-Defined Field can be used with such as Sample, Project, Container
 or the name of a process.
-Values for this element can be divided into three categories: predefined values, dynamic values and unsupported/deprecated values.
-<p>
+Values for this element can be divided into three categories: predefined values, dynamic values and unsupported/deprecated values.<br/><br/>
 Predefined values - predefined values are supported in the API and describe the kind of resource
-associated with the user-defined field. The currently supported values are: Project, Sample, Analyte, ResultFile and Container.
-</p>
-<p>Dynamic values - a dynamic value is used for user-defined fields configured on process types, and
+associated with the user-defined field. The currently supported values are: Project, Sample, Analyte, ResultFile and Container.<br/><br/>
+Dynamic values - a dynamic value is used for user-defined fields configured on process types, and
 correspond to the process type name. When working with user-defined fields on process types, the attach-to-category element must
-be specified with a value of 'ProcessType'.</p>
-<p>Unsupported values - there are other values which associate user-defined fields with other items in the data model.
+be specified with a value of 'ProcessType'.<br/><br/>
+Unsupported values - there are other values which associate user-defined fields with other items in the data model.
 These values may or may not correspond to the resources provided in the API. These values should not be relied on and may change
-in the future.</p>]]>
+in the future.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="precision" type="xs:int" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[The number of decimal places used when displaying numeric values.
-<p>Only numeric user-defined fields support precision.</p>]]>
+            <![CDATA[The number of decimal places used when displaying numeric values.<br/><br/>
+Only numeric user-defined fields support precision.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="unit" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[The unit of measurement associated with the user-defined field.
-<p>Only numeric user-defined fields support units.</p>]]>
+            <![CDATA[The unit of measurement associated with the user-defined field.<br/><br/>
+Only numeric user-defined fields support units.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -101,9 +99,9 @@ This will only be populated if the UDF has been configured for a UDT.]]>
       <xs:element name="is-deviation" type="xs:boolean" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[Specifies whether the User-Defined Field contains a deviation value.
-<p>When working with deviations, two values are collected for the user-defined field (parent-uri and child-uri).</p>
-<p>Only numeric user-defined fields support deviation</p>]]>
+            <![CDATA[Specifies whether the User-Defined Field contains a deviation value.<br/><br/>
+When working with deviations, two values are collected for the user-defined field (parent-uri and child-uri).<br/><br/>
+Only numeric user-defined fields support deviation.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -117,20 +115,20 @@ This will only be populated if the UDF has been configured for a UDT.]]>
       <xs:element name="parent-uri" type="xs:anyURI" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[Parent-uri provides a URI linking to the parent user-defined field for the UDF.
-<p>Parent-uri is used to support standard deviation for numeric user-defined fields With standard deviation,
+            <![CDATA[Parent-uri provides a URI linking to the parent user-defined field for the UDF.<br/><br/>
+Parent-uri is used to support standard deviation for numeric user-defined fields With standard deviation,
 the numeric value will be stored in the parent user-defined field, and the deviation value will be stored in the
-child user-defined field. The child user-defined field's is-deviation flag will be true.</p>]]>
+child user-defined field. The child user-defined field's is-deviation flag will be true.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="child-uri" type="xs:string" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[Child-uri provides a URI linking to any child user-defined fields for the user-defined field.
-<p>Child-uri is used to support standard deviation for numeric user-defined fields. With standard deviation,
+            <![CDATA[Child-uri provides a URI linking to any child user-defined fields for the user-defined field.<br/><br/>
+Child-uri is used to support standard deviation for numeric user-defined fields. With standard deviation,
 the numeric value will be stored in the parent user-defined field, and the deviation value will be in the
-child user-defined field. The child user-defined field's is-deviation flag will be true.</p>]]>
+child user-defined field. The child user-defined field's is-deviation flag will be true.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -144,16 +142,16 @@ child user-defined field. The child user-defined field's is-deviation flag will 
       <xs:element name="min-value" type="xs:double" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[The minimum value for the user-defined field. This is the lowest value that can be recorded for the UDF.
-<p>Only numeric user-defined fields support minValue.</p>]]>
+            <![CDATA[The minimum value for the user-defined field. This is the lowest value that can be recorded for the UDF.<br/><br/>
+Only numeric user-defined fields support minValue.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="max-value" type="xs:double" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[The maximum value for the user-defined field. This is the highest value that can be recorded for the UDF.
-<p>Only numeric type user-defined fields support minValue.</p>]]>
+            <![CDATA[The maximum value for the user-defined field. This is the highest value that can be recorded for the UDF.<br/><br/>
+Only numeric type user-defined fields support minValue.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -268,17 +266,15 @@ field for the user defined type.]]>
           <xs:documentation>
             <![CDATA[The item in the system that the User-Defined Type can be used with such as Sample, Project, Container
 or the name of a process.
-Values for this element can be divided into three categories: predefined values, dynamic values and unsupported/deprecated values.
-<p>
+Values for this element can be divided into three categories: predefined values, dynamic values and unsupported/deprecated values.<br/><br/>
 Predefined values - predefined values are supported in the API and describe the kind of resource
-associated with the user-defined type. The currently supported values are: Project, Sample, and Container.
-</p>
-<p>Dynamic values - a dynamic value is used for user-defined types configured on process types, and
+associated with the user-defined type. The currently supported values are: Project, Sample, and Container.<br/><br/>
+Dynamic values - a dynamic value is used for user-defined types configured on process types, and
 correspond to the process type name. When working with user-defined types on process types, the attach-to-category element must
-be specified with a value of 'ProcessType'.</p>
-<p>Unsupported values - there are other values which associate user-defined types with other items in the data model.
+be specified with a value of 'ProcessType'.<br/><br/>
+Unsupported values - there are other values which associate user-defined types with other items in the data model.
 These values may or may not correspond to the resources provided in the API. These values should not be relied on and may change
-in the future.</p>]]>
+in the future.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -310,12 +306,11 @@ process. For all other UDTs, do not specify an attach-to-category value.]]>
   <xs:complexType name="udfs">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The representation of a list of user defined field configuration links.
-<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+        <![CDATA[The representation of a list of user defined field configuration links.<br/><br/>
+The system enforces a maximum number of elements when generating the list of links. When the size of
 the request result set is larger than the system maximum, the list represents a paged view of the overall
 results, and the previous-page and next-page elements provide URIs linking to the previous or next page
-of links in the overall results.
-</p>]]>
+of links in the overall results.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -382,12 +377,11 @@ process. For all other UDFs, do not specify an attach-to-category value.]]>
   <xs:complexType name="udts">
     <xs:annotation>
       <xs:documentation>
-        <![CDATA[The representation of a list of user defined type configuration links.
-<p>The system enforces a maximum number of elements when generating the list of links. When the size of
+        <![CDATA[The representation of a list of user defined type configuration links.<br/><br/>
+The system enforces a maximum number of elements when generating the list of links. When the size of
 the request result set is larger than the system maximum, the list represents a paged view of the overall
 results, and the previous-page and next-page elements provide URIs linking to the previous or next page
-of links in the overall results.
-</p>]]>
+of links in the overall results.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>

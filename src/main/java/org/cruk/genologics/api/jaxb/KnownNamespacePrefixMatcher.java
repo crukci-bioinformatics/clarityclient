@@ -58,6 +58,7 @@ public class KnownNamespacePrefixMatcher extends NamespacePrefixMapper
         map.put(FILE_NAMESPACE, "file");
         map.put(INSTRUMENT_NAMESPACE, "inst");
         map.put(LAB_NAMESPACE, "lab");
+        map.put(PERMISSION_NAMESPACE, "perm");
         map.put(PROCESS_EXECUTION_NAMESPACE, "prx");
         map.put(PROCESS_TEMPLATE_NAMESPACE, "ptm");
         map.put(PROCESS_TYPE_NAMESPACE, "ptp");
@@ -65,10 +66,12 @@ public class KnownNamespacePrefixMatcher extends NamespacePrefixMapper
         map.put(PROJECT_NAMESPACE, "prj");
         map.put(PROPERTY_NAMESPACE, "prop");
         map.put(PROTOCOL_CONFIGURATION_NAMESPACE, "protcnf");
+        map.put(QUEUE_NAMESPACE, "que");
         map.put(REAGENT_KIT_NAMESPACE, "kit");
         map.put(REAGENT_LOT_NAMESPACE, "lot");
         map.put(REAGENT_TYPE_NAMESPACE, "rtp");
         map.put(RESEARCHER_NAMESPACE, "res");
+        map.put(ROLE_NAMESPACE, "role");
         map.put(ROUTING_NAMESPACE, "rt");
         map.put(SAMPLE_NAMESPACE, "smp");
         map.put(STAGE_NAMESPACE, "stg");

@@ -1,0 +1,213 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/role" xmlns:role="http://genologics.com/ri/role" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="role" type="role:role"/>
+  <xs:element name="roles" type="role:roles"/>
+  <xs:complexType name="role">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The detailed representation of a Role]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Name of the represented role
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="researchers" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The researchers who have been granted the Role. This field is read-only.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="researcher" type="role:researcher-link" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The researchers who have been granted the Role. This field is read-only.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="permissions" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The permissions assigned to the Role. If omitted from a PUT, all permissions will be unassigned from the Role.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="permission" type="role:permission-link" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The permissions assigned to the Role. If omitted from a PUT, all permissions will be unassigned from the Role.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="built-in" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[Whether this role is a built-in role (built-in roles cannot be deleted)
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Role.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="permission-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Permission-link is a child element type of permissions and provides a URI linking to the detailed representation of a Permission.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="action" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The action this Permission is granting
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of this Permission
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Permission
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="researcher-link" final="#all">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Researcher-link is a child element type of researchers and provides a URI linking to the detailed representation of a researcher.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="last-name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The last name of the researcher.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="first-name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The first name of the researcher.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Researcher
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="roles">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[API representation of a list of Roles]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="role" type="role:role-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The list of Roles
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Roles LIST endpoint
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="role-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Role-link is a child element type of roles and provides a URI linking to the detailed representation of a Role.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of this Role
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Role
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

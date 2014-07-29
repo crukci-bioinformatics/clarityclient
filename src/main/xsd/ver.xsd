@@ -12,17 +12,17 @@
     <xs:attribute name="major" type="xs:string">
       <xs:annotation>
         <xs:documentation>
-          <![CDATA[The major version of the version.
-<p>Major version indicates forward and backwards compatibility for API clients among minor versions
-within the major version.</p>]]>
+          <![CDATA[The major version of the version.<br/><br/>
+Major version indicates forward and backwards compatibility for API clients among minor versions
+within the major version.]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="minor" type="xs:string">
       <xs:annotation>
         <xs:documentation>
-          <![CDATA[The minor version of the version.
-<p>Minor version indicates additional non-breaking changes to the version.</p>]]>
+          <![CDATA[The minor version of the version.<br/><br/>
+Minor version indicates additional non-breaking changes to the version.]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
