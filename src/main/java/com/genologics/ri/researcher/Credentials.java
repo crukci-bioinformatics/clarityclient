@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -103,9 +103,9 @@ public class Credentials implements Serializable
         return role;
     }
 
-    public Role addRole(String roleName)
+    public Role addRole(String name)
     {
-        Role role = new Role(roleName);
+        Role role = new Role(null, name);
         getRoles().add(role);
         return role;
     }
