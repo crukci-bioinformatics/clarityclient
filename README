@@ -54,7 +54,7 @@ Add the JAR file to your POM (I'm assuming you're using Maven now):
     <dependency>
         <groupId>org.cruk.genologics</groupId>
         <artifactId>clarity-client</artifactId>
-        <version>2.18</version>
+        <version>2.19</version>
     </dependency>
 
 For details of using the API, please refer to the documentation at
