@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsLink;
+import com.genologics.ri.Linkable;
 
 /**
  *
@@ -85,6 +86,17 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
     {
         this.uri = uri;
         this.name = name;
+    }
+
+    public Role(Linkable<com.genologics.ri.role.Role> link)
+    {
+        this.uri = link.getUri();
+    }
+
+    public Role(com.genologics.ri.role.Role otherRole)
+    {
+        this.uri = otherRole.getUri();
+        this.name = otherRole.getName();
     }
 
     /**
