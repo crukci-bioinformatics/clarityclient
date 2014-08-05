@@ -36,7 +36,14 @@
 
     <context:annotation-config />
 
-    <bean id="filestoreSFTPSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory"/>
+    <bean id="filestoreSFTPSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
+        <property name="sessionConfig">
+            <!-- Note: this set up required to stop the Kerberos user name prompts in Java 7. -->
+            <props>
+                <prop key="PreferredAuthentications">publickey,password,keyboard-interactive</prop>
+            </props>
+        </property>
+    </bean>
 
     <bean id="genologicsHttpClientParams" class="org.apache.commons.httpclient.params.HttpClientParams">
         <property name="authenticationPreemptive" value="true"/>
@@ -180,6 +187,7 @@
     </aop:config>
 
     <bean id="genologicsAPI" class="org.cruk.genologics.api.impl.GenologicsAPIImpl">
+        <property name="filestoreSessionFactory" ref="filestoreSFTPSessionFactory"/>
         <property name="jaxbMarshaller" ref="genologicsJaxbMarshaller"/>
         <property name="restClient" ref="genologicsRestTemplate"/>
         <property name="httpClient" ref="genologicsHttpClient"/>

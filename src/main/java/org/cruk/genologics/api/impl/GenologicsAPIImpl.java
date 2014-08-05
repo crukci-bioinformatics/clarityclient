@@ -238,6 +238,17 @@ public class GenologicsAPIImpl implements GenologicsAPI
     }
 
     /**
+     * Set the file store session factory for SFTP connections.
+     * This bean in optional if no additional configuration of the factory is required.
+     *
+     * @param filestoreSessionFactory The SFTP session factory.
+     */
+    public void setFilestoreSessionFactory(DefaultSftpSessionFactory filestoreSessionFactory)
+    {
+        this.filestoreSessionFactory = filestoreSessionFactory;
+    }
+
+    /**
      * Set the Jaxb marshaller.
      *
      * <p>This operation also immediately scans the classes managed by the marshaller
