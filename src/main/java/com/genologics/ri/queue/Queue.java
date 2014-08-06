@@ -51,7 +51,7 @@ import com.genologics.ri.PaginatedBatch;
  *
  * @since 2.19
  */
-@GenologicsEntity(uriSection = "queue", cacheable = false)
+@GenologicsEntity(uriSection = "queues", cacheable = false)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "queue", propOrder = { "artifacts", "previousPage", "nextPage" })
 @XmlRootElement(name = "queue")
