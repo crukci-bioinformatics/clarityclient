@@ -1362,7 +1362,7 @@ public class GenologicsAPITools
                     {
                         assert output.getOutputType() != null
                                : "Artifact " + output.getUri() + " has no output type set.";
-                        }
+
                         switch (output.getOutputType())
                         {
                             case ANALYTE:
