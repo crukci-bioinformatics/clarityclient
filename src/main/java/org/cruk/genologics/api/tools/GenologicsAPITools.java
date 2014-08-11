@@ -1360,6 +1360,9 @@ public class GenologicsAPITools
                     ArtifactLink output = iomap.getOutput();
                     if (output != null && currentLimsId.equals(iomap.getInput().getLimsid()))
                     {
+                        assert output.getOutputType() != null
+                               : "Artifact " + output.getUri() + " has no output type set.";
+                        }
                         switch (output.getOutputType())
                         {
                             case ANALYTE:

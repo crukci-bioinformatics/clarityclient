@@ -33,6 +33,9 @@ public enum OutputType
     @XmlEnumValue("ResultFile")
     RESULT_FILE("ResultFile"),
 
+    @XmlEnumValue("SharedResultFile")
+    SHARED_RESULT_FILE("SharedResultFile"),
+
     @XmlEnumValue("SearchResultFile")
     SEARCH_RESULT_FILE("SearchResultFile"),
 
@@ -53,6 +56,11 @@ public enum OutputType
 
     public static OutputType fromValue(String v)
     {
+        if (v == null)
+        {
+            throw new NullPointerException("Output type cannot be null");
+        }
+
         for (OutputType c : OutputType.values())
         {
             if (c.value.equals(v))
@@ -60,7 +68,7 @@ public enum OutputType
                 return c;
             }
         }
-        throw new IllegalArgumentException(v);
+        throw new IllegalArgumentException("'" + v + "' is not a known output type.");
     }
 
 }
