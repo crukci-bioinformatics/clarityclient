@@ -58,6 +58,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.GenologicsUpdateException;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -103,7 +104,7 @@ import com.jcraft.jsch.ChannelSftp.LsEntry;
  * @see Jaxb2Marshaller
  * @see HttpClient
  */
-public class GenologicsAPIImpl implements GenologicsAPI
+public class GenologicsAPIImpl implements GenologicsAPI, InitializingBean
 {
     /**
      * The first part of the path for API calls.
@@ -151,6 +152,17 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * @see #getFilestoreServer()
      */
     private java.lang.reflect.Field filestoreSessionFactoryHostField;
+
+    /**
+     * The properties object passed in through construction or through setConfiguration
+     * during Spring initialisation.
+     */
+    private Properties initialisingConfiguration;
+
+    /**
+     * Flag indicating that all Spring initialisation has been completed.
+     */
+    private boolean initialised;
 
     /**
      * The root URL to the Clarity server.
@@ -443,30 +455,50 @@ public class GenologicsAPIImpl implements GenologicsAPI
     {
         if (configuration != null)
         {
-            String apiServer = configuration.getProperty("api.server");
-            String apiUser = configuration.getProperty("api.user");
-            String apiPass = configuration.getProperty("api.pass");
-            String filestoreServer = configuration.getProperty("filestore.server");
-            String filestoreUser = configuration.getProperty("filestore.user");
-            String filestorePass = configuration.getProperty("filestore.pass");
+            if (initialised)
+            {
+                String apiServer = configuration.getProperty("api.server");
+                String apiUser = configuration.getProperty("api.user");
+                String apiPass = configuration.getProperty("api.pass");
+                String filestoreServer = configuration.getProperty("filestore.server");
+                String filestoreUser = configuration.getProperty("filestore.user");
+                String filestorePass = configuration.getProperty("filestore.pass");
 
-            if (StringUtils.isNotBlank(apiServer))
-            {
-                setServer(new URL(apiServer));
+                if (StringUtils.isNotBlank(apiServer))
+                {
+                    setServer(new URL(apiServer));
+                }
+                if (StringUtils.isNotBlank(apiUser))
+                {
+                    setCredentials(apiUser, apiPass);
+                }
+                if (StringUtils.isNotBlank(filestoreServer))
+                {
+                    setFilestoreServer(filestoreServer);
+                }
+                if (StringUtils.isNotBlank(filestoreUser))
+                {
+                    setFilestoreCredentials(filestoreUser, filestorePass);
+                }
             }
-            if (StringUtils.isNotBlank(apiUser))
+            else
             {
-                setCredentials(apiUser, apiPass);
-            }
-            if (StringUtils.isNotBlank(filestoreServer))
-            {
-                setFilestoreServer(filestoreServer);
-            }
-            if (StringUtils.isNotBlank(filestoreUser))
-            {
-                setFilestoreCredentials(filestoreUser, filestorePass);
+                initialisingConfiguration = configuration;
             }
         }
+    }
+
+    /**
+     * When this bean has finished Spring set up (all properties set), the
+     * configuration that may have been supplied during start up needs to
+     * be applied correctly to this bean and some objects it depends on.
+     */
+    @Override
+    public void afterPropertiesSet() throws MalformedURLException
+    {
+        initialised = true;
+        setConfiguration(initialisingConfiguration);
+        initialisingConfiguration = null;
     }
 
     // Internal consistency methods.
