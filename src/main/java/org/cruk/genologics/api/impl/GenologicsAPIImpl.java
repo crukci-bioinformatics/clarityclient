@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.beanutils.ConvertUtils;
@@ -58,7 +59,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.GenologicsUpdateException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -104,7 +104,7 @@ import com.jcraft.jsch.ChannelSftp.LsEntry;
  * @see Jaxb2Marshaller
  * @see HttpClient
  */
-public class GenologicsAPIImpl implements GenologicsAPI, InitializingBean
+public class GenologicsAPIImpl implements GenologicsAPI
 {
     /**
      * The first part of the path for API calls.
@@ -162,7 +162,7 @@ public class GenologicsAPIImpl implements GenologicsAPI, InitializingBean
     /**
      * Flag indicating that all Spring initialisation has been completed.
      */
-    private boolean initialised;
+    private boolean initialisationComplete;
 
     /**
      * The root URL to the Clarity server.
@@ -455,7 +455,7 @@ public class GenologicsAPIImpl implements GenologicsAPI, InitializingBean
     {
         if (configuration != null)
         {
-            if (initialised)
+            if (initialisationComplete)
             {
                 String apiServer = configuration.getProperty("api.server");
                 String apiUser = configuration.getProperty("api.user");
@@ -493,10 +493,10 @@ public class GenologicsAPIImpl implements GenologicsAPI, InitializingBean
      * configuration that may have been supplied during start up needs to
      * be applied correctly to this bean and some objects it depends on.
      */
-    @Override
-    public void afterPropertiesSet() throws MalformedURLException
+    @PostConstruct
+    public void afterInitialisation() throws MalformedURLException
     {
-        initialised = true;
+        initialisationComplete = true;
         setConfiguration(initialisingConfiguration);
         initialisingConfiguration = null;
     }
