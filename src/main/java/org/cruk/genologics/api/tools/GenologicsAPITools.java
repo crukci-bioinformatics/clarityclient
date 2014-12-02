@@ -23,7 +23,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,6 +44,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.springframework.beans.factory.annotation.Required;
+
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
 
 import com.genologics.ri.LimsEntityLink;
 import com.genologics.ri.LimsEntityLinkable;
@@ -80,8 +82,20 @@ public class GenologicsAPITools
 
     /**
      * Container type name for Miseq reagent cartridges.
+     * @deprecated Use {@code MISEQ_REAGENT_CARTRIDGE_CONTAINER_TYPE} instead.
      */
+    @Deprecated
     public static final String REAGENT_CARTRIDGE_CONTAINER_TYPE;
+
+    /**
+     * Container type name for Miseq reagent cartridges.
+     */
+    public static final String MISEQ_REAGENT_CARTRIDGE_CONTAINER_TYPE;
+
+    /**
+     * Container type name for Nextseq reagent cartridges.
+     */
+    public static final String NEXTSEQ_REAGENT_CARTRIDGE_CONTAINER_TYPE;
 
     /**
      * Name of the GAIIx/Hiseq sequencing process.
@@ -94,12 +108,17 @@ public class GenologicsAPITools
     public static final String MISEQ_RUN_PROCESS_NAME;
 
     /**
+     * Name of the Nextseq sequencing process.
+     */
+    public static final String NEXTSEQ_RUN_PROCESS_NAME;
+
+    /**
      * Name of the sequencing process for runs imported from the old LIMS.
      */
     public static final String HISTORIC_RUN_PROCESS_NAME;
 
     /**
-     * Names of the sequencing processes (GAIIx/Hiseq, Miseq & Historic).
+     * Names of the sequencing processes (GAIIx/Hiseq, Miseq, Nextseq & Historic).
      */
     public static final Set<String> SEQUENCING_PROCESS_NAMES;
 
@@ -249,9 +268,11 @@ public class GenologicsAPITools
         {
             FLOW_CELL_CONTAINER_TYPE = settings.getString("containertype.flowcell");
             RAPID_RUN_FLOW_CELL_CONTAINER_TYPE = settings.getString("containertype.rapidrunflowcell");
-            REAGENT_CARTRIDGE_CONTAINER_TYPE = settings.getString("containertype.reagentcartridge");
+            MISEQ_REAGENT_CARTRIDGE_CONTAINER_TYPE = settings.getString("containertype.miseqcartridge");
+            NEXTSEQ_REAGENT_CARTRIDGE_CONTAINER_TYPE = settings.getString("containertype.nextseqcartridge");
             GA_HISEQ_RUN_PROCESS_NAME = settings.getString("process.sequencing.hiseq");
             MISEQ_RUN_PROCESS_NAME = settings.getString("process.sequencing.miseq");
+            NEXTSEQ_RUN_PROCESS_NAME = settings.getString("process.sequencing.nextseq");
             HISTORIC_RUN_PROCESS_NAME = settings.getString("process.sequencing.historic");
             NO_INDEX_LABEL = settings.getString("barcode.noindex");
             OTHER_INDEX_LABEL = settings.getString("barcode.otherindex");
@@ -263,6 +284,8 @@ public class GenologicsAPITools
             REAGENT_CARTRIDGE_ID_FIELD = settings.getString("field.reagentcartridgeid");
             FLOW_CELL_ID_UDF = "udf." + FLOW_CELL_ID_FIELD;
 
+            REAGENT_CARTRIDGE_CONTAINER_TYPE = MISEQ_REAGENT_CARTRIDGE_CONTAINER_TYPE;
+
             Pattern splitter = Pattern.compile("\\s*,\\s*");
 
             String[] poolingProcesses = splitter.split(settings.getString("process.poolingprocesses"));
@@ -271,7 +294,8 @@ public class GenologicsAPITools
             String[] barcodingProcesses = splitter.split(settings.getString("process.barcodingprocesses"));
             BARCODING_PROCESS_NAMES = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(barcodingProcesses)));
 
-            SEQUENCING_PROCESS_NAMES = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(GA_HISEQ_RUN_PROCESS_NAME, MISEQ_RUN_PROCESS_NAME, HISTORIC_RUN_PROCESS_NAME)));
+            SEQUENCING_PROCESS_NAMES = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(GA_HISEQ_RUN_PROCESS_NAME, MISEQ_RUN_PROCESS_NAME,
+                                                                                                     NEXTSEQ_RUN_PROCESS_NAME, HISTORIC_RUN_PROCESS_NAME)));
 
             SINGLEPLEX_BARCODE_NAMES = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(NO_INDEX_LABEL, OTHER_INDEX_LABEL, INLINE_INDEX_LABEL)));
         }
@@ -364,6 +388,11 @@ public class GenologicsAPITools
 
         links.addAll(api.find(search, GenologicsProcess.class));
 
+        // Nextseq
+        search.put("type", NEXTSEQ_RUN_PROCESS_NAME);
+
+        links.addAll(api.find(search, GenologicsProcess.class));
+
         // Historical runs.
         search.put("type", HISTORIC_RUN_PROCESS_NAME);
 
@@ -403,6 +432,9 @@ public class GenologicsAPITools
      */
     public Container findFlowcellByName(String name)
     {
+        GenologicsProcess process;
+        UDF cartridgeField;
+
         Map<String, Object> search = new HashMap<String, Object>();
         search.put("name", name);
         search.put("type", new String[] { FLOW_CELL_CONTAINER_TYPE, RAPID_RUN_FLOW_CELL_CONTAINER_TYPE } );
@@ -430,6 +462,8 @@ public class GenologicsAPITools
         switch (miseqProcesses.size())
         {
             case 0:
+                // May be in the historical Miseq runs.
+
                 search.put("type", HISTORIC_RUN_PROCESS_NAME);
                 search.put("udf.Device Type", "MiSeq");
                 miseqProcesses = api.find(search, GenologicsProcess.class);
@@ -437,8 +471,6 @@ public class GenologicsAPITools
                 switch (miseqProcesses.size())
                 {
                     case 0:
-                        return null;
-
                     case 1:
                         break;
 
@@ -456,14 +488,59 @@ public class GenologicsAPITools
                 break;
         }
 
-        GenologicsProcess process = api.load(miseqProcesses.get(0));
+        if (miseqProcesses.size() > 0)
+        {
+            process = api.load(miseqProcesses.get(0));
 
-        UDF cartridgeField = UDF.getUDF(process.getUserDefinedFields(), REAGENT_CARTRIDGE_ID_FIELD, true,
+            cartridgeField = UDF.getUDF(process.getUserDefinedFields(), REAGENT_CARTRIDGE_ID_FIELD, true,
                                         "No " + REAGENT_CARTRIDGE_ID_FIELD + " field on MiSeq Run " + process.getLimsid());
+
+            search.clear();
+            search.put("name", cartridgeField.getValue());
+            search.put("type", MISEQ_REAGENT_CARTRIDGE_CONTAINER_TYPE);
+
+            containers = api.find(search, Container.class);
+            switch (containers.size())
+            {
+                case 0:
+                    return null;
+
+                case 1:
+                    return api.load(containers.get(0));
+
+                default:
+                    logger.warn("There are " + containers.size() + " MiSeq reagent cartridges with the name '" + cartridgeField.getValue() + "'.");
+                    return api.load(containers.get(0));
+            }
+        }
+
+        // If fallen through, nothing found. Search for a NextSeq flow cell instead.
+        search.clear();
+        search.put(FLOW_CELL_ID_UDF, name);
+        search.put("type", NEXTSEQ_RUN_PROCESS_NAME);
+
+        List<LimsLink<GenologicsProcess>> nextseqProcesses = api.find(search, GenologicsProcess.class);
+        switch (nextseqProcesses.size())
+        {
+            case 0:
+                return null;
+
+            case 1:
+                break;
+
+            default:
+                logger.warn("There are " + containers.size() + " Nextseq runs using the flow cell with the name '" + name + "'.");
+                break;
+        }
+
+        process = api.load(nextseqProcesses.get(0));
+
+        cartridgeField = UDF.getUDF(process.getUserDefinedFields(), REAGENT_CARTRIDGE_ID_FIELD, true,
+                                    "No " + REAGENT_CARTRIDGE_ID_FIELD + " field on NextSeq Run " + process.getLimsid());
 
         search.clear();
         search.put("name", cartridgeField.getValue());
-        search.put("type", REAGENT_CARTRIDGE_CONTAINER_TYPE);
+        search.put("type", NEXTSEQ_REAGENT_CARTRIDGE_CONTAINER_TYPE);
 
         containers = api.find(search, Container.class);
         switch (containers.size())
@@ -475,7 +552,7 @@ public class GenologicsAPITools
                 return api.load(containers.get(0));
 
             default:
-                logger.warn("There are " + containers.size() + " MiSeq reagent cartridges with the name '" + cartridgeField.getValue() + "'.");
+                logger.warn("There are " + containers.size() + " NextSeq reagent cartridges with the name '" + cartridgeField.getValue() + "'.");
                 return api.load(containers.get(0));
         }
     }
@@ -550,51 +627,45 @@ public class GenologicsAPITools
                     try
                     {
                         LineNumberReader reader = new LineNumberReader(new FileReader(barcodeCacheFile));
+                        CSVReader csvReader = new CSVReader(reader);
                         try
                         {
-                            Pattern splitter = Pattern.compile(",\\s*");
-
-                            String line;
-                            while ((line = reader.readLine()) != null)
+                            String[] parts;
+                            while ((parts = csvReader.readNext()) != null)
                             {
-                                if (StringUtils.isNotBlank(line))
+                                if (parts.length < 2)
                                 {
-                                    String[] parts = splitter.split(line);
-
-                                    if (parts.length < 2)
-                                    {
-                                        logger.debug("Have unexpected number of fields on line " + reader.getLineNumber() +
-                                                     " of " + barcodeCacheFile.getAbsolutePath());
-                                        simpleBarcodeMap.clear();
-                                        barcodeByCategoryMap.clear();
-                                        break;
-                                    }
-
-                                    String category = parts[0].trim();
-                                    String name = parts[1].trim();
-                                    String sequence = parts.length < 3 ? "" : parts[2].trim();
-
-                                    simpleBarcodeMap.put(name, sequence);
-
-                                    BidiMap<String, String> categoryMap = barcodeByCategoryMap.get(category);
-                                    if (categoryMap == null)
-                                    {
-                                        categoryMap = new TreeBidiMap<String, String>();
-                                        barcodeByCategoryMap.put(category, categoryMap);
-                                    }
-
-                                    assert !categoryMap.containsKey(name) : "Already have a barcode with the name '" + name + "' in " + category;
-                                    assert !categoryMap.containsValue(sequence) : "Already have a barcode with the sequence " + sequence + " in " + category;
-
-                                    categoryMap.put(name, sequence);
-
-                                    ++numberOfLabelsRead;
+                                    logger.debug("Have unexpected number of fields on line " + reader.getLineNumber() +
+                                                 " of " + barcodeCacheFile.getAbsolutePath());
+                                    simpleBarcodeMap.clear();
+                                    barcodeByCategoryMap.clear();
+                                    break;
                                 }
+
+                                String category = parts[0].trim();
+                                String name = parts[1].trim();
+                                String sequence = parts.length < 3 ? "" : parts[2].trim();
+
+                                simpleBarcodeMap.put(name, sequence);
+
+                                BidiMap<String, String> categoryMap = barcodeByCategoryMap.get(category);
+                                if (categoryMap == null)
+                                {
+                                    categoryMap = new TreeBidiMap<String, String>();
+                                    barcodeByCategoryMap.put(category, categoryMap);
+                                }
+
+                                assert !categoryMap.containsKey(name) : "Already have a barcode with the name '" + name + "' in " + category;
+                                assert !categoryMap.containsValue(sequence) : "Already have a barcode with the sequence " + sequence + " in " + category;
+
+                                categoryMap.put(name, sequence);
+
+                                ++numberOfLabelsRead;
                             }
                         }
                         finally
                         {
-                            reader.close();
+                            csvReader.close();
                         }
                     }
                     catch (IOException e)
@@ -641,18 +712,18 @@ public class GenologicsAPITools
                     {
                         try
                         {
-                            PrintWriter writer = new PrintWriter(new FileWriter(barcodeCacheFile));
+                            CSVWriter writer = new CSVWriter(new FileWriter(barcodeCacheFile));
                             try
                             {
+                                String[] line = new String[3];
                                 for (Map.Entry<String, BidiMap<String, String>> entry1 : barcodeByCategoryMap.entrySet())
                                 {
                                     for (Map.Entry<String, String> entry2 : entry1.getValue().entrySet())
                                     {
-                                        writer.print(entry1.getKey());
-                                        writer.print(',');
-                                        writer.print(entry2.getKey());
-                                        writer.print(',');
-                                        writer.println(entry2.getValue());
+                                        line[0] = entry1.getKey();
+                                        line[1] = entry2.getKey();
+                                        line[2] = entry2.getValue();
+                                        writer.writeNext(line);
                                     }
                                 }
                             }
@@ -1221,18 +1292,18 @@ public class GenologicsAPITools
             return foundArtifact.getName();
         }
 
-        if (artifact.getParentProcess() == null)
+        if (foundArtifact.getParentProcess() == null)
         {
             // No parent. See if there is a field on the sample we can use (if supplied).
 
             if (StringUtils.isNotEmpty(sampleFieldName))
             {
-                if (artifact.getSamples().size() != 1)
+                if (foundArtifact.getSamples().size() != 1)
                 {
                     throw new AssertionError("Submission artifact is expected to have exactly one sample.");
                 }
 
-                Sample sample = getSample(artifact.getSamples().iterator().next());
+                Sample sample = getSample(foundArtifact.getSamples().iterator().next());
                 return UDF.getUDFValue(sample, sampleFieldName);
             }
         }
