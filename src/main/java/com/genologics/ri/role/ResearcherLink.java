@@ -101,4 +101,9 @@ public class ResearcherLink implements LimsLink<Researcher>, Serializable
         return Researcher.class;
     }
 
+    @Override
+    public String toString()
+    {
+        return firstName + " " + lastName;
+    }
 }

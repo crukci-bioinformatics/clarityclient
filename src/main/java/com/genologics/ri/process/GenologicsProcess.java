@@ -271,4 +271,16 @@ public class GenologicsProcess implements LimsEntity<GenologicsProcess>, Seriali
         this.parameter = parameter;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append(limsid);
+        if (processType != null)
+        {
+            sb.append(' ').append(processType.getName());
+        }
+        return sb.toString();
+    }
+
 }

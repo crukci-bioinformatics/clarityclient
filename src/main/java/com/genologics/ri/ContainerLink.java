@@ -121,6 +121,6 @@ public class ContainerLink implements LimsEntityLink<Container>, Serializable
     @Override
     public String toString()
     {
-        return uri == null ? "null" : uri.toString();
+        return limsid;
     }
 }

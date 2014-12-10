@@ -90,4 +90,9 @@ public class RoleLink implements LimsLink<Role>, Serializable
         return Role.class;
     }
 
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

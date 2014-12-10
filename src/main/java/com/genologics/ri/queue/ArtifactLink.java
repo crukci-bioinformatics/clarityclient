@@ -123,4 +123,10 @@ public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
     {
         return Artifact.class;
     }
+
+    @Override
+    public String toString()
+    {
+        return limsid;
+    }
 }

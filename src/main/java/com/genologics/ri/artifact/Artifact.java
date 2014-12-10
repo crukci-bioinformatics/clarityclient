@@ -331,4 +331,11 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
         this.uri = value;
     }
 
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append(limsid).append(' ').append(type);
+        return sb.toString();
+    }
 }

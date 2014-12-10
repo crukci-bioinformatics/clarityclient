@@ -153,4 +153,10 @@ public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
     {
         this.postProcessUri = postProcessUri;
     }
+
+    @Override
+    public String toString()
+    {
+        return limsid;
+    }
 }

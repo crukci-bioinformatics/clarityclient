@@ -176,4 +176,9 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
         return com.genologics.ri.role.Role.class;
     }
 
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

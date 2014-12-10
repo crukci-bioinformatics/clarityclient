@@ -29,8 +29,6 @@ import javax.xml.bind.annotation.XmlType;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.genologics.ri.container.Container;
 
@@ -162,10 +160,7 @@ public class Location implements Serializable, Comparable<Location>
     @Override
     public String toString()
     {
-        ToStringBuilder b = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
-        b.append("container", container);
-        b.append("wellPosition", wellPosition);
-        return b.toString();
+        return container + " " + wellPosition;
     }
 
 }
