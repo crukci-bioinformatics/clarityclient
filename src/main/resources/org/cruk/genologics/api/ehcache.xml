@@ -74,7 +74,7 @@
            timeToLiveSeconds="1800" />
            
     <cache name="com.genologics.ri.reagenttype.ReagentType"
-           maxElementsInMemory="2000"
+           maxElementsInMemory="4000"
            timeToLiveSeconds="1800" />
            
 </ehcache>
