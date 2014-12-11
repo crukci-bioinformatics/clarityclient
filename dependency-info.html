@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>CRUK-CI Genologics API Client &#x2013; Issue Tracking</title>
+    <title>CRUK-CI Genologics API Client &#x2013; Dependency Information</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -88,8 +88,8 @@
                           <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
             </li>
                       <li class="none">
-                          <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
-            </li>
+            <strong>Dependency Information</strong>
+          </li>
                       <li class="none">
                           <a href="source-repository.html" title="Source Repository">Source Repository</a>
             </li>
@@ -97,8 +97,8 @@
                           <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
             </li>
                       <li class="none">
-            <strong>Issue Tracking</strong>
-          </li>
+                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
+            </li>
                       <li class="none">
                           <a href="integration.html" title="Continuous Integration">Continuous Integration</a>
             </li>
@@ -136,13 +136,43 @@
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2><a name="Overview"></a>Overview</h2><a name="Overview"></a>
-<p>This project uses GitHub to manage its issues.</p></div>
+<h2><a name="Dependency_Information"></a>Dependency Information</h2><a name="Dependency_Information"></a>
 <div class="section">
-<h2><a name="Issue_Tracking"></a>Issue Tracking</h2><a name="Issue_Tracking"></a>
-<p>Issues, bugs, and feature requests should be submitted to the following issue tracking system for this project.</p>
+<h3><a name="Apache_Maven"></a>Apache Maven</h3><a name="Apache_Maven"></a>
 <div class="source">
-<pre><a class="externalLink" href="https://github.com/crukci-bioinformatics/clarityclient/issues">https://github.com/crukci-bioinformatics/clarityclient/issues</a></pre></div></div>
+<pre>&lt;dependency&gt;
+  &lt;groupId&gt;org.cruk.genologics&lt;/groupId&gt;
+  &lt;artifactId&gt;clarity-client&lt;/artifactId&gt;
+  &lt;version&gt;2.19.2&lt;/version&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3><a name="Apache_Buildr"></a>Apache Buildr</h3><a name="Apache_Buildr"></a>
+<div class="source">
+<pre>'org.cruk.genologics:clarity-client:jar:2.19.2'</pre></div></div>
+<div class="section">
+<h3><a name="Apache_Ant"></a>Apache Ant</h3><a name="Apache_Ant"></a>
+<div class="source">
+<pre>&lt;dependency org=&quot;org.cruk.genologics&quot; name=&quot;clarity-client&quot; rev=&quot;2.19.2&quot;&gt;
+  &lt;artifact name=&quot;clarity-client&quot; type=&quot;jar&quot; /&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3><a name="Groovy_Grape"></a>Groovy Grape</h3><a name="Groovy_Grape"></a>
+<div class="source">
+<pre>@Grapes(
+@Grab(group='org.cruk.genologics', module='clarity-client', version='2.19.2')
+)</pre></div></div>
+<div class="section">
+<h3><a name="Grails"></a>Grails</h3><a name="Grails"></a>
+<div class="source">
+<pre>compile 'org.cruk.genologics:clarity-client:2.19.2'</pre></div></div>
+<div class="section">
+<h3><a name="Leiningen"></a>Leiningen</h3><a name="Leiningen"></a>
+<div class="source">
+<pre>[org.cruk.genologics/clarity-client &quot;2.19.2&quot;]</pre></div></div>
+<div class="section">
+<h3><a name="SBT"></a>SBT</h3><a name="SBT"></a>
+<div class="source">
+<pre>libraryDependencies += &quot;org.cruk.genologics&quot; %% &quot;clarity-client&quot; % &quot;2.19.2&quot;</pre></div></div></div>
       </div>
     </div>
     <div class="clear">

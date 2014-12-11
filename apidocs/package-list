@@ -37,4 +37,3 @@ org.cruk.genologics.api.debugging
 org.cruk.genologics.api.http
 org.cruk.genologics.api.impl
 org.cruk.genologics.api.jaxb
-org.cruk.genologics.api.tools
