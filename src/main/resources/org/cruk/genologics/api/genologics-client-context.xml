@@ -192,8 +192,4 @@
         <property name="restClient" ref="genologicsRestTemplate"/>
         <property name="httpClient" ref="genologicsHttpClient"/>
     </bean>
-    
-    <bean id="genologicsAPITools" class="org.cruk.genologics.api.tools.GenologicsAPITools" lazy-init="true">
-        <property name="genologicsAPI" ref="genologicsAPI"/>
-    </bean>
 </beans>
