@@ -49,10 +49,10 @@ import com.genologics.ri.researcher.Researcher;
 @XmlType(name = "reagent-lot",
          propOrder = { "reagentKit", "name", "lotNumber", "createdDate", "lastModifiedDate",
                        "expiryDate", "createdBy", "lastModifiedBy", "storageLocation", "notes",
-                       "status" })
+                       "status", "usageCount" })
 public class ReagentLot implements LimsEntity<ReagentLot>, Serializable
 {
-    private static final long serialVersionUID = 7614907510967421462L;
+    private static final long serialVersionUID = 8414977581247533239L;
 
     @XmlElement(name = "reagent-kit")
     protected ReagentKitLink reagentKit;
@@ -89,6 +89,12 @@ public class ReagentLot implements LimsEntity<ReagentLot>, Serializable
 
     @XmlElement
     protected Status status;
+
+    /**
+     * @since 2.20
+     */
+    @XmlElement(name = "usage-count")
+    protected Long usageCount;
 
     @XmlAttribute(name = "uri")
     @XmlSchemaType(name = "anyURI")
@@ -227,6 +233,16 @@ public class ReagentLot implements LimsEntity<ReagentLot>, Serializable
     public void setStatus(Status status)
     {
         this.status = status;
+    }
+
+    public Long getUsageCount()
+    {
+        return usageCount;
+    }
+
+    public void setUsageCount(Long usageCount)
+    {
+        this.usageCount = usageCount;
     }
 
     @Override

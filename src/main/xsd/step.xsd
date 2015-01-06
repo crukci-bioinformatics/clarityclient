@@ -365,6 +365,17 @@ will be removed if there is one.]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="rework-step-uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The rework step instance uri (ie http://severname:8080/api/v2/steps/{ID}) for the sample.
+<br/>Always returns with GET: no; the sample may not have a rework step
+<br/>Updatable with PUT: yes
+<br/>Required for PUT. If the rework step is not present during an update, the existing rework step for the sample
+will be removed if there is one.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
   <xs:complexType name="escalated-artifact">
     <xs:annotation>
@@ -562,6 +573,7 @@ will be removed if there is one.]]>
       <xs:enumeration value="store"/>
       <xs:enumeration value="nextstep"/>
       <xs:enumeration value="rework"/>
+      <xs:enumeration value="completerepeat"/>
       <xs:enumeration value="unknown"/>
     </xs:restriction>
   </xs:simpleType>

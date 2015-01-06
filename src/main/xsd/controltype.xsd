@@ -44,6 +44,18 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="concentration" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The concentration of the ControlType.
+<br/>Always returns with GET: No
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="archived" type="xs:boolean" minOccurs="0">
         <xs:annotation>
           <xs:documentation>

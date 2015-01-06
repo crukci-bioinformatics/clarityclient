@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
-import com.genologics.ri.sample.Sample;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
 
 /**
@@ -40,7 +39,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
 @XmlType(name = "next-action")
 public class NextAction implements Serializable
 {
-    private static final long serialVersionUID = -3281325983996842509L;
+    private static final long serialVersionUID = -8061858911629830727L;
 
     @XmlAttribute(name = "artifact-uri")
     @XmlSchemaType(name = "anyURI")
@@ -53,6 +52,13 @@ public class NextAction implements Serializable
     @XmlSchemaType(name = "anyURI")
     protected URI stepUri;
 
+    /**
+     * @since 2.20
+     */
+    @XmlAttribute(name = "rework-step-uri")
+    @XmlSchemaType(name = "anyURI")
+    protected URI reworkStepUri;
+
 
     public NextAction()
     {
@@ -60,38 +66,38 @@ public class NextAction implements Serializable
 
     public NextAction(URI artifactUri)
     {
-        this.artifactUri = artifactUri;
+        setArtifactUri(artifactUri);
     }
 
     public NextAction(URI artifactUri, ActionType action)
     {
-        this.artifactUri = artifactUri;
-        this.action = action;
+        setArtifactUri(artifactUri);
+        setAction(action);
     }
 
     public NextAction(URI artifactUri, ActionType action, Linkable<ProtocolStep> nextStep)
     {
-        this.artifactUri = artifactUri;
-        this.action = action;
-        this.stepUri = nextStep.getUri();
+        setArtifactUri(artifactUri);
+        setAction(action);
+        setStep(nextStep);
     }
 
     public NextAction(Linkable<Artifact> link)
     {
-        this.artifactUri = link.getUri();
+        setArtifact(link);
     }
 
     public NextAction(Linkable<Artifact> link, ActionType action)
     {
-        this.artifactUri = link.getUri();
-        this.action = action;
+        setArtifact(link);
+        setAction(action);
     }
 
     public NextAction(Linkable<Artifact> link, ActionType action, Linkable<ProtocolStep> nextStep)
     {
-        this.artifactUri = link.getUri();
-        this.action = action;
-        this.stepUri = nextStep.getUri();
+        setArtifact(link);
+        setAction(action);
+        setStep(nextStep);
     }
 
     public URI getArtifactUri()
@@ -104,9 +110,9 @@ public class NextAction implements Serializable
         this.artifactUri = artifactUri;
     }
 
-    public void setArtifact(Linkable<Sample> link)
+    public void setArtifact(Linkable<Artifact> link)
     {
-        artifactUri = link.getUri();
+        artifactUri = link == null ? null : link.getUri();
     }
 
     public ActionType getAction()
@@ -129,9 +135,23 @@ public class NextAction implements Serializable
         this.stepUri = stepUri;
     }
 
-    public void setStep(Linkable<ProcessStep> step)
+    public void setStep(Linkable<ProtocolStep> step)
     {
-        stepUri = step.getUri();
+        stepUri = step == null ? null : step.getUri();
     }
 
+    public URI getReworkStepUri()
+    {
+        return reworkStepUri;
+    }
+
+    public void setReworkStepUri(URI reworkStepUri)
+    {
+        this.reworkStepUri = reworkStepUri;
+    }
+
+    public void setReworkStep(Linkable<ProtocolStep> step)
+    {
+        reworkStepUri = step == null ? null : step.getUri();
+    }
 }

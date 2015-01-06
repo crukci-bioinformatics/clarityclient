@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
@@ -66,10 +67,11 @@ import com.genologics.ri.userdefined.UDF;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "artifact",
          propOrder = { "name", "type", "outputType", "parentProcess", "qcFlag", "location",
-                       "workingFlag", "samples", "reagentLabels", "controlType", "fields", "file", "artifactGroups" })
+                       "workingFlag", "samples", "reagentLabels", "controlType", "fields", "file",
+                       "artifactGroups", "workflowStages" })
 public class Artifact implements LimsEntity<Artifact>, Serializable
 {
-    private static final long serialVersionUID = -6880606486650133775L;
+    private static final long serialVersionUID = -6783743293758153327L;
 
     protected String name;
 
@@ -107,6 +109,13 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
 
     @XmlElement(name = "artifact-group")
     protected List<ArtifactGroupLink> artifactGroups;
+
+    /**
+     * @since 2.20
+     */
+    @XmlElementWrapper(name = "workflow-stages")
+    @XmlElement(name = "workflow-stage")
+    protected List<WorkflowStage> workflowStages;
 
     @XmlAttribute(name = "limsid")
     protected String limsid;
@@ -292,7 +301,7 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
         {
             artifactGroups = new ArrayList<ArtifactGroupLink>();
         }
-        return this.artifactGroups;
+        return artifactGroups;
     }
 
     public void setArtifactGroups(Collection<? extends Linkable<ArtifactGroup>> links)
@@ -311,21 +320,49 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
         return l;
     }
 
+    public List<WorkflowStage> getWorkflowStages()
+    {
+        if (workflowStages == null)
+        {
+            workflowStages = new ArrayList<WorkflowStage>();
+        }
+        return workflowStages;
+    }
+
+    public void setWorkflowStages(Collection<WorkflowStage> workflowStages)
+    {
+        getWorkflowStages().clear();
+        getWorkflowStages().addAll(workflowStages);
+    }
+
+    public WorkflowStage addWorkflowStage(WorkflowStage stage)
+    {
+        if (stage != null)
+        {
+            getWorkflowStages().add(stage);
+        }
+        return stage;
+    }
+
+    @Override
     public String getLimsid()
     {
         return limsid;
     }
 
+    @Override
     public void setLimsid(String value)
     {
         this.limsid = value;
     }
 
+    @Override
     public URI getUri()
     {
         return uri;
     }
 
+    @Override
     public void setUri(URI value)
     {
         this.uri = value;

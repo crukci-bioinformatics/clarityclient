@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,11 +35,13 @@ import com.genologics.ri.Linkable;
 @GenologicsEntity(uriSection = "controltypes", creatable = true, updateable = true)
 @XmlRootElement(name = "control-type")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "control-type", propOrder = { "supplier", "catalogueNumber", "website", "archived", "singleStep" })
+@XmlType(name = "control-type",
+         propOrder = { "supplier", "catalogueNumber", "website", "concentration", "archived", "singleStep" })
 public class ControlType implements Linkable<ControlType>, Serializable
 {
-    private static final long serialVersionUID = -6729577919299130692L;
+    private static final long serialVersionUID = -3152986669595427342L;
 
+    @XmlElement
     protected String supplier;
 
     @XmlElement(name = "catalogue-number")
@@ -48,6 +50,13 @@ public class ControlType implements Linkable<ControlType>, Serializable
     @XmlSchemaType(name = "anyURI")
     protected String website;
 
+    /**
+     * @since 2.20
+     */
+    @XmlElement
+    protected String concentration;
+
+    @XmlElement
     protected Boolean archived;
 
     @XmlElement(name = "single-step")
@@ -89,6 +98,16 @@ public class ControlType implements Linkable<ControlType>, Serializable
     public void setWebsite(String website)
     {
         this.website = website;
+    }
+
+    public String getConcentration()
+    {
+        return concentration;
+    }
+
+    public void setConcentration(String concentration)
+    {
+        this.concentration = concentration;
     }
 
     public Boolean getArchived()

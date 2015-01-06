@@ -141,6 +141,18 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="usage-count" type="xs:long" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The number of times this Reagent Lot has been used.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="uri" type="xs:anyURI">
       <xs:annotation>
@@ -222,18 +234,18 @@ linking to the detailed representation of the required researcher.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="next-page" type="ri:page" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            <![CDATA[The next page element, contains a link to the next page of reagent lots, if required.
-<br/>Always returns with GET: No]]>
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
       <xs:element name="previous-page" type="ri:page" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             <![CDATA[The previous page element, contains a link to the previous page of reagent lots, if required.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The next page element, contains a link to the next page of reagent lots, if required.
 <br/>Always returns with GET: No]]>
           </xs:documentation>
         </xs:annotation>

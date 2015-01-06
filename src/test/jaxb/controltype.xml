@@ -5,6 +5,7 @@
     <supplier>Illumina</supplier>
     <catalogue-number>123456</catalogue-number>
     <website>http://www.cambridgediving.org.uk/</website>
+    <concentration>250ml</concentration>
     <archived>false</archived>
     <single-step>false</single-step>
 </ctrltp:control-type>

@@ -171,6 +171,30 @@ This element is repeated for each artifact group that the Artifact belongs to.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="workflow-stages" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The list of workflow stages that the artifact has completed or is presently active in.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="workflow-stage" type="art:workflow-stage" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The list of workflow stages that the artifact has completed or is presently active in.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="limsid" type="xs:string">
       <xs:annotation>
@@ -312,6 +336,43 @@ to the detailed representation of a submitted Sample for the Artifact.]]>
       </xs:annotation>
     </xs:attribute>
   </xs:complexType>
+  <xs:complexType name="workflow-stage">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provides links to workflow stages, stage names and their respective statuses.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the workflow stage.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the protocol step for this workflow stage. For QC protocols, the stage name will be the protocol name.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="status" type="art:status">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The status of the workflow stage.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
   <xs:simpleType name="qc-flag">
     <xs:annotation>
       <xs:documentation>
@@ -323,6 +384,20 @@ to the detailed representation of a submitted Sample for the Artifact.]]>
       <xs:enumeration value="PASSED"/>
       <xs:enumeration value="FAILED"/>
       <xs:enumeration value="CONTINUE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="status">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The workflow stage status for the artifact.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="QUEUED"/>
+      <xs:enumeration value="IN_PROGRESS"/>
+      <xs:enumeration value="SKIPPED"/>
+      <xs:enumeration value="REMOVED"/>
+      <xs:enumeration value="COMPLETE"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="artifacts">

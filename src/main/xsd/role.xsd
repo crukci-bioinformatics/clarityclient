@@ -13,6 +13,8 @@
           <xs:documentation>
             <![CDATA[Name of the represented role
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
 <br/>Updatable with PUT: Yes
 <br/>Required for PUT: Yes]]>
           </xs:documentation>
@@ -23,6 +25,8 @@
           <xs:documentation>
             <![CDATA[The researchers who have been granted the Role. This field is read-only.
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
           </xs:documentation>
@@ -34,6 +38,8 @@
                 <xs:documentation>
                   <![CDATA[The researchers who have been granted the Role. This field is read-only.
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
                 </xs:documentation>
@@ -47,6 +53,8 @@
           <xs:documentation>
             <![CDATA[The permissions assigned to the Role. If omitted from a PUT, all permissions will be unassigned from the Role.
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
 <br/>Updatable with PUT: Yes
 <br/>Required for PUT: No]]>
           </xs:documentation>
@@ -58,6 +66,8 @@
                 <xs:documentation>
                   <![CDATA[The permissions assigned to the Role. If omitted from a PUT, all permissions will be unassigned from the Role.
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: No
 <br/>Updatable with PUT: Yes
 <br/>Required for PUT: No]]>
                 </xs:documentation>
@@ -72,6 +82,8 @@
         <xs:documentation>
           <![CDATA[Whether this role is a built-in role (built-in roles cannot be deleted)
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
         </xs:documentation>
@@ -82,6 +94,8 @@
         <xs:documentation>
           <![CDATA[The URI of the Role.
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
         </xs:documentation>
@@ -99,6 +113,8 @@
         <xs:documentation>
           <![CDATA[The action this Permission is granting
 <br/>Always returns with GET: No
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
         </xs:documentation>
@@ -109,6 +125,8 @@
         <xs:documentation>
           <![CDATA[The name of this Permission
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
         </xs:documentation>
@@ -119,6 +137,8 @@
         <xs:documentation>
           <![CDATA[The URI of the Permission
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: Yes
 <br/>Updatable with PUT: No
 <br/>Required for PUT: Yes]]>
         </xs:documentation>
@@ -136,6 +156,8 @@
         <xs:documentation>
           <![CDATA[The last name of the researcher.
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
         </xs:documentation>
@@ -146,6 +168,8 @@
         <xs:documentation>
           <![CDATA[The first name of the researcher.
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
         </xs:documentation>
@@ -156,6 +180,8 @@
         <xs:documentation>
           <![CDATA[The URI of the Researcher
 <br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
 <br/>Updatable with PUT: No
 <br/>Required for PUT: No]]>
         </xs:documentation>

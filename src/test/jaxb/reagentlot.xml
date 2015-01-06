@@ -11,4 +11,5 @@
     <storage-location>Freezer</storage-location>
     <notes>Some note</notes>
     <status>ACTIVE</status>
+    <usage-count>20</usage-count>
 </lot:reagent-lot>
