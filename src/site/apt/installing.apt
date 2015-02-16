@@ -17,11 +17,22 @@ in your class path.
 
   (Obviously, update the version number as later versions appear.)
 
-  We here at CRUK-CI's bioinformatics group will be publishing a Maven
-repository for our code in the near future. When we have this up you will
-be able to add it to your POM and fetch the code directly with Maven.
-Until that time, you'll need to get the source code and build it yourself
-(see below).
+  We here at CRUK-CI's bioinformatics group host a Maven repository for
+our code. You can let Maven do the work and fetch the client from us if
+you add our repository's details to your POM:
+
++---
+<repository>
+    <id>crukci-bioinformatics</id>
+    <url>http://content.cruk.cam.ac.uk/bioinformatics/maven</url>
+    <releases>
+        <enabled>true</enabled>
+    </releases>
+    <snapshots>
+        <enabled>false</enabled>
+    </snapshots>
+</repository>
++---
 
 * Without Maven
 

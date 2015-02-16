@@ -44,6 +44,20 @@ Having got this check out of the code, run:
 
 This will build and install the project into your local Maven cache.
 You'll need Maven 2.2 or newer.
+
+Alternatively, you can add our Maven repository to your POM and let
+Maven do the work. Add a <repositories> section containing:
+
+    <repository>
+        <id>crukci-bioinformatics</id>
+        <url>http://content.cruk.cam.ac.uk/bioinformatics/maven</url>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
   
 
 Usage
