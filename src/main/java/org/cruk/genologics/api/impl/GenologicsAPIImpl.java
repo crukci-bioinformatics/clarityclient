@@ -1112,7 +1112,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
         Class<?> entityClass = entity.getClass();
         GenologicsEntity entityAnno = checkEntityAnnotated(entity.getClass());
 
-        if (!entityAnno.creatable())
+        if (!entityAnno.creatable() && void.class.equals(entityAnno.creationClass())) 
         {
             throw new GenologicsUpdateException(getShortClassName(entityClass) + " cannot be created.");
         }
