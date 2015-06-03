@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -66,13 +66,15 @@ import com.genologics.ri.Linkable;
  * offset 1. Size: 96. Valid values: A:1 ... H:12</li>
  * </ul>
  * <p>
- * The container type also identifies wells in the container that are not
- * available for storing samples or reagents, either because the configuration
- * of the container requires those wells to be empty for the instrument
- * configuration or because the well contains specific calibrants that are
- * required by the instrument. The well location of the calibrant or unavailable
- * wells is specified using the coordinate system that is described by the
- * x-dimension and y-dimension of the container type.
+ * The container type also identifies wells in the container that are not available for storing
+ * samples or reagents, either because the configuration of the container requires those wells to
+ * be empty for the instrument configuration or because the well contains specific calibrants that
+ * are required by the instrument. The well location of the unavailable wells is specified
+ * using the coordinate system that is described by the x-dimension and y-dimension of the container
+ * type.
+ * </p>
+ * <p>
+ * <i>Note: calibrant-well is no longer supported and will be ignored if provided.</i>
  * </p>
  */
 @GenologicsEntity(uriSection = "containertypes", creatable = true, updateable = true)
@@ -120,7 +122,7 @@ public class ContainerType implements Linkable<ContainerType>, Serializable
     /**
      * Each calibrant well identifies a well location that is reserved for calibrants in containers of the container type.
      *
-     * @deprecated  Deprecated, this property is no longer supported.
+     * @deprecated This property is no longer supported and will be ignored if provided.
      */
     @Deprecated
     public List<CalibrantWell> getCalibrantWells()

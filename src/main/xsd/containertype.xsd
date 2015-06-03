@@ -27,9 +27,10 @@ The following are examples of the coordinate system:
 The container type also identifies wells in the container that are not available for storing
 samples or reagents, either because the configuration of the container requires those wells to
 be empty for the instrument configuration or because the well contains specific calibrants that
-are required by the instrument. The well location of the calibrant or unavailable wells is specified
+are required by the instrument. The well location of the unavailable wells is specified
 using the coordinate system that is described by the x-dimension and y-dimension of the container
-type.]]>
+type.<br/><br/>
+<i>Note: calibrant-well is no longer supported and will be ignored if provided.</i>]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
@@ -46,7 +47,7 @@ type.]]>
       <xs:element name="calibrant-well" type="ctp:calibrant-well" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
-            <![CDATA[Deprecated, this property is no longer supported.
+            <![CDATA[Deprecated, this property is no longer supported and will be ignored if provided.
 Each calibrant well identifies a well location that is reserved for calibrants in containers of the container type.
 <br/>Always returns with GET: No
 <br/>Creatable with POST: No
