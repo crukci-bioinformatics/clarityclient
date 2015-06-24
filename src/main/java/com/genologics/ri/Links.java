@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,10 +37,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "links")
 public class Links implements Batch<Link>, Serializable
 {
-    private static final long serialVersionUID = -9069517524812753843L;
+    private static final long serialVersionUID = 8838137119064380847L;
 
     @XmlElement(name = "link")
-    protected List<Link> links;
+    protected List<Link> linkList;
 
     public Links()
     {
@@ -48,21 +48,26 @@ public class Links implements Batch<Link>, Serializable
 
     public Links(int capacity)
     {
-        this.links = new ArrayList<Link>(capacity);
+        linkList = new ArrayList<Link>(capacity);
     }
 
     public Links(Collection<Link> links)
     {
-        this.links = new ArrayList<Link>(links);
+        linkList = new ArrayList<Link>(links);
+    }
+
+    public Links(Links links)
+    {
+        this(links.getLinks());
     }
 
     public List<Link> getLinks()
     {
-        if (links == null)
+        if (linkList == null)
         {
-            links = new ArrayList<Link>(128);
+            linkList = new ArrayList<Link>(128);
         }
-        return this.links;
+        return this.linkList;
     }
 
     public Link add(Link link)
@@ -76,6 +81,16 @@ public class Links implements Batch<Link>, Serializable
         Link l = new Link(link);
         getLinks().add(l);
         return l;
+    }
+
+    public void addAll(Links links)
+    {
+        addAll(links.getLinks());
+    }
+
+    public void addAll(Collection<Link> links)
+    {
+        getLinks().addAll(links);
     }
 
     @Override

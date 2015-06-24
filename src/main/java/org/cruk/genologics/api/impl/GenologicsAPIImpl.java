@@ -121,6 +121,12 @@ public class GenologicsAPIImpl implements GenologicsAPI
     private static final int REFLECTIVE_UPDATE_MODIFIER_MASK = Modifier.TRANSIENT | Modifier.STATIC | Modifier.FINAL;
 
     /**
+     * Hard limit on the maximum number of links or objects per batch
+     * for the bulk operations.
+     */
+    private static final int BULK_OPERATION_BATCH_SIZE_HARD_LIMIT = 2000;
+
+    /**
      * Logger.
      */
     protected Log logger = LogFactory.getLog(GenologicsAPI.class);
@@ -183,6 +189,15 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * User name and password credentials for accessing the file store.
      */
     protected UsernamePasswordCredentials filestoreCredentials;
+
+    /**
+     * The number of objects that will be fetched, updated or created in each
+     * call the Clarity API for the bulk operations (those that use a collection of
+     * links or objects).
+     *
+     * @see GenologicsAPI#setBulkOperationBatchSize(int)
+     */
+    private int bulkOperationBatchSize = 25;
 
     /**
      * Map of Locatable class to the class that provides the list of links
@@ -486,6 +501,28 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 initialisingConfiguration = configuration;
             }
         }
+    }
+
+    /**
+     * Get the size of each batch of objects fetched, updated or created in
+     * a bulk operation.
+     *
+     * @return The number of objects sent or retrieved in each batch.
+     *
+     * @see GenologicsAPI#setBulkOperationBatchSize(int)
+     */
+    public int getBulkOperationBatchSize()
+    {
+        return bulkOperationBatchSize;
+    }
+
+    @Override
+    public void setBulkOperationBatchSize(int batchSize)
+    {
+        bulkOperationBatchSize =
+                batchSize <= 0
+                    ? BULK_OPERATION_BATCH_SIZE_HARD_LIMIT
+                    : Math.min(batchSize, BULK_OPERATION_BATCH_SIZE_HARD_LIMIT);
     }
 
     /**
@@ -1047,7 +1084,9 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
             Class<Batch<E>> batchFetchResultClass = getBatchRetrieveClassForEntity(entityClass);
 
-            if (batchFetchResultClass != null)
+            entities = new ArrayList<E>(links.size());
+
+            if (batchFetchResultClass != null && links.size() > 1)
             {
                 // No step component has a batch fetch operation.
 
@@ -1055,16 +1094,29 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 checkServerSet();
                 String uri = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
 
-                ResponseEntity<Batch<E>> response = restClient.postForEntity(uri, toLinks(links), batchFetchResultClass);
+                int batchCapacity = Math.min(bulkOperationBatchSize, links.size());
+                List<LimsLink<E>> batch = new ArrayList<LimsLink<E>>(batchCapacity);
 
-                entities = response.getBody().getList();
+                Iterator<? extends LimsLink<E>> linkIter = links.iterator();
+
+                while (linkIter.hasNext())
+                {
+                    batch.clear();
+
+                    while (linkIter.hasNext() && batch.size() < batchCapacity)
+                    {
+                        batch.add(linkIter.next());
+                    }
+
+                    ResponseEntity<Batch<E>> response = restClient.postForEntity(uri, toLinks(batch), batchFetchResultClass);
+
+                    entities.addAll(response.getBody().getList());
+                }
 
                 reorderBatchFetchList(links, entities);
             }
             else
             {
-                entities = new ArrayList<E>(links.size());
-
                 for (LimsLink<E> limsLink : links)
                 {
                     E entity = retrieve(limsLink.getUri(), limsLink.getEntityClass());
@@ -1275,23 +1327,46 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
                 try
                 {
-                    BH details = batchRetrieveClass.newInstance();
+                    List<E> createdEntities = new ArrayList<E>(entities.size());
+                    Links createdLinks = new Links(entities.size());
 
-                    details.addForCreate(entities);
+                    final int batchCapacity = Math.min(bulkOperationBatchSize, entities.size());
+                    List<E> batch = new ArrayList<E>(batchCapacity);
 
-                    String url = apiRoot + entityAnno.uriSection() + "/batch/create";
+                    Iterator<E> entityIter = entities.iterator();
 
-                    ResponseEntity<Links> createReply =
-                            restClient.exchange(url, HttpMethod.POST, new HttpEntity<BH>(details), Links.class);
+                    while (entityIter.hasNext())
+                    {
+                        batch.clear();
 
-                    // Fetch the new objects to make sure all the properties are correct.
+                        while (entityIter.hasNext() && batch.size() < batchCapacity)
+                        {
+                            batch.add(entityIter.next());
+                        }
 
-                    url = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
+                        BH details = batchRetrieveClass.newInstance();
 
-                    ResponseEntity<BH> reloadReply =
-                            restClient.exchange(url, HttpMethod.POST, new HttpEntity<Links>(createReply.getBody()), batchRetrieveClass);
+                        details.addForCreate(entities);
 
-                    List<E> createdEntities = reloadReply.getBody().getList();
+                        String url = apiRoot + entityAnno.uriSection() + "/batch/create";
+
+                        ResponseEntity<Links> createReply =
+                                restClient.exchange(url, HttpMethod.POST, new HttpEntity<BH>(details), Links.class);
+
+                        // Need to record the links as they are returned from the create call
+                        // in the order they are returned (see below).
+
+                        createdLinks.addAll(createReply.getBody());
+
+                        // Fetch the new objects to make sure all the properties are correct.
+
+                        url = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
+
+                        ResponseEntity<BH> reloadReply =
+                                restClient.exchange(url, HttpMethod.POST, new HttpEntity<Links>(createReply.getBody()), batchRetrieveClass);
+
+                        createdEntities.addAll(reloadReply.getBody().getList());
+                    }
 
                     if (Sample.class.equals(entityClass))
                     {
@@ -1306,9 +1381,10 @@ public class GenologicsAPIImpl implements GenologicsAPI
                     {
                         // The fetch of the entities using the Links may not bring them back in
                         // the order originally requested, so sort based on the order defined in
-                        // the Links object.
+                        // the createdLinks object (now a collection of the links from all the
+                        // batch call replies).
 
-                        reorderBatchFetchList(createReply.getBody().getLinks(), createdEntities);
+                        reorderBatchFetchList(createdLinks.getLinks(), createdEntities);
 
                         // We must assume that the order of the URIs returned in the Links object
                         // received after the creation POST is the same order as the original
@@ -1536,23 +1612,40 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
                 try
                 {
-                    BH details = batchUpdateClass.newInstance();
-                    details.addForUpdate(entities);
+                    List<E> updatedEntities = new ArrayList<E>(entities.size());
 
-                    String url = apiRoot + entityAnno.uriSection() + "/batch/update";
+                    final int batchCapacity = Math.min(bulkOperationBatchSize, entities.size());
+                    List<E> batch = new ArrayList<E>(batchCapacity);
 
-                    ResponseEntity<Links> updateReply =
-                            restClient.exchange(url, HttpMethod.POST, new HttpEntity<BH>(details), Links.class);
+                    Iterator<E> entityIter = entities.iterator();
 
-                    // Fetch the updated objects to make sure all the properties are correct.
-                    // Some may be disallowed or just not updated in the LIMS.
+                    while (entityIter.hasNext())
+                    {
+                        batch.clear();
 
-                    url = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
+                        while (entityIter.hasNext() && batch.size() < batchCapacity)
+                        {
+                            batch.add(entityIter.next());
+                        }
 
-                    ResponseEntity<BH> reloadReply =
-                            restClient.exchange(url, HttpMethod.POST, new HttpEntity<Links>(updateReply.getBody()), batchUpdateClass);
+                        BH details = batchUpdateClass.newInstance();
+                        details.addForUpdate(entities);
 
-                    List<E> updatedEntities = reloadReply.getBody().getList();
+                        String url = apiRoot + entityAnno.uriSection() + "/batch/update";
+
+                        ResponseEntity<Links> updateReply =
+                                restClient.exchange(url, HttpMethod.POST, new HttpEntity<BH>(details), Links.class);
+
+                        // Fetch the updated objects to make sure all the properties are correct.
+                        // Some may be disallowed or just not updated in the LIMS.
+
+                        url = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
+
+                        ResponseEntity<BH> reloadReply =
+                                restClient.exchange(url, HttpMethod.POST, new HttpEntity<Links>(updateReply.getBody()), batchUpdateClass);
+
+                        updatedEntities.addAll(reloadReply.getBody().getList());
+                    }
 
                     // The fetch of the entities using the Links object may not bring them back in
                     // the order originally requested, so sort based on the order of the original

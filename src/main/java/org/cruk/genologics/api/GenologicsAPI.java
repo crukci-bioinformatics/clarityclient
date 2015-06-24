@@ -187,6 +187,32 @@ public interface GenologicsAPI
      */
     void setConfiguration(Properties configuration) throws MalformedURLException;
 
+    /**
+     * Set the number of objects that will be fetched, updated or created in each
+     * call the Clarity API for the bulk operations (those that use a collection of
+     * links or objects).
+     *
+     * <p>
+     * It seems that naively asking for or sending all the links or objects in the
+     * collections does not sit well with the back end server. Experimentation has
+     * shown that the fastest overall operation time (at least for fetching artifacts)
+     * occurs when between twenty and thirty links or artifacts are in the POST
+     * call to the Clarity API.
+     * </p>
+     *
+     * @param batchSize The number of objects to fetch or send per call to the API.
+     * A maximum of 2000 objects per batch is imposed because performance noticeably
+     * drops off long before this number of objects is used. If this argument is less
+     * than or equal to zero, all object or links in the collection will be sent at
+     * once up to the 2000 per call hard limit.
+     *
+     * @see #loadAll(Collection)
+     * @see #createAll(Collection)
+     * @see #updateAll(Collection)
+     * @see #deleteAll(Collection)
+     */
+    void setBulkOperationBatchSize(int batchSize);
+
 
     // Helper methods
 
