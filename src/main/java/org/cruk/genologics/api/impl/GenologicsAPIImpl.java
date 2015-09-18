@@ -529,6 +529,9 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * When this bean has finished Spring set up (all properties set), the
      * configuration that may have been supplied during start up needs to
      * be applied correctly to this bean and some objects it depends on.
+     *
+     * @throws MalformedURLException if the {@code api.server} property is set to
+     * an invalid URL.
      */
     @PostConstruct
     public void afterInitialisation() throws MalformedURLException
@@ -658,6 +661,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * in the collection are of the same class, and that, if {@code requireUri} is true,
      * there are no repeated URIs in the collection (ignoring state).
      *
+     * @param <E> The type of entity in the collection.
      * @param entities The collection of entities to check.
      * @param requireUri Whether these objects are expected to already have a URI set
      * on them or not.
@@ -729,6 +733,8 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * a URI, that all links in the collection are links to the same entity class, and that
      * there are no repeated URIs in the collection (ignoring state).
      *
+     * @param <E> The type of entity linked to.
+     * @param <L> The type of link object.
      * @param links The collection of links to check.
      *
      * @return The class of the entities the links in the collection refer to. Will return

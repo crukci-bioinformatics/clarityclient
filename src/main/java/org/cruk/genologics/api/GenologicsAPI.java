@@ -58,6 +58,7 @@ import com.genologics.ri.step.StepCreation;
  * <p>
  * All methods that make calls to the server throw some run time exceptions that
  * client code should expect and handle as appropriate:
+ * </p>
  *
  * <ul>
  * <li>
@@ -84,7 +85,6 @@ import com.genologics.ri.step.StepCreation;
  * are {@code null}. <i>entityClass</i> parameters are a prime example.
  * </li>
  * </ul>
- * </p>
  *
  * @see <a href="http://genologics.com/developer">Genologic's REST documentation</a>
  */
@@ -364,6 +364,7 @@ public interface GenologicsAPI
     /**
      * Reload an entity in-situ. The given object is refreshed from the server.
      *
+     * @param <E> The type of LIMS entity referred to.
      * @param entity The LimsEntity to refresh.
      */
     <E extends LimsEntity<E>> void reload(E entity);

@@ -329,6 +329,7 @@ public class GenologicsAPICache
      * that are not already seen (or, for stateful objects, those whose requested
      * state is later than that in the cache).
      *
+     * @param <E> The type of LIMS entity referred to.
      * @param pjp The join point object.
      *
      * @return The list of entities retrieved.
@@ -726,6 +727,8 @@ public class GenologicsAPICache
      * object in the cache.
      *
      * @param pjp The join point object.
+     *
+     * @return The file record in the Genologics LIMS.
      *
      * @throws Throwable if there is an error.
      *
