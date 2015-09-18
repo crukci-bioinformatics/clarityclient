@@ -25,6 +25,22 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="date-started" type="xs:dateTime" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The started date of the step, in yyyy-MM-dd'T'HH:mm:ss.SSSXXX format.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="date-completed" type="xs:dateTime" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The completed date of the step, in yyyy-MM-dd'T'HH:mm:ss.SSSXXX format.
+<br/>Always returns with GET: No, if the step has not completed, the date-completed will not show.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="actions" type="stp:actions-link" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
@@ -99,6 +115,14 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="automatic-next-step" type="stp:automatic-next-step-link" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The corresponding step that was automatically begun when the
+"Automatically start Next Step" option is enabled in the step's configuration.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="uri" type="xs:anyURI"/>
     <xs:attribute name="limsid" type="xs:string">
@@ -166,6 +190,21 @@
       <xs:annotation>
         <xs:documentation>
           <![CDATA[The URI of corresponding step actions resource.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="automatic-next-step-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Identifies the resource that represents the step that was automatically begun when the
+"Automatically start Next Step" option is enabled in a step's configuration.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the corresponding step resource.]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

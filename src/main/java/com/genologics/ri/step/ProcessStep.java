@@ -21,6 +21,7 @@ package com.genologics.ri.step;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -31,6 +32,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.cruk.genologics.api.jaxb.LongTimestampAdapter;
 
 import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.LimsEntity;
@@ -43,12 +47,29 @@ import com.genologics.ri.Linkable;
 @GenologicsEntity(uriSection = "steps")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "step",
-         propOrder = { "configuration", "actions", "reagents", "pools", "placements", "reagentLots",
-                       "programStatus", "setup", "details", "availablePrograms" })
+         propOrder = { "dateStarted", "dateCompleted",
+                       "configuration", "actions", "reagents", "pools", "placements", "reagentLots",
+                       "programStatus", "setup", "details", "availablePrograms", "automaticNextStep" })
 @XmlRootElement(name = "step")
 public class ProcessStep implements LimsEntity<ProcessStep>, Serializable
 {
-    private static final long serialVersionUID = 1624062653676684797L;
+    private static final long serialVersionUID = 2856981733241902872L;
+
+    /**
+     * @since 2.22
+     */
+    @XmlElement(name = "date-started")
+    @XmlSchemaType(name = "dateTime")
+    @XmlJavaTypeAdapter(LongTimestampAdapter.class)
+    protected Date dateStarted;
+
+    /**
+     * @since 2.22
+     */
+    @XmlElement(name = "date-completed")
+    @XmlSchemaType(name = "dateTime")
+    @XmlJavaTypeAdapter(LongTimestampAdapter.class)
+    protected Date dateCompleted;
 
     @XmlElement(name = "configuration")
     protected StepConfiguration configuration;
@@ -93,6 +114,12 @@ public class ProcessStep implements LimsEntity<ProcessStep>, Serializable
     @XmlElement(name = "available-program")
     protected List<AvailableProgram> availablePrograms;
 
+    /**
+     * @since 2.22
+     */
+    @XmlElement(name = "automatic-next-step")
+    protected AutomaticNextStepLink automaticNextStep;
+
     @XmlAttribute(name = "uri")
     @XmlSchemaType(name = "anyURI")
     protected URI uri;
@@ -120,6 +147,26 @@ public class ProcessStep implements LimsEntity<ProcessStep>, Serializable
     {
         this.uri = uri;
         this.limsid = limsid;
+    }
+
+    public Date getDateStarted()
+    {
+        return dateStarted;
+    }
+
+    public void setDateStarted(Date dateStarted)
+    {
+        this.dateStarted = dateStarted;
+    }
+
+    public Date getDateCompleted()
+    {
+        return dateCompleted;
+    }
+
+    public void setDateCompleted(Date dateCompleted)
+    {
+        this.dateCompleted = dateCompleted;
     }
 
     public StepConfiguration getConfiguration()
@@ -255,5 +302,15 @@ public class ProcessStep implements LimsEntity<ProcessStep>, Serializable
     public void setCurrentState(String currentState)
     {
         this.currentState = currentState;
+    }
+
+    public AutomaticNextStepLink getAutomaticNextStep()
+    {
+        return automaticNextStep;
+    }
+
+    public void setAutomaticNextStep(Linkable<ProcessStep> step)
+    {
+        this.automaticNextStep = new AutomaticNextStepLink(step);
     }
 }
