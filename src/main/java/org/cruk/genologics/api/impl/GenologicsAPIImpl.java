@@ -124,7 +124,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * Hard limit on the maximum number of links or objects per batch
      * for the bulk operations.
      */
-    private static final int BULK_OPERATION_BATCH_SIZE_HARD_LIMIT = 2000;
+    private static final int BULK_OPERATION_BATCH_SIZE_HARD_LIMIT = 10000;
 
     /**
      * Logger.
@@ -197,7 +197,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
      *
      * @see GenologicsAPI#setBulkOperationBatchSize(int)
      */
-    private int bulkOperationBatchSize = 25;
+    private int bulkOperationBatchSize = 500;
 
     /**
      * Map of Locatable class to the class that provides the list of links
