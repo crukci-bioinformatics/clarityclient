@@ -324,6 +324,24 @@
                 </configuration>
             </plugin>
         </plugins>
+        
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <targetPath>${project.build.outputDirectory}</targetPath>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/test/resources</directory>
+                <targetPath>${project.build.testOutputDirectory}</targetPath>
+            </resource>
+            <resource>
+                <directory>${basedir}</directory>
+                <targetPath>META-INF</targetPath>
+                <includes>
+                    <include>LICENSE*</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
     <reporting>
