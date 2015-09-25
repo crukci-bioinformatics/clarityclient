@@ -233,6 +233,25 @@ public interface GenologicsAPI
      */
     <E extends LimsEntity<E>> URI limsIdToUri(String limsid, Class<E> entityClass) throws URISyntaxException;
 
+    /**
+     * Convert a collection of entities or links to entities into a map, keyed by
+     * the entities' LIMS identifiers.
+     *
+     * @param <E> The type of LIMS entity referred to.
+     * @param <L> The type of {@code LimsEntityLinkable} objects in the collection.
+     * @param entities The collection of entities or links to entities to convert into a map.
+     *
+     * @return A map of the LIMS entities or links keyed by their LIMS identifiers. An empty
+     * map is returned if {@code entities} is null.
+     *
+     * @throws IllegalArgumentException if {@code entities} contains any objects
+     * whose LIMS identifiers are null.
+     *
+     * @since 2.22
+     */
+    <E extends LimsEntity<E>, L extends LimsEntityLinkable<E>>
+    Map<String, L> toEntityMap(Collection<? extends L> entities);
+
     // Retrieval methods
 
     /**

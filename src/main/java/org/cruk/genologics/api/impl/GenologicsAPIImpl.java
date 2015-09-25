@@ -813,6 +813,28 @@ public class GenologicsAPIImpl implements GenologicsAPI
         return new URI(uri);
     }
 
+    @Override
+    public <E extends LimsEntity<E>, L extends LimsEntityLinkable<E>>
+    Map<String, L> toEntityMap(Collection<? extends L> entities)
+    {
+        Map<String, L> map = new HashMap<String, L>();
+
+        if (entities != null)
+        {
+            for (L entity : entities)
+            {
+                if (entity.getLimsid() == null)
+                {
+                    throw new IllegalArgumentException("The collection of entities or links passed in contains items without a LIMS id set.");
+                }
+
+                map.put(entity.getLimsid(), entity);
+            }
+        }
+
+        return map;
+    }
+
     // General fetch methods.
 
     @Override
