@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,16 +19,11 @@
 package com.genologics.ri;
 
 /**
- * Interface for all LIMS objects that have been assigned a LIMS identifier.
+ * Interface for all objects that are real LIMS entities (i.e. not links or other
+ * references).
  *
  * @param <E> The type of the entity implementing this interface (a self reference).
  */
 public interface LimsEntity<E extends LimsEntity<E>> extends LimsEntityLinkable<E>
 {
-    /**
-     * Set the LIMS if for this object.
-     *
-     * @param id The new LIMS id.
-     */
-    void setLimsid(String id);
 }
