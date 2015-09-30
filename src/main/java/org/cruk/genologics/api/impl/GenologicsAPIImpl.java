@@ -1122,7 +1122,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 checkServerSet();
                 String uri = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
 
-                int batchCapacity = Math.min(bulkOperationBatchSize, links.size());
+                final int batchCapacity = Math.min(bulkOperationBatchSize, links.size());
                 List<LimsLink<E>> batch = new ArrayList<LimsLink<E>>(batchCapacity);
 
                 Iterator<? extends LimsLink<E>> linkIter = links.iterator();
