@@ -899,7 +899,14 @@ public class GenologicsAPICache
      */
     public boolean isStateful(Collection<?> entities)
     {
-        return entities.isEmpty() ? false : isStateful(entities.iterator().next());
+        for (Object thing : entities)
+        {
+            if (thing != null)
+            {
+                return isStateful(thing);
+            }
+        }
+        return false;
     }
 
     /**
