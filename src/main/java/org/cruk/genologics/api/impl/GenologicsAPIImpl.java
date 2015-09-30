@@ -1374,24 +1374,28 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
                         BH details = batchRetrieveClass.newInstance();
 
-                        details.addForCreate(entities);
+                        details.addForCreate(batch);
 
                         String url = apiRoot + entityAnno.uriSection() + "/batch/create";
 
                         ResponseEntity<Links> createReply =
                                 restClient.exchange(url, HttpMethod.POST, new HttpEntity<BH>(details), Links.class);
+                        Links replyLinks = createReply.getBody();
+
+                        assert replyLinks.getSize() == batch.size() :
+                            "Have " + replyLinks.getSize() + " links returned for " + batch.size() + " submitted entities.";
 
                         // Need to record the links as they are returned from the create call
                         // in the order they are returned (see below).
 
-                        createdLinks.addAll(createReply.getBody());
+                        createdLinks.addAll(replyLinks);
 
                         // Fetch the new objects to make sure all the properties are correct.
 
                         url = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
 
                         ResponseEntity<BH> reloadReply =
-                                restClient.exchange(url, HttpMethod.POST, new HttpEntity<Links>(createReply.getBody()), batchRetrieveClass);
+                                restClient.exchange(url, HttpMethod.POST, new HttpEntity<Links>(replyLinks), batchRetrieveClass);
 
                         createdEntities.addAll(reloadReply.getBody().getList());
                     }
@@ -1657,12 +1661,16 @@ public class GenologicsAPIImpl implements GenologicsAPI
                         }
 
                         BH details = batchUpdateClass.newInstance();
-                        details.addForUpdate(entities);
+                        details.addForUpdate(batch);
 
                         String url = apiRoot + entityAnno.uriSection() + "/batch/update";
 
                         ResponseEntity<Links> updateReply =
                                 restClient.exchange(url, HttpMethod.POST, new HttpEntity<BH>(details), Links.class);
+                        Links replyLinks = updateReply.getBody();
+
+                        assert replyLinks.getSize() == batch.size() :
+                            "Have " + replyLinks.getSize() + " links returned for " + batch.size() + " submitted entities.";
 
                         // Fetch the updated objects to make sure all the properties are correct.
                         // Some may be disallowed or just not updated in the LIMS.
@@ -1670,7 +1678,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
                         url = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
 
                         ResponseEntity<BH> reloadReply =
-                                restClient.exchange(url, HttpMethod.POST, new HttpEntity<Links>(updateReply.getBody()), batchUpdateClass);
+                                restClient.exchange(url, HttpMethod.POST, new HttpEntity<Links>(replyLinks), batchUpdateClass);
 
                         updatedEntities.addAll(reloadReply.getBody().getList());
                     }
