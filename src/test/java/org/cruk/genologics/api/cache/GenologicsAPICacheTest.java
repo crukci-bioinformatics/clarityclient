@@ -112,6 +112,8 @@ public class GenologicsAPICacheTest
     public void cleanup()
     {
         testAspect.setEnabled(false);
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.LATEST);
+        cacheAspect.clear();
 
         if (project != null)
         {
@@ -154,10 +156,27 @@ public class GenologicsAPICacheTest
                           credentialsSet);
     }
 
+    /**
+     * Create a mock for Signature that expects getName() zero or one times.
+     * The times are for whether debugging is on or off.
+     *
+     * @return The Signature mock.
+     *
+     * @see <a href="http://stackoverflow.com/questions/3100859/easymock-how-to-reset-mock-but-maintain-expectations">Stack overflow issue</a>
+     */
+    private Signature createSignatureMock()
+    {
+        Signature jpSig = EasyMock.createMock(Signature.class);
+        EasyMock.expect(jpSig.getName()).andReturn("retrieve").times(0, 1);
+        return jpSig;
+    }
+
     @Test
-    public void testLoadOrRetrieve() throws Throwable
+    public void testLoadOrRetrieveLatest() throws Throwable
     {
         checkCredentialsSet();
+
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.LATEST);
 
         //CacheManager mockCacheManager = EasyMock.createMock(CacheManager.class);
         //EasyMock.expect(mockCacheManager.getCache(Artifact.class.getName())).andReturn(value);
@@ -166,8 +185,7 @@ public class GenologicsAPICacheTest
 
         String base = api.getServerApiAddress();
 
-        Signature jpSig = EasyMock.createMock(Signature.class);
-        EasyMock.expect(jpSig.getName()).andReturn("retrieve").times(0, 1);
+        Signature jpSig = createSignatureMock();
 
         Artifact a1 = new Artifact();
         a1.setUri(new URI(base + "/artifacts/2-1771911?state=1294907"));
@@ -193,12 +211,12 @@ public class GenologicsAPICacheTest
 
         Object[] a2args = { a2.getUri(), a2.getClass() };
 
+        jpSig = createSignatureMock();
         ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
         EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
         EasyMock.expect(pjp2.getSignature()).andReturn(jpSig).times(0, 1);
         EasyMock.expect(pjp2.proceed()).andReturn(a2).once();
 
-        EasyMock.reset(jpSig);
         EasyMock.replay(pjp2, jpSig);
 
         returned = cacheAspect.retrieve(pjp2);
@@ -206,10 +224,14 @@ public class GenologicsAPICacheTest
 
         EasyMock.verify(pjp2, jpSig);
 
-        ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp3.getArgs()).andReturn(a1args).times(3);
+        // With an earlier state, expect the later version to be returned regardless.
 
-        EasyMock.reset(jpSig);
+        Object[] a3args = { base + "/artifacts/2-1771911?state=1101002", a1.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(3);
+
         EasyMock.replay(pjp3, jpSig);
 
         returned = cacheAspect.retrieve(pjp3);
@@ -217,34 +239,182 @@ public class GenologicsAPICacheTest
         EasyMock.verify(pjp3, jpSig);
         assertSame("Did not return a2", a2, returned);
 
+        // With no state, expect whichever version is in the cache.
+
         Object[] a4args = { base + "/artifacts/2-1771911", Artifact.class };
 
+        jpSig = createSignatureMock();
         ProceedingJoinPoint pjp4 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
         EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(3);
-        EasyMock.expect(pjp4.getSignature()).andReturn(jpSig).times(0, 1);
-        //EasyMock.expect(pjp4.proceed()).andReturn(a2).once();
 
-        EasyMock.reset(jpSig);
         EasyMock.replay(pjp4, jpSig);
 
         returned = cacheAspect.retrieve(pjp4);
 
         EasyMock.verify(pjp4, jpSig);
         assertSame("Did not return a2", a2, returned);
+    }
 
-        /*
-        ProceedingJoinPoint pjp5 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp5.getArgs()).andReturn(a4args).times(3);
-        EasyMock.expect(pjp5.getSignature()).andReturn(jpSig).times(0, 1);
+    @Test
+    public void testLoadOrRetrieveExact() throws Throwable
+    {
+        checkCredentialsSet();
 
-        EasyMock.reset(jpSig);
-        EasyMock.replay(pjp5, jpSig);
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.EXACT);
+        cacheAspect.getCache(Artifact.class).removeAll();
 
-        returned = cacheAspect.retrieve(pjp5);
+        String base = api.getServerApiAddress();
 
-        EasyMock.verify(pjp5, jpSig);
+        Signature jpSig = createSignatureMock();
+
+        Artifact a1 = new Artifact();
+        a1.setUri(new URI(base + "/artifacts/2-1771911?state=1294907"));
+        a1.setLimsid("2-1771911");
+
+        Object[] a1args = { a1.getUri(), a1.getClass() };
+
+        ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+
+        EasyMock.replay(pjp1, jpSig);
+
+        Object returned = cacheAspect.retrieve(pjp1);
+
+        EasyMock.verify(pjp1, jpSig);
+        assertSame("Did not return a1", a1, returned);
+
+        Artifact a2 = new Artifact();
+        a2.setUri(new URI(base + "/artifacts/2-1771911?state=1500000"));
+        a2.setLimsid("2-1771911");
+
+        Object[] a2args = { a2.getUri(), a2.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+        EasyMock.expect(pjp2.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp2.proceed()).andReturn(a2).once();
+
+        EasyMock.replay(pjp2, jpSig);
+
+        returned = cacheAspect.retrieve(pjp2);
         assertSame("Did not return a2", a2, returned);
-        */
+
+        EasyMock.verify(pjp2, jpSig);
+
+        // In exact, this request for an earlier version will require another fetch.
+
+        Artifact a3 = new Artifact();
+        a3.setUri(new URI(base + "/artifacts/2-1771911?state=1101002"));
+        a3.setLimsid("2-1771911");
+
+        Object[] a3args = { a3.getUri(), a3.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(3);
+        EasyMock.expect(pjp3.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp3.proceed()).andReturn(a3).once();
+
+        EasyMock.replay(pjp3, jpSig);
+
+        returned = cacheAspect.retrieve(pjp3);
+
+        EasyMock.verify(pjp3, jpSig);
+        assertSame("Did not return a3", a3, returned);
+
+        // With no state, expect whichever version is in the cache.
+
+        Object[] a4args = { base + "/artifacts/2-1771911", Artifact.class };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp4 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(3);
+
+        EasyMock.replay(pjp4, jpSig);
+
+        returned = cacheAspect.retrieve(pjp4);
+
+        EasyMock.verify(pjp4, jpSig);
+        assertSame("Did not return a3", a3, returned);
+    }
+
+    @Test
+    public void testLoadOrRetrieveAny() throws Throwable
+    {
+        checkCredentialsSet();
+
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.ANY);
+        cacheAspect.getCache(Artifact.class).removeAll();
+
+        String base = api.getServerApiAddress();
+
+        Signature jpSig = createSignatureMock();
+
+        Artifact a1 = new Artifact();
+        a1.setUri(new URI(base + "/artifacts/2-1771911?state=1294907"));
+        a1.setLimsid("2-1771911");
+
+        Object[] a1args = { a1.getUri(), a1.getClass() };
+
+        ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+
+        EasyMock.replay(pjp1, jpSig);
+
+        Object returned = cacheAspect.retrieve(pjp1);
+
+        EasyMock.verify(pjp1, jpSig);
+        assertSame("Did not return a1", a1, returned);
+
+        // Asking for a later state in ANY mode will just return what it has.
+
+        Object[] a2args = { base + "/artifacts/2-1771911?state=1500000", a1.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+
+        EasyMock.replay(pjp2, jpSig);
+
+        returned = cacheAspect.retrieve(pjp2);
+        assertSame("Did not return a1", a1, returned);
+
+        EasyMock.verify(pjp2, jpSig);
+
+        // With an earlier state, it'll be the same object again.
+
+        Object[] a3args = { base + "/artifacts/2-1771911?state=1101002", a1.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(3);
+
+        EasyMock.replay(pjp3, jpSig);
+
+        returned = cacheAspect.retrieve(pjp3);
+
+        EasyMock.verify(pjp3, jpSig);
+        assertSame("Did not return a1", a1, returned);
+
+        // With no state, expect whichever version is in the cache.
+
+        Object[] a4args = { base + "/artifacts/2-1771911", Artifact.class };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp4 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(3);
+
+        EasyMock.replay(pjp4, jpSig);
+
+        returned = cacheAspect.retrieve(pjp4);
+
+        EasyMock.verify(pjp4, jpSig);
+        assertSame("Did not return a1", a1, returned);
     }
 
     @Test

@@ -52,6 +52,7 @@
     <bean id="genologicsApiCacheAspect" class="org.cruk.genologics.api.cache.GenologicsAPICache">
         <property name="genologicsAPI" ref="genologicsAPI"/>
         <property name="cacheManager" ref="genologicsCacheManager"/>
+        <property name="statefulBehaviour" value="LATEST"/>
     </bean>
 
     <aop:config>

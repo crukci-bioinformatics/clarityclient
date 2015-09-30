@@ -1,5 +1,15 @@
 Known Issues
 
-  [[1]] Possible issues with versions of <<<Artifact>>>s and their storage
-in the cache. {{{./caching.html#Artifacts_and_their_state_parameter}See the
+  [[1]] The caching issue has been addressed from release 2.22 by allowing the
+user to choose a mode of operation most suitable to their application.
+{{{./caching.html#Artifacts_and_their_state_parameter}See the
 caching page for details.}}
+
+  [[2]] Bulk fetch, create and update operations can suffer when the number of
+objects requested or sent is too large. Version 2.22 introduced batching of
+bulk operations so that each call to the server sends a maximum number of
+objects to fetch or update.
+{{{./caching.html#Bulk_fetch_create_and_update_operations}See the
+caching page for details.}}
+
+  []

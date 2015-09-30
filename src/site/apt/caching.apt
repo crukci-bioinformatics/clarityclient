@@ -56,18 +56,55 @@ the catch-all cache <com.genologics.ri.LimsEntity>.
 <<<org/cruk/genologics/api/ehcache.xml>>> that appears in a folder or JAR
 before the client's JAR file in the class path.
 
+* Bulk fetch, create and update operations
+
+  Real world use has found that the bulk operations for fetching, creating
+and updating objects from the API has a "sweet spot" for the number of objects
+in an operation. This is a number that minimises the request time per object.
+For example, if one tries fetching 10,000 artifacts in one call to the
+API's "<<<.../artifacts/batch/retrieve>>>" end point it will take longer than
+making 20 calls for 500 artifacts (500 per call is the optimum number given
+by Genologics, though testing has shown this can vary between installations).
+
+  As of release 2.22, the client library will batch bulk operations with
+large numbers of objects into one or more calls to the relevant API end point
+transparently to the user. So we can request our 10,000 artifacts in one call
+to the client and let that fetch them in the most efficent manner.
+
+  The number of objects to retrieve or send in each batch can be tuned
+with the <<<setBulkOperationBatchSize>>> method on the client. The default
+is the recommended 500 per call to the API.
+
 * Artifacts and their state parameter
 
   The <<<Artifact>>> class provides some complication to the cache by
 always having a <state> parameter attached to its URIs. This means a given
 artifact can be returned in different states depending on the state in the
-URI. At present, the cache keeps the latest version of the Artifact currently
-requested. If a request is made for the same Artifact but of an earlier state,
-the cached version of the Artifact is returned, despite the fact that the
-state may not be the same. If a later version is requested to that in the
-cache, a fetch is made and the retrieved version replaces that in the cache.
+URI.
 
-  A future refinement to the client API cache may be to offer different
-strategies for handling Artifacts. The current implementation is one;
-exact matches of state only and ignoring state altogether are two that may
-be more suitable to certain applications.
+  The cache can be put in one of three modes for dealing with <<<Artifact>>>
+objects:
+
+  [[1]] <<<EXACT>>>: The version of the artifact requested by the state
+parameter must match the version in the cache exactly. If it is older or
+newer than the cached version, the requested version is fetched and replaces
+that already in the cache.
+
+  [[2]] <<<LATEST>>>: If the version of the artifact requested by the state
+parameter is newer than the version in the cache, the requested version is
+fetched and replaces the version in the cache. If it is the same version or
+older, the newer version in the cache is returned.
+
+  [[3]] <<<ANY>>>: The cached version of the artifact is returned regardless
+of the version requested by the state parameter.
+
+  []
+
+  If an artifact is requested without an explicit state in the URI, the
+artifact in the cache is returned regardless of its version or the mode of
+cache operation.
+
+  The default mode is <<<LATEST>>>, which is the way the cache behaved in
+releases of the client before 2.22. Modes can be set in the Spring
+configuration (<<<genologics-cache-context.xml>>>) or programmatically on
+the <<<GenologicsAPICache>>> bean using the <<<setStatefulBehaviour>>> method.

@@ -24,6 +24,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
@@ -96,6 +98,16 @@ public class GenologicsAPICache
      */
     protected CacheManager cacheManager;
 
+    /**
+     * The behaviour for dealing with stateful entities.
+     */
+    protected CacheStatefulBehaviour behaviour = CacheStatefulBehaviour.LATEST;
+
+    /**
+     * Lock to prevent the cache behaviour changing during an operation.
+     */
+    private Lock behaviourLock = new ReentrantLock();
+
 
     /**
      * Empty constructor.
@@ -124,6 +136,40 @@ public class GenologicsAPICache
     public void setCacheManager(CacheManager cacheManager)
     {
         this.cacheManager = cacheManager;
+    }
+
+    /**
+     * Set the behaviour for dealing with stateful objects. Note that changing
+     * this behaviour during operation clears the cache.
+     *
+     * @param behaviour The desired behaviour.
+     *
+     * @since 2.22
+     */
+    public void setStatefulBehaviour(CacheStatefulBehaviour behaviour)
+    {
+        if (behaviour != null && this.behaviour != behaviour)
+        {
+            behaviourLock.lock();
+            try
+            {
+                this.behaviour = behaviour;
+
+                cacheManager.clearAll();
+            }
+            finally
+            {
+                behaviourLock.unlock();
+            }
+        }
+    }
+
+    /**
+     * Clears the cache of all cached entities.
+     */
+    public void clear()
+    {
+        cacheManager.clearAll();
     }
 
     /**
@@ -243,6 +289,21 @@ public class GenologicsAPICache
     }
 
     /**
+     * Get the object from its cache wrapper. In its own method to suppress
+     * unchecked warnings.
+     *
+     * @param <E> The type of object held in the cache element.
+     * @param wrapper The cache Element.
+     *
+     * @return The object in the cache element.
+     */
+    @SuppressWarnings("unchecked")
+    protected <E extends Locatable> E getFromWrapper(Element wrapper)
+    {
+        return wrapper == null ? null : (E)wrapper.getObjectValue();
+    }
+
+    /**
      * Fetch an object from the cache or, if it's not yet been seen, from the
      * API and store the result in the cache for future use.
      *
@@ -279,17 +340,34 @@ public class GenologicsAPICache
             Element wrapper = cache.get(key);
             if (wrapper != null)
             {
-                if (isStateful(entityClass))
+                if (!isStateful(entityClass))
+                {
+                    genologicsObject = getFromWrapper(wrapper);
+                }
+                else
                 {
                     version = versionFromUri(uri);
-                }
 
-                // If not stateful, the version numbers will be equal (both NO_STATE_VALUE)
-                // so the test below will record the object as found in the cache.
+                    switch (behaviour)
+                    {
+                        case ANY:
+                            genologicsObject = getFromWrapper(wrapper);
+                            break;
 
-                if (version <= wrapper.getVersion())
-                {
-                    genologicsObject = (Locatable)wrapper.getObjectValue();
+                        case LATEST:
+                            if (version == NO_STATE_VALUE || version <= wrapper.getVersion())
+                            {
+                                genologicsObject = getFromWrapper(wrapper);
+                            }
+                            break;
+
+                        case EXACT:
+                            if (version == NO_STATE_VALUE || version == wrapper.getVersion())
+                            {
+                                genologicsObject = getFromWrapper(wrapper);
+                            }
+                            break;
+                    }
                 }
             }
         }
@@ -304,7 +382,7 @@ public class GenologicsAPICache
                 }
                 else
                 {
-                    logger.debug("Have an old version of " + className + " " + key + " - calling through to API " + pjp.getSignature().getName());
+                    logger.debug("Have a different version of " + className + " " + key + " - calling through to API " + pjp.getSignature().getName());
                 }
             }
 
@@ -352,74 +430,101 @@ public class GenologicsAPICache
             List<LimsLink<E>> toFetch = new ArrayList<LimsLink<E>>(links.size());
             List<E> alreadyCached = new ArrayList<E>(links.size());
 
-            Iterator<LimsLink<E>> linkIterator = links.iterator();
-
             Boolean cacheable = null;
             String className = null;
 
-            // Loop through the links requested and accumulate two lists of links:
-            // those that are not in the cache and need to be fetched and those that
-            // have already been fetched. While doing this, assemble in "results" those
-            // entities already in the cache that don't need to be fetch. This list will
-            // have nulls inserted where the entity needs to be fetched.
-
-            while (linkIterator.hasNext())
+            behaviourLock.lock();
+            try
             {
-                LimsLink<E> link = linkIterator.next();
-                if (link == null)
-                {
-                    throw new IllegalArgumentException("link contains a null");
-                }
-                if (link.getUri() == null)
-                {
-                    throw new IllegalArgumentException("A link in the collection has no URI set.");
-                }
+                Iterator<LimsLink<E>> linkIterator = links.iterator();
 
-                if (className == null)
-                {
-                    className = ClassUtils.getShortClassName(link.getEntityClass());
-                    cacheable = isCacheable(link.getEntityClass());
-                }
+                // Loop through the links requested and accumulate two lists of links:
+                // those that are not in the cache and need to be fetched and those that
+                // have already been fetched. While doing this, assemble in "results" those
+                // entities already in the cache that don't need to be fetch. This list will
+                // have nulls inserted where the entity needs to be fetched.
 
-                E entity = null;
-                if (!cacheable)
+                while (linkIterator.hasNext())
                 {
-                    // Fetch always.
-                    toFetch.add(link);
-                }
-                else
-                {
-                    if (cache == null)
+                    LimsLink<E> link = linkIterator.next();
+                    if (link == null)
                     {
-                        cache = getCache(link.getEntityClass());
+                        throw new IllegalArgumentException("link contains a null");
+                    }
+                    if (link.getUri() == null)
+                    {
+                        throw new IllegalArgumentException("A link in the collection has no URI set.");
                     }
 
-                    String key = keyFromLocatable(link);
-
-                    Element wrapper = cache.get(key);
-                    if (wrapper == null)
+                    if (className == null)
                     {
+                        className = ClassUtils.getShortClassName(link.getEntityClass());
+                        cacheable = isCacheable(link.getEntityClass());
+                    }
+
+                    E entity = null;
+                    if (!cacheable)
+                    {
+                        // Fetch always.
                         toFetch.add(link);
                     }
                     else
                     {
-                        long version = versionFromLocatable(link);
+                        if (cache == null)
+                        {
+                            cache = getCache(link.getEntityClass());
+                        }
 
-                        if (version > wrapper.getVersion())
+                        String key = keyFromLocatable(link);
+
+                        Element wrapper = cache.get(key);
+                        if (wrapper == null)
                         {
                             toFetch.add(link);
                         }
                         else
                         {
-                            @SuppressWarnings("unchecked")
-                            E typed = (E)wrapper.getObjectValue();
-                            entity = typed;
+                            long version = versionFromLocatable(link);
 
-                            alreadyCached.add(entity);
+                            switch (behaviour)
+                            {
+                                case ANY:
+                                    entity = getFromWrapper(wrapper);
+                                    alreadyCached.add(entity);
+                                    break;
+
+                                case LATEST:
+                                    if (version != NO_STATE_VALUE && version > wrapper.getVersion())
+                                    {
+                                        toFetch.add(link);
+                                    }
+                                    else
+                                    {
+                                        entity = getFromWrapper(wrapper);
+                                        alreadyCached.add(entity);
+                                    }
+                                    break;
+
+                                case EXACT:
+                                    if (version != NO_STATE_VALUE && version != wrapper.getVersion())
+                                    {
+                                        toFetch.add(link);
+                                    }
+                                    else
+                                    {
+                                        entity = getFromWrapper(wrapper);
+                                        alreadyCached.add(entity);
+                                    }
+                                    break;
+                            }
                         }
                     }
+                    results.add(entity);
                 }
-                results.add(entity);
+            }
+            finally
+            {
+                behaviourLock.unlock();
             }
 
             if (logger.isWarnEnabled())
