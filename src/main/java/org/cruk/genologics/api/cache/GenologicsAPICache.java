@@ -155,7 +155,13 @@ public class GenologicsAPICache
             {
                 this.behaviour = behaviour;
 
-                cacheManager.clearAll();
+                // Guard for null so the order of Spring property setting
+                // doesn't matter.
+
+                if (cacheManager != null)
+                {
+                    cacheManager.clearAll();
+                }
             }
             finally
             {
