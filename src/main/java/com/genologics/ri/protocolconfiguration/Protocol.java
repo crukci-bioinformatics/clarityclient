@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,6 +22,9 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -52,6 +55,13 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
 @XmlRootElement(name = "protocol")
 public class Protocol implements Linkable<Protocol>, Serializable
 {
+    /**
+     * Regular expression to extract protocol id from a protocol URI.
+     *
+     * @since 2.22
+     */
+    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/protocols/(\\d+)$");
+
     private static final long serialVersionUID = -8872729950204682764L;
 
     @XmlElementWrapper(name = "steps")
@@ -93,6 +103,28 @@ public class Protocol implements Linkable<Protocol>, Serializable
         this.uri = uri;
         this.name = name;
         this.index = index;
+    }
+
+    /**
+     * Get the numeric identifier for this protocol from its URI.
+     *
+     * @return The protocol id, or null if either the URI is not set
+     * or it doesn't match the form expected for a protocol URI.
+     *
+     * @since 2.22
+     */
+    public Integer getId()
+    {
+        Integer id = null;
+        if (uri != null)
+        {
+            Matcher m = ID_EXTRACTOR_PATTERN.matcher(uri.toString());
+            if (m.matches())
+            {
+                id = Integer.valueOf(m.group(1));
+            }
+        }
+        return id;
     }
 
     public List<ProtocolStep> getSteps()

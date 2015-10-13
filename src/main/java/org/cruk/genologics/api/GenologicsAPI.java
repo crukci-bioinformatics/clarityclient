@@ -37,6 +37,7 @@ import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.Locatable;
+import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.file.GenologicsFile;
 import com.genologics.ri.process.GenologicsProcess;
 import com.genologics.ri.processexecution.ExecutableProcess;
@@ -44,6 +45,7 @@ import com.genologics.ri.routing.Routing;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.step.ProcessStep;
 import com.genologics.ri.step.StepCreation;
+import com.genologics.ri.stepconfiguration.ProtocolStep;
 
 
 /**
@@ -553,6 +555,7 @@ public interface GenologicsAPI
      */
     void deleteAndRemoveFile(Linkable<GenologicsFile> file) throws IOException;
 
+
     // Routing artifacts through workflows.
 
     /**
@@ -563,4 +566,18 @@ public interface GenologicsAPI
      * @param routing The Routing object that has been assembled.
      */
     void routeArtifacts(Routing routing);
+
+
+    // Retrieving artifacts from queues.
+
+    /**
+     * List the artifacts in the queue for the given protocol step.
+     *
+     * @param protocolStep The protocol step of the queue (or a link to it).
+     *
+     * @return Links to the artifacts currently in the given queue.
+     *
+     * @since 2.22
+     */
+    List<LimsLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep);
 }

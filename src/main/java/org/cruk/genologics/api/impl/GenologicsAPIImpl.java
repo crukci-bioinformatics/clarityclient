@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 import javax.annotation.PostConstruct;
 import javax.xml.bind.annotation.XmlTransient;
@@ -87,10 +88,12 @@ import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.file.GenologicsFile;
 import com.genologics.ri.process.GenologicsProcess;
 import com.genologics.ri.processexecution.ExecutableProcess;
+import com.genologics.ri.queue.Queue;
 import com.genologics.ri.routing.Routing;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.step.ProcessStep;
 import com.genologics.ri.step.StepCreation;
+import com.genologics.ri.stepconfiguration.ProtocolStep;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
 
 
@@ -926,7 +929,8 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * Perform a list operation for obtaining links to entities. These lists may
      * be a simple "list all in system" call or from a "find" operation.
      *
-     * <p>Deals with the pagination mechanism employed by the API to bring
+     * <p>
+     * Deals with the pagination mechanism employed by the API to bring
      * back the required number of links regardless of the number of "pages"
      * the API returns them in.
      * </p>
@@ -946,6 +950,35 @@ public class GenologicsAPIImpl implements GenologicsAPI
     {
         Class<BH> batchClass = getQueryResultsClassForEntity(entityClass);
 
+        return doList(uri, entityClass, batchClass, number);
+    }
+
+    /**
+     * Perform a list operation for obtaining links to entities using a specific
+     * batch fetch class. These lists may  be a simple "list all in system" call
+     * or from a "find" operation.
+     *
+     * <p>
+     * Deals with the pagination mechanism employed by the API to bring
+     * back the required number of links regardless of the number of "pages"
+     * the API returns them in.
+     * </p>
+     *
+     * @param uri The URI to use for the list.
+     * @param entityClass The type of entities required (or rather links to such entities).
+     * @param batchClass The type of object to use for fetching the links.
+     * @param number The maximum number of entities required. Calling code should
+     * use {@code Integer.MAX_VALUE} to return all.
+     *
+     * @param <E> The type of the entity.
+     * @param <BH> The type of the batch fetch object that holds the list of links
+     * to these entities.
+     *
+     * @return A list of links to the entities found.
+     */
+    private <E extends Locatable, BH extends Batch<? extends LimsLink<E>>>
+    List<LimsLink<E>> doList(String uri, Class<E> entityClass, Class<BH> batchClass, int number)
+    {
         ArrayList<LimsLink<E>> allLinks = new ArrayList<LimsLink<E>>(1024);
 
         // Note that it is important here to prevent the Spring escaping system
@@ -2029,6 +2062,36 @@ public class GenologicsAPIImpl implements GenologicsAPI
         ResponseEntity<Routing> response = restClient.postForEntity(url, routing, Routing.class);
 
         reflectiveUpdate(routing, response.getBody());
+    }
+
+
+    // Retrieving artifacts from queues.
+
+    public List<LimsLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep)
+    {
+        if (protocolStep == null)
+        {
+            throw new IllegalArgumentException("protocolStep cannot be null");
+        }
+        if (protocolStep.getUri() == null)
+        {
+            throw new IllegalArgumentException("protocolStep must have its URI set");
+        }
+
+        checkServerSet();
+
+        Matcher m = ProtocolStep.ID_EXTRACTOR_PATTERN.matcher(protocolStep.getUri().toString());
+        if (!m.matches())
+        {
+            throw new IllegalArgumentException(
+                    "Protocol step URI does not match the expected pattern of /" +
+                    ProtocolStep.ID_EXTRACTOR_PATTERN.pattern() +
+                    "/ (is \"" + protocolStep.getUri() + "\").");
+        }
+
+        String uri = apiRoot + "queue/" + m.group(2);
+
+        return doList(uri, Artifact.class, Queue.class, Integer.MAX_VALUE);
     }
 
 

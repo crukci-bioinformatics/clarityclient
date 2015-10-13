@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,6 +22,8 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -58,6 +60,14 @@ import com.genologics.ri.reagenttype.ReagentType;
 @XmlRootElement(name = "step")
 public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
 {
+    /**
+     * Regular expression to extract protocol id and protocol step id from a
+     * protocol step URI.
+     *
+     * @since 2.22
+     */
+    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/protocols/(\\d+)/steps/(\\d+)$");
+
     private static final long serialVersionUID = 496185986542798015L;
 
     @XmlElement(name = "protocol-step-index")
@@ -142,6 +152,50 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
     {
         this.uri = uri;
         this.name = name;
+    }
+
+    /**
+     * Get the numeric identifier for this protocol step from its URI.
+     *
+     * @return The protocol step id, or null if either the URI is not set
+     * or it doesn't match the form expected for a protocol step URI.
+     *
+     * @since 2.22
+     */
+    public Integer getId()
+    {
+        Integer id = null;
+        if (uri != null)
+        {
+            Matcher m = ID_EXTRACTOR_PATTERN.matcher(uri.toString());
+            if (m.matches())
+            {
+                id = Integer.valueOf(m.group(2));
+            }
+        }
+        return id;
+    }
+
+    /**
+     * Get the numeric identifier for this step's protocol from its URI.
+     *
+     * @return The protocol id, or null if either the URI is not set
+     * or it doesn't match the form expected for a protocol step URI.
+     *
+     * @since 2.22
+     */
+    public Integer getProtocolId()
+    {
+        Integer id = null;
+        if (uri != null)
+        {
+            Matcher m = ID_EXTRACTOR_PATTERN.matcher(uri.toString());
+            if (m.matches())
+            {
+                id = Integer.valueOf(m.group(1));
+            }
+        }
+        return id;
     }
 
     public Integer getProtocolStepIndex()
