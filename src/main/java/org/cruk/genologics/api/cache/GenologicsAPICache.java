@@ -427,9 +427,9 @@ public class GenologicsAPICache
         @SuppressWarnings("unchecked")
         Collection<LimsLink<E>> links = (Collection<LimsLink<E>>)pjp.getArgs()[0];
 
-        List<E> results = new ArrayList<E>(links.size());
+        List<E> results = new ArrayList<E>(links == null ? 0 : links.size());
 
-        if (!links.isEmpty())
+        if (links != null && !links.isEmpty())
         {
             Ehcache cache = null;
 
@@ -939,11 +939,14 @@ public class GenologicsAPICache
      */
     public boolean isCacheable(Collection<?> entities)
     {
-        for (Object thing : entities)
+        if (entities != null)
         {
-            if (thing != null)
+            for (Object thing : entities)
             {
-                return isCacheable(thing);
+                if (thing != null)
+                {
+                    return isCacheable(thing);
+                }
             }
         }
         return false;
@@ -1010,11 +1013,14 @@ public class GenologicsAPICache
      */
     public boolean isStateful(Collection<?> entities)
     {
-        for (Object thing : entities)
+        if (entities != null)
         {
-            if (thing != null)
+            for (Object thing : entities)
             {
-                return isStateful(thing);
+                if (thing != null)
+                {
+                    return isStateful(thing);
+                }
             }
         }
         return false;
