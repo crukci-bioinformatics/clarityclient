@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -104,6 +104,74 @@ public class UDFTest
         try
         {
             udf = UDF.getUDF(a.getUserDefinedFields(), "No Field", true, "Missing the field No Field");
+            fail("No exception with missing UDF.");
+        }
+        catch (MissingUDFException e)
+        {
+            assertEquals("Exception message wrong", "Missing the field No Field", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetUDFValue() throws Exception
+    {
+        Artifact a = (Artifact)marshaller.unmarshal(new StreamSource(new File(exampleDirectory, "artifact.xml")));
+
+        try
+        {
+            UDF.getUDFValue(a.getUserDefinedFields(), null);
+            fail("Allowed null name");
+        }
+        catch (IllegalArgumentException e)
+        {
+            // Ok.
+        }
+
+        String value = UDF.getUDFValue(a.getUserDefinedFields(), "User Comments");
+        assertNotNull("No UDF found", value);
+
+        value = UDF.getUDFValue(null, "User Comments");
+        assertNull("UDF found in null collection", value);
+
+        value = UDF.getUDFValue(a.getUserDefinedFields(), "No Field");
+        assertNull("UDF found", value);
+
+        value = UDF.getUDFValue(a.getUserDefinedFields(), "No Field", "The default");
+        assertEquals("UDF found and no default value", "The default", value);
+
+        try
+        {
+            value = UDF.getUDFValue(a.getUserDefinedFields(), "User Comments", true);
+            assertNotNull("No UDF found", value);
+        }
+        catch (MissingUDFException e)
+        {
+            fail(e.getMessage());
+        }
+
+        try
+        {
+            value = UDF.getUDFValue(null, "User Comments", true);
+            fail("No exception with UDF from null collection.");
+        }
+        catch (MissingUDFException e)
+        {
+            // Ok.
+        }
+
+        try
+        {
+            value = UDF.getUDFValue(a.getUserDefinedFields(), "No Field", true);
+            fail("No exception with missing UDF.");
+        }
+        catch (MissingUDFException e)
+        {
+            // Ok.
+        }
+
+        try
+        {
+            value = UDF.getUDFValue(a.getUserDefinedFields(), "No Field", true, "Missing the field No Field");
             fail("No exception with missing UDF.");
         }
         catch (MissingUDFException e)
@@ -248,6 +316,74 @@ public class UDFTest
         try
         {
             udf = UDF.getUDF(a, "No Field", true, "Missing the field No Field");
+            fail("No exception with missing UDF.");
+        }
+        catch (MissingUDFException e)
+        {
+            assertEquals("Exception message wrong", "Missing the field No Field", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testGetUDFValueFromObject() throws Exception
+    {
+        Artifact a = (Artifact)marshaller.unmarshal(new StreamSource(new File(exampleDirectory, "artifact.xml")));
+
+        try
+        {
+            UDF.getUDFValue(a, null);
+            fail("Allowed null name");
+        }
+        catch (IllegalArgumentException e)
+        {
+            // Ok.
+        }
+
+        String value = UDF.getUDFValue(a, "User Comments");
+        assertNotNull("No UDF found", value);
+
+        value = UDF.getUDFValue(null, "User Comments");
+        assertNull("UDF found in null collection", value);
+
+        value = UDF.getUDFValue(a, "No Field");
+        assertNull("UDF found", value);
+
+        value = UDF.getUDFValue(a, "No Field", "The default");
+        assertEquals("UDF found and no default value", "The default", value);
+
+        try
+        {
+            value = UDF.getUDFValue(a, "User Comments", true);
+            assertNotNull("No UDF found", value);
+        }
+        catch (MissingUDFException e)
+        {
+            fail(e.getMessage());
+        }
+
+        try
+        {
+            value = UDF.getUDFValue(null, "User Comments", true);
+            fail("No exception with UDF from null collection.");
+        }
+        catch (MissingUDFException e)
+        {
+            // Ok.
+        }
+
+        try
+        {
+            value = UDF.getUDFValue(a, "No Field", true);
+            fail("No exception with missing UDF.");
+        }
+        catch (MissingUDFException e)
+        {
+            // Ok.
+        }
+
+        try
+        {
+            value = UDF.getUDFValue(a, "No Field", true, "Missing the field No Field");
             fail("No exception with missing UDF.");
         }
         catch (MissingUDFException e)

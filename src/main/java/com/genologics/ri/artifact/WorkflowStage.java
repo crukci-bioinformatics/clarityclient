@@ -111,7 +111,7 @@ public class WorkflowStage implements Serializable
      *
      * @since 2.22
      */
-    public Integer getProtocolId()
+    public Integer getWorkflowId()
     {
         Integer id = null;
         if (uri != null)

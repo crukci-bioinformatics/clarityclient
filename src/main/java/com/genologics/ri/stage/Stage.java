@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,6 +20,8 @@ package com.genologics.ri.stage;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -45,6 +47,14 @@ import com.genologics.ri.workflowconfiguration.Workflow;
 @GenologicsEntity(uriSection = "stages")
 public class Stage implements Linkable<Stage>, Serializable
 {
+    /**
+     * Regular expression to extract workflow id and workflow stage id from a
+     * workflow stage URI.
+     *
+     * @since 2.22
+     */
+    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/workflows/(\\d+)/stages/(\\d+)$");
+
     private static final long serialVersionUID = -7190421220331989537L;
 
     @XmlElement(name = "workflow")
@@ -79,6 +89,50 @@ public class Stage implements Linkable<Stage>, Serializable
     {
         this.uri = uri;
         this.name = name;
+    }
+
+    /**
+     * Get the numeric identifier for this workflow stage from its URI.
+     *
+     * @return The workflow stage id, or null if either the URI is not set
+     * or it doesn't match the form expected for a workflow stage URI.
+     *
+     * @since 2.22
+     */
+    public Integer getId()
+    {
+        Integer id = null;
+        if (uri != null)
+        {
+            Matcher m = ID_EXTRACTOR_PATTERN.matcher(uri.toString());
+            if (m.matches())
+            {
+                id = Integer.valueOf(m.group(2));
+            }
+        }
+        return id;
+    }
+
+    /**
+     * Get the numeric identifier for this stage's workflow from its URI.
+     *
+     * @return The workflow id, or null if either the URI is not set
+     * or it doesn't match the form expected for a workflow stage URI.
+     *
+     * @since 2.22
+     */
+    public Integer getWorkflowId()
+    {
+        Integer id = null;
+        if (uri != null)
+        {
+            Matcher m = ID_EXTRACTOR_PATTERN.matcher(uri.toString());
+            if (m.matches())
+            {
+                id = Integer.valueOf(m.group(1));
+            }
+        }
+        return id;
     }
 
     public WorkflowLink getWorkflow()

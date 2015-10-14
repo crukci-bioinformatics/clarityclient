@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -164,6 +164,26 @@ public class UDF implements Serializable
     }
 
     /**
+     * Finds a UDF by name in a collection of UDF objects and, if found, returns its value.
+     *
+     * @param udfs The collection to search.
+     * @param name The name of the UDF to find.
+     * @param defaultValue The value to return if there is no matching UDF.
+     *
+     * @return The value of the UDF, or {@code defaultValue} if there
+     * is no matching UDF.
+     *
+     * @throws IllegalArgumentException if {@code name} is null.
+     *
+     * @since 2.22
+     */
+    public static String getUDFValue(Collection<UDF> udfs, String name, String defaultValue)
+    {
+        String value = getUDFValue(udfs, name, false, null);
+        return value != null ? value : defaultValue;
+    }
+
+    /**
      * Finds a UDF by name in a collection of UDF objects.
      *
      * @param udfs The collection to search.
@@ -303,6 +323,28 @@ public class UDF implements Serializable
     public static String getUDFValue(Object thing, String name)
     {
         return getUDFValue(thing, name, false, null);
+    }
+
+    /**
+     * Finds a UDF by name in the UDFs of the given object and, if found, returns its value.
+     *
+     * @param thing The object that should have the UDFs. Needs to have a method
+     * "getUserDefinedFields".
+     * @param name The name of the UDF to find.
+     * @param defaultValue The value to return if there is no matching UDF.
+     *
+     * @return The value of the UDF, or {@code defaultValue} if there
+     * is no matching UDF.
+     *
+     * @throws IllegalArgumentException if {@code name} is null, or if {@code thing}
+     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
+     *
+     * @since 2.22
+     */
+    public static String getUDFValue(Object thing, String name, String defaultValue)
+    {
+        String value = getUDFValue(thing, name, false, null);
+        return value != null ? value : defaultValue;
     }
 
     /**
