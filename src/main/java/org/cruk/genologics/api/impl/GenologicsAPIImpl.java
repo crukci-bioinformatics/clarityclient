@@ -2089,7 +2089,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
                     "/ (is \"" + protocolStep.getUri() + "\").");
         }
 
-        String uri = apiRoot + "queue/" + m.group(2);
+        String uri = apiRoot + "queues/" + m.group(2);
 
         return doList(uri, Artifact.class, Queue.class, Integer.MAX_VALUE);
     }
