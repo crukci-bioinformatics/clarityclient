@@ -1337,7 +1337,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 throw new RuntimeException("Exception while fetching Step from " + getShortClassName(entityClass), e.getTargetException());
             }
         }
-        // TODO Primary Section URIs.
         else
         {
             uri = apiRoot + entityAnno.uriSection();
@@ -1363,6 +1362,9 @@ public class GenologicsAPIImpl implements GenologicsAPI
         GenologicsEntity entityAnno = checkEntityAnnotated(entity.getClass());
 
         assert entityAnno.creatable() : "Somehow got to doCreateSingle for a class that cannot be created.";
+
+        assert entityAnno.primaryEntity() == void.class :
+            entityClass.getName() + " has a primary entity set, but such things cannot be created through the API.";
 
         // See if the entity class has a creationClass attribute set. If so,
         // creation is done by creating those objects.
@@ -1447,6 +1449,14 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
             GenologicsEntity entityAnno = checkEntityAnnotated(entityClass);
 
+            if (!entityAnno.creatable())
+            {
+                throw new GenologicsUpdateException(getShortClassName(entityClass) + " cannot be created.");
+            }
+
+            assert entityAnno.primaryEntity() == void.class :
+                entityClass.getName() + " has a primary entity set, but such things cannot be created through the API.";
+
             Class<BH> batchRetrieveClass = getBatchRetrieveClassForEntity(entityClass);
 
             checkServerSet();
@@ -1465,7 +1475,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
             if (doBatchCreates)
             {
                 assert !entityAnno.processStepComponent() : "Have bulk create for process step component. This is not supported.";
-                // TODO Primary Section URIs.
 
                 try
                 {
@@ -1685,12 +1694,16 @@ public class GenologicsAPIImpl implements GenologicsAPI
             throw new IllegalArgumentException("entity has no URI set. It may need to be created first.");
         }
 
-        GenologicsEntity entityAnno = checkEntityAnnotated(entity.getClass());
+        Class<? extends Locatable> entityClass = entity.getClass();
+        GenologicsEntity entityAnno = checkEntityAnnotated(entityClass);
 
         if (!entityAnno.updateable())
         {
-            throw new GenologicsUpdateException(getShortClassName(entity.getClass()) + " cannot be updated.");
+            throw new GenologicsUpdateException(getShortClassName(entityClass) + " cannot be updated.");
         }
+
+        assert entityAnno.primaryEntity() == void.class :
+            entityClass.getName() + " has a primary entity set, but such things cannot be created through the API.";
 
         ResponseEntity<? extends Locatable> response =
                 restClient.exchange(entity.getUri(), HttpMethod.PUT, new HttpEntity<Locatable>(entity), entity.getClass());
@@ -1737,6 +1750,9 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 throw new GenologicsUpdateException(getShortClassName(entityClass) + " cannot be updated.");
             }
 
+            assert entityAnno.primaryEntity() == void.class :
+                entityClass.getName() + " has a primary entity set, but such things cannot be updated through the API.";
+
             Class<BH> batchUpdateClass = getBatchRetrieveClassForEntity(entityClass);
 
             boolean doBatchUpdates = false;
@@ -1755,7 +1771,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
             if (doBatchUpdates)
             {
                 assert !entityAnno.processStepComponent() : "Have bulk update for process step component. This is not supported.";
-                // TODO Primary Section URIs.
 
                 try
                 {
@@ -1885,6 +1900,9 @@ public class GenologicsAPIImpl implements GenologicsAPI
         {
             throw new GenologicsUpdateException(getShortClassName(entityClass) + " cannot be deleted.");
         }
+
+        assert entityAnno.primaryEntity() == void.class :
+            entityClass.getName() + " has a primary entity set, but such things cannot be deleted through the API.";
 
         restClient.delete(uri);
     }
@@ -2195,19 +2213,14 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
         String uri = apiRoot + "queues/" + m.group(2);
 
-        List<LimsLink<Artifact>> results = doList(uri, Artifact.class, Queue.class, Integer.MAX_VALUE);
-
-        // This list will always contain links that are LimsEntityLinks,
+        // The results list will always contain links that are LimsEntityLinks,
         // actually com.genologics.ri.queue.ArtifactLink
-        // Maybe the copy is unnecessary.
+        // It is safe to recast the type of this list without copying.
 
-        List<LimsEntityLink<Artifact>> properLinks = new ArrayList<LimsEntityLink<Artifact>>(results.size());
+        List<?> results = doList(uri, Artifact.class, Queue.class, Integer.MAX_VALUE);
 
-        for (LimsLink<Artifact> l : results)
-        {
-            LimsEntityLink<Artifact> lel = (LimsEntityLink<Artifact>)l;
-            properLinks.add(lel);
-        }
+        @SuppressWarnings("unchecked")
+        List<LimsEntityLink<Artifact>> properLinks = (List<LimsEntityLink<Artifact>>)results;
 
         return properLinks;
     }

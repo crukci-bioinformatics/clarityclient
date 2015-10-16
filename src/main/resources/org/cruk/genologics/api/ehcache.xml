@@ -36,45 +36,65 @@
     <cache name="com.genologics.ri.sample.Sample"
            maxElementsInMemory="1000"
            timeToLiveSeconds="300" />
-           
+
     <cache name="com.genologics.ri.project.Project"
            maxElementsInMemory="50"
            timeToLiveSeconds="600" />
-           
+
     <cache name="com.genologics.ri.container.Container"
            maxElementsInMemory="500"
            timeToLiveSeconds="300" />
-           
+
     <cache name="com.genologics.ri.containertype.ContainerType"
            maxElementsInMemory="50"
            timeToLiveSeconds="1800" />
-           
+
     <cache name="com.genologics.ri.controltype.ControlType"
            maxElementsInMemory="50"
            timeToLiveSeconds="1800" />
-           
+
     <cache name="com.genologics.ri.process.GenologicsProcess"
            maxElementsInMemory="200"
            timeToLiveSeconds="300" />
-           
+
     <cache name="com.genologics.ri.file.GenologicsFile"
            maxElementsInMemory="2000"
            timeToLiveSeconds="300" />
 
+    <cache name="com.genologics.ri.processtype.ProcessType"
+           maxElementsInMemory="100"
+           timeToLiveSeconds="1800" />
+
     <cache name="com.genologics.ri.instrument.Instrument"
            maxElementsInMemory="50"
            timeToLiveSeconds="1800" />
-           
+
     <cache name="com.genologics.ri.lab.Lab"
            maxElementsInMemory="100"
            timeToLiveSeconds="1800" />
-           
+
     <cache name="com.genologics.ri.researcher.Researcher"
            maxElementsInMemory="500"
            timeToLiveSeconds="1800" />
-           
+
     <cache name="com.genologics.ri.reagenttype.ReagentType"
            maxElementsInMemory="4000"
            timeToLiveSeconds="1800" />
-           
+
+    <cache name="com.genologics.ri.workflowconfiguration.Workflow"
+           maxElementsInMemory="100"
+           timeToLiveSeconds="1800" />
+
+    <cache name="com.genologics.ri.stage.Stage"
+           maxElementsInMemory="300"
+           timeToLiveSeconds="1800" />
+
+    <cache name="com.genologics.ri.protocolconfiguration.Protocol"
+           maxElementsInMemory="100"
+           timeToLiveSeconds="1800" />
+
+    <cache name="com.genologics.ri.protocolconfiguration.ProtocolStep"
+           maxElementsInMemory="300"
+           timeToLiveSeconds="1800" />
+
 </ehcache>
