@@ -20,14 +20,15 @@ package com.genologics.ri.artifact;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+
+import com.genologics.ri.LimsLink;
+import com.genologics.ri.stage.Stage;
 
 /**
  * Provides links to workflow stages, stage names and their respective statuses.
@@ -36,16 +37,8 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "workflow-stage")
-public class WorkflowStage implements Serializable
+public class WorkflowStage implements LimsLink<Stage>, Serializable
 {
-    /**
-     * Regular expression to extract workflow id and workflow stage id from a
-     * workflow stage URI.
-     *
-     * @since 2.22
-     */
-    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/workflows/(\\d+)/stages/(\\d+)$");
-
     private static final long serialVersionUID = 8029803456211993608L;
 
     @XmlAttribute(name = "uri")
@@ -81,50 +74,6 @@ public class WorkflowStage implements Serializable
         setStatus(status);
     }
 
-    /**
-     * Get the numeric identifier for this workflow stage from its URI.
-     *
-     * @return The workflow stage id, or null if either the URI is not set
-     * or it doesn't match the form expected for a workflow stage URI.
-     *
-     * @since 2.22
-     */
-    public Integer getId()
-    {
-        Integer id = null;
-        if (uri != null)
-        {
-            Matcher m = ID_EXTRACTOR_PATTERN.matcher(uri.toString());
-            if (m.matches())
-            {
-                id = Integer.valueOf(m.group(2));
-            }
-        }
-        return id;
-    }
-
-    /**
-     * Get the numeric identifier for this stage's workflow from its URI.
-     *
-     * @return The workflow id, or null if either the URI is not set
-     * or it doesn't match the form expected for a workflow stage URI.
-     *
-     * @since 2.22
-     */
-    public Integer getWorkflowId()
-    {
-        Integer id = null;
-        if (uri != null)
-        {
-            Matcher m = ID_EXTRACTOR_PATTERN.matcher(uri.toString());
-            if (m.matches())
-            {
-                id = Integer.valueOf(m.group(1));
-            }
-        }
-        return id;
-    }
-
     public URI getUri()
     {
         return uri;
@@ -155,4 +104,9 @@ public class WorkflowStage implements Serializable
         this.status = status;
     }
 
+    @Override
+    public Class<Stage> getEntityClass()
+    {
+        return Stage.class;
+    }
 }

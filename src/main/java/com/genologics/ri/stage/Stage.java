@@ -41,10 +41,10 @@ import com.genologics.ri.workflowconfiguration.Workflow;
  *
  * The detailed representation of a stage.
  */
+@GenologicsEntity(uriSection = "stages", primaryEntity = Workflow.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "stage", propOrder = { "workflow", "protocol", "step" })
 @XmlRootElement(name = "stage")
-@GenologicsEntity(uriSection = "stages")
 public class Stage implements Linkable<Stage>, Serializable
 {
     /**
@@ -53,7 +53,7 @@ public class Stage implements Linkable<Stage>, Serializable
      *
      * @since 2.22
      */
-    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/workflows/(\\d+)/stages/(\\d+)$");
+    public static final Pattern ID_EXTRACTOR_PATTERN;
 
     private static final long serialVersionUID = -7190421220331989537L;
 
@@ -75,6 +75,19 @@ public class Stage implements Linkable<Stage>, Serializable
 
     @XmlAttribute(name = "index")
     protected Integer index;
+
+
+    static
+    {
+        GenologicsEntity innerAnno = Stage.class.getAnnotation(GenologicsEntity.class);
+        GenologicsEntity outerAnno = innerAnno.primaryEntity().getAnnotation(GenologicsEntity.class);
+
+        StringBuilder b = new StringBuilder();
+        b.append("^.*/").append(outerAnno.uriSection()).append("/(\\d+)/");
+        b.append(innerAnno.uriSection()).append("/(\\d+)$");
+
+        ID_EXTRACTOR_PATTERN = Pattern.compile(b.toString());
+    }
 
     public Stage()
     {

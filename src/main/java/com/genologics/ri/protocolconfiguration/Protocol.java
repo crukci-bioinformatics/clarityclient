@@ -60,7 +60,7 @@ public class Protocol implements Linkable<Protocol>, Serializable
      *
      * @since 2.22
      */
-    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/protocols/(\\d+)$");
+    public static final Pattern ID_EXTRACTOR_PATTERN;
 
     private static final long serialVersionUID = -8872729950204682764L;
 
@@ -82,6 +82,16 @@ public class Protocol implements Linkable<Protocol>, Serializable
     @XmlSchemaType(name = "anyURI")
     protected URI uri;
 
+
+    static
+    {
+        GenologicsEntity anno = Protocol.class.getAnnotation(GenologicsEntity.class);
+
+        StringBuilder b = new StringBuilder();
+        b.append("^.*/").append(anno.uriSection()).append("/(\\d+)$");
+
+        ID_EXTRACTOR_PATTERN = Pattern.compile(b.toString());
+    }
 
     public Protocol()
     {

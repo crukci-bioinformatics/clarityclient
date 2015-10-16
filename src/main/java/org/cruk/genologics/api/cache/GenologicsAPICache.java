@@ -249,17 +249,42 @@ public class GenologicsAPICache
      */
     public Object loadById(ProceedingJoinPoint pjp) throws Throwable
     {
-        assert pjp.getArgs().length == 2 : "Wrong number of arguments.";
+        Object[] args = pjp.getArgs();
 
-        Object thing = pjp.getArgs()[0];
-        if (thing == null)
+        Object id1, id2;
+        Class<?> entityClass;
+        String uri;
+
+        switch (args.length)
         {
-            throw new IllegalArgumentException("limsid cannot be null");
-        }
-        Class<?> entityClass = (Class<?>)pjp.getArgs()[1];
-        String uri = toUriString(thing.toString(), entityClass);
+            case 2:
+                id1 = args[0];
+                if (id1 == null)
+                {
+                    throw new IllegalArgumentException("limsid cannot be null");
+                }
+                entityClass = (Class<?>)args[1];
+                uri = toUriString(entityClass, id1.toString());
+                return loadOrRetrieve(pjp, uri, entityClass);
 
-        return loadOrRetrieve(pjp, uri, entityClass);
+            case 3:
+                id1 = args[0];
+                if (id1 == null)
+                {
+                    throw new IllegalArgumentException("outerLimsid cannot be null");
+                }
+                id2 = args[0];
+                if (id2 == null)
+                {
+                    throw new IllegalArgumentException("innerLimsid cannot be null");
+                }
+                entityClass = (Class<?>)args[2];
+                uri = toUriString(entityClass, id1.toString(), id2.toString());
+                return loadOrRetrieve(pjp, uri, entityClass);
+
+            default:
+                throw new AssertionError("Wrong number of arguments to a load by id method");
+        }
     }
 
     /**
@@ -896,12 +921,12 @@ public class GenologicsAPICache
      * URI object for the identifier.
      * </p>
      *
-     * @param id The LIMS id of the entity.
      * @param entityClass The class of the entity.
+     * @param ids The LIMS id(s) of the entity.
      *
      * @return A URI in string form for the entity.
      */
-    protected String toUriString(String id, Class<?> entityClass)
+    protected String toUriString(Class<?> entityClass, String... ids)
     {
         GenologicsEntity entityAnno = entityClass.getAnnotation(GenologicsEntity.class);
         if (entityAnno == null)
@@ -910,19 +935,47 @@ public class GenologicsAPICache
                     "The class " + entityClass.getName() + " has not been annotated with the GenologicsEntity annotation.");
         }
 
-        String apiRoot = api.getServerApiAddress();
+        StringBuilder uri = new StringBuilder(api.getServerApiAddress());
 
-        String uri;
-        if (entityAnno.processStepComponent())
+        if (entityAnno.primaryEntity() != void.class)
         {
-            uri = apiRoot + "steps/" + id + '/' + entityAnno.uriSection();
+            if (ids.length != 2)
+            {
+                throw new IllegalArgumentException(
+                        entityClass.getName() + " has a single section endpoint in the API. " +
+                        "Use load(String, Class) for this type.");
+            }
+
+            GenologicsEntity primaryAnno = entityAnno.primaryEntity().getAnnotation(GenologicsEntity.class);
+            if (primaryAnno == null)
+            {
+                throw new IllegalArgumentException(
+                        "The class " + entityAnno.primaryEntity().getName() + " has not been annotated with the GenologicsEntity annotation.");
+            }
+
+            uri.append(primaryAnno.uriSection()).append('/').append(ids[0]);
+            uri.append(entityAnno.uriSection()).append('/').append(ids[1]);
         }
         else
         {
-            uri = apiRoot + entityAnno.uriSection() + '/' + id;
+            if (ids.length != 1)
+            {
+                throw new IllegalArgumentException(
+                        entityClass.getName() + " has a double section endpoint in the API. " +
+                        "Use load(String, String, Class) for this type.");
+            }
+
+            if (entityAnno.processStepComponent())
+            {
+                uri.append("steps/").append(ids[0]).append('/').append(entityAnno.uriSection());
+            }
+            else
+            {
+                uri.append(entityAnno.uriSection()).append('/').append(ids[0]);
+            }
         }
 
-        return uri;
+        return uri.toString();
     }
 
     /**
@@ -933,7 +986,7 @@ public class GenologicsAPICache
      * @param entities The collection to test.
      *
      * @return {@code true} if the first non-null item is the list is cacheable,
-     * {@code false} otherwise (including for an empty list).
+     * {@code false} otherwise (including for a null or empty list).
      *
      * @see #isCacheable(Object)
      */
@@ -1007,7 +1060,7 @@ public class GenologicsAPICache
      * @param entities The collection to test.
      *
      * @return {@code true} if the first non-null item is the list is stateful,
-     * {@code false} otherwise (including for an empty list).
+     * {@code false} otherwise (including for a null or empty list).
      *
      * @see #isStateful(Object)
      */

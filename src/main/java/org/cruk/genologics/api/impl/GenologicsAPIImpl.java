@@ -76,6 +76,7 @@ import com.genologics.ri.GenologicsBatchRetrieveResult;
 import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.GenologicsQueryResult;
 import com.genologics.ri.LimsEntity;
+import com.genologics.ri.LimsEntityLink;
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.Link;
@@ -791,8 +792,31 @@ public class GenologicsAPIImpl implements GenologicsAPI
     // Public helper methods.
 
     @Override
-    public <E extends LimsEntity<E>> URI limsIdToUri(String limsid, Class<E> entityClass)
+    public <E extends Locatable>
+    URI limsIdToUri(String limsid, Class<E> entityClass)
     throws URISyntaxException
+    {
+        return new URI(makeUri(limsid, entityClass, "limsIdToUri"));
+    }
+
+    /**
+     * Convert the given LIMS id to a full URI for that entity
+     * without creating a URI object.
+     *
+     * @param <E> The type of LIMS entity referred to.
+     * @param limsid The LIMS id of the entity required.
+     * @param entityClass The class of the entity.
+     * @param method The name of the calling method.
+     *
+     * @return The full URI to the entity as a string.
+     *
+     * @throws IllegalArgumentException if either argument is null, or if
+     * {@code entityClass} is annotated with a primary section attribute.
+     *
+     * @see GenologicsAPI#limsIdToUri(String, Class)
+     */
+    protected <E extends Locatable>
+    String makeUri(String limsid, Class<E> entityClass, String method)
     {
         if (StringUtils.isEmpty(limsid))
         {
@@ -800,6 +824,13 @@ public class GenologicsAPIImpl implements GenologicsAPI
         }
 
         GenologicsEntity entityAnno = checkEntityAnnotated(entityClass);
+
+        if (entityAnno.primaryEntity() != void.class)
+        {
+            throw new IllegalArgumentException(
+                    entityClass.getName() + " has a double section endpoint in the API. " +
+                    "Use " + method + "(String, String, Class) for this type.");
+        }
 
         checkServerSet();
 
@@ -813,7 +844,63 @@ public class GenologicsAPIImpl implements GenologicsAPI
             uri = apiRoot + entityAnno.uriSection() + '/' + limsid;
         }
 
-        return new URI(uri);
+        return uri;
+    }
+
+    @Override
+    public <E extends Locatable>
+    URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass)
+    throws URISyntaxException
+    {
+        return new URI(makeUri(outerLimsid, innerLimsid, entityClass, "limsIdToUri"));
+    }
+
+    /**
+     * Convert the given LIMS ids to a full URI for that entity
+     * without creating a URI object.
+     *
+     * @param <E> The type of LIMS entity referred to.
+     * @param outerLimsid The LIMS id of the outer endpoint of the URI.
+     * @param innerLimsid The LIMS id of the inner endpoint of the URI.
+     * @param entityClass The class of the entity.
+     * @param method The name of the calling method.
+     *
+     * @return The full URI to the entity as a string.
+     *
+     * @throws IllegalArgumentException if any argument is null, or if
+     * {@code entityClass} is not annotated with a primary section attribute.
+     *
+     * @see GenologicsAPI#limsIdToUri(String, String, Class)
+     */
+    protected <E extends Locatable>
+    String makeUri(String outerLimsid, String innerLimsid, Class<E> entityClass, String method)
+    {
+        if (StringUtils.isEmpty(outerLimsid))
+        {
+            throw new IllegalArgumentException("outerLimsid cannot be null or empty");
+        }
+        if (StringUtils.isEmpty(innerLimsid))
+        {
+            throw new IllegalArgumentException("innerLimsid cannot be null or empty");
+        }
+
+        GenologicsEntity entityAnno = checkEntityAnnotated(entityClass);
+
+        if (entityAnno.primaryEntity() == void.class)
+        {
+            throw new IllegalArgumentException(
+                    entityClass.getName() + " has a single section endpoint in the API. " +
+                    "Use " + method + "(String, Class) for this type.");
+        }
+
+        checkServerSet();
+
+        GenologicsEntity primaryAnno = checkEntityAnnotated(entityAnno.primaryEntity());
+
+        String uri = apiRoot + primaryAnno.uriSection() + '/' + outerLimsid +
+                     '/' + entityAnno.uriSection() + '/' + innerLimsid;
+
+        return uri;
     }
 
     // General fetch methods.
@@ -854,6 +941,16 @@ public class GenologicsAPIImpl implements GenologicsAPI
         }
 
         GenologicsEntity entityAnno = checkEntityAnnotated(entityClass);
+
+        if (entityAnno.primaryEntity() != void.class)
+        {
+            String entityClassName = getShortClassName(entityClass);
+            String primaryName = getShortClassName(entityAnno.primaryEntity());
+
+            throw new IllegalArgumentException(
+                    "Cannot search for " + entityClassName + "s as they are part of " + primaryName + ". " +
+                    "A " + primaryName + " should supply a list of its relevant " + entityClassName + "s.");
+        }
 
         checkServerSet();
 
@@ -975,10 +1072,26 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * to these entities.
      *
      * @return A list of links to the entities found.
+     *
+     * @throws IllegalArgumentException if {@code entityClass} is annotated to be
+     * a part of another entity (its {@code primaryEntity} attribute is set).
      */
     private <E extends Locatable, BH extends Batch<? extends LimsLink<E>>>
     List<LimsLink<E>> doList(String uri, Class<E> entityClass, Class<BH> batchClass, int number)
     {
+        GenologicsEntity entityAnno = checkEntityAnnotated(entityClass);
+
+        String entityClassName = getShortClassName(entityClass);
+
+        if (entityAnno.primaryEntity() != void.class)
+        {
+            String primaryName = getShortClassName(entityAnno.primaryEntity());
+
+            throw new IllegalArgumentException(
+                    "Cannot list all " + entityClassName + "s as they are part of " + primaryName + ". " +
+                    "A " + primaryName + " should supply a list of its relevant " + entityClassName + "s.");
+        }
+
         ArrayList<LimsLink<E>> allLinks = new ArrayList<LimsLink<E>>(1024);
 
         // Note that it is important here to prevent the Spring escaping system
@@ -994,7 +1107,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
             {
                 if (logger.isDebugEnabled())
                 {
-                    logger.debug("Fetching first batch of " + getShortClassName(entityClass) + " links from " + uri);
+                    logger.debug("Fetching first batch of " + entityClassName + " links from " + uri);
                 }
 
                 // First page
@@ -1004,7 +1117,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
             {
                 if (logger.isDebugEnabled())
                 {
-                    logger.debug("Fetching further batch of " + getShortClassName(entityClass) + " links from " + nextPageUri);
+                    logger.debug("Fetching further batch of " + entityClassName + " links from " + nextPageUri);
                 }
 
                 // Later batches.
@@ -1073,26 +1186,14 @@ public class GenologicsAPIImpl implements GenologicsAPI
     public <E extends Locatable>
     E load(String limsid, Class<E> entityClass)
     {
-        if (StringUtils.isEmpty(limsid))
-        {
-            throw new IllegalArgumentException("limsid cannot be null or empty");
-        }
+        return retrieve(makeUri(limsid, entityClass, "load"), entityClass);
+    }
 
-        GenologicsEntity entityAnno = checkEntityAnnotated(entityClass);
-
-        checkServerSet();
-
-        String uri;
-        if (entityAnno.processStepComponent())
-        {
-            uri = apiRoot + "steps/" + limsid + '/' + entityAnno.uriSection();
-        }
-        else
-        {
-            uri = apiRoot + entityAnno.uriSection() + '/' + limsid;
-        }
-
-        return retrieve(uri, entityClass);
+    @Override
+    public <E extends Locatable>
+    E load(String outerLimsid, String innerLimsid, Class<E> entityClass)
+    {
+        return retrieve(makeUri(outerLimsid, innerLimsid, entityClass, "load"), entityClass);
     }
 
     @Override
@@ -1236,6 +1337,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 throw new RuntimeException("Exception while fetching Step from " + getShortClassName(entityClass), e.getTargetException());
             }
         }
+        // TODO Primary Section URIs.
         else
         {
             uri = apiRoot + entityAnno.uriSection();
@@ -1363,6 +1465,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
             if (doBatchCreates)
             {
                 assert !entityAnno.processStepComponent() : "Have bulk create for process step component. This is not supported.";
+                // TODO Primary Section URIs.
 
                 try
                 {
@@ -1652,6 +1755,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
             if (doBatchUpdates)
             {
                 assert !entityAnno.processStepComponent() : "Have bulk update for process step component. This is not supported.";
+                // TODO Primary Section URIs.
 
                 try
                 {
@@ -2067,7 +2171,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
     // Retrieving artifacts from queues.
 
-    public List<LimsLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep)
+    public List<LimsEntityLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep)
     {
         if (protocolStep == null)
         {
@@ -2091,7 +2195,21 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
         String uri = apiRoot + "queues/" + m.group(2);
 
-        return doList(uri, Artifact.class, Queue.class, Integer.MAX_VALUE);
+        List<LimsLink<Artifact>> results = doList(uri, Artifact.class, Queue.class, Integer.MAX_VALUE);
+
+        // This list will always contain links that are LimsEntityLinks,
+        // actually com.genologics.ri.queue.ArtifactLink
+        // Maybe the copy is unnecessary.
+
+        List<LimsEntityLink<Artifact>> properLinks = new ArrayList<LimsEntityLink<Artifact>>(results.size());
+
+        for (LimsLink<Artifact> l : results)
+        {
+            LimsEntityLink<Artifact> lel = (LimsEntityLink<Artifact>)l;
+            properLinks.add(lel);
+        }
+
+        return properLinks;
     }
 
 

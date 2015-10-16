@@ -33,6 +33,7 @@ import org.apache.commons.httpclient.Credentials;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.genologics.ri.LimsEntity;
+import com.genologics.ri.LimsEntityLink;
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
@@ -225,6 +226,12 @@ public interface GenologicsAPI
     /**
      * Convert the given LIMS id to a full URI for that entity.
      *
+     * <p>
+     * This method is for the most common entities in the API where
+     * the URIs are simply of the form
+     * {@code &lt;endpoint&gt;/&lt;limsid&gt;}.
+     * </p>
+     *
      * @param <E> The type of LIMS entity referred to.
      * @param limsid The LIMS id of the entity required.
      * @param entityClass The class of the entity.
@@ -232,8 +239,41 @@ public interface GenologicsAPI
      * @return The full URI to the entity.
      *
      * @throws URISyntaxException if the creation of the URI gives a malformed URI.
+     * @throws IllegalArgumentException if either argument is null, or if
+     * {@code entityClass} is annotated with a primary section attribute.
+     *
+     * @see #limsIdToUri(String, String, Class)
      */
-    <E extends LimsEntity<E>> URI limsIdToUri(String limsid, Class<E> entityClass) throws URISyntaxException;
+    <E extends Locatable>
+    URI limsIdToUri(String limsid, Class<E> entityClass)
+    throws URISyntaxException;
+
+    /**
+     * Convert the given LIMS ids to a full URI for that entity.
+     *
+     * <p>
+     * This method is for use on entities that have been annotated to
+     * indicate they are part of a larger entity, for example
+     * {@code ProtocolStep} within {@code Protocol} or {@code Stage}
+     * within {@code Workflow}.
+     * </p>
+     *
+     * @param <E> The type of LIMS entity referred to.
+     * @param outerLimsid The LIMS id of the outer endpoint of the URI.
+     * @param innerLimsid The LIMS id of the inner endpoint of the URI.
+     * @param entityClass The class of the entity.
+     *
+     * @return The full URI to the entity.
+     *
+     * @throws URISyntaxException if the creation of the URI gives a malformed URI.
+     * @throws IllegalArgumentException if any argument is null, or if
+     * {@code entityClass} is not annotated with a primary section attribute.
+     *
+     * @since 2.22
+     */
+    <E extends Locatable>
+    URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass)
+    throws URISyntaxException;
 
     // Retrieval methods
 
@@ -244,6 +284,9 @@ public interface GenologicsAPI
      * @param entityClass The type of entity to list.
      *
      * @return A list of links to the real entities in the LIMS.
+     *
+     * @throws IllegalArgumentException if {@code entityClass} is annotated to be
+     * a part of another entity (its {@code primaryEntity} attribute is set).
      */
     <E extends Locatable> List<LimsLink<E>> listAll(Class<E> entityClass);
 
@@ -260,6 +303,9 @@ public interface GenologicsAPI
      *
      * @return A list of links to the real entities in the LIMS. This may be fewer
      * in number than {@code number} if there are too few items to fetch.
+     *
+     * @throws IllegalArgumentException if {@code entityClass} is annotated to be
+     * a part of another entity (its {@code primaryEntity} attribute is set).
      */
     <E extends Locatable> List<LimsLink<E>> listSome(Class<E> entityClass, int startIndex, int number);
 
@@ -281,6 +327,9 @@ public interface GenologicsAPI
      * @param entityClass The type of entity to list.
      *
      * @return A list of links to the real entities in the LIMS.
+     *
+     * @throws IllegalArgumentException if {@code entityClass} is annotated to be
+     * a part of another entity (its {@code primaryEntity} attribute is set).
      */
     <E extends Locatable> List<LimsLink<E>> find(Map<String, ?> searchTerms, Class<E> entityClass);
 
@@ -331,6 +380,29 @@ public interface GenologicsAPI
      * @return The LIMS entity.
      */
     <E extends Locatable> E load(String limsid, Class<E> entityClass);
+
+    /**
+     * Load an entity by its two required LIMS ids. The URI of the object
+     * is created based on this interface's currently set server address,
+     * the type of the object requested and the LIMS ids given.
+     *
+     * <p>
+     * This method is for use on entities that have been annotated to
+     * indicate they are part of a larger entity, for example
+     * {@code ProtocolStep} within {@code Protocol} or {@code Stage}
+     * within {@code Workflow}.
+     * </p>
+     *
+     * @param <E> The type of LIMS entity referred to.
+     * @param outerLimsid The LIMS id of the outer endpoint of the URI.
+     * @param innerLimsid The LIMS id of the inner endpoint of the URI.
+     * @param entityClass The type of entity to list.
+     *
+     * @return The LIMS entity.
+     *
+     * @since 2.22
+     */
+    <E extends Locatable> E load(String outerLimsid, String innerLimsid, Class<E> entityClass);
 
     /**
      * Load an entity using a link to that entity. Typically, the link object will come
@@ -579,5 +651,5 @@ public interface GenologicsAPI
      *
      * @since 2.22
      */
-    List<LimsLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep);
+    List<LimsEntityLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep);
 }

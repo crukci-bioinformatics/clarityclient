@@ -34,10 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.containertype.ContainerType;
 import com.genologics.ri.controltype.ControlType;
 import com.genologics.ri.processtype.ProcessType;
+import com.genologics.ri.protocolconfiguration.Protocol;
 import com.genologics.ri.reagentkit.ReagentKit;
 import com.genologics.ri.reagenttype.ReagentType;
 
@@ -52,6 +54,7 @@ import com.genologics.ri.reagenttype.ReagentType;
  * configuration option and filters
  * </p>
  */
+@GenologicsEntity(uriSection = "steps", primaryEntity = Protocol.class)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "step",
          propOrder = { "protocolStepIndex", "processType", "permittedContainerTypes", "permittedReagentCategories",
@@ -66,7 +69,7 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
      *
      * @since 2.22
      */
-    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/protocols/(\\d+)/steps/(\\d+)$");
+    public static final Pattern ID_EXTRACTOR_PATTERN;
 
     private static final long serialVersionUID = 496185986542798015L;
 
@@ -138,6 +141,19 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
     @XmlAttribute(name = "protocol-uri")
     @XmlSchemaType(name = "anyURI")
     protected URI protocolUri;
+
+
+    static
+    {
+        GenologicsEntity innerAnno = ProtocolStep.class.getAnnotation(GenologicsEntity.class);
+        GenologicsEntity outerAnno = innerAnno.primaryEntity().getAnnotation(GenologicsEntity.class);
+
+        StringBuilder b = new StringBuilder();
+        b.append("^.*/").append(outerAnno.uriSection()).append("/(\\d+)/");
+        b.append(innerAnno.uriSection()).append("/(\\d+)$");
+
+        ID_EXTRACTOR_PATTERN = Pattern.compile(b.toString());
+    }
 
     public ProtocolStep()
     {

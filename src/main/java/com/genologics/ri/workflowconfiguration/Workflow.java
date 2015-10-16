@@ -54,7 +54,7 @@ public class Workflow implements Linkable<Workflow>, Serializable
      *
      * @since 2.22
      */
-    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/workflows/(\\d+)$");
+    public static final Pattern ID_EXTRACTOR_PATTERN;
 
     private static final long serialVersionUID = -8884000036888230246L;
 
@@ -75,6 +75,17 @@ public class Workflow implements Linkable<Workflow>, Serializable
 
     @XmlAttribute(name = "status")
     protected Status status;
+
+
+    static
+    {
+        GenologicsEntity anno = Workflow.class.getAnnotation(GenologicsEntity.class);
+
+        StringBuilder b = new StringBuilder();
+        b.append("^.*/").append(anno.uriSection()).append("/(\\d+)$");
+
+        ID_EXTRACTOR_PATTERN = Pattern.compile(b.toString());
+    }
 
     public Workflow()
     {

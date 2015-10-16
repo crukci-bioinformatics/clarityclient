@@ -59,6 +59,7 @@
         <aop:aspect id="genologicsCachingAspect" ref="genologicsApiCacheAspect">
             <aop:around method="retrieve" pointcut="execution(public * retrieve(..)) and bean(genologicsAPI)" />
             <aop:around method="loadById" pointcut="execution(public * load(String, Class)) and bean(genologicsAPI)" />
+            <aop:around method="loadById" pointcut="execution(public * load(String, String, Class)) and bean(genologicsAPI)" />
             <aop:around method="loadByLink" pointcut="execution(public * load(com.genologics.ri.LimsLink)) and bean(genologicsAPI)" />
             <aop:around method="loadAll" pointcut="execution(public * loadAll(..)) and bean(genologicsAPI)" />
             <aop:around method="reload" pointcut="execution(public * reload(..)) and bean(genologicsAPI)" />

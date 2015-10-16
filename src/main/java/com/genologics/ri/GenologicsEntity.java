@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -62,12 +62,25 @@ public @interface GenologicsEntity
      * The part of the URL that specifies how to list or load entities of the
      * annotated class.
      *
-     * <p>For example, the {@code Sample} class can fetch entities via the path
+     * <p>
+     * For example, the {@code Sample} class can fetch entities via the path
      * {@code http://blah.com/api/v2/<b>samples</b>/...}. This attribute
      * of the annotation must specify the "samples" part of the URL.
      * </p>
      *
+     * <p>
+     * This has a slightly different meaning when the object requested
+     * is part of another component (e.g. steps of protocols, stages of
+     * workflow). Then, this value needs to be the innermost part of the
+     * URI and the {@code primarySection} attribute needs to be set to
+     * the outer part of the API. For example, for a {@code ProtocolStep}
+     * this attribute should be set to "steps" and the {@code primarySection}
+     * set to the {@code Protocol} class.
+     * </p>
+     *
      * @return The part of the URL path that yields entities of this type.
+     *
+     * @see #primaryEntity()
      */
     String uriSection();
 
@@ -119,4 +132,17 @@ public @interface GenologicsEntity
     // Note - cannot use null here as one might expect.
     // See http://stackoverflow.com/questions/1178104/error-setting-a-default-null-value-for-an-annotations-field
     Class<?> creationClass() default void.class;
+
+    /**
+     * Specifies the outer entity of the API for which the annotated class
+     * is the inner entity (e.g. {@code Protocol} when annotating
+     * {@code ProtocolStep}, or {@code Workflow} when annotating {@code Stage}).
+     *
+     * @return The class to which the annotated class is a part of.
+     *
+     * @since 2.22
+     *
+     * @see #uriSection()
+     */
+    Class<?> primaryEntity() default void.class;
 }
