@@ -88,8 +88,8 @@
 
     <pluginRepositories>
         <pluginRepository>
-            <id>codehaus-plugins</id>
-            <url>https://nexus.codehaus.org/content/repositories/releases</url>
+            <id>mulesoft</id>
+            <url>https://repository-master.mulesoft.org/nexus/content/groups/public</url>
             <layout>default</layout>
             <snapshots>
                 <enabled>false</enabled>
@@ -97,26 +97,13 @@
             <releases>
                 <enabled>true</enabled>
             </releases>
-        </pluginRepository>
-        <pluginRepository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net Maven 2 Repository</name>
-            <url>http://download.java.net/maven/2</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </pluginRepository>
     </pluginRepositories>
 
     <repositories>
         <repository>
-            <id>codehaus</id>
-            <url>https://nexus.codehaus.org/content/repositories/releases</url>
+            <id>mulesoft</id>
+            <url>https://repository-master.mulesoft.org/nexus/content/groups/public</url>
             <layout>default</layout>
             <snapshots>
                 <enabled>false</enabled>
@@ -125,18 +112,6 @@
                 <enabled>true</enabled>
                 <updatePolicy>interval:10080</updatePolicy>
             </releases>
-        </repository>
-        <repository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net Maven 2 Repository</name>
-            <url>http://download.java.net/maven/2</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </repository>
     </repositories>
 
