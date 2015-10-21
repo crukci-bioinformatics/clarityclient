@@ -29,6 +29,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.LimsLink;
+import com.genologics.ri.stage.Stage;
+
 /**
  * Provides links to workflow stages, stage names and their respective statuses.
  *
@@ -44,7 +48,7 @@ public class WorkflowStage implements LimsLink<Stage>, Serializable
      *
      * @since 2.22
      */
-    public static final Pattern ID_EXTRACTOR_PATTERN = Pattern.compile("^.*/configuration/workflows/(\\d+)/stages/(\\d+)$");
+    public static final Pattern ID_EXTRACTOR_PATTERN = Stage.ID_EXTRACTOR_PATTERN;
 
     private static final long serialVersionUID = 8029803456211993608L;
 
