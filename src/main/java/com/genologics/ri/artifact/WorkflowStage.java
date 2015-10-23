@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.stage.Stage;
 
