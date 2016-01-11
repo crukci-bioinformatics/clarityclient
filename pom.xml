@@ -353,7 +353,7 @@
                     <serialwarn>false</serialwarn>
                     <show>protected</show>
                     <links>
-                        <link>http://commons.apache.org/proper/commons-logging/javadocs/api-1.1/</link>
+                        <link>http://www.slf4j.org/apidocs/</link>
                         <link>http://docs.spring.io/spring/docs/3.2.x/javadoc-api/</link>
                         <link>http://docs.spring.io/spring-integration/docs/${spring.integration.version}/api/</link>
                         <link>http://hc.apache.org/httpclient-3.x/apidocs/</link>
@@ -652,12 +652,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-migrator</artifactId>
-            <version>1.7.13</version>
             <scope>test</scope>
         </dependency>
         <dependency>
