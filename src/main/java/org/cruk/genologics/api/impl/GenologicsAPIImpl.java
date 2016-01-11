@@ -56,8 +56,8 @@ import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.GenologicsUpdateException;
 import org.springframework.beans.factory.annotation.Required;
@@ -133,7 +133,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
     /**
      * Logger.
      */
-    protected Log logger = LogFactory.getLog(GenologicsAPI.class);
+    protected Logger logger = LoggerFactory.getLogger(GenologicsAPI.class);
 
     /**
      * The JAXB marshaller. Or rather, the Spring helper around the actual JAXB tools.
@@ -313,8 +313,8 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
                 if (logger.isDebugEnabled())
                 {
-                    logger.debug("Results class " + getShortClassName(listClass) +
-                                 " mapped as query results for " + getShortClassName(entityClass));
+                    logger.debug("Results class {} mapped as query results for {}",
+                                 getShortClassName(listClass), getShortClassName(entityClass));
                 }
             }
 
@@ -329,8 +329,8 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
                 if (logger.isDebugEnabled())
                 {
-                    logger.debug("Batch retrieve class " + getShortClassName(detailsClass) +
-                                 " mapped as entity holder for " + getShortClassName(entityClass));
+                    logger.debug("Batch retrieve class {} mapped as entity holder for {}",
+                                 getShortClassName(detailsClass), getShortClassName(entityClass));
                 }
             }
         }
@@ -1105,20 +1105,14 @@ public class GenologicsAPIImpl implements GenologicsAPI
             ResponseEntity<BH> response;
             if (nextPageUri == null)
             {
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("Fetching first batch of " + entityClassName + " links from " + uri);
-                }
+                logger.debug("Fetching first batch of {} links from {}", entityClassName, uri);
 
                 // First page
                 response = restClient.getForEntity(uri, batchClass);
             }
             else
             {
-                if (logger.isDebugEnabled())
-                {
-                    logger.debug("Fetching further batch of " + entityClassName + " links from " + nextPageUri);
-                }
+                logger.debug("Fetching further batch of {} links from {}", entityClassName, nextPageUri);
 
                 // Later batches.
                 response = restClient.getForEntity(nextPageUri, batchClass);
@@ -1554,11 +1548,11 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 }
                 catch (IllegalAccessException e)
                 {
-                    logger.error("Cannot access the default constructor on " + batchRetrieveClass.getName());
+                    logger.error("Cannot access the default constructor on {}", batchRetrieveClass.getName());
                 }
                 catch (InstantiationException e)
                 {
-                    logger.error("Cannot create a new " + batchRetrieveClass.getName() + ": " + e.getMessage());
+                    logger.error("Cannot create a new {}: {}", batchRetrieveClass.getName(), e.getMessage());
                 }
             }
             else
@@ -1824,11 +1818,11 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 }
                 catch (IllegalAccessException e)
                 {
-                    logger.error("Cannot access the default constructor on " + batchUpdateClass.getName());
+                    logger.error("Cannot access the default constructor on {}", batchUpdateClass.getName());
                 }
                 catch (InstantiationException e)
                 {
-                    logger.error("Cannot create a new " + batchUpdateClass.getName() + ": " + e.getMessage());
+                    logger.error("Cannot create a new {}: {}", batchUpdateClass.getName(), e.getMessage());
                 }
             }
             else
@@ -2010,7 +2004,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
         Session<LsEntry> session = filestoreSessionFactory.getSession();
         try
         {
-            logger.info("Uploading " + localURL + " to " + targetURL.getPath() + " on " + targetURL.getHost());
+            logger.info("Uploading {} to {} on {}", localURL, targetURL.getPath(), targetURL.getHost());
 
             String directory = FilenameUtils.getFullPathNoEndSeparator(targetURL.getPath());
 
@@ -2141,7 +2135,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
         if ("sftp".equalsIgnoreCase(targetURL.getProtocol()))
         {
-            logger.info("Deleting file " + targetURL.getPath() + " from file store on " + targetURL.getHost());
+            logger.info("Deleting file {} from file store on {}", targetURL.getPath(), targetURL.getHost());
 
             checkFilestoreSet();
 
@@ -2159,7 +2153,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
         {
             if (logger.isDebugEnabled())
             {
-                logger.debug("File " + targetURL.getPath() + " is not in the file store, so just removing its record.");
+                logger.debug("File {} is not in the file store, so just removing its record.", targetURL.getPath());
             }
         }
 
@@ -2434,23 +2428,23 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 }
                 catch (IllegalAccessException e)
                 {
-                    logger.error("Cannot access the property " + field.getName() +
-                                 " on the class " + field.getDeclaringClass().getName());
+                    logger.error("Cannot access the property {} on the class {}",
+                                 field.getName(), field.getDeclaringClass().getName());
                     fieldMap.remove(field.getName());
                 }
                 catch (NoSuchMethodException e)
                 {
-                    logger.error("There is no getter method for the property " + field.getName() +
-                                 " on the class " + field.getDeclaringClass().getName());
+                    logger.error("There is no getter method for the property {} on the class {}",
+                                 field.getName(), field.getDeclaringClass().getName());
                     fieldMap.remove(field.getName());
                 }
                 catch (InvocationTargetException e)
                 {
-                    logger.error("Error while getting collection property " + field.getName(), e.getTargetException());
+                    logger.error("Error while getting collection property {}", field.getName(), e.getTargetException());
                 }
                 catch (ClassCastException e)
                 {
-                    logger.error("Cannot cast a " + e.getMessage() + " to a Collection.");
+                    logger.error("Cannot cast a {} to a Collection.", e.getMessage());
                 }
             }
 

@@ -32,8 +32,8 @@ import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 
 import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.genologics.api.GenologicsAPI;
@@ -86,7 +86,7 @@ public class GenologicsAPICache
     /**
      * Logger.
      */
-    protected Log logger = LogFactory.getLog(GenologicsAPICache.class);
+    protected Logger logger = LoggerFactory.getLogger(GenologicsAPICache.class);
 
     /**
      * The API this aspect will call through to.
@@ -409,11 +409,11 @@ public class GenologicsAPICache
             {
                 if (version == NO_STATE_VALUE)
                 {
-                    logger.debug("Don't have " + className + " " + key + " - calling through to API " + pjp.getSignature().getName());
+                    logger.debug("Don't have {} {} - calling through to API {}", className, key, pjp.getSignature().getName());
                 }
                 else
                 {
-                    logger.debug("Have a different version of " + className + " " + key + " - calling through to API " + pjp.getSignature().getName());
+                    logger.debug("Have a different version of {} {} - calling through to API {}", className, key, pjp.getSignature().getName());
                 }
             }
 
@@ -425,7 +425,7 @@ public class GenologicsAPICache
         {
             if (logger.isDebugEnabled())
             {
-                logger.debug("Already have " + className + " " + key + " in the cache.");
+                logger.debug("Already have {} {} in the cache.", className, key);
             }
         }
 
@@ -562,9 +562,8 @@ public class GenologicsAPICache
             {
                 if (cache.getCacheConfiguration().getMaxEntriesLocalHeap() < links.size())
                 {
-                    logger.warn(links.size() + " " + className + "s are requested, but the cache will only hold " +
-                                cache.getCacheConfiguration().getMaxEntriesLocalHeap() +
-                                ". Repeated fetches of this collection will always call through to the API.");
+                    logger.warn("{} {}s are requested, but the cache will only hold {}. Repeated fetches of this collection will always call through to the API.",
+                            links.size(), className, cache.getCacheConfiguration().getMaxEntriesLocalHeap());
                 }
             }
 
@@ -572,11 +571,11 @@ public class GenologicsAPICache
             {
                 if (alreadyCached.size() == links.size())
                 {
-                    logger.debug("All " + links.size() + " " + className + "s requested are already in the cache.");
+                    logger.debug("All {} {}s requested are already in the cache.", links.size(), className);
                 }
                 else
                 {
-                    logger.debug("Have " + alreadyCached.size() + " " + className + "s in the cache; " + toFetch.size() + " to retrieve.");
+                    logger.debug("Have {} {}s in the cache; {} to retrieve.", alreadyCached.size(), className, toFetch.size());
                 }
             }
 

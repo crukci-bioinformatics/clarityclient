@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,8 +19,8 @@
 package org.cruk.genologics.api.debugging;
 
 import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.genologics.api.jaxb.JaxbMarshallingTool;
@@ -41,7 +41,7 @@ import org.springframework.web.client.RestTemplate;
 @Aspect
 public class RestClientSnoopingAspect
 {
-    private Log logger = LogFactory.getLog(RestClientSnoopingAspect.class);
+    private Logger logger = LoggerFactory.getLogger(RestClientSnoopingAspect.class);
 
     /**
      * The tool to convert an object back into XML for printing.
@@ -81,7 +81,8 @@ public class RestClientSnoopingAspect
 
         if (logger.isDebugEnabled())
         {
-            logger.debug("Requesting a " + ClassUtils.getShortClassName(type) + " with " + pjp.getSignature().getName() + " from " + uri);
+            logger.debug("Requesting a {} with {} from {}",
+                    ClassUtils.getShortClassName(type), pjp.getSignature().getName(), uri);
         }
 
         try
@@ -124,7 +125,7 @@ public class RestClientSnoopingAspect
 
         if (logger.isDebugEnabled())
         {
-            logger.debug("Calling " + pjp.getSignature().getName() + " to " + uri);
+            logger.debug("Calling {} to {}", pjp.getSignature().getName(), uri);
 
             displayBefore(request);
         }
@@ -169,7 +170,7 @@ public class RestClientSnoopingAspect
 
         if (logger.isDebugEnabled())
         {
-            logger.debug("Calling " + pjp.getSignature().getName() + " via " + method + " to " + uri);
+            logger.debug("Calling {} via {} to {}", pjp.getSignature().getName(), method, uri);
 
             displayBefore(request);
         }
@@ -211,7 +212,7 @@ public class RestClientSnoopingAspect
 
         if (logger.isDebugEnabled())
         {
-            logger.debug("Deleting with " + pjp.getSignature().getName() + " from " + uri);
+            logger.debug("Deleting with {} from {}", pjp.getSignature().getName(), uri);
         }
 
         try
@@ -235,11 +236,11 @@ public class RestClientSnoopingAspect
         try
         {
             String xml = marshaller.marshal(thing);
-            logger.debug("Sending:\n" + xml);
+            logger.debug("Sending:\n{}", xml);
         }
         catch (Exception e)
         {
-            logger.debug("Request cannot be marshalled: " + e.getMessage());
+            logger.debug("Request cannot be marshalled: {}", e.getMessage());
         }
     }
 
@@ -257,7 +258,7 @@ public class RestClientSnoopingAspect
         {
             response = (ResponseEntity<?>)reply;
             thing = response.getBody();
-            logger.debug("Reply status is " + response.getStatusCode());
+            logger.debug("Reply status is {}", response.getStatusCode());
         }
 
         if (thing != null)
@@ -265,11 +266,11 @@ public class RestClientSnoopingAspect
             try
             {
                 String xml = marshaller.marshal(thing);
-                logger.debug("Response is:\n" + xml);
+                logger.debug("Response is:\n{}", xml);
             }
             catch (Exception e)
             {
-                logger.debug("Response cannot be marshalled: " + e.getMessage());
+                logger.debug("Response cannot be marshalled: {}", e.getMessage());
             }
         }
     }
@@ -285,7 +286,7 @@ public class RestClientSnoopingAspect
      */
     private void fail(Throwable e) throws Throwable
     {
-        logger.debug("Call failed with " + ClassUtils.getShortClassName(e.getClass()) + ": " + e.getMessage());
+        logger.debug("Call failed with {}: {}", ClassUtils.getShortClassName(e.getClass()), e.getMessage());
         throw e;
     }
 }

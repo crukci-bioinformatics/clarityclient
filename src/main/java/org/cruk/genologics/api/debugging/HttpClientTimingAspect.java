@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,8 +20,8 @@ package org.cruk.genologics.api.debugging;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 
@@ -36,7 +36,7 @@ public class HttpClientTimingAspect
     /**
      * Logger for the messages.
      */
-    private Log logger = LogFactory.getLog(HttpClientTimingAspect.class);
+    private Logger logger = LoggerFactory.getLogger(HttpClientTimingAspect.class);
 
     /**
      * Join point that, if the logging is set to DEBUG, will report on the
@@ -84,7 +84,7 @@ public class HttpClientTimingAspect
 
             double timeTaken = (endTime - startTime) / 1000.0;
 
-            logger.debug("HTTP " + method + " call to " + uri + " took " + timeTaken + " seconds.");
+            logger.debug("HTTP {} call to {} took {} seconds.", method, uri, timeTaken);
         }
     }
 }

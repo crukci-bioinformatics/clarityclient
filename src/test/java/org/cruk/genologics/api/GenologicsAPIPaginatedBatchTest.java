@@ -41,8 +41,8 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.cruk.genologics.api.debugging.RestClientSnoopingAspect;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.easymock.EasyMock;
@@ -250,7 +250,7 @@ public class GenologicsAPIPaginatedBatchTest
         private File responseFile;
         private HeaderGroup responseHeaders = new HeaderGroup();
 
-        private Log logger = LogFactory.getLog(RestClientSnoopingAspect.class);
+        private Logger logger = LoggerFactory.getLogger(RestClientSnoopingAspect.class);
 
         public GetMethodForMultipageFetch(String uri, File file)
         {

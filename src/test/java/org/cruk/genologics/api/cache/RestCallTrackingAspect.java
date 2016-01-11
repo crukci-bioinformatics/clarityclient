@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,8 +28,8 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.junit.Assert;
@@ -159,7 +159,7 @@ public class RestCallTrackingAspect
 
     void listCache()
     {
-        Log logger = LogFactory.getLog(GenologicsAPICacheTest.class);
+        Logger logger = LoggerFactory.getLogger(GenologicsAPICacheTest.class);
 
         if (logger.isDebugEnabled())
         {
@@ -177,7 +177,7 @@ public class RestCallTrackingAspect
 
                 for (Object key : keys)
                 {
-                    logger.debug(cache.get(key));
+                    logger.debug(cache.get(key).toString());
                 }
             }
         }

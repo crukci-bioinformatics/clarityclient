@@ -34,8 +34,8 @@ import java.util.Map;
 
 import net.sf.ehcache.Element;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.cruk.genologics.api.GenologicsAPI;
@@ -68,7 +68,7 @@ import com.genologics.ri.userdefined.UDF;
 
 public class GenologicsAPICacheTest
 {
-    protected Log logger = LogFactory.getLog(GenologicsAPICacheTest.class);
+    protected Logger logger = LoggerFactory.getLogger(GenologicsAPICacheTest.class);
 
     protected AbstractApplicationContext context;
     private boolean credentialsSet;
@@ -117,7 +117,7 @@ public class GenologicsAPICacheTest
 
         if (project != null)
         {
-            logger.fatal("Need to delete " + project.getUri() + " through operations.");
+            logger.error("Need to delete {} through operations.", project.getUri());
         }
 
         context.close();

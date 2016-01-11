@@ -25,8 +25,8 @@ import java.net.UnknownHostException;
 import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -61,8 +61,8 @@ public final class UnitTestApplicationContextFactory
             }
             catch (IOException e)
             {
-                Log logger = LogFactory.getLog(UnitTestApplicationContextFactory.class);
-                logger.fatal("Could not read from credentials file: ", e);
+                Logger logger = LoggerFactory.getLogger(UnitTestApplicationContextFactory.class);
+                logger.error("Could not read from credentials file: ", e);
             }
             finally
             {
