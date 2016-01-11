@@ -127,6 +127,10 @@
             <id>crukci-bioinformatics</id>
             <url>scpexe://comp-httpdev001.cri.camres.org/var/www/html/bioinformatics/maven</url>
         </repository>
+        <snapshotRepository>
+            <id>bioinformatics</id>
+            <url>scpexe://internal-bioinformatics.cruk.cam.ac.uk/var/www/html/maven</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <build>
