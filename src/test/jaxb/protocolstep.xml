@@ -27,34 +27,34 @@
     </transitions>
     <default-grouping>The Main Group</default-grouping>
     <queue-fields>
-        <queue-field detail="false" attach-to="Analyte" name="Sample Name"/>
-        <queue-field detail="false" attach-to="Container" name="Well"/>
-        <queue-field detail="false" attach-to="Container" name="Container Name"/>
-        <queue-field detail="true" attach-to="Project" name="Project Name"/>
-        <queue-field detail="true" attach-to="Container" name="LIMS ID (Container)"/>
-        <queue-field detail="false" attach-to="Analyte" name="Waiting"/>
+        <queue-field detail="false" attach-to="Analyte" name="Sample Name" style="BUILT_IN"/>
+        <queue-field detail="false" attach-to="Container" name="Well" style="BUILT_IN"/>
+        <queue-field detail="false" attach-to="Container" name="Container Name" style="BUILT_IN"/>
+        <queue-field detail="true" attach-to="Project" name="Project Name" style="BUILT_IN"/>
+        <queue-field detail="true" attach-to="Container" name="LIMS ID (Container)" style="BUILT_IN"/>
+        <queue-field detail="false" attach-to="Analyte" name="Waiting" style="BUILT_IN"/>
     </queue-fields>
     <step-fields>
-        <step-field attach-to="ConfiguredProcess" name="Adapter"/>
-        <step-field attach-to="ConfiguredProcess" name="FilterPCRDuplicates"/>
-        <step-field attach-to="ConfiguredProcess" name="GenomeFolder"/>
-        <step-field attach-to="Process" name="LIMS ID (Process)"/>
-        <step-field attach-to="ConfiguredProcess" name="OnlyGenerateFASTQ"/>
-        <step-field attach-to="ConfiguredProcess" name="PhiX control used?"/>
-        <step-field attach-to="ConfiguredProcess" name="Read 1 Cycles"/>
-        <step-field attach-to="ConfiguredProcess" name="Read 2 Cycles"/>
-        <step-field attach-to="ConfiguredProcess" name="Workflow"/>
+        <step-field attach-to="ConfiguredProcess" name="Adapter" style="USER_DEFINED"/>
+        <step-field attach-to="ConfiguredProcess" name="FilterPCRDuplicates" style="USER_DEFINED"/>
+        <step-field attach-to="ConfiguredProcess" name="GenomeFolder" style="USER_DEFINED"/>
+        <step-field attach-to="Process" name="LIMS ID (Process)" style="BUILT_IN"/>
+        <step-field attach-to="ConfiguredProcess" name="OnlyGenerateFASTQ" style="USER_DEFINED"/>
+        <step-field attach-to="ConfiguredProcess" name="PhiX control used?" style="USER_DEFINED"/>
+        <step-field attach-to="ConfiguredProcess" name="Read 1 Cycles" style="USER_DEFINED"/>
+        <step-field attach-to="ConfiguredProcess" name="Read 2 Cycles" style="USER_DEFINED"/>
+        <step-field attach-to="ConfiguredProcess" name="Workflow" style="USER_DEFINED"/>
     </step-fields>
     <sample-fields>
-        <sample-field attach-to="Analyte" name="Sample Name"/>
-        <sample-field attach-to="Sample" name="SLX Identifier"/>
-        <sample-field attach-to="Container" name="Container Name"/>
-        <sample-field attach-to="Sample" name="Read Length"/>
-        <sample-field attach-to="Analyte" name="Primer Set"/>
-        <sample-field attach-to="Analyte" name="Workflow"/>
-        <sample-field attach-to="Sample" name="Index Type"/>
-        <sample-field attach-to="Sample" name="Reference Genome"/>
-        <sample-field attach-to="Sample" name="Submission Comments"/>
+        <sample-field attach-to="Analyte" name="Sample Name" style="BUILT_IN"/>
+        <sample-field attach-to="Sample" name="SLX Identifier" style="USER_DEFINED"/>
+        <sample-field attach-to="Container" name="Container Name" style="BUILT_IN"/>
+        <sample-field attach-to="Sample" name="Read Length" style="USER_DEFINED"/>
+        <sample-field attach-to="Analyte" name="Primer Set" style="USER_DEFINED"/>
+        <sample-field attach-to="Analyte" name="Workflow" style="USER_DEFINED"/>
+        <sample-field attach-to="Sample" name="Index Type" style="USER_DEFINED"/>
+        <sample-field attach-to="Sample" name="Reference Genome" style="USER_DEFINED"/>
+        <sample-field attach-to="Sample" name="Submission Comments" style="USER_DEFINED"/>
     </sample-fields>
     <step-properties>
         <step-property value="false" name="qcProtocolStep"/>
