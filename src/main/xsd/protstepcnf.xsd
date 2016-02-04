@@ -320,22 +320,36 @@ on the samples contained in the work view]]>
     <xs:annotation>
       <xs:documentation>
         <![CDATA[A field has a name and an attach to value,
-these fields are used to keep track of all the UDF
-values for samples in queue and work view as well as
+these fields are used to keep track of all
+the User Defined and Built In values for
+samples in queue and work view as well as
 those on the actual step]]>
       </xs:documentation>
     </xs:annotation>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
         <xs:documentation>
-          <![CDATA[The name of the UDF Field.]]>
+          <![CDATA[The name of the Field.]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
     <xs:attribute name="attach-to" type="xs:string">
       <xs:annotation>
         <xs:documentation>
-          <![CDATA[The element that the UDF Field will attach to.]]>
+          <![CDATA[The element that the Field will attach to.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="style" type="protstepcnf:style">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The style of field, either 'USER_DEFINED' or 'BUILT_IN'.
+If the style attribute is omitted from a PUT request, the system will act in the same way that it did before
+the style attribute was available, and give preference to using the built-in field when both a
+built-in and UDF match the name and attach-to.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: No]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -506,6 +520,17 @@ suitable for use when copying protocol steps, but should not be manipulated.]]>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
+  <xs:simpleType name="style">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The different styles of Fields.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="USER_DEFINED"/>
+      <xs:enumeration value="BUILT_IN"/>
+    </xs:restriction>
+  </xs:simpleType>
   <xs:simpleType name="trigger-point">
     <xs:annotation>
       <xs:documentation>

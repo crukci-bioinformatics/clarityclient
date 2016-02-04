@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,23 +27,25 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- *
- * A field has a name and an attach to value, these fields are used to keep
- * track of all the UDF values for samples in queue and work view as well as
- * those on the actual step
+ * A field has a name and an attach to value, these fields are used to keep track of all
+ * the User Defined and Built In values for samples in queue and work view as well as
+ * those on the actual step.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "field")
 @XmlSeeAlso({ QueueField.class })
 public class Field implements Serializable
 {
-    private static final long serialVersionUID = 1689876520646016314L;
+    private static final long serialVersionUID = 1708402879312358390L;
 
     @XmlAttribute(name = "name")
     protected String name;
 
     @XmlAttribute(name = "attach-to")
     protected String attachTo;
+
+    @XmlAttribute(name = "style")
+    protected Style style;
 
     public Field()
     {
@@ -80,4 +82,13 @@ public class Field implements Serializable
         this.attachTo = attachTo;
     }
 
+    public Style getStyle()
+    {
+        return style;
+    }
+
+    public void setStyle(Style style)
+    {
+        this.style = style;
+    }
 }
