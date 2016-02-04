@@ -39,8 +39,8 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.ClassUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
 import org.custommonkey.xmlunit.DetailedDiff;

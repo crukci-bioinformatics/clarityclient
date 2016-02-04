@@ -18,7 +18,7 @@
 
 package org.cruk.genologics.api.impl;
 
-import static org.apache.commons.lang.ClassUtils.getShortClassName;
+import static org.apache.commons.lang3.ClassUtils.getShortClassName;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +55,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.cruk.genologics.api.GenologicsAPI;

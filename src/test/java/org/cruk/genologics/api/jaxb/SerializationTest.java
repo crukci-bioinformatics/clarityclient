@@ -42,7 +42,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang3.ClassUtils;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
 import org.junit.Test;
