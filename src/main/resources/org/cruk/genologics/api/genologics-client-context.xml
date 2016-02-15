@@ -192,14 +192,6 @@
                 <util:constant static-field="org.springframework.http.MediaType.MULTIPART_FORM_DATA"/>
             </list>
         </property>
-        <!--
-        <property name="partConverters">
-            <list>
-                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter">
-                </bean>
-            </list>
-        </property>
-        -->
     </bean>
 
     <bean id="genologicsFileUploadTemplate" class="org.springframework.web.client.RestTemplate">
@@ -219,6 +211,6 @@
         <property name="restClient" ref="genologicsRestTemplate"/>
         <property name="httpClient" ref="genologicsHttpClient"/>
         <property name="fileUploadClient" ref="genologicsFileUploadTemplate"/>
-        <property name="uploadOverHttp" value="true"/>
+        <property name="uploadOverHttp" value="false"/>
     </bean>
 </beans>
