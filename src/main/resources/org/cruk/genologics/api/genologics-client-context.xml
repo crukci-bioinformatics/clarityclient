@@ -186,10 +186,39 @@
         </aop:aspect>
     </aop:config>
 
+    <bean id="genologicsFileUploadMessageConverter" class="org.springframework.http.converter.FormHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <util:constant static-field="org.springframework.http.MediaType.MULTIPART_FORM_DATA"/>
+            </list>
+        </property>
+        <!--
+        <property name="partConverters">
+            <list>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter">
+                </bean>
+            </list>
+        </property>
+        -->
+    </bean>
+
+    <bean id="genologicsFileUploadTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg ref="genologicsClientHttpRequestFactory"/>
+        <property name="messageConverters">
+            <list>
+                <ref bean="genologicsFileUploadMessageConverter"/>
+            </list>
+        </property>
+        <property name="errorHandler" ref="genologicsExceptionErrorHandler"/>
+    </bean>
+
     <bean id="genologicsAPI" class="org.cruk.genologics.api.impl.GenologicsAPIImpl">
         <property name="filestoreSessionFactory" ref="filestoreSFTPSessionFactory"/>
         <property name="jaxbMarshaller" ref="genologicsJaxbMarshaller"/>
+        <property name="httpRequestFactory" ref="genologicsClientHttpRequestFactory"/>
         <property name="restClient" ref="genologicsRestTemplate"/>
         <property name="httpClient" ref="genologicsHttpClient"/>
+        <property name="fileUploadClient" ref="genologicsFileUploadTemplate"/>
+        <property name="uploadOverHttp" value="true"/>
     </bean>
 </beans>

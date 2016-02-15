@@ -176,11 +176,20 @@ public interface GenologicsAPI
      * <li>{@code filestore.server} - The host name for the file store (see {@link #setFilestoreServer(String)}).</li>
      * <li>{@code filestore.user} - The user to access the file store as (see {@link #setFilestoreCredentials(String, String)}).</li>
      * <li>{@code filestore.pass} - The password for {@code filestore.user}.</li>
+     *
+     * <li>{@code batch.size} - The maximum number of objects to fetch/create/update in one call to the API
+     *          (see {@link #setBulkOperationBatchSize(int)}).</li>
+     * <li>{@code http.upload} - Whether to use the HTTP file upload mechanism introduced with Clarity 4.0
+     *          (see {@link #setUploadOverHttp(boolean)}).</li>
+     * <li>{@code http.upload.maximum} - The maximum size of file that can be uploaded over HTTP
+     *          (see {@link #setHttpUploadSizeLimit(long)}).</li>
+     * <li>{@code revert.to.sftp.upload} - Whether it is permissible to revert to SFTP uploads if the file is
+     *          too large to send over HTTP (see {@link #setAutoRevertToSFTPUploads(boolean)}).</li>
      * </ul>
      *
      * <p>
      * The properties file does not have to contain all of these values. Any that are
-     * missing are simply ignored.
+     * missing are simply ignored and, where possible, left as their defaults.
      * </p>
      *
      * @param configuration The properties file to configure from.
@@ -219,6 +228,60 @@ public interface GenologicsAPI
      * @see #deleteAll(Collection)
      */
     void setBulkOperationBatchSize(int batchSize);
+
+    /**
+     * Set whether uploads over HTTP are permitted using the {@code file/id/upload}
+     * API end point, or whether only SFTP uploads are allowed.
+     * <p>
+     * Note that as of release 2.23, all downloads take place through the
+     * {@code file/id/download} end point. This solves any problems for read only
+     * access to the file store.
+     * </p>
+     * <p>
+     * The default is to perform uploads of files no bigger than the limit through
+     * HTTP.
+     * </p>
+     *
+     * @param uploadOverHttp true if files can be uploaded using HTTP,
+     * false if not.
+     *
+     * @since 2.23
+     */
+    void setUploadOverHttp(boolean uploadOverHttp);
+
+    /**
+     * Set the maximum size of file that can be uploaded using HTTP.
+     * This must be no greater than the corresponding Clarity configuration
+     * property {@code api.artifacts.max.resultfile.upload.size}.
+     * <p>
+     * The default file size limit is 10,485,760 bytes (10MB), which is the
+     * default setting for the configuration property.
+     * </p>
+     *
+     * @param limit The maximum size of file allowed over HTTP.
+     *
+     * @throws IllegalArgumentException if {@code limit} is less than one.
+     *
+     * @since 2.23
+     */
+    void setHttpUploadSizeLimit(long limit);
+
+    /**
+     * Set whether the SFTP mechanism can be used as a fall back for uploading files if
+     * a file exceeds the HTTP upload size limit.
+     * <p>
+     * The default is to allow the SFTP upload mechanism to be used if a file is too
+     * large for HTTP.
+     * </p>
+     *
+     * @param autoRevertToSFTP true to use SFTP to transfer files that are too large
+     * for HTTP, false to fail if such a file is given.
+     *
+     * @see GenologicsAPI#uploadFile(LimsEntityLinkable, URL, boolean)
+     *
+     * @since 2.23
+     */
+    void setAutoRevertToSFTPUploads(boolean autoRevertToSFTP);
 
 
     // Helper methods
@@ -587,6 +650,26 @@ public interface GenologicsAPI
     /**
      * Attach a file to an entity and upload that file to the file store.
      *
+     * <p>
+     * The client can be configured to use either the existing SFTP mechanism
+     * for the upload or the HTTP upload end point added in Clarity 4.0. Care
+     * should be taken with this choice, as the older mechanism is either safer
+     * or more problematic, depending on one's viewpoint.
+     * </p>
+     *
+     * <p>
+     * Uploading over HTTP has the additional issue that adding a file to a
+     * completed process fails. This is not a restriction of the SFTP upload.
+     * </p>
+     *
+     * <p>
+     * There is a maximum size that Clarity will accept for a file uploaded
+     * over HTTP (see {@link #setHttpUploadSizeLimit(long)}). The client can
+     * be configured to drop back to SFTP if this size is exceeded. Alternatively
+     * it can be configured to never use the HTTP mechanism or to fail if the
+     * file is too big.
+     * </p>
+     *
      * @param <E> The type of LIMS entity the file is being attached to.
      *
      * @param entity The LIMS entity to attach the file to.
@@ -601,6 +684,10 @@ public interface GenologicsAPI
      * @return The file record in the Genologics LIMS.
      *
      * @throws IOException if the file read or write fails.
+     *
+     * @see #setUploadOverHttp(boolean)
+     * @see #setHttpUploadSizeLimit(long)
+     * @see #setAutoRevertToSFTPUploads(boolean)
      */
     <E extends LimsEntity<E>>
     GenologicsFile uploadFile(LimsEntityLinkable<E> entity, URL fileURL, boolean publishInLablink) throws IOException;

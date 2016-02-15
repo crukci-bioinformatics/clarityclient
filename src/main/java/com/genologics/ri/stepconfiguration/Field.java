@@ -44,6 +44,9 @@ public class Field implements Serializable
     @XmlAttribute(name = "attach-to")
     protected String attachTo;
 
+    /**
+     * @since 2.23
+     */
     @XmlAttribute(name = "style")
     protected Style style;
 

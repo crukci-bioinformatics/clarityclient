@@ -21,6 +21,9 @@ package com.genologics.ri.stepconfiguration;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * @since 2.23
+ */
 @XmlType(name = "style")
 @XmlEnum
 public enum Style

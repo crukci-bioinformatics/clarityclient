@@ -55,18 +55,27 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.cruk.genologics.api.GenologicsAPI;
+import org.cruk.genologics.api.GenologicsException;
+import org.cruk.genologics.api.GenologicsUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.cruk.genologics.api.GenologicsAPI;
-import org.cruk.genologics.api.GenologicsUpdateException;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.core.NestedIOException;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -96,6 +105,7 @@ import com.genologics.ri.step.ProcessStep;
 import com.genologics.ri.step.StepCreation;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
+import com.jcraft.jsch.SftpException;
 
 
 /**
@@ -149,6 +159,16 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * The HTTP client.
      */
     protected HttpClient httpClient;
+
+    /**
+     * The request factory for direct communication with the HTTP client.
+     */
+    protected ClientHttpRequestFactory httpRequestFactory;
+
+    /**
+     * Adapted REST client for uploading files through the HTTP mechanism.
+     */
+    protected RestOperations fileUploadClient;
 
     /**
      * Session factory for JSch connections to the file store over SFTP.
@@ -235,6 +255,23 @@ public class GenologicsAPIImpl implements GenologicsAPI
      */
     protected Map<Class<?>, Map<String, java.lang.reflect.Field>> updaterFields =
             Collections.synchronizedMap(new HashMap<Class<?>, Map<String, java.lang.reflect.Field>>());
+
+    /**
+     * Whether files can be uploaded using HTTP to the {@code file/id/upload} API end point.
+     */
+    protected boolean uploadOverHttp = false;
+
+    /**
+     * The maximum size of file that can be uploaded using HTTP.
+     */
+    protected long httpUploadSizeLimit = 10485760L;
+
+    /**
+     * Whether the SFTP mechanism can be used as a fall back for uploading files if
+     * a file exceeds the HTTP upload size limit.
+     */
+    protected boolean autoRevertToSFTP = true;
+
 
     /**
      * Standard constructor.
@@ -348,6 +385,17 @@ public class GenologicsAPIImpl implements GenologicsAPI
     }
 
     /**
+     * Set the REST client used for file uploads over HTTP.
+     *
+     * @param fileUploadClient The REST client configured for file upload.
+     */
+    @Required
+    public void setFileUploadClient(RestOperations fileUploadClient)
+    {
+        this.fileUploadClient = fileUploadClient;
+    }
+
+    /**
      * Set the HTTP client. If the credentials are already known at this point,
      * those are set on the client.
      *
@@ -361,6 +409,17 @@ public class GenologicsAPIImpl implements GenologicsAPI
         {
             setCredentials(apiCredentials);
         }
+    }
+
+    /**
+     * Set the factory used for obtaining HTTP requests.
+     *
+     * @param httpRequestFactory The HTTP request factory.
+     */
+    @Required
+    public void setHttpRequestFactory(ClientHttpRequestFactory httpRequestFactory)
+    {
+        this.httpRequestFactory = httpRequestFactory;
     }
 
     @Override
@@ -483,6 +542,11 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 String filestoreUser = configuration.getProperty("filestore.user");
                 String filestorePass = configuration.getProperty("filestore.pass");
 
+                String batchSize = configuration.getProperty("batch.size");
+                String httpUpload = configuration.getProperty("http.upload");
+                String httpUploadLimit = configuration.getProperty("http.upload.maximum");
+                String revertToSftp = configuration.getProperty("revert.to.sftp.upload");
+
                 if (StringUtils.isNotBlank(apiServer))
                 {
                     setServer(new URL(apiServer));
@@ -498,6 +562,37 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 if (StringUtils.isNotBlank(filestoreUser))
                 {
                     setFilestoreCredentials(filestoreUser, filestorePass);
+                }
+
+                if (StringUtils.isNotBlank(batchSize))
+                {
+                    try
+                    {
+                        setBulkOperationBatchSize(Integer.parseInt(batchSize));
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        logger.warn("Configuration property 'batch.size' is not a number.");
+                    }
+                }
+                if (StringUtils.isNotBlank(httpUpload))
+                {
+                    setUploadOverHttp(Boolean.parseBoolean(httpUpload));
+                }
+                if (StringUtils.isNotBlank(httpUploadLimit))
+                {
+                    try
+                    {
+                        setHttpUploadSizeLimit(Long.parseLong(httpUploadLimit));
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        logger.warn("Configuration property 'http.upload.maximum' is not a number.");
+                    }
+                }
+                if (StringUtils.isNotBlank(revertToSftp))
+                {
+                    setAutoRevertToSFTPUploads(Boolean.parseBoolean(revertToSftp));
                 }
             }
             else
@@ -527,6 +622,53 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 batchSize <= 0
                     ? BULK_OPERATION_BATCH_SIZE_HARD_LIMIT
                     : Math.min(batchSize, BULK_OPERATION_BATCH_SIZE_HARD_LIMIT);
+    }
+
+    /**
+     * Check whether uploads over HTTP are permitted.
+     *
+     * @return true if files can be uploaded using the {@code file/id/upload}
+     * API end point, false if only SFTP uploads are allowed.
+     *
+     * @since 2.23
+     */
+    public boolean uploadOverHttp()
+    {
+        return uploadOverHttp;
+    }
+
+    @Override
+    public void setUploadOverHttp(boolean uploadOverHttp)
+    {
+        this.uploadOverHttp = uploadOverHttp;
+    }
+
+    /**
+     * Get the maximum size of file that can be uploaded using HTTP.
+     *
+     * @return The maximum size of file allowed over HTTP.
+     *
+     * @since 2.23
+     */
+    public long getHttpUploadSizeLimit()
+    {
+        return httpUploadSizeLimit;
+    }
+
+    @Override
+    public void setHttpUploadSizeLimit(long limit)
+    {
+        if (limit < 1)
+        {
+            throw new IllegalArgumentException("HTTP upload size limit must be positive.");
+        }
+        httpUploadSizeLimit = limit;
+    }
+
+    @Override
+    public void setAutoRevertToSFTPUploads(boolean autoRevertToSFTP)
+    {
+        this.autoRevertToSFTP = autoRevertToSFTP;
     }
 
     /**
@@ -1955,35 +2097,197 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
         checkServerSet();
 
-        GenologicsFile storageRequest = new GenologicsFile();
-        storageRequest.setAttachedTo(entity);
-        storageRequest.setOriginalLocation(fileURL.toExternalForm());
-
-        String storageUri = apiRoot + "glsstorage";
-
-        ResponseEntity<GenologicsFile> response = restClient.postForEntity(storageUri, storageRequest, GenologicsFile.class);
-
-        storageRequest = response.getBody();
-
-        URL targetURL = new URL(null, storageRequest.getContentLocation().toString(), NullURLStreamHandler.INSTANCE);
-
-        if ("sftp".equalsIgnoreCase(targetURL.getProtocol()))
+        URLInputStreamResource fileURLResource = new URLInputStreamResource(fileURL);
+        try
         {
-            uploadViaSFTP(fileURL, targetURL);
+            long length = fileURLResource.contentLength();
+
+            if (length < 0)
+            {
+                logger.warn("Cannot determine size of file from the " + fileURL.getProtocol() + " protocol.");
+            }
+
+            // Post a request to the "glsstorage" to create a new GenologicsFile object to
+            // hold the uploaded file.
+
+            GenologicsFile storageRequest = new GenologicsFile();
+            storageRequest.setAttachedTo(entity);
+            storageRequest.setOriginalLocation(fileURL.toExternalForm());
+
+            String storageUri = apiRoot + "glsstorage";
+
+            ResponseEntity<GenologicsFile> response = restClient.postForEntity(storageUri, storageRequest, GenologicsFile.class);
+
+            storageRequest = response.getBody();
+
+            // May as well set the "Publish to LabLink" flag on the file now.
+            // By either upload mechanism, this object will be posted back at some point.
+
+            storageRequest.setPublished(publishInLablink);
+
+            // See which protocol the resulting file gives. If it is "sftp", we can upload.
+            // Anything else cannot allow an upload (haven't seen anything else so far).
+
+            URL targetURL = new URL(null, storageRequest.getContentLocation().toString(), NullURLStreamHandler.INSTANCE);
+
+            if (!"sftp".equalsIgnoreCase(targetURL.getProtocol()))
+            {
+                throw new GenologicsUpdateException("File upload to the file store for links giving the " +
+                        targetURL.getProtocol().toUpperCase() + " protocol is not supported.");
+            }
+
+            if (uploadOverHttp)
+            {
+                if (length >= 0 && length <= httpUploadSizeLimit)
+                {
+                    // Have a length and it's within the set limit. Use HTTP.
+
+                    uploadViaHTTP(fileURLResource, storageRequest);
+                }
+                else if (autoRevertToSFTP)
+                {
+                    // Could not get the length, or the file is too big. Allowed to
+                    // revert to SFTP, so use that.
+
+                    if (length < 0)
+                    {
+                        logger.info("Size of " + fileURL + " cannot be determined, so reverting to SFTP.");
+                    }
+                    else
+                    {
+                        logger.info("Upload of " + fileURL + " is too large to be uploaded through the HTTP mechanism. Reverting to SFTP.");
+                    }
+
+                    uploadViaSFTP(fileURLResource, storageRequest);
+                }
+                else
+                {
+                    // Could not get the length, or the file is too big. Not allowed to
+                    // revert to SFTP, so fail.
+
+                    if (length < 0)
+                    {
+                        throw new GenologicsUpdateException("Cannot upload " + fileURL +
+                                " - cannot determine its size, so it may exceed the maximum HTTP upload size of " +
+                                httpUploadSizeLimit);
+                    }
+                    else
+                    {
+                        throw new GenologicsUpdateException("Cannot upload " + fileURL +
+                                " - the content exceeds the maximum HTTP upload size of " + httpUploadSizeLimit);
+                    }
+                }
+            }
+            else
+            {
+                // Not using HTTP upload at all, so straight to SFTP.
+
+                uploadViaSFTP(fileURLResource, storageRequest);
+            }
+
+            try
+            {
+                PropertyUtils.setProperty(entity, "file", storageRequest);
+            }
+            catch (Exception e)
+            {
+                // Quietly leave the file property of the entity as it was.
+            }
+
+            return storageRequest;
         }
-        else
+        finally
         {
-            throw new GenologicsUpdateException("File upload to the file store using the " +
-                    targetURL.getProtocol().toUpperCase() + " protocol is not supported.");
+            fileURLResource.close();
+        }
+    }
+
+    /**
+     * Upload a file to the Genologics file store. This always uses the HTTP
+     * protocol with the {@code file/id/upload} end point.
+     *
+     * @param localURL The URL of the file on the local machine.
+     * @param targetFile The GenologicsFile object that holds the reference to the
+     * uploaded file, which will be newly created using the API.
+     *
+     * @throws GenologicsException if the server reports a problem with the upload.
+     * @throws IllegalStateException if {@code targetFile} does not have a LIMS id.
+     * @throws IOException if there is a problem with the transfer.
+     */
+    protected void uploadViaHTTP(URLInputStreamResource fileURLResource, GenologicsFile targetFile) throws IOException
+    {
+        GenologicsEntity entityAnno = checkEntityAnnotated(GenologicsFile.class);
+
+        if (targetFile.getLimsid() == null)
+        {
+            // Need to post the file back to the LIMS to obtain a URI and LIMS
+            // id for the file object.
+
+            String filesUrl = getServerApiAddress() + entityAnno.uriSection();
+
+            ResponseEntity<GenologicsFile> response = restClient.postForEntity(filesUrl, targetFile, GenologicsFile.class);
+
+            reflectiveUpdate(targetFile, response.getBody());
+
+            assert targetFile.getLimsid() != null : "Still no LIMS id on GenologicsFile object.";
         }
 
-        storageRequest.setPublished(publishInLablink);
+        boolean uploadedOk = false;
+        try
+        {
+            URI uploadURI;
+            try
+            {
+                uploadURI = new URI(getServerApiAddress() + entityAnno.uriSection() + "/" + targetFile.getLimsid() + "/upload");
+            }
+            catch (URISyntaxException e)
+            {
+                throw new IOException("File LIMS id " + targetFile.getLimsid() + " produces an invalid URI for upload.", e);
+            }
 
-        String filesUri = apiRoot + "files";
+            logger.info("Uploading {} over HTTP to {} on {}",
+                        fileURLResource.getURL().getPath(),
+                        targetFile.getContentLocation().getPath(),
+                        targetFile.getContentLocation().getHost());
 
-        response = restClient.postForEntity(filesUri, storageRequest, GenologicsFile.class);
+            HttpEntity<MultiValueMap<String, Resource>> requestEntity =
+                    new HttpEntity<MultiValueMap<String, Resource>>(new LinkedMultiValueMap<String, Resource>(1));
 
-        return response.getBody();
+            requestEntity.getBody().add("file", fileURLResource);
+
+            ResponseEntity<String> uploadEntity =
+                    fileUploadClient.exchange(uploadURI, HttpMethod.POST, requestEntity, String.class);
+
+            uploadedOk = true;
+
+            if (logger.isDebugEnabled())
+            {
+                if (uploadEntity.hasBody())
+                {
+                    logger.debug("Upload of file returned a {}: {}",
+                                 ClassUtils.getShortClassName(uploadEntity.getBody().getClass()),
+                                 uploadEntity.getBody());
+                }
+                else
+                {
+                    logger.debug("Upload of file succeeded but returned nothing.");
+                }
+            }
+        }
+        finally
+        {
+            if (!uploadedOk)
+            {
+                try
+                {
+                    delete(targetFile);
+                }
+                catch (Exception e)
+                {
+                    logger.warn("Failed to clean up GenologicsFile object {} after upload failure:", targetFile.getLimsid(), e);
+                }
+            }
+        }
     }
 
     /**
@@ -1997,14 +2301,21 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * @throws IllegalStateException if the file store host name or credentials
      * are not set.
      */
-    protected void uploadViaSFTP(URL localURL, URL targetURL) throws IOException
+    protected void uploadViaSFTP(URLInputStreamResource fileURLResource, GenologicsFile targetFile) throws IOException
     {
+        GenologicsEntity entityAnno = checkEntityAnnotated(GenologicsFile.class);
+
         checkFilestoreSet();
 
         Session<LsEntry> session = filestoreSessionFactory.getSession();
         try
         {
-            logger.info("Uploading {} to {} on {}", localURL, targetURL.getPath(), targetURL.getHost());
+            URI targetURL = targetFile.getContentLocation();
+
+            logger.info("Uploading {} over SFTP to {} on {}",
+                        fileURLResource.getURL().getPath(),
+                        targetURL.getPath(),
+                        targetURL.getHost());
 
             String directory = FilenameUtils.getFullPathNoEndSeparator(targetURL.getPath());
 
@@ -2031,15 +2342,17 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 }
             }
 
-            InputStream in = localURL.openStream();
-            try
-            {
-                session.write(in, targetURL.getPath());
-            }
-            finally
-            {
-                in.close();
-            }
+            session.write(fileURLResource.getInputStream(), targetURL.getPath());
+
+            // Post the targetFile object back to the server to set the
+            // "publish in lablink" flag and get the LIMS id and URI for the
+            // file object.
+
+            String filesUrl = getServerApiAddress() + entityAnno.uriSection();
+
+            ResponseEntity<GenologicsFile> response = restClient.postForEntity(filesUrl, targetFile, GenologicsFile.class);
+
+            reflectiveUpdate(targetFile, response.getBody());
         }
         finally
         {
@@ -2059,53 +2372,56 @@ public class GenologicsAPIImpl implements GenologicsAPI
             throw new IllegalArgumentException("resultStream cannot be null");
         }
 
-        GenologicsFile realFile;
-        if (file instanceof GenologicsFile)
+        GenologicsEntity entityAnno = checkEntityAnnotated(GenologicsFile.class);
+
+        LimsEntityLinkable<GenologicsFile> realFile;
+        if (file instanceof LimsEntityLinkable)
         {
-            realFile = (GenologicsFile)file;
-            if (realFile.getContentLocation() == null)
-            {
-                // Don't know where the actual file is, so fetch to get the full info.
-                realFile = retrieve(file.getUri(), GenologicsFile.class);
-            }
+            realFile = (LimsEntityLinkable<GenologicsFile>)file;
         }
         else
         {
             realFile = retrieve(file.getUri(), GenologicsFile.class);
         }
 
-        URL targetURL = new URL(null, realFile.getContentLocation().toString(), NullURLStreamHandler.INSTANCE);
-
-        if ("sftp".equalsIgnoreCase(targetURL.getProtocol()))
+        URI fileURL;
+        try
         {
-            checkFilestoreSet();
-
-            Session<LsEntry> session = filestoreSessionFactory.getSession();
-            try
-            {
-                session.read(targetURL.getPath(), resultStream);
-            }
-            finally
-            {
-                session.close();
-            }
+            fileURL = new URI(getServerApiAddress() + entityAnno.uriSection() + "/" + realFile.getLimsid() + "/download");
         }
-        else
+        catch (URISyntaxException e)
         {
-            targetURL = realFile.getContentLocation().toURL();
-            InputStream in = targetURL.openStream();
-            try
-            {
-                byte[] buffer = new byte[16384];
-                IOUtils.copyLarge(in, resultStream, buffer);
-            }
-            finally
-            {
-                IOUtils.closeQuietly(in);
-            }
+            throw new IllegalArgumentException("File LIMS id " + realFile.getLimsid() + " produces an invalid URI for download.", e);
         }
 
-        resultStream.flush();
+        logger.debug("Downloading {}...", fileURL);
+
+        ClientHttpRequest request = httpRequestFactory.createRequest(fileURL, HttpMethod.GET);
+
+        ClientHttpResponse response = request.execute();
+
+        switch (response.getStatusCode().series())
+        {
+            case SUCCESSFUL:
+                InputStream in = response.getBody();
+                try
+                {
+                    byte[] buffer = new byte[8192];
+                    IOUtils.copyLarge(in, resultStream, buffer);
+                }
+                finally
+                {
+                    IOUtils.closeQuietly(in);
+                    resultStream.flush();
+                }
+                logger.debug("{} download successful.", fileURL);
+                break;
+
+            default:
+                logger.debug("{} download failed. HTTP {}", fileURL, response.getStatusCode());
+                throw new IOException("Could not download file " + realFile.getLimsid() +
+                                      " (HTTP " + response.getStatusCode() + "): " + response.getStatusText());
+        }
     }
 
     @Override
@@ -2144,6 +2460,48 @@ public class GenologicsAPIImpl implements GenologicsAPI
             {
                 session.remove(targetURL.getPath());
             }
+            catch (NestedIOException e)
+            {
+                // Don't want things to fail if the file doesn't exist on the file store,
+                // just a warning. This handling code deals with this.
+
+                try
+                {
+                    if (e.getCause() != null)
+                    {
+                        throw e.getCause();
+                    }
+                    else
+                    {
+                        // There is an error in line 71 of SftpSession, where instead of the
+                        // SftpException being the cause, its own message is appended to the
+                        // detail message for the outer exception with a +.
+                        // Bug raised with Spring Integrations as issue INT-3954.
+                        if ("Failed to remove file: 2: No such file".equals(e.getMessage()))
+                        {
+                            throw new SftpException(2, e.getMessage());
+                        }
+
+                        throw e;
+                    }
+                }
+                catch (SftpException se)
+                {
+                    // See if it's just a "file not found".
+                    if (se.id == 2)
+                    {
+                        logger.warn("File {} does not exist on {}", targetURL.getPath(), targetURL.getHost());
+                    }
+                    else
+                    {
+                        throw e;
+                    }
+                }
+                catch (Throwable t)
+                {
+                    throw e;
+                }
+            }
             finally
             {
                 session.close();
@@ -2151,10 +2509,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
         }
         else
         {
-            if (logger.isDebugEnabled())
-            {
-                logger.debug("File {} is not in the file store, so just removing its record.", targetURL.getPath());
-            }
+            logger.info("File {} is not in the file store, so just removing its record.", targetURL.getPath());
         }
 
         delete(realFile);
