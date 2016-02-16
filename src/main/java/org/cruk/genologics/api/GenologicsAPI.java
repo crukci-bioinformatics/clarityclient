@@ -185,6 +185,9 @@ public interface GenologicsAPI
      *          (see {@link #setHttpUploadSizeLimit(long)}).</li>
      * <li>{@code revert.to.sftp.upload} - Whether it is permissible to revert to SFTP uploads if the file is
      *          too large to send over HTTP (see {@link #setAutoRevertToSFTPUploads(boolean)}).</li>
+     * <li>{@code http.direct.download} - Whether to download files in a HTTP file store directly from
+     *          their server or whether to download through the Clarity API
+     *          (see {@link #setDownloadDirectFromHttpStore(boolean)}).</li>
      * </ul>
      *
      * <p>
@@ -230,12 +233,13 @@ public interface GenologicsAPI
     void setBulkOperationBatchSize(int batchSize);
 
     /**
-     * Set whether uploads over HTTP are permitted using the {@code file/id/upload}
+     * Set whether uploads over HTTP are permitted using the {@code files/id/upload}
      * API end point, or whether only SFTP uploads are allowed.
      * <p>
-     * Note that as of release 2.23, all downloads take place through the
-     * {@code file/id/download} end point. This solves any problems for read only
-     * access to the file store.
+     * Note that as of release 2.23, downloads from the regular file store take place
+     * through the {@code files/id/download} end point. This solves any problems for
+     * SFTP access to the file store. Files in a HTTP file store may be handled
+     * differently (see {@link #setDownloadDirectFromHttpStore(boolean)}).
      * </p>
      * <p>
      * The default is to perform uploads of files no bigger than the limit through
@@ -255,7 +259,7 @@ public interface GenologicsAPI
      * property {@code api.artifacts.max.resultfile.upload.size}.
      * <p>
      * The default file size limit is 10,485,760 bytes (10MB), which is the
-     * default setting for the configuration property.
+     * default setting for the Clarity configuration property.
      * </p>
      *
      * @param limit The maximum size of file allowed over HTTP.
@@ -282,6 +286,21 @@ public interface GenologicsAPI
      * @since 2.23
      */
     void setAutoRevertToSFTPUploads(boolean autoRevertToSFTP);
+
+    /**
+     * For files stored in a HTTP file store, set whether to download these
+     * files directly from their HTTP server or whether to fetch them via the
+     * API's {@code files/id/download} end point (i.e. the same as files in
+     * the regular file store).
+     * <p>
+     * The default is to download directly from the HTTP store rather than
+     * going through the API. This will save traffic and load on the LIMS server.
+     * </p>
+     *
+     * @param downloadDirect true to fetch HTTP accessible files directly
+     * from their HTTP URL, false to fetch them via the Clarity API.
+     */
+    void setDownloadDirectFromHttpStore(boolean downloadDirect);
 
 
     // Helper methods

@@ -211,6 +211,5 @@
         <property name="restClient" ref="genologicsRestTemplate"/>
         <property name="httpClient" ref="genologicsHttpClient"/>
         <property name="fileUploadClient" ref="genologicsFileUploadTemplate"/>
-        <property name="uploadOverHttp" value="false"/>
     </bean>
 </beans>
