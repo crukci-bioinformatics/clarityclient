@@ -2422,6 +2422,11 @@ public class GenologicsAPIImpl implements GenologicsAPI
         if (file instanceof GenologicsFile)
         {
             realFile = (GenologicsFile)file;
+            if (realFile.getContentLocation() == null)
+            {
+                // Don't know where the actual file is, so fetch to get the full info.
+                realFile = retrieve(file.getUri(), GenologicsFile.class);
+            }
         }
         else
         {
