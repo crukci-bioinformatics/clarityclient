@@ -254,7 +254,7 @@ public class URLInputStreamResource extends AbstractResource
 
     /**
      * Get the input stream to read the resource content. Client code should
-     * call {@link #close()) to close this stream and associated resources,
+     * call {@link #close()} to close this stream and associated resources,
      * but if the stream is closed explicitly it should be fine as long as this
      * object is not used any further.
      *

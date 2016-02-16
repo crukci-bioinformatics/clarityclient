@@ -2239,15 +2239,16 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * Upload a file to the Genologics file store. This always uses the HTTP
      * protocol with the {@code file/id/upload} end point.
      *
-     * @param localURL The URL of the file on the local machine.
+     * @param fileURLResource The URL resource of the file on the local machine.
      * @param targetFile The GenologicsFile object that holds the reference to the
-     * uploaded file, which will be newly created using the API.
+     * uploaded file, which was newly created using the API.
      *
      * @throws GenologicsException if the server reports a problem with the upload.
      * @throws IllegalStateException if {@code targetFile} does not have a LIMS id.
      * @throws IOException if there is a problem with the transfer.
      */
-    protected void uploadViaHTTP(URLInputStreamResource fileURLResource, GenologicsFile targetFile) throws IOException
+    protected void uploadViaHTTP(URLInputStreamResource fileURLResource, GenologicsFile targetFile)
+    throws IOException
     {
         GenologicsEntity entityAnno = checkEntityAnnotated(GenologicsFile.class);
 
@@ -2335,9 +2336,9 @@ public class GenologicsAPIImpl implements GenologicsAPI
     /**
      * Upload a file to the Genologics file store. This always uses the SFTP protocol.
      *
-     * @param localURL The URL of the file on the local machine.
-     * @param targetURL The destination URL of the file in the file store. This is
-     * returned when the {@code GenologicsFile} object is created with the API.
+     * @param fileURLResource The URL resource of the file on the local machine.
+     * @param targetFile The GenologicsFile object that holds the reference to the
+     * uploaded file, which was newly created using the API.
      *
      * @throws IOException if there is a problem with the transfer.
      * @throws IllegalStateException if the file store host name or credentials

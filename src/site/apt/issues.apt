@@ -12,4 +12,14 @@ objects to fetch or update.
 {{{./caching.html#Bulk_fetch_create_and_update_operations}See the
 caching page for details.}}
 
+  [[3]] Uploading files to the file store with the HTTP mechanism will fail if
+the process the files are being attached to has completed. It seems this is a
+deliberate restriction in the
+<<<{{{http://www.genologics.com/files/permanent/API/latest/rest.version.files.limsid.upload.html}files/limsid/upload}}>>>
+end point. The older mechanism of uploading to the file store with SFTP does
+not have this restriction and so, where possible, this method is preferred
+(HTTP uploads are deactivated in the client by default).
+{{{https://genologics.zendesk.com/entries/81546339-Cookbook-Example-for-HTTP-File-Upload-Download-via-the-REST-API}Further
+details can be found at this post on the Genologics forum.}}
+
   []

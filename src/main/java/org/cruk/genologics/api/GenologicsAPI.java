@@ -299,6 +299,8 @@ public interface GenologicsAPI
      *
      * @param downloadDirect true to fetch HTTP accessible files directly
      * from their HTTP URL, false to fetch them via the Clarity API.
+     *
+     * @since 2.23
      */
     void setDownloadDirectFromHttpStore(boolean downloadDirect);
 
@@ -310,8 +312,7 @@ public interface GenologicsAPI
      *
      * <p>
      * This method is for the most common entities in the API where
-     * the URIs are simply of the form
-     * {@code &lt;endpoint&gt;/&lt;limsid&gt;}.
+     * the URIs are simply of the form {@code <endpoint>/<limsid>}.
      * </p>
      *
      * @param <E> The type of LIMS entity referred to.

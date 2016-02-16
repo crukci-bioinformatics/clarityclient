@@ -37,6 +37,20 @@ the Spring configuration). The properties file should contain:
 
     * <<<filestore.pass>>> - The password for the user given in <filestore.user>.
 
+  The properties file may also contain some other configuration options:
+
+    * <<<batch.size>>> - The maximum number of objects to fetch/create/update in one call to the API.
+
+    * <<<http.upload>>> - Whether to use the HTTP file upload mechanism introduced with Clarity 4.0.
+
+    * <<<http.upload.maximum>>> - The maximum size of file that can be uploaded over HTTP.
+
+    * <<<revert.to.sftp.upload>>> - Whether it is permissible to revert to SFTP uploads if the file is
+too large to send over HTTP.
+
+    * <<<http.direct.download>>> - Whether to download files in a HTTP file store directly from
+their server or whether to download through the Clarity API.
+
   Any properties that are missing are quietly ignored when the properties
 are read. If required information is missing, errors will be raised when you
 make API calls.
