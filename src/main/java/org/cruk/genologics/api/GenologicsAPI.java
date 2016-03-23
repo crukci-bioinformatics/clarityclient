@@ -411,6 +411,10 @@ public interface GenologicsAPI
      *
      * @return A list of links to the real entities in the LIMS.
      *
+     * @throws IllegalSearchTermException if any term in {@code searchTerms} is
+     * found to be illegal. See {@link IllegalSearchTermException} for details of
+     * what is illegal.
+     *
      * @throws IllegalArgumentException if {@code entityClass} is annotated to be
      * a part of another entity (its {@code primaryEntity} attribute is set).
      */

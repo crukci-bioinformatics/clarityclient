@@ -61,6 +61,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.GenologicsUpdateException;
+import org.cruk.genologics.api.IllegalSearchTermException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -1128,11 +1129,22 @@ public class GenologicsAPIImpl implements GenologicsAPI
         for (Map.Entry<String, ?> term : searchTerms.entrySet())
         {
             Object value = term.getValue();
-            if (value != null)
+            if (value == null)
+            {
+                throw new IllegalSearchTermException(
+                        term.getKey(), "Search term \"" + term.getKey() + "\" is null.");
+            }
+            else
             {
                 if (value.getClass().isArray())
                 {
                     Object[] values = (Object[])value;
+
+                    if (values.length == 0)
+                    {
+                        throw new IllegalSearchTermException(
+                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
+                    }
 
                     for (Object v : values)
                     {
@@ -1142,6 +1154,12 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 else if (value instanceof Iterable)
                 {
                     Iterable<?> values = (Iterable<?>)value;
+
+                    if (!values.iterator().hasNext())
+                    {
+                        throw new IllegalSearchTermException(
+                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
+                    }
 
                     for (Object v : values)
                     {
@@ -1173,22 +1191,31 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * @param argument The search parameter.
      * @param value The value to search for.
      *
+     * @throws IllegalSearchTermException if {@code value} is null.
+     *
      * @see #find(Map, Class)
      */
     private void appendQueryTerm(StringBuilder query, String argument, Object value)
     {
-        if (value != null)
+        if (value == null)
         {
-            String strValue = ConvertUtils.convert(value);
+            // This message is sensible as find() will not call this method if it
+            // finds the term's immediate value is null. It will only get here with
+            // value == null when looping through an array or collection.
 
-            if (query.length() > 0)
-            {
-                query.append('&');
-            }
-            query.append(argument);
-            query.append('=');
-            query.append(strValue);
+            throw new IllegalSearchTermException(
+                    argument, "Search term \"" + argument + "\" contains a null value.");
         }
+
+        String strValue = ConvertUtils.convert(value);
+
+        if (query.length() > 0)
+        {
+            query.append('&');
+        }
+        query.append(argument);
+        query.append('=');
+        query.append(strValue);
     }
 
     /**
