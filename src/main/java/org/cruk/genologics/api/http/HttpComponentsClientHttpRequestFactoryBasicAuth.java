@@ -49,46 +49,104 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 public class HttpComponentsClientHttpRequestFactoryBasicAuth extends HttpComponentsClientHttpRequestFactory
 implements AuthenticatingClientHttpRequestFactory
 {
+    /**
+     * Logger.
+     */
     @SuppressWarnings("unused")
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    /**
+     * Authentication scope object for the credentials provider.
+     * Contains the HttpHost specification.
+     */
     private AuthScope authenticationScope;
+
+    /**
+     * The authentication credentials.
+     */
     private Credentials credentials;
 
+    /**
+     * Basic authentication scheme object.
+     */
     private AuthScheme basicAuthenticationScheme = new BasicScheme();
+
+    /**
+     * Authentication cache.
+     */
     private AuthCache authenticationCache = new BasicAuthCache();
+
+    /**
+     * Http client context. This provides the combination of the
+     * authentication objects and the credentials provider.
+     */
     private HttpClientContext context = HttpClientContext.create();
     {
         context.setAuthCache(authenticationCache);
     }
 
+
+    /**
+     * Constructor.
+     */
     public HttpComponentsClientHttpRequestFactoryBasicAuth()
     {
         super();
     }
 
+    /**
+     * Constructor with an HTTP client.
+     *
+     * @param client The underlying HTTP client.
+     */
     public HttpComponentsClientHttpRequestFactoryBasicAuth(HttpClient client)
     {
         super(client);
     }
 
+    /**
+     * Constructor with an HTTP client and credentials provider.
+     *
+     * @param client The underlying HTTP client.
+     * @param credentialsProvider The authentication credentials provider.
+     */
     public HttpComponentsClientHttpRequestFactoryBasicAuth(HttpClient client, CredentialsProvider credentialsProvider)
     {
         super(client);
         setCredentialsProvider(credentialsProvider);
     }
 
+    /**
+     * Get the credentials provider used by this factory.
+     *
+     * @return The authentication credentials provider.
+     */
     public CredentialsProvider getCredentialsProvider()
     {
         return context.getCredentialsProvider();
     }
 
+    /**
+     * Set the credentials provider to use.
+     *
+     * @param credentialsProvider The authentication credentials provider.
+     */
     @Required
     public void setCredentialsProvider(CredentialsProvider credentialsProvider)
     {
         context.setCredentialsProvider(credentialsProvider);
     }
 
+    /**
+     * Provide the HTTP context set up for basic authentication by this
+     * factory. Despite the method being called "create", the same
+     * {@code HttpContext} can be returned each time.
+     *
+     * @param httpMethod The HTTP method.
+     * @param uri The request URI.
+     *
+     * @return The HttpContext.
+     */
     @Override
     protected HttpContext createHttpContext(HttpMethod httpMethod, URI uri)
     {
