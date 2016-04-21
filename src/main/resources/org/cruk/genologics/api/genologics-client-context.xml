@@ -24,46 +24,65 @@
        xmlns:oxm="http://www.springframework.org/schema/oxm"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                           http://www.springframework.org/schema/context/spring-context-4.2.xsd
                            http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                           http://www.springframework.org/schema/util/spring-util-4.2.xsd
                            http://www.springframework.org/schema/oxm
-                           http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd
+                           http://www.springframework.org/schema/oxm/spring-oxm-4.2.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 
     <context:annotation-config />
+
+    <context:property-placeholder location="classpath:/org/cruk/genologics/api/genologics-client-http.properties" />
 
     <bean id="filestoreSFTPSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
         <property name="sessionConfig">
             <!-- Note: this set up required to stop the Kerberos user name prompts in Java 7. -->
             <props>
                 <prop key="PreferredAuthentications">publickey,password,keyboard-interactive</prop>
+
+                <!-- May want this turned on if you are being particularly security conscious. -->
+                <!-- Can cause issues if host keys change, so by default it's turned off.      -->
+                <prop key="StrictHostKeyChecking">no</prop>
             </props>
         </property>
     </bean>
 
-    <bean id="genologicsHttpClientParams" class="org.apache.commons.httpclient.params.HttpClientParams">
-        <property name="authenticationPreemptive" value="true"/>
+    <bean id="genologicsRequestConfigBuilder" class="org.apache.http.client.config.RequestConfig" factory-method="custom">
+        <property name="connectTimeout" value="${http.connect.timeout}" />
+        <property name="socketTimeout" value="${http.socket.timeout}" />
+
+        <property name="authenticationEnabled" value="true"/>
+        <property name="redirectsEnabled" value="true"/>
+        <property name="relativeRedirectsAllowed" value="true"/>
+
+        <!-- Note that the XML is not compressed, and the downloads should fetch without decompressing. -->
+        <property name="contentCompressionEnabled" value="false"/>
+
+        <property name="targetPreferredAuthSchemes">
+            <set>
+                <value>Basic</value>
+            </set>
+        </property>
     </bean>
 
-    <bean id="genologicsHttpConnectionManagerParams" class="org.apache.commons.httpclient.params.HttpConnectionManagerParams"/>
+    <bean id="genologicsRequestConfig" factory-bean="genologicsRequestConfigBuilder" factory-method="build" />
 
-    <bean id="genologicsHttpConnectionManager" class="org.apache.commons.httpclient.MultiThreadedHttpConnectionManager">
-        <property name="params" ref="genologicsHttpConnectionManagerParams"/>
+    <bean id="genologicsHttpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder" factory-method="create">
+        <property name="defaultRequestConfig" ref="genologicsRequestConfig" />
     </bean>
 
-    <bean id="genologicsHttpClient" class="org.apache.commons.httpclient.HttpClient">
-        <constructor-arg ref="genologicsHttpClientParams"/>
-        <constructor-arg ref="genologicsHttpConnectionManager"/>
-    </bean>
+    <bean id="genologicsHttpClient" factory-bean="genologicsHttpClientBuilder" factory-method="build" />
 
-    <bean id="genologicsClientHttpRequestFactory" class="org.springframework.http.client.CommonsClientHttpRequestFactory">
+    <bean id="genologicsCredentialsProvider" class="org.apache.http.impl.client.BasicCredentialsProvider" />
+
+    <bean id="genologicsClientHttpRequestFactory" class="org.cruk.genologics.api.http.HttpComponentsClientHttpRequestFactoryBasicAuth">
         <constructor-arg ref="genologicsHttpClient"/>
-        <property name="connectTimeout" value="15000"/>
-        <property name="readTimeout" value="0"/>
+        <property name="credentialsProvider" ref="genologicsCredentialsProvider"/>
+        <property name="bufferRequestBody" value="true"/>
     </bean>
 
     <bean name="genologicsHttpClientTimingAspect" class="org.cruk.genologics.api.debugging.HttpClientTimingAspect"/>
@@ -71,7 +90,7 @@
     <aop:config>
         <aop:aspect ref="genologicsHttpClientTimingAspect">
             <aop:around
-                pointcut="execution(public * executeMethod(..)) and bean(genologicsHttpClient)"
+                pointcut="execution(public * execute(..)) and bean(genologicsHttpClient)"
                 method="timeCall"/>
         </aop:aspect>
     </aop:config>
@@ -132,14 +151,13 @@
         <property name="marshaller" ref="genologicsJaxbMarshaller"/>
     </bean>
 
-    <bean name="genologicsUnmarshallExceptionAspect" class="org.cruk.genologics.api.jaxb.GenologicsExceptionAspect"/>
+    <bean name="genologicsUnmarshallingAspect" class="org.cruk.genologics.api.jaxb.JaxbUnmarshallingAspect"/>
 
     <aop:config proxy-target-class="true">
-        <aop:aspect ref="genologicsUnmarshallExceptionAspect">
-            <aop:after-returning
+        <aop:aspect ref="genologicsUnmarshallingAspect">
+            <aop:around
                 pointcut="execution(public * unmarshal(..)) and bean(genologicsJaxbMarshaller)"
-                method="objectUnmarshalled"
-                returning="unmarshalled"/>
+                method="objectUnmarshalled"/>
         </aop:aspect>
     </aop:config>
 

@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,6 +24,8 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -46,8 +48,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.CommonsClientHttpRequestFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.RestTemplate;
 
@@ -97,7 +99,7 @@ public class GenologicsAPIBatchOperationTest
         links.add(new ArtifactLink(new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000622?state=10101")));
         links.add(new ArtifactLink(new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000622?state=10121")));
 
-        CommonsClientHttpRequestFactory mockFactory = EasyMock.createMock(CommonsClientHttpRequestFactory.class);
+        ClientHttpRequestFactory mockFactory = EasyMock.createMock(ClientHttpRequestFactory.class);
         restTemplate.setRequestFactory(mockFactory);
 
         EasyMock.replay(mockFactory);
@@ -135,12 +137,17 @@ public class GenologicsAPIBatchOperationTest
 
         URI uri = new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/batch/retrieve");
 
+        // Note: need PushbackInputStream to prevent the call to getBody() being made more than once.
+        // See MessageBodyClientHttpResponseWrapper.
+
+        InputStream responseStream = new PushbackInputStream(new ByteArrayInputStream(expectedReply.getBytes()));
+
         HttpHeaders headers = new HttpHeaders();
 
         ClientHttpResponse httpResponse = EasyMock.createMock(ClientHttpResponse.class);
         EasyMock.expect(httpResponse.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
         EasyMock.expect(httpResponse.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpResponse.getBody()).andReturn(new ByteArrayInputStream(expectedReply.getBytes())).once();
+        EasyMock.expect(httpResponse.getBody()).andReturn(responseStream).once();
         httpResponse.close();
         EasyMock.expectLastCall().once();
 
@@ -149,7 +156,7 @@ public class GenologicsAPIBatchOperationTest
         EasyMock.expect(httpRequest.getBody()).andReturn(new NullOutputStream()).times(0, 2);
         EasyMock.expect(httpRequest.execute()).andReturn(httpResponse).once();
 
-        CommonsClientHttpRequestFactory mockFactory = EasyMock.createStrictMock(CommonsClientHttpRequestFactory.class);
+        ClientHttpRequestFactory mockFactory = EasyMock.createStrictMock(ClientHttpRequestFactory.class);
         EasyMock.expect(mockFactory.createRequest(uri, HttpMethod.POST)).andReturn(httpRequest).once();
 
         restTemplate.setRequestFactory(mockFactory);
@@ -208,12 +215,18 @@ public class GenologicsAPIBatchOperationTest
         URI updateUri = new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/batch/update");
         URI retrieveUri = new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/batch/retrieve");
 
+        // Note: need PushbackInputStream to prevent the call to getBody() being made more than once.
+        // See MessageBodyClientHttpResponseWrapper.
+
+        InputStream response1Stream = new PushbackInputStream(new ByteArrayInputStream(linksXML.toString().getBytes()));
+        InputStream response2Stream = new PushbackInputStream(new ByteArrayInputStream(expectedReply.getBytes()));
+
         HttpHeaders headers = new HttpHeaders();
 
         ClientHttpResponse httpResponse1 = EasyMock.createMock(ClientHttpResponse.class);
         EasyMock.expect(httpResponse1.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
         EasyMock.expect(httpResponse1.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpResponse1.getBody()).andReturn(new ByteArrayInputStream(linksXML.toString().getBytes())).once();
+        EasyMock.expect(httpResponse1.getBody()).andReturn(response1Stream).once();
         httpResponse1.close();
         EasyMock.expectLastCall().once();
 
@@ -225,7 +238,7 @@ public class GenologicsAPIBatchOperationTest
         ClientHttpResponse httpResponse2 = EasyMock.createMock(ClientHttpResponse.class);
         EasyMock.expect(httpResponse2.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
         EasyMock.expect(httpResponse2.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpResponse2.getBody()).andReturn(new ByteArrayInputStream(expectedReply.getBytes())).once();
+        EasyMock.expect(httpResponse2.getBody()).andReturn(response2Stream).once();
         httpResponse2.close();
         EasyMock.expectLastCall().once();
 
@@ -234,7 +247,7 @@ public class GenologicsAPIBatchOperationTest
         EasyMock.expect(httpRequest2.getBody()).andReturn(new NullOutputStream()).times(0, 2);
         EasyMock.expect(httpRequest2.execute()).andReturn(httpResponse2).once();
 
-        CommonsClientHttpRequestFactory mockFactory = EasyMock.createStrictMock(CommonsClientHttpRequestFactory.class);
+        ClientHttpRequestFactory mockFactory = EasyMock.createStrictMock(ClientHttpRequestFactory.class);
         EasyMock.expect(mockFactory.createRequest(updateUri, HttpMethod.POST)).andReturn(httpRequest1).once();
         EasyMock.expect(mockFactory.createRequest(retrieveUri, HttpMethod.POST)).andReturn(httpRequest2).once();
 

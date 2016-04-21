@@ -588,6 +588,5 @@ public class JaxbAnnotationTest
             }
             return count;
         }
-
     }
 }

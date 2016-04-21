@@ -30,7 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
+import org.easymock.EasyMock;
 import org.junit.Test;
 
 import com.genologics.ri.artifact.Artifact;
@@ -49,7 +51,8 @@ public class GenologicsAPITest
     @Test
     public void testLimsIdToUri1() throws Exception
     {
-        GenologicsAPI api = new GenologicsAPIImpl();
+        GenologicsAPIImpl api = new GenologicsAPIImpl();
+        api.setHttpRequestFactory(EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
 
         try
         {
@@ -130,7 +133,8 @@ public class GenologicsAPITest
     @Test
     public void testLimsIdToUri2() throws Exception
     {
-        GenologicsAPI api = new GenologicsAPIImpl();
+        GenologicsAPIImpl api = new GenologicsAPIImpl();
+        api.setHttpRequestFactory(EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
 
         try
         {
@@ -217,7 +221,8 @@ public class GenologicsAPITest
     @Test
     public void testIllegalSearchTerms() throws Exception
     {
-        GenologicsAPI api = new GenologicsAPIImpl();
+        GenologicsAPIImpl api = new GenologicsAPIImpl();
+        api.setHttpRequestFactory(EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
 
         Map<String, Object> searchTerms = new HashMap<String, Object>();
 

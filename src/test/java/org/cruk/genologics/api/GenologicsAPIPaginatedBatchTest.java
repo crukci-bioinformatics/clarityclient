@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -35,22 +36,32 @@ import java.util.Map;
 
 import javax.xml.transform.stream.StreamSource;
 
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HeaderGroup;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethodBase;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.AbstractHttpEntity;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicHttpResponse;
+import org.apache.http.message.BasicStatusLine;
+import org.apache.http.protocol.HttpContext;
 import org.cruk.genologics.api.debugging.RestClientSnoopingAspect;
+import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.easymock.EasyMock;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
@@ -131,8 +142,9 @@ public class GenologicsAPIPaginatedBatchTest
         // being presented as expected without character cludging.
 
 
+        HttpContext httpContext = HttpClientContext.create();
         HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
-        ClientHttpRequestFactory mockRequestFactory = EasyMock.createMock(ClientHttpRequestFactory.class);
+        AuthenticatingClientHttpRequestFactory mockRequestFactory = EasyMock.createMock(AuthenticatingClientHttpRequestFactory.class);
 
         RestTemplate restTemplate = context.getBean("genologicsRestTemplate", RestTemplate.class);
         restTemplate.setRequestFactory(mockRequestFactory);
@@ -144,25 +156,29 @@ public class GenologicsAPIPaginatedBatchTest
         URI pageTwo = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030");
         URI pageThree = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=1000&projectname=Run+1030");
 
-        GetMethod getOne = new GetMethodForMultipageFetch(pageOne.toString(), pageFiles[0]);
-        GetMethod getTwo = new GetMethodForMultipageFetch(pageTwo.toString(), pageFiles[1]);
-        GetMethod getThree = new GetMethodForMultipageFetch(pageThree.toString(), pageFiles[2]);
+        HttpGet getOne = new HttpGet(pageOne);
+        HttpGet getTwo = new HttpGet(pageOne);
+        HttpGet getThree = new HttpGet(pageOne);
 
-        Class<?> requestClass = Class.forName("org.springframework.http.client.CommonsClientHttpRequest");
-        Constructor<?> constructor = requestClass.getDeclaredConstructor(HttpClient.class, HttpMethodBase.class);
+        HttpResponse responseOne = createMultipageFetchResponse(pageFiles[0]);
+        HttpResponse responseTwo = createMultipageFetchResponse(pageFiles[1]);
+        HttpResponse responseThree = createMultipageFetchResponse(pageFiles[2]);
+
+        Class<?> requestClass = Class.forName("org.springframework.http.client.HttpComponentsClientHttpRequest");
+        Constructor<?> constructor = requestClass.getDeclaredConstructor(HttpClient.class, HttpUriRequest.class, HttpContext.class);
         constructor.setAccessible(true);
 
-        ClientHttpRequest reqOne = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getOne);
-        ClientHttpRequest reqTwo = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getTwo);
-        ClientHttpRequest reqThree = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getThree);
+        ClientHttpRequest reqOne = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getOne, httpContext);
+        ClientHttpRequest reqTwo = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getTwo, httpContext);
+        ClientHttpRequest reqThree = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getThree, httpContext);
 
         EasyMock.expect(mockRequestFactory.createRequest(pageOne, HttpMethod.GET)).andReturn(reqOne).once();
         EasyMock.expect(mockRequestFactory.createRequest(pageTwo, HttpMethod.GET)).andReturn(reqTwo).once();
         EasyMock.expect(mockRequestFactory.createRequest(pageThree, HttpMethod.GET)).andReturn(reqThree).once();
 
-        EasyMock.expect(mockHttpClient.executeMethod(getOne)).andReturn(HttpStatus.OK.value());
-        EasyMock.expect(mockHttpClient.executeMethod(getTwo)).andReturn(HttpStatus.OK.value());
-        EasyMock.expect(mockHttpClient.executeMethod(getThree)).andReturn(HttpStatus.OK.value());
+        EasyMock.expect(mockHttpClient.execute(getOne, httpContext)).andReturn(responseOne).once();
+        EasyMock.expect(mockHttpClient.execute(getTwo, httpContext)).andReturn(responseTwo).once();
+        EasyMock.expect(mockHttpClient.execute(getThree, httpContext)).andReturn(responseThree).once();
 
         EasyMock.replay(mockHttpClient, mockRequestFactory);
 
@@ -207,6 +223,7 @@ public class GenologicsAPIPaginatedBatchTest
         // being presented as expected without character cludging.
 
 
+        HttpContext httpContext = HttpClientContext.create();
         HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
         ClientHttpRequestFactory mockRequestFactory = EasyMock.createMock(ClientHttpRequestFactory.class);
 
@@ -219,21 +236,24 @@ public class GenologicsAPIPaginatedBatchTest
         URI pageOne = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=0");
         URI pageTwo = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030");
 
-        GetMethod getOne = new GetMethodForMultipageFetch(pageOne.toString(), pageFiles[0]);
-        GetMethod getTwo = new GetMethodForMultipageFetch(pageTwo.toString(), pageFiles[1]);
+        HttpGet getOne = new HttpGet(pageOne);
+        HttpGet getTwo = new HttpGet(pageTwo);
 
-        Class<?> requestClass = Class.forName("org.springframework.http.client.CommonsClientHttpRequest");
-        Constructor<?> constructor = requestClass.getDeclaredConstructor(HttpClient.class, HttpMethodBase.class);
+        HttpResponse responseOne = createMultipageFetchResponse(pageFiles[0]);
+        HttpResponse responseTwo = createMultipageFetchResponse(pageFiles[1]);
+
+        Class<?> requestClass = Class.forName("org.springframework.http.client.HttpComponentsClientHttpRequest");
+        Constructor<?> constructor = requestClass.getDeclaredConstructor(HttpClient.class, HttpUriRequest.class, HttpContext.class);
         constructor.setAccessible(true);
 
-        ClientHttpRequest reqOne = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getOne);
-        ClientHttpRequest reqTwo = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getTwo);
+        ClientHttpRequest reqOne = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getOne, httpContext);
+        ClientHttpRequest reqTwo = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getTwo, httpContext);
 
         EasyMock.expect(mockRequestFactory.createRequest(pageOne, HttpMethod.GET)).andReturn(reqOne).once();
         EasyMock.expect(mockRequestFactory.createRequest(pageTwo, HttpMethod.GET)).andReturn(reqTwo).once();
 
-        EasyMock.expect(mockHttpClient.executeMethod(getOne)).andReturn(HttpStatus.OK.value());
-        EasyMock.expect(mockHttpClient.executeMethod(getTwo)).andReturn(HttpStatus.OK.value());
+        EasyMock.expect(mockHttpClient.execute(getOne, httpContext)).andReturn(responseOne).once();
+        EasyMock.expect(mockHttpClient.execute(getTwo, httpContext)).andReturn(responseTwo).once();
 
         EasyMock.replay(mockHttpClient, mockRequestFactory);
 
@@ -245,52 +265,60 @@ public class GenologicsAPIPaginatedBatchTest
     }
 
 
-    private static class GetMethodForMultipageFetch extends GetMethod
+    private HttpResponse createMultipageFetchResponse(File responseFile)
     {
-        private File responseFile;
-        private HeaderGroup responseHeaders = new HeaderGroup();
+        HttpResponse response = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK"));
+        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE);
+        response.setEntity(new HttpEntityForMultipageFetch(responseFile));
+        return response;
+    }
 
+    private static class HttpEntityForMultipageFetch extends AbstractHttpEntity
+    {
         private Logger logger = LoggerFactory.getLogger(RestClientSnoopingAspect.class);
 
-        public GetMethodForMultipageFetch(String uri, File file)
+        private File responseFile;
+
+        public HttpEntityForMultipageFetch(File responseFile)
         {
-            super(uri);
-            responseFile = file;
-            responseHeaders.addHeader(new Header("Content-type", "application/xml"));
+            this.responseFile = responseFile;
         }
 
         @Override
-        public int getStatusCode()
-        {
-            return HttpStatus.OK.value();
-        }
-
-        @Override
-        protected HeaderGroup getResponseHeaderGroup()
-        {
-            return responseHeaders;
-        }
-
-        @Override
-        public byte[] getResponseBody() throws IOException
-        {
-            logger.info("Returning body from file, NOT from the live API");
-            return FileUtils.readFileToByteArray(responseFile);
-        }
-
-        @Override
-        public InputStream getResponseBodyAsStream() throws IOException
+        public InputStream getContent() throws IOException
         {
             logger.info("Returning body from file, NOT from the live API");
             return new BufferedInputStream(new FileInputStream(responseFile));
         }
 
         @Override
-        public String getResponseBodyAsString() throws IOException
+        public Header getContentType()
         {
-            logger.info("Returning body from file, NOT from the live API");
-            return FileUtils.readFileToString(responseFile, "UTF-8");
+            return new BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE);
         }
 
+        @Override
+        public boolean isRepeatable()
+        {
+            return false;
+        }
+
+        @Override
+        public long getContentLength()
+        {
+            return responseFile.length();
+        }
+
+        @Override
+        public void writeTo(OutputStream outstream) throws IOException
+        {
+            IOUtils.copyLarge(getContent(), outstream);
+        }
+
+        @Override
+        public boolean isStreaming()
+        {
+            return false;
+        }
     }
 }

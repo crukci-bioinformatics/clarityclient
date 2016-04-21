@@ -18,12 +18,13 @@
 
 package org.cruk.genologics.api.debugging;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 
 /**
  * Testing aspect that reports on the calls being made by the HTTP client
@@ -63,11 +64,11 @@ public class HttpClientTimingAspect
 
         for (Object arg : pjp.getArgs())
         {
-            if (arg instanceof HttpMethod)
+            if (arg instanceof HttpUriRequest)
             {
-                HttpMethod httpMethod = (HttpMethod)arg;
-                uri = httpMethod.getURI().getEscapedURI();
-                method = httpMethod.getName();
+                HttpUriRequest httpRequest = (HttpUriRequest)arg;
+                uri = httpRequest.getURI().toString();
+                method = httpRequest.getMethod();
                 break;
             }
         }

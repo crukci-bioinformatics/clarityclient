@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -478,6 +479,15 @@ public class SerializationTest
         File exampleFile = new File(exampleDirectory, className.toLowerCase() + ".xml");
 
         Object unmarshalled = marshaller.unmarshal(new StreamSource(new FileReader(exampleFile)));
+
+        // In the case where the simple serialisation test for the exception
+        // hasn't got the unmarshalling aspect around it.
+        // See JaxbUnmarshallingAspect.
+
+        if (unmarshalled instanceof JAXBElement<?>)
+        {
+            unmarshalled = ((JAXBElement<?>)unmarshalled).getValue();
+        }
 
         ByteArrayOutputStream bstream = new ByteArrayOutputStream(65536);
         try

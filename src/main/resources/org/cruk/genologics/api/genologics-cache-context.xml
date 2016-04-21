@@ -23,23 +23,23 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
                            http://www.springframework.org/schema/context
-                           http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                           http://www.springframework.org/schema/context/spring-context-4.2.xsd
                            http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                           http://www.springframework.org/schema/util/spring-util-4.2.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
 
     <context:annotation-config />
-    
+
     <!-- We're not using annotations for caching, but if we need to in future we
          use the bean below and need to add the following name space:
-         
+
          xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
-         
+
          and the following to the schema locations:
-         
+
          http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
          http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.2.xsd
       -->

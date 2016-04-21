@@ -480,7 +480,7 @@ public class GenologicsAPICacheTest
 
         checkCredentialsSet();
 
-        boolean runThisTest = Boolean.parseBoolean(System.getProperty("live.cache.test", Boolean.FALSE.toString()));
+        boolean runThisTest = true; // Boolean.parseBoolean(System.getProperty("live.cache.test", Boolean.FALSE.toString()));
 
         Assume.assumeTrue("Not running the test \"GenologicsAPICachingAspectTest.fullTest\". " +
                           "Set the property -Dlive.cache.test=true to make it run.",

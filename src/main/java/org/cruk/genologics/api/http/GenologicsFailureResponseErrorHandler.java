@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,7 +25,7 @@ import java.io.InputStream;
 import javax.xml.transform.stream.StreamSource;
 
 import org.cruk.genologics.api.GenologicsException;
-import org.cruk.genologics.api.jaxb.GenologicsExceptionAspect;
+import org.cruk.genologics.api.jaxb.JaxbUnmarshallingAspect;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -40,7 +40,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
  * <p>This handler relies on the exception conversion aspect around the JAXB2
  * unmarshaller.</p>
  *
- * @see GenologicsExceptionAspect
+ * @see JaxbUnmarshallingAspect
  */
 public class GenologicsFailureResponseErrorHandler extends DefaultResponseErrorHandler
 {

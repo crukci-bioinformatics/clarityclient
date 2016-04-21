@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.httpclient.Credentials;
+import org.apache.http.auth.Credentials;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.genologics.ri.LimsEntity;
@@ -89,7 +89,14 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  * </li>
  * </ul>
  *
+ * <p>
+ * Note that since release 2.23.1 this library has changed to use the Apache HTTP
+ * Components client rather than the old Commons HTTP Client v3.
+ * </p>
+ *
  * @see <a href="http://genologics.com/developer">Genologic's REST documentation</a>
+ * @see <a href="https://hc.apache.org/httpcomponents-client-4.5.x/index.html">Apache HTTP
+ * Components client</a>
  */
 public interface GenologicsAPI
 {

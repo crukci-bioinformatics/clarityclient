@@ -50,18 +50,18 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.httpclient.Credentials;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.HttpClient;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.GenologicsUpdateException;
 import org.cruk.genologics.api.IllegalSearchTermException;
+import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -71,7 +71,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
@@ -177,7 +176,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
     /**
      * The request factory for direct communication with the HTTP client.
      */
-    protected ClientHttpRequestFactory httpRequestFactory;
+    protected AuthenticatingClientHttpRequestFactory httpRequestFactory;
 
     /**
      * Adapted REST client for uploading files through the HTTP mechanism.
@@ -442,10 +441,10 @@ public class GenologicsAPIImpl implements GenologicsAPI
     /**
      * Set the factory used for obtaining HTTP requests.
      *
-     * @param httpRequestFactory The HTTP request factory.
+     * @param httpRequestFactory The HTTP request factory supporting basic authentication.
      */
     @Required
-    public void setHttpRequestFactory(ClientHttpRequestFactory httpRequestFactory)
+    public void setHttpRequestFactory(AuthenticatingClientHttpRequestFactory httpRequestFactory)
     {
         this.httpRequestFactory = httpRequestFactory;
     }
@@ -463,10 +462,16 @@ public class GenologicsAPIImpl implements GenologicsAPI
         {
             throw new IllegalArgumentException("serverAddress cannot be set to null");
         }
+        if (httpRequestFactory == null)
+        {
+            throw new IllegalStateException("Request factory has not been set.");
+        }
 
         String currentHost = this.serverAddress == null ? null : this.serverAddress.getHost();
 
         this.serverAddress = serverAddress;
+
+        httpRequestFactory.setCredentials(serverAddress, apiCredentials);
 
         String addr = serverAddress.toExternalForm();
         addr = org.springframework.util.StringUtils.trimTrailingCharacter(addr, '/');
@@ -496,16 +501,21 @@ public class GenologicsAPIImpl implements GenologicsAPI
     @Override
     public void setCredentials(String username, String password)
     {
-        setCredentials(new UsernamePasswordCredentials(username, password));
+        apiCredentials = new UsernamePasswordCredentials(username, password);
+        if (serverAddress != null)
+        {
+            httpRequestFactory.setCredentials(serverAddress, apiCredentials);
+        }
     }
 
     @Override
     public void setCredentials(Credentials httpCredentials)
     {
-        if (httpClient != null)
+        if (serverAddress != null)
         {
-            httpClient.getState().setCredentials(AuthScope.ANY, httpCredentials);
+            httpRequestFactory.setCredentials(serverAddress, httpCredentials);
         }
+
         if (httpCredentials instanceof UsernamePasswordCredentials)
         {
             apiCredentials = (UsernamePasswordCredentials)httpCredentials;

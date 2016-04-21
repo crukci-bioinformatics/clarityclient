@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.cruk.genologics.api.GenologicsException;
-import org.cruk.genologics.api.jaxb.GenologicsExceptionAspect;
+import org.cruk.genologics.api.jaxb.JaxbUnmarshallingAspect;
 
 /**
  *
@@ -55,7 +55,7 @@ import org.cruk.genologics.api.jaxb.GenologicsExceptionAspect;
  * </p>
  *
  * @see GenologicsException
- * @see GenologicsExceptionAspect
+ * @see JaxbUnmarshallingAspect
  */
 @XmlRootElement(name = "exception")
 @XmlAccessorType(XmlAccessType.FIELD)

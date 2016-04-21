@@ -19,7 +19,7 @@
 package org.cruk.genologics.api;
 
 import org.apache.commons.lang3.StringUtils;
-import org.cruk.genologics.api.jaxb.GenologicsExceptionAspect;
+import org.cruk.genologics.api.jaxb.JaxbUnmarshallingAspect;
 import org.springframework.http.HttpStatus;
 
 
@@ -29,7 +29,7 @@ import org.springframework.http.HttpStatus;
  * one of these, which is then thrown.
  *
  * @see com.genologics.ri.exception.Exception
- * @see GenologicsExceptionAspect
+ * @see JaxbUnmarshallingAspect
  */
 public class GenologicsException extends RuntimeException
 {
