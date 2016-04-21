@@ -93,7 +93,7 @@ public class GenologicsFailureResponseErrorHandler extends DefaultResponseErrorH
      * @throws IOException if there is a problem reading from the response.
      * @throws GenologicsException if the response is found to be a Genologics exception.
      *
-     * @see GenologicsExceptionAspect
+     * @see JaxbUnmarshallingAspect
      */
     @Override
     public void handleError(ClientHttpResponse response) throws IOException

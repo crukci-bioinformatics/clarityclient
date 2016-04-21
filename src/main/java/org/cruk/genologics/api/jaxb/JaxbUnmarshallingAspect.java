@@ -53,10 +53,11 @@ public class JaxbUnmarshallingAspect
      * real object it contains, then tests whether the reply object is an
      * error and, if so, throws a Java exception.
      *
-     * @param unmarshalled The object unmarshalled from the API reply.
+     * @param pjp The AspectJ join point object. The return value from
+     * its {@code proceed} call gives the result of unmarshalling.
      *
      * @return The real object extracted from {@code unmarshalled}
-     * (if it is a JAXBElement).
+     * (if {@code unmarshalled} is a JAXBElement).
      *
      * @throws GenologicsException if {@code unmarshalled} is an error
      * message. It is created with the fields from the XML error.

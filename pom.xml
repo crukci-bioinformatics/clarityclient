@@ -414,7 +414,7 @@
                         <link>http://www.slf4j.org/apidocs/</link>
                         <link>http://docs.spring.io/spring/docs/4.2.x/javadoc-api/</link>
                         <link>http://docs.spring.io/spring-integration/docs/4.2.x/api/</link>
-                        <link>https://hc.apache.org/httpcomponents-client-4.5.x/httpclient/apidocs/</link>
+                        <link>http://hc.apache.org/httpcomponents-client-4.5.x/httpclient/apidocs/</link>
                         <link>http://eclipse.org/aspectj/doc/released/runtime-api/</link>
                         <link>http://eclipse.org/aspectj/doc/released/aspectj5rt-api/</link>
                         <link>http://ehcache.org/apidocs/2.6.9/</link>
@@ -663,7 +663,7 @@
         <dependency>
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
-            <version>0.1.51</version>
+            <version>0.1.53</version>
         </dependency>
 
         <!-- If, in future, caching is annotation driven.
@@ -682,7 +682,7 @@
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
-            <version>2.6.9</version>
+            <version>2.6.11</version>
         </dependency>
 
         <dependency>

@@ -71,7 +71,8 @@ public class IllegalSearchTermException extends IllegalArgumentException
 
     /**
      * Get the search term that caused the error.
-     * @return
+     *
+     * @return The search term.
      */
     public String getSearchTerm()
     {

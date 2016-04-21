@@ -24,7 +24,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpMethod;
 
 /**
  * Testing aspect that reports on the calls being made by the HTTP client
@@ -50,7 +49,7 @@ public class HttpClientTimingAspect
      *
      * @throws Throwable if there is any failure.
      *
-     * @see HttpClient#executeMethod(HttpMethod)
+     * @see HttpClient#execute(HttpUriRequest)
      */
     public Object timeCall(ProceedingJoinPoint pjp) throws Throwable
     {
