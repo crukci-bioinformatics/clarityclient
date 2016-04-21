@@ -24,7 +24,7 @@ can refer to the documentation for those projects.
 
   * {{{http://www.oracle.com/technetwork/articles/javase/index-140168.html}Java Architecture for XML Binding (JAXB)}}
 
-  * {{{http://hc.apache.org/httpclient-3.x/}Apache HTTP Client}}
+  * {{{http://hc.apache.org/httpcomponents-client-4.5.x/}Apache HTTP Components Client}}
 
   * {{{http://ehcache.org/}Ehcache}}
 
