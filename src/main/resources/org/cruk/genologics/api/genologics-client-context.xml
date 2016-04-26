@@ -36,7 +36,7 @@
 
     <context:annotation-config />
 
-    <context:property-placeholder location="classpath:/org/cruk/genologics/api/genologics-client-http.properties" />
+    <context:property-placeholder location="classpath:/org/cruk/genologics/api/genologics-client-http.properties" ignore-unresolvable="true" />
 
     <bean id="filestoreSFTPSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
         <property name="sessionConfig">
