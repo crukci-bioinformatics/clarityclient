@@ -57,6 +57,7 @@ public class KnownNamespacePrefixMatcher extends NamespacePrefixMapper
         map.put(EXCEPTION_NAMESPACE, "exc");
         map.put(FILE_NAMESPACE, "file");
         map.put(INSTRUMENT_NAMESPACE, "inst");
+        map.put(INSTRUMENT_TYPE_NAMESPACE, "itp");
         map.put(LAB_NAMESPACE, "lab");
         map.put(PERMISSION_NAMESPACE, "perm");
         map.put(PROCESS_EXECUTION_NAMESPACE, "prx");

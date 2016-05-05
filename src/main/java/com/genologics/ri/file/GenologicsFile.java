@@ -91,6 +91,12 @@ public class GenologicsFile implements LimsEntity<GenologicsFile>, LimsEntityLin
         this.limsid = original.getLimsid();
     }
 
+    /**
+     * This element contains a URI that identifies and links to further information about the resource that
+     * the file is attached to, such as a project, sample, process, or file-based artifact.
+     *
+     * @return The URI of the entity the file is attached to.
+     */
     public URI getAttachedTo()
     {
         return attachedTo;
@@ -101,6 +107,12 @@ public class GenologicsFile implements LimsEntity<GenologicsFile>, LimsEntityLin
         this.attachedTo = link == null ? null : link.getUri();
     }
 
+    /**
+     * This element contains a URI that identifies and links to the network location of the file,
+     * which can be used to retrieve the file and process its contents.
+     *
+     * @return The file's location.
+     */
     public URI getContentLocation()
     {
         return contentLocation;
@@ -111,6 +123,13 @@ public class GenologicsFile implements LimsEntity<GenologicsFile>, LimsEntityLin
         this.contentLocation = contentLocation;
     }
 
+    /**
+     * This element provides the original name and location of the file before it was imported into the system.
+     * Note: If the file was uploaded from the Clarity web interface, the original-location element will not contain
+     * the full file path due to browser security limitations. Only the original file name will be available.
+     *
+     * @return The original file location.
+     */
     public String getOriginalLocation()
     {
         return originalLocation;
@@ -121,6 +140,11 @@ public class GenologicsFile implements LimsEntity<GenologicsFile>, LimsEntityLin
         this.originalLocation = originalLocation;
     }
 
+    /**
+     * This element specifies whether the file is displayed in LabLink.
+     *
+     * @return true to be visible in Lablink, false to be invisible.
+     */
     public boolean isPublished()
     {
         return published == null ? false : published.booleanValue();

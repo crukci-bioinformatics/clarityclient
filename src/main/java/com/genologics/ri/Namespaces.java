@@ -35,6 +35,7 @@ public final class Namespaces
     public static final String EXCEPTION_NAMESPACE = "http://genologics.com/ri/exception";
     public static final String FILE_NAMESPACE = "http://genologics.com/ri/file";
     public static final String INSTRUMENT_NAMESPACE = "http://genologics.com/ri/instrument";
+    public static final String INSTRUMENT_TYPE_NAMESPACE = "http://genologics.com/ri/instrumenttype";
     public static final String LAB_NAMESPACE = "http://genologics.com/ri/lab";
     public static final String PERMISSION_NAMESPACE = "http://genologics.com/ri/permission";
     public static final String PROCESS_NAMESPACE = "http://genologics.com/ri/process";

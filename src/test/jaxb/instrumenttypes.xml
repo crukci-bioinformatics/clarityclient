@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<itp:instrument-types xmlns:itp="http://genologics.com/ri/instrumenttype">
+    <instrument-type uri="http://limsdev.cri.camres.org:8080/api/v2/instrumenttype/3"/>
+    <instrument-type uri="http://limsdev.cri.camres.org:8080/api/v2/instrumenttype/4"/>
+    <instrument-type uri="http://limsdev.cri.camres.org:8080/api/v2/instrumenttype/5"/>
+</itp:instrument-types>

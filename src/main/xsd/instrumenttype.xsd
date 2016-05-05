@@ -1,0 +1,118 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/instrumenttype" xmlns:itp="http://genologics.com/ri/instrumenttype" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="instrument-type" type="itp:instrument-type"/>
+  <xs:element name="instrument-types" type="itp:instrument-types"/>
+  <xs:complexType name="instrument-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[An instrument describes properties common to all instruments of that type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the instrument type.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="vendor" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The name of the instrument vendor.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="process-types" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Process type links.]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="process-type" type="itp:instrument-type-process-type" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[Process type links.]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI to this instrument type.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="instrument-type-process-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Link to a process type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="uri" type="xs:anyURI">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The name of the process type.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="instrument-types">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation of a list of instrument type links.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="instrument-type" type="itp:instrument-type-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The list of Instrument Types.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="instrument-type-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Instrument-type-link is a child element type of instrument types and provides a URI linking to the detailed representation of an instrument type.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the Instrument Type.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the Instrument Type.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="vendor" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The vendor name of the Instrument Type.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

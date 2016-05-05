@@ -51,6 +51,8 @@ information from.
         <xs:annotation>
           <xs:documentation>
             <![CDATA[This element provides the original name and location of the file before it was imported into the system.
+Note: If the file was uploaded from the Clarity web interface, the original-location element will not contain
+the full file path due to browser security limitations. Only the original file name will be available.
 <br/>Always returns with GET: Yes
 <br/>Creatable with POST: Yes, must be valid location for system to read inbound file location from.
 <br/>Required for POST: Yes

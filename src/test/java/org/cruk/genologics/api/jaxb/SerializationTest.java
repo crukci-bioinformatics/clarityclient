@@ -63,6 +63,8 @@ import com.genologics.ri.controltype.ControlTypes;
 import com.genologics.ri.file.GenologicsFile;
 import com.genologics.ri.file.GenologicsFileBatchFetchResult;
 import com.genologics.ri.instrument.Instrument;
+import com.genologics.ri.instrumenttype.InstrumentType;
+import com.genologics.ri.instrumenttype.InstrumentTypes;
 import com.genologics.ri.lab.Lab;
 import com.genologics.ri.permission.Permission;
 import com.genologics.ri.permission.Permissions;
@@ -223,6 +225,18 @@ public class SerializationTest
     public void testInstrument() throws Throwable
     {
         fetchMarshalAndSerialize(Instrument.class);
+    }
+
+    @Test
+    public void testInstrumentType() throws Throwable
+    {
+        fetchMarshalAndSerialize(InstrumentType.class);
+    }
+
+    @Test
+    public void testInstrumentTypes() throws Throwable
+    {
+        fetchMarshalAndSerialize(InstrumentTypes.class);
     }
 
     @Test
