@@ -8,6 +8,7 @@ com.genologics.ri.controltype
 com.genologics.ri.exception
 com.genologics.ri.file
 com.genologics.ri.instrument
+com.genologics.ri.instrumenttype
 com.genologics.ri.lab
 com.genologics.ri.permission
 com.genologics.ri.process
