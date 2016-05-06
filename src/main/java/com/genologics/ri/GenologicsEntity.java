@@ -70,7 +70,7 @@ public @interface GenologicsEntity
      *
      * <p>
      * This has a slightly different meaning when the object requested
-     * is part of another component (e.g. steps of protocols, stages of
+     * is part of another component (steps of protocols, stages of
      * workflow). Then, this value needs to be the innermost part of the
      * URI and the {@code primarySection} attribute needs to be set to
      * the outer part of the API. For example, for a {@code ProtocolStep}
@@ -135,8 +135,8 @@ public @interface GenologicsEntity
 
     /**
      * Specifies the outer entity of the API for which the annotated class
-     * is the inner entity (e.g. {@code Protocol} when annotating
-     * {@code ProtocolStep}, or {@code Workflow} when annotating {@code Stage}).
+     * is the inner entity. For example, {@code Protocol} when annotating
+     * {@code ProtocolStep}, or {@code Workflow} when annotating {@code Stage}.
      *
      * @return The class to which the annotated class is a part of.
      *

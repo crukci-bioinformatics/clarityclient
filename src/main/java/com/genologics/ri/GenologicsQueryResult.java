@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation to put on classes that are the results of querying the API for
- * entities. These classes should return type of LimsLink objects that give
+ * entities. These classes should return types of LimsLink objects that give
  * URIs to the real entities.
  */
 @Retention(RUNTIME)
