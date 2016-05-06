@@ -70,6 +70,16 @@ import net.sf.ehcache.Element;
 
 public class GenologicsAPICacheTest
 {
+    /**
+     * Flag that turns on the full test. This is needed to be explicitly turned on
+     * to run against the development server here at CRUK-CI as it makes updates.
+     * That test will not run anywhere else.
+     *
+     * @see #fullTest()
+     * @see #readonlyTest()
+     */
+    public static final String FULL_TEST_SYSTEM_PROPERTY = "live.cache.test";
+
     protected Logger logger = LoggerFactory.getLogger(GenologicsAPICacheTest.class);
 
     protected AbstractApplicationContext context;
@@ -430,6 +440,10 @@ public class GenologicsAPICacheTest
         assertSame("Did not return a1", a1, returned);
     }
 
+    /**
+     * This test talks to the CRUK-CI development server to check things are working
+     * against a real installation. It won't work elsewhere.
+     */
     @Test
     public void readonlyTest() throws Exception
     {
@@ -468,10 +482,10 @@ public class GenologicsAPICacheTest
     }
 
     /**
-     * This test modifies the database, and so is controlled by the system property
+     * This test talks to the CRUK-CI development server to check things are working
+     * against a real installation. It won't work elsewhere.
+     * It also modifies the database, and so is controlled by the system property
      * "live.cache.test".
-     *
-     * @throws Exception
      */
     @Test
     public void fullTest() throws Exception
@@ -480,10 +494,10 @@ public class GenologicsAPICacheTest
 
         checkCredentialsSet();
 
-        boolean runThisTest = true; // Boolean.parseBoolean(System.getProperty("live.cache.test", Boolean.FALSE.toString()));
+        boolean runThisTest = Boolean.parseBoolean(System.getProperty(FULL_TEST_SYSTEM_PROPERTY, Boolean.FALSE.toString()));
 
         Assume.assumeTrue("Not running the test \"GenologicsAPICachingAspectTest.fullTest\". " +
-                          "Set the property -Dlive.cache.test=true to make it run.",
+                          "Set the property -D" + FULL_TEST_SYSTEM_PROPERTY + "=true to make it run.",
                           runThisTest);
 
         final String projectName = "Caching Aspect Test";
