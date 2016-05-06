@@ -40,7 +40,7 @@ import com.genologics.ri.Linkable;
  *
  * @since 2.24
  */
-@GenologicsEntity(uriSection = "instrumenttype")
+@GenologicsEntity(uriSection = "configuration/instrumenttypes")
 @XmlRootElement(name = "instrument-type")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "instrument-type", propOrder = { "name", "vendor", "processTypes" })

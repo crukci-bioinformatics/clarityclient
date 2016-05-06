@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<itp:instrument-type xmlns:itp="http://genologics.com/ri/instrumenttype"
-                     uri="http://limsdev.cri.camres.org:8080/api/v2/instrumenttype/3">
-    <name>Miseq</name>
+<itp:instrument-type xmlns:itp="http://genologics.com/ri/instrumenttype" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/instrumenttypes/1">
+    <name>GAIIx</name>
     <vendor>Illumina</vendor>
     <process-types>
-        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/4">Accept SLX</process-type>
-        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/5">Accept SLX Resubmission</process-type>
+        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/32">Historical Sequencing Run</process-type>
+        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/35">Illumina Sequencing Run</process-type>
     </process-types>
 </itp:instrument-type>

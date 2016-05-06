@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <itp:instrument-types xmlns:itp="http://genologics.com/ri/instrumenttype">
-    <instrument-type uri="http://limsdev.cri.camres.org:8080/api/v2/instrumenttype/3"/>
-    <instrument-type uri="http://limsdev.cri.camres.org:8080/api/v2/instrumenttype/4"/>
-    <instrument-type uri="http://limsdev.cri.camres.org:8080/api/v2/instrumenttype/5"/>
+    <instrument-type vendor="Illumina" name="GAIIx" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/instrumenttypes/1"/>
+    <instrument-type vendor="Illumina" name="Hiseq 4000" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/instrumenttypes/151"/>
+    <instrument-type vendor="Illumina" name="Nextseq" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/instrumenttypes/51"/>
+    <instrument-type vendor="Illumina" name="Miseq" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/instrumenttypes/3"/>
+    <instrument-type vendor="Illumina" name="Hiseq 2000" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/instrumenttypes/2"/>
+    <instrument-type vendor="Illumina" name="Hiseq 2500" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/instrumenttypes/101"/>
 </itp:instrument-types>
