@@ -668,13 +668,21 @@ public interface GenologicsAPI
     GenologicsProcess executeProcess(ExecutableProcess toExecute);
 
     /**
-     * Start execution of process step.
+     * Start a protocol step as if running through Clarity.
      *
-     * @param stepCreation The step creation object.
+     * @param stepCreation The step creation object. See Genologics' API documentation.
      *
-     * @return The {@code ProcessStep} created by the call.
+     * @return The {@code ProcessStep} object for the step started.
+     *
+     * @throws IllegalArgumentException if {@code stepCreation} is null.
+     *
+     * @see <a href="http://www.genologics.com/files/permanent/API/latest/rest.version.steps.html#POST">Clarity API documentation</a>
+     *
+     * @see <a href="https://genologics.zendesk.com/entries/68573603-Starting-a-Protocol-Step-via-the-API">Starting
+     * a Protocol Step via the API</a>
      */
     ProcessStep beginProcessStep(StepCreation stepCreation);
+
 
     // File upload methods.
 
@@ -770,4 +778,24 @@ public interface GenologicsAPI
      * @since 2.22
      */
     List<LimsEntityLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep);
+
+    /**
+     * List the artifacts in the queue for the given protocol step, additionally
+     * filtering using the parameters available for the "queues" end point.
+     *
+     * <p>
+     * Search terms work the same as for the {@link #find(Map, Class)} method. Also see
+     * <a href="http://www.genologics.com/files/permanent/API/latest/rest.version.queues.protocolStepId.html">Genologics'
+     * documentation of this end point</a> for the options available.
+     * </p>
+     *
+     * @param protocolStep The protocol step of the queue (or a link to it).
+     * @param searchTerms The terms to use for the search.
+     *
+     * @return Links to the artifacts currently in the given queue that meet the
+     * criteria of the search terms.
+     *
+     * @since 2.24.1
+     */
+    List<LimsEntityLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep, Map<String, ?> searchTerms);
 }

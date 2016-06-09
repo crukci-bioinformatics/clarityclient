@@ -49,6 +49,7 @@ import javax.annotation.PostConstruct;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -1115,11 +1116,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
     public <E extends Locatable>
     List<LimsLink<E>> find(Map<String, ?> searchTerms, Class<E> entityClass)
     {
-        if (searchTerms == null)
-        {
-            searchTerms = Collections.emptyMap();
-        }
-
         GenologicsEntity entityAnno = checkEntityAnnotated(entityClass);
 
         if (entityAnno.primaryEntity() != void.class)
@@ -1134,56 +1130,9 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
         checkServerSet();
 
-        StringBuilder query = new StringBuilder(1024);
+        StringBuilder query = expandSearchTerms(searchTerms);
 
-        for (Map.Entry<String, ?> term : searchTerms.entrySet())
-        {
-            Object value = term.getValue();
-            if (value == null)
-            {
-                throw new IllegalSearchTermException(
-                        term.getKey(), "Search term \"" + term.getKey() + "\" is null.");
-            }
-            else
-            {
-                if (value.getClass().isArray())
-                {
-                    Object[] values = (Object[])value;
-
-                    if (values.length == 0)
-                    {
-                        throw new IllegalSearchTermException(
-                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
-                    }
-
-                    for (Object v : values)
-                    {
-                        appendQueryTerm(query, term.getKey(), v);
-                    }
-                }
-                else if (value instanceof Iterable)
-                {
-                    Iterable<?> values = (Iterable<?>)value;
-
-                    if (!values.iterator().hasNext())
-                    {
-                        throw new IllegalSearchTermException(
-                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
-                    }
-
-                    for (Object v : values)
-                    {
-                        appendQueryTerm(query, term.getKey(), v);
-                    }
-                }
-                else
-                {
-                    appendQueryTerm(query, term.getKey(), value);
-                }
-            }
-        }
-
-        StringBuilder uri = new StringBuilder(1024);
+        StringBuilder uri = new StringBuilder(256 + query.length());
         uri.append(apiRoot).append(entityAnno.uriSection());
         if (query.length() > 0)
         {
@@ -1191,41 +1140,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
         }
 
         return doList(uri.toString(), entityClass, Integer.MAX_VALUE);
-    }
-
-    /**
-     * Helper method to {@code find}: builds up a query string with
-     * joining ampersands and converts the value given into a string.
-     *
-     * @param query The StringBuilder which is building up the query.
-     * @param argument The search parameter.
-     * @param value The value to search for.
-     *
-     * @throws IllegalSearchTermException if {@code value} is null.
-     *
-     * @see #find(Map, Class)
-     */
-    private void appendQueryTerm(StringBuilder query, String argument, Object value)
-    {
-        if (value == null)
-        {
-            // This message is sensible as find() will not call this method if it
-            // finds the term's immediate value is null. It will only get here with
-            // value == null when looping through an array or collection.
-
-            throw new IllegalSearchTermException(
-                    argument, "Search term \"" + argument + "\" contains a null value.");
-        }
-
-        String strValue = ConvertUtils.convert(value);
-
-        if (query.length() > 0)
-        {
-            query.append('&');
-        }
-        query.append(argument);
-        query.append('=');
-        query.append(strValue);
     }
 
     /**
@@ -2631,7 +2545,14 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
     // Retrieving artifacts from queues.
 
+    @Override
     public List<LimsEntityLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep)
+    {
+        return listQueue(protocolStep, null);
+    }
+
+    @Override
+    public List<LimsEntityLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep, Map<String, ?> searchTerms)
     {
         if (protocolStep == null)
         {
@@ -2653,13 +2574,20 @@ public class GenologicsAPIImpl implements GenologicsAPI
                     "/ (is \"" + protocolStep.getUri() + "\").");
         }
 
-        String uri = apiRoot + "queues/" + m.group(2);
+        StringBuilder query = expandSearchTerms(searchTerms);
+
+        StringBuilder uri = new StringBuilder(256 + query.length());
+        uri.append(apiRoot).append("queues/").append(m.group(2));
+        if (query.length() > 0)
+        {
+            uri.append('?').append(query);
+        }
 
         // The results list will always contain links that are LimsEntityLinks,
         // actually com.genologics.ri.queue.ArtifactLink
         // It is safe to recast the type of this list without copying.
 
-        List<?> results = doList(uri, Artifact.class, Queue.class, Integer.MAX_VALUE);
+        List<?> results = doList(uri.toString(), Artifact.class, Queue.class, Integer.MAX_VALUE);
 
         @SuppressWarnings("unchecked")
         List<LimsEntityLink<Artifact>> properLinks = (List<LimsEntityLink<Artifact>>)results;
@@ -2688,6 +2616,117 @@ public class GenologicsAPIImpl implements GenologicsAPI
         }
 
         return links;
+    }
+
+    /**
+     * Expand a map of search terms into a query string suitable for a URI.
+     * Handles values that are arrays or collections by repeating the parameter
+     * for each value.
+     *
+     * @param searchTerms The terms to use for the search. A null value here
+     * is the same as an empty map.
+     *
+     * @return The query string created from the search terms.
+     *
+     * @throws IllegalSearchTermException if any term in {@code searchTerms} is
+     * found to be illegal. See {@link IllegalSearchTermException} for details of
+     * what is illegal.
+     *
+     * @see GenologicsAPI#find(Map, Class)
+     */
+    protected StringBuilder expandSearchTerms(Map<String, ?> searchTerms)
+    {
+        StringBuilder query = new StringBuilder(1024);
+
+        if (searchTerms == null)
+        {
+            return query;
+        }
+
+        for (Map.Entry<String, ?> term : searchTerms.entrySet())
+        {
+            Object value = term.getValue();
+            if (value == null)
+            {
+                throw new IllegalSearchTermException(
+                        term.getKey(), "Search term \"" + term.getKey() + "\" is null.");
+            }
+            else
+            {
+                if (value.getClass().isArray())
+                {
+                    Object[] values = (Object[])value;
+
+                    if (values.length == 0)
+                    {
+                        throw new IllegalSearchTermException(
+                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
+                    }
+
+                    for (Object v : values)
+                    {
+                        appendQueryTerm(query, term.getKey(), v);
+                    }
+                }
+                else if (value instanceof Iterable)
+                {
+                    Iterable<?> values = (Iterable<?>)value;
+
+                    if (!values.iterator().hasNext())
+                    {
+                        throw new IllegalSearchTermException(
+                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
+                    }
+
+                    for (Object v : values)
+                    {
+                        appendQueryTerm(query, term.getKey(), v);
+                    }
+                }
+                else
+                {
+                    appendQueryTerm(query, term.getKey(), value);
+                }
+            }
+        }
+
+        return query;
+    }
+
+    /**
+     * Helper method to {@code expandSearchTerms}: builds up a query string with
+     * joining ampersands and converts the value given into a string.
+     *
+     * @param query The StringBuilder which is building up the query.
+     * @param argument The search parameter.
+     * @param value The value to search for.
+     *
+     * @throws IllegalSearchTermException if {@code value} is null.
+     *
+     * @see #expandSearchTerms(Map)
+     * @see ConvertUtilsBean#convert(Object)
+     */
+    private void appendQueryTerm(StringBuilder query, String argument, Object value)
+    {
+        if (value == null)
+        {
+            // This message is sensible as find() will not call this method if it
+            // finds the term's immediate value is null. It will only get here with
+            // value == null when looping through an array or collection.
+
+            throw new IllegalSearchTermException(
+                    argument, "Search term \"" + argument + "\" contains a null value.");
+        }
+
+        String strValue = ConvertUtils.convert(value);
+
+        if (query.length() > 0)
+        {
+            query.append('&');
+        }
+        query.append(argument);
+        query.append('=');
+        query.append(strValue);
     }
 
     /**

@@ -45,6 +45,7 @@ package org.cruk.genologics.api;
  * </p>
  *
  * @see GenologicsAPI#find(java.util.Map, Class)
+ * @see GenologicsAPI#listQueue(com.genologics.ri.Linkable, java.util.Map)
  *
  * @since 2.23
  */

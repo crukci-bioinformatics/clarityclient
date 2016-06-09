@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,6 +28,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
+
+import com.genologics.ri.Linkable;
+import com.genologics.ri.stepconfiguration.ProtocolStep;
 
 
 /**
@@ -60,6 +63,14 @@ public class StepConfiguration implements Serializable
     {
         this.protocolStepUri = protocolStepUri;
         this.stepName = stepName;
+    }
+
+    public StepConfiguration(Linkable<ProtocolStep> step)
+    {
+        if (step != null)
+        {
+            this.protocolStepUri = step.getUri();
+        }
     }
 
     public URI getProtocolStepUri()

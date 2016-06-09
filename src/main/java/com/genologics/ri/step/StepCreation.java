@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -30,7 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.Linkable;
+import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.containertype.ContainerType;
+import com.genologics.ri.controltype.ControlType;
+import com.genologics.ri.stepconfiguration.ProtocolStep;
 
 /**
  *
@@ -67,6 +71,11 @@ public class StepCreation implements Serializable
     public void setConfiguration(StepConfiguration configuration)
     {
         this.configuration = configuration;
+    }
+
+    public void setConfiguration(Linkable<ProtocolStep> step)
+    {
+        this.configuration = step == null ? null : new StepConfiguration(step.getUri());
     }
 
     public String getContainerType()
@@ -109,4 +118,9 @@ public class StepCreation implements Serializable
         return input;
     }
 
+    public CreationInput addInput(Linkable<Artifact> artifact, Linkable<ControlType> controlType, Long replicates)
+    {
+
+        return addInput(new CreationInput(artifact, controlType, replicates));
+    }
 }

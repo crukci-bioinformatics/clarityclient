@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -63,12 +63,36 @@ public class CreationInput implements LimsLink<Artifact>, Serializable
 
     public CreationInput(URI uri)
     {
+        this(uri, null, null);
+    }
+
+    public CreationInput(URI uri, URI controlTypeUri)
+    {
+        this(uri, controlTypeUri, null);
+    }
+
+    public CreationInput(URI uri, URI controlTypeUri, Long replicates)
+    {
         this.uri = uri;
+        this.controlTypeUri = controlTypeUri;
+        this.replicates = replicates;
     }
 
     public CreationInput(Linkable<Artifact> artifact)
     {
+        this(artifact, null, null);
+    }
+
+    public CreationInput(Linkable<Artifact> artifact, Linkable<ControlType> controlType)
+    {
+        this(artifact, controlType, null);
+    }
+
+    public CreationInput(Linkable<Artifact> artifact, Linkable<ControlType> controlType, Long replicates)
+    {
         this.uri = artifact.getUri();
+        this.controlTypeUri = controlType == null ? null : controlType.getUri();
+        this.replicates = replicates;
     }
 
     public URI getUri()
