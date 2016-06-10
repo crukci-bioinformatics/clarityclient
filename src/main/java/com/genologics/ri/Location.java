@@ -19,6 +19,7 @@
 package com.genologics.ri;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -45,7 +46,7 @@ import com.genologics.ri.container.Container;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "location", propOrder = { "container", "wellPosition" })
-public class Location implements Serializable, Comparable<Location>
+public class Location implements LimsEntityLink<Container>, Serializable, Comparable<Location>
 {
     public static final Pattern WELL_POSITION_SPLITTER = Pattern.compile(":");
 
@@ -163,4 +164,42 @@ public class Location implements Serializable, Comparable<Location>
         return container + " " + wellPosition;
     }
 
+    // Convenience methods to implement LimsEntityLink.
+    // Just pass through to the container link.
+
+    @Override
+    public String getLimsid()
+    {
+        return container == null ? null : container.getLimsid();
+    }
+
+    @Override
+    public void setLimsid(String id)
+    {
+        if (container != null)
+        {
+            container.setLimsid(id);
+        }
+    }
+
+    @Override
+    public URI getUri()
+    {
+        return container == null ? null : container.getUri();
+    }
+
+    @Override
+    public void setUri(URI uri)
+    {
+        if (container != null)
+        {
+            container.setUri(uri);
+        }
+    }
+
+    @Override
+    public Class<Container> getEntityClass()
+    {
+        return Container.class;
+    }
 }

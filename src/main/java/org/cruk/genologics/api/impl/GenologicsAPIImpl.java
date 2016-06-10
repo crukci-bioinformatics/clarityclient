@@ -2056,6 +2056,29 @@ public class GenologicsAPIImpl implements GenologicsAPI
         return response.getBody();
     }
 
+    @Override
+    public void advanceProcessStep(ProcessStep step)
+    {
+        if (step == null)
+        {
+            throw new IllegalArgumentException("step cannot be null");
+        }
+        if (step.getUri() == null)
+        {
+            throw new IllegalArgumentException("step has no URI set.");
+        }
+
+        Class<? extends Locatable> entityClass = step.getClass();
+        checkEntityAnnotated(entityClass);
+
+        String uri = step.getUri() + "/advance";
+
+        ResponseEntity<? extends Locatable> response =
+                restClient.exchange(uri, HttpMethod.POST, new HttpEntity<ProcessStep>(step), step.getClass());
+
+        reflectiveUpdate(step, response.getBody());
+    }
+
 
     // File upload
 

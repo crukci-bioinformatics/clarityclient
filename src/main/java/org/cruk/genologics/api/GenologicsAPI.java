@@ -44,6 +44,7 @@ import com.genologics.ri.process.GenologicsProcess;
 import com.genologics.ri.processexecution.ExecutableProcess;
 import com.genologics.ri.routing.Routing;
 import com.genologics.ri.sample.Sample;
+import com.genologics.ri.step.Actions;
 import com.genologics.ri.step.ProcessStep;
 import com.genologics.ri.step.StepCreation;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
@@ -682,6 +683,26 @@ public interface GenologicsAPI
      * a Protocol Step via the API</a>
      */
     ProcessStep beginProcessStep(StepCreation stepCreation);
+
+    /**
+     * Move the process step to its next stage.
+     *
+     * <p>
+     * Note that how the step advances is very dependent on the state it is currently in.
+     * For example, one may have to set values on the {@link Actions} object and update
+     * that before a step can advance past "next steps". Again, refer to the API documentation.
+     * </p>
+     *
+     * @param step The step to advance. The state of this object is updated in place.
+     *
+     * @see <a href="http://www.genologics.com/files/permanent/API/latest/rest.version.steps.limsid.advance.html">Clarity API documentation</a>
+     *
+     * @see <a href="http://www.genologics.com/files/permanent/API/latest/rest.version.steps.limsid.actions.html">Actions documentation</a>
+     *
+     * @see <a href="https://genologics.zendesk.com/entries/69596247-Advancing-Completing-a-Protocol-Step-via-the-API">Advancing
+     * and Completing a Step via the API</a>
+     */
+    void advanceProcessStep(ProcessStep step);
 
 
     // File upload methods.
