@@ -573,6 +573,7 @@ public class GenologicsAPICacheTest
             UDF.setUDF(s, "Average Library Length", "-1");
             UDF.setUDF(s, "Version Number", "Not Assigned");
             UDF.setUDF(s, "Workflow", "MiSeq Express");
+            UDF.setUDF(s, "Billing Information", "SWAG/000");
 
             s.setCreationLocation(container, (char)('A' + i) + ":" + Integer.valueOf(i + 1));
 
