@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -58,10 +58,16 @@ public class PooledInputs implements Serializable
     {
     }
 
+    public PooledInputs(Collection<? extends Linkable<Artifact>> inputArtifacts, String poolName)
+    {
+        setInputArtifacts(inputArtifacts);
+        setName(poolName);
+    }
+
     public PooledInputs(Collection<? extends Linkable<Artifact>> inputArtifacts, String poolName, Linkable<Artifact> outputArtifact)
     {
         setInputArtifacts(inputArtifacts);
-        this.name = poolName;
+        setName(poolName);
         setOutputArtifact(outputArtifact);
     }
 
@@ -87,12 +93,12 @@ public class PooledInputs implements Serializable
 
     public void setOutput(Output output)
     {
-        outputUri = output.getUri();
+        outputUri = output == null ? null : output.getUri();
     }
 
     public void setOutputArtifact(Linkable<Artifact> artifact)
     {
-        outputUri = artifact.getUri();
+        outputUri = artifact == null ? null : artifact.getUri();
     }
 
     public List<Input> getInputs()

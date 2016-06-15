@@ -78,7 +78,7 @@
            timeToLiveSeconds="1800" />
 
     <cache name="com.genologics.ri.reagenttype.ReagentType"
-           maxElementsInMemory="4000"
+           maxElementsInMemory="5000"
            timeToLiveSeconds="1800" />
 
     <cache name="com.genologics.ri.workflowconfiguration.Workflow"
