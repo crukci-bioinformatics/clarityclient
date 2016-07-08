@@ -20,24 +20,41 @@ package org.cruk.genologics.api.jaxb;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 
 /**
- * Removes the "state" parameter from the query part of a URI string before converting
- * to a URI object, or when converting back.
+ * Convert to and from URI objects, correctly encoding the query string.
+ * Can also remove the "state" parameter from the query part of a URI string
+ * before converting to a URI object, or when converting back.
  * Turns out this is probably a bad idea after all, so it has been disabled.
  */
 public class URIAdapter extends XmlAdapter<String, URI>
 {
     /**
+     * UTF-8 character set for URL encoding.
+     */
+    private static final Charset UTF8 = Charset.forName("UTF-8");
+
+    /**
      * Pattern for removing "state=" terms in the query string.
      */
     private static final Pattern STATE_PATTERN = Pattern.compile("([\\?&]?)state=\\d+(&?)");
+
+    /**
+     * Flag indicating whether the state removing behaviour should be used.
+     */
+    private static final boolean REMOVE_STATE = false;
+
 
     public URIAdapter()
     {
@@ -55,8 +72,7 @@ public class URIAdapter extends XmlAdapter<String, URI>
     @Override
     public URI unmarshal(String v) throws URISyntaxException
     {
-        //return v == null ? null : new URI(removeStateParameter(v));
-        return v == null ? null : new URI(v);
+        return v == null ? null : new URI(escapeString(v));
     }
 
     /**
@@ -69,8 +85,65 @@ public class URIAdapter extends XmlAdapter<String, URI>
     @Override
     public String marshal(URI v)
     {
-        //return v == null ? null : removeStateParameter(v.toString());
-        return v == null ? null : v.toString();
+        String s = null;
+        if (v != null)
+        {
+            s = v.toString();
+            if (REMOVE_STATE)
+            {
+                s = removeStateParameter(s);
+            }
+        }
+        return s;
+    }
+
+    /**
+     * Escape a string before conversion to a URI and, according to setting,
+     * remove the state parameter.
+     *
+     * @param v The URI in string form.
+     *
+     * @return The encoded URI.
+     */
+    private String escapeString(String v)
+    {
+        if (v != null)
+        {
+            int queryStart = v.indexOf('?');
+            if (queryStart >= 0)
+            {
+                List<NameValuePair> queryParts = URLEncodedUtils.parse(v.substring(queryStart + 1), UTF8);
+                removeStateParameter(queryParts);
+
+                v = v.substring(0, queryStart);
+                if (!queryParts.isEmpty())
+                {
+                    v += '?' + URLEncodedUtils.format(queryParts, UTF8);
+                }
+            }
+        }
+        return v;
+    }
+
+    /**
+     * Look for a parameter called "state" and remove it from the list if
+     * it is found.
+     *
+     * @param terms The name value pair terms.
+     */
+    private void removeStateParameter(List<NameValuePair> terms)
+    {
+        if (REMOVE_STATE)
+        {
+            Iterator<NameValuePair> iter = terms.iterator();
+            while (iter.hasNext())
+            {
+                if ("state".equals(iter.next().getName()))
+                {
+                    iter.remove();
+                }
+            }
+        }
     }
 
     /**
@@ -127,6 +200,7 @@ public class URIAdapter extends XmlAdapter<String, URI>
 
             uri = builder.toString();
         }
+
         return uri;
     }
 }
