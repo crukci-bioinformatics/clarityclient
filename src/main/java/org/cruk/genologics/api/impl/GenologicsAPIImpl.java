@@ -160,11 +160,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
     protected Logger logger = LoggerFactory.getLogger(GenologicsAPI.class);
 
     /**
-     * The JAXB marshaller. Or rather, the Spring helper around the actual JAXB tools.
-     */
-    protected Jaxb2Marshaller jaxbMarshaller;
-
-    /**
      * The Spring REST client.
      */
     protected RestOperations restClient;
@@ -357,8 +352,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
     @Required
     public void setJaxbMarshaller(Jaxb2Marshaller jaxbMarshaller)
     {
-        this.jaxbMarshaller = jaxbMarshaller;
-
         entityToListClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
         entityToBatchRetrieveClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
 
