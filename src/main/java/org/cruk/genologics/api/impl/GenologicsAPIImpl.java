@@ -2532,7 +2532,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
         }
         else
         {
-            logger.info("File {} is not in the file store, so just removing its record.", targetURL.getPath());
+            logger.debug("File {} is not in the file store, so just removing its record.", targetURL.getPath());
         }
 
         delete(realFile);
