@@ -27,17 +27,14 @@ import java.util.ListIterator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
-
 import org.apache.commons.lang3.ClassUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.genologics.ri.GenologicsEntity;
@@ -46,6 +43,10 @@ import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.Locatable;
 import com.genologics.ri.file.GenologicsFile;
+
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Ehcache;
+import net.sf.ehcache.Element;
 
 /**
  * A cache optionally deployed around a {@code GenologicsAPI} bean as an aspect.
@@ -107,6 +108,11 @@ public class GenologicsAPICache
      * Lock to prevent the cache behaviour changing during an operation.
      */
     private Lock behaviourLock = new ReentrantLock();
+
+    /**
+     * Override for the cache behaviour for the next call.
+     */
+    private ThreadLocal<CacheStatefulBehaviour> behaviourOverride = new ThreadLocal<CacheStatefulBehaviour>();
 
 
     /**
@@ -204,6 +210,60 @@ public class GenologicsAPICache
 
         return cache;
     }
+
+    /**
+     * Join point for changing the cach behaviour on the next call on the same thread.
+     * Sets the thread local override behaviour to that given.
+     *
+     * <p>
+     * The behaviour will be reset on any call to another API method from this thread.
+     * </p>
+     *
+     * @param pjp The join point object.
+     *
+     * @return <code>null</code>
+     *
+     * @throws Throwable if there is an error.
+     *
+     * @see GenologicsAPI#nextCallCacheOverride(CacheStatefulBehaviour)
+     * @see #resetBehaviour(JoinPoint)
+     */
+    public Object overrideBehaviour(ProceedingJoinPoint pjp) throws Throwable
+    {
+        Object[] args = pjp.getArgs();
+
+        behaviourOverride.set((CacheStatefulBehaviour)args[0]);
+
+        if (args[0] != null)
+        {
+            logger.debug("Next call will override the cache behaviour from {} to {}.", behaviour, args[0]);
+        }
+
+        return pjp.proceed();
+    }
+
+    /**
+     * Resets the cache behaviour however it is set to normally behave. This
+     * method is called after every public method call on the API, clearing the
+     * override setting if it is set.
+     *
+     * @param jp The join point object.
+     *
+     * @see GenologicsAPI#nextCallCacheOverride(CacheStatefulBehaviour)
+     * @see #overrideBehaviour(ProceedingJoinPoint)
+     */
+    public void resetBehaviour(JoinPoint jp)
+    {
+        String methodName = jp.getSignature().getName();
+
+        if (behaviourOverride.get() != null && !"nextCallCacheOverride".equals(methodName))
+        {
+            behaviourOverride.set(null);
+
+            logger.debug("Reset cache behaviour override to {} (after call to {}).", behaviour, methodName);
+        }
+    }
+
 
     /**
      * Join point for the {@code GenologicsAPI.retrieve} methods. Fetches the
@@ -358,20 +418,29 @@ public class GenologicsAPICache
             return pjp.proceed();
         }
 
+        final boolean statefulEntity = isStateful(entityClass);
+
         final String className = ClassUtils.getShortClassName(entityClass);
 
         Ehcache cache = getCache(entityClass);
+
+        CacheStatefulBehaviour callBehaviour = behaviourOverride.get();
+        if (callBehaviour == null)
+        {
+            callBehaviour = behaviour;
+        }
 
         Locatable genologicsObject = null;
         String key = keyFromUri(uri);
         long version = NO_STATE_VALUE;
 
+        Element wrapper = null;
         if (key != null)
         {
-            Element wrapper = cache.get(key);
+            wrapper = cache.get(key);
             if (wrapper != null)
             {
-                if (!isStateful(entityClass))
+                if (!statefulEntity)
                 {
                     genologicsObject = getFromWrapper(wrapper);
                 }
@@ -379,7 +448,7 @@ public class GenologicsAPICache
                 {
                     version = versionFromUri(uri);
 
-                    switch (behaviour)
+                    switch (callBehaviour)
                     {
                         case ANY:
                             genologicsObject = getFromWrapper(wrapper);
@@ -419,7 +488,44 @@ public class GenologicsAPICache
 
             genologicsObject = (Locatable)pjp.proceed();
 
-            cache.put(createCacheElement(genologicsObject));
+            if (wrapper == null)
+            {
+                // Not already in the cache, so it needs to be stored.
+                cache.put(createCacheElement(genologicsObject));
+            }
+            else
+            {
+                // Most entities already in the cache will just stay there.
+                // If though we have a stateful entity, there may be cause
+                // to replace the object in the cache depending on how the
+                // cache normally behaves. Typically this will be replacing the
+                // existing with a newer version or replacing for a difference.
+                // When we don't care about versions, the one already in the cache
+                // can remain.
+
+                if (statefulEntity)
+                {
+                    switch (behaviour)
+                    {
+                        case ANY:
+                            break;
+
+                        case LATEST:
+                            if (version > wrapper.getVersion())
+                            {
+                                cache.put(createCacheElement(genologicsObject));
+                            }
+                            break;
+
+                        case EXACT:
+                            if (version != wrapper.getVersion())
+                            {
+                                cache.put(createCacheElement(genologicsObject));
+                            }
+                            break;
+                    }
+                }
+            }
         }
         else
         {
@@ -463,6 +569,13 @@ public class GenologicsAPICache
 
             Boolean cacheable = null;
             String className = null;
+            Boolean stateful = null;
+
+            CacheStatefulBehaviour callBehaviour = behaviourOverride.get();
+            if (callBehaviour == null)
+            {
+                callBehaviour = behaviour;
+            }
 
             behaviourLock.lock();
             try
@@ -491,6 +604,7 @@ public class GenologicsAPICache
                     {
                         className = ClassUtils.getShortClassName(link.getEntityClass());
                         cacheable = isCacheable(link.getEntityClass());
+                        stateful = isStateful(link.getEntityClass());
                     }
 
                     E entity = null;
@@ -517,7 +631,7 @@ public class GenologicsAPICache
                         {
                             long version = versionFromLocatable(link);
 
-                            switch (behaviour)
+                            switch (callBehaviour)
                             {
                                 case ANY:
                                     entity = getFromWrapper(wrapper);
@@ -588,6 +702,7 @@ public class GenologicsAPICache
             if (!toFetch.isEmpty())
             {
                 assert cacheable != null : "No cacheable flag found";
+                assert stateful != null : "No stateful flag found";
 
                 Object[] args = { toFetch };
                 @SuppressWarnings("unchecked")
@@ -607,7 +722,62 @@ public class GenologicsAPICache
 
                         if (cacheable)
                         {
-                            cache.put(createCacheElement(entity));
+                            if (!stateful)
+                            {
+                                // Entities without state will only have been fetched because they
+                                // were not in the cache. These should just be added.
+
+                                cache.put(createCacheElement(entity));
+                            }
+                            else
+                            {
+                                // Stateful entities may already be in the cache but may have been
+                                // fetched because the requested version is newer or of a different
+                                // state. Some care needs to be taken to update its cached version
+                                // depending on how the cache normally behaves.
+
+                                String key = keyFromLocatable(entity);
+                                Element wrapper = cache.get(key);
+
+                                if (wrapper == null)
+                                {
+                                    // Not already cached, so simply add this entity whatever
+                                    // its state.
+
+                                    cache.put(createCacheElement(entity));
+                                }
+                                else
+                                {
+                                    // As we have a stateful entity, there may be cause
+                                    // to replace the object in the cache depending on how the
+                                    // cache normally behaves. Typically this will be replacing the
+                                    // existing with a newer version or replacing for a difference.
+                                    // When we don't care about versions, the one already in the cache
+                                    // can remain.
+
+                                    long version = versionFromLocatable(entity);
+
+                                    switch (behaviour)
+                                    {
+                                        case ANY:
+                                            break;
+
+                                        case LATEST:
+                                            if (version > wrapper.getVersion())
+                                            {
+                                                cache.put(createCacheElement(entity));
+                                            }
+                                            break;
+
+                                        case EXACT:
+                                            if (version != wrapper.getVersion())
+                                            {
+                                                cache.put(createCacheElement(entity));
+                                            }
+                                            break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }

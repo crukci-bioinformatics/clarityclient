@@ -62,6 +62,7 @@ import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.GenologicsUpdateException;
 import org.cruk.genologics.api.IllegalSearchTermException;
+import org.cruk.genologics.api.cache.CacheStatefulBehaviour;
 import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1075,6 +1076,11 @@ public class GenologicsAPIImpl implements GenologicsAPI
                      '/' + entityAnno.uriSection() + '/' + innerLimsid;
 
         return uri;
+    }
+
+    public void nextCallCacheOverride(CacheStatefulBehaviour behaviour)
+    {
+        // Deliberately does nothing. Handled by the point cuts of the cache.
     }
 
     // General fetch methods.

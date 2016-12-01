@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.http.auth.Credentials;
+import org.cruk.genologics.api.cache.CacheStatefulBehaviour;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.genologics.ri.LimsEntity;
@@ -365,6 +366,32 @@ public interface GenologicsAPI
     <E extends Locatable>
     URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass)
     throws URISyntaxException;
+
+    /**
+     * Overrides the cache behaviour for the next call on the same thread.
+     * This does nothing within the API itself but when the cache is used it will
+     * change the handling of stateful entities for the next call only.
+     *
+     * <p>
+     * Typically this will only be used to deal with the QC flags of artifacts,
+     * as these change with the state parameter. All other fields can only return
+     * the current state of the database.
+     * </p>
+     *
+     * <p>
+     * The behaviour will return to the regular behaviour after ANY call to the
+     * API. For this to be effective it must immediately precede the API call being
+     * influenced.
+     * </p>
+     *
+     * @param behaviour The cache behaviour for the next call from the current
+     * thread. Can be null to indicate that the call should be the same as the
+     * regular cache behaviour.
+     *
+     * @since 2.24.3
+     */
+    void nextCallCacheOverride(CacheStatefulBehaviour behaviour);
+
 
     // Retrieval methods
 

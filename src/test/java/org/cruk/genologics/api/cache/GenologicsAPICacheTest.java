@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -53,6 +54,7 @@ import com.genologics.ri.LimsLink;
 import com.genologics.ri.Locatable;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.OutputType;
+import com.genologics.ri.artifact.QCFlag;
 import com.genologics.ri.container.Container;
 import com.genologics.ri.containertype.ContainerType;
 import com.genologics.ri.containertype.ContainerTypeLink;
@@ -439,6 +441,87 @@ public class GenologicsAPICacheTest
         EasyMock.verify(pjp4, jpSig);
         assertSame("Did not return a1", a1, returned);
     }
+
+    @Test
+    public void testLoadOrRetrieveWithOverride() throws Throwable
+    {
+        checkCredentialsSet();
+
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.LATEST);
+        cacheAspect.getCache(Artifact.class).removeAll();
+
+        String base = api.getServerApiAddress();
+
+        Signature jpSig = createSignatureMock();
+
+        Artifact a1 = new Artifact();
+        a1.setUri(new URI(base + "/artifacts/2-1771911?state=1294907"));
+        a1.setLimsid("2-1771911");
+        a1.setQCFlag(QCFlag.FAILED);
+
+        Object[] a1args = { a1.getUri(), a1.getClass() };
+
+        ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+
+        EasyMock.replay(pjp1, jpSig);
+
+        Object returned = cacheAspect.retrieve(pjp1);
+
+        EasyMock.verify(pjp1, jpSig);
+        assertSame("Did not return a1", a1, returned);
+
+        // With an earlier state, it would normally return the same object.
+
+        Object[] a2args = { base + "/artifacts/2-1771911?state=1101002", a1.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+
+        EasyMock.replay(pjp2, jpSig);
+
+        returned = cacheAspect.retrieve(pjp2);
+
+        EasyMock.verify(pjp2, jpSig);
+        assertSame("Did not return a1", a1, returned);
+
+        // With an override, we should get an equivalent object back but with a different state.
+
+        Artifact a3 = new Artifact();
+        a3.setUri(new URI(base + "/artifacts/2-1771911?state=1101002"));
+        a3.setLimsid("2-1771911");
+        a3.setQCFlag(QCFlag.PASSED);
+
+        Object[] a3aargs = { CacheStatefulBehaviour.EXACT };
+        Object[] a3bargs = { base + "/artifacts/2-1771911?state=1101002", a1.getClass() };
+
+        jpSig = createSignatureMock();
+
+        ProceedingJoinPoint pjp3a = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp3a.getArgs()).andReturn(a3aargs).once();
+        EasyMock.expect(pjp3a.proceed()).andReturn(null).once();
+
+        ProceedingJoinPoint pjp3b = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp3b.getArgs()).andReturn(a3bargs).times(3);
+        EasyMock.expect(pjp3b.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp3b.proceed()).andReturn(a3).once();
+
+        JoinPoint pjp3c = EasyMock.createStrictMock(JoinPoint.class);
+        EasyMock.expect(pjp3c.getSignature()).andReturn(jpSig).once();
+
+        EasyMock.replay(pjp3a, pjp3b, pjp3c, jpSig);
+
+        cacheAspect.overrideBehaviour(pjp3a);
+        returned = cacheAspect.retrieve(pjp3b);
+        cacheAspect.resetBehaviour(pjp3c);
+
+        EasyMock.verify(pjp3a, pjp3b, pjp3c, jpSig);
+        assertSame("Did not return a3", a3, returned);
+    }
+
 
     /**
      * This test talks to the CRUK-CI development server to check things are working
