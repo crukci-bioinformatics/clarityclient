@@ -49,21 +49,22 @@ public class KnownNamespacePrefixMatcher extends NamespacePrefixMapper
         map.put(WellKnownNamespace.XML_MIME_URI, "xmime");
 
         map.put(ROOT_NAMESPACE, "ri");
-        map.put(ARTIFACT_GROUP_NAMESPACE, "artgr");
         map.put(ARTIFACT_NAMESPACE, "art");
+        map.put(ARTIFACT_GROUP_NAMESPACE, "artgr");
         map.put(CONFIGURATION_NAMESPACE, "cnf");
-        map.put(CONTAINER_TYPE_NAMESPACE, "ctp");
         map.put(CONTAINER_NAMESPACE, "con");
+        map.put(CONTAINER_TYPE_NAMESPACE, "ctp");
+        map.put(CONTROL_TYPE_NAMESPACE, "ctrltp");
         map.put(EXCEPTION_NAMESPACE, "exc");
         map.put(FILE_NAMESPACE, "file");
         map.put(INSTRUMENT_NAMESPACE, "inst");
         map.put(INSTRUMENT_TYPE_NAMESPACE, "itp");
         map.put(LAB_NAMESPACE, "lab");
         map.put(PERMISSION_NAMESPACE, "perm");
+        map.put(PROCESS_NAMESPACE, "prc");
         map.put(PROCESS_EXECUTION_NAMESPACE, "prx");
         map.put(PROCESS_TEMPLATE_NAMESPACE, "ptm");
         map.put(PROCESS_TYPE_NAMESPACE, "ptp");
-        map.put(PROCESS_NAMESPACE, "prc");
         map.put(PROJECT_NAMESPACE, "prj");
         map.put(PROPERTY_NAMESPACE, "prop");
         map.put(PROTOCOL_CONFIGURATION_NAMESPACE, "protcnf");
