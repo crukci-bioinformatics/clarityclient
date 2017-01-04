@@ -108,3 +108,24 @@ cache operation.
 releases of the client before 2.22. Modes can be set in the Spring
 configuration (<<<genologics-cache-context.xml>>>) or programmatically on
 the <<<GenologicsAPICache>>> bean using the <<<setStatefulBehaviour>>> method.
+
+* Overriding cache behaviour for a single API call
+
+  In actual use, the only time the state parameter is important for an
+artifact is when one is looking for its QC flag value. No other fields have
+a history that is preserved by the state: they are always their current database
+value. Most of the time the cache behaviour is irrelevant, and the <<<LATEST>>>
+or <<<ANY>>> cache behaviours are most suitable for the performance gain they
+provide. This is not true when using the post process URI of the input/output
+maps to obtain the QC flags.
+
+  Release 4.24.3 introduced the method
+<<<{{{./apidocs/org/cruk/genologics/api/GenologicsAPI.html}nextCallCacheOverride}}>>>
+to the API. This does nothing to the server, but allows the cache to be set to
+behave differently for the immediately following call only. Typically it will
+be called with the <<<EXACT>>> behaviour as an argument before fetching an
+artifact or collection of artifacts. The exact versions of the artifacts will
+be fetched from the server and return to the calling code. The override is
+local to the calling thread, so the following fetch must be made on the same
+thread as issued the <<<nextCallCacheOverride>>> call. The behaviour resets to
+the previous behaviour of the cache after the immediately following call.
