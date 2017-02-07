@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.cruk.genologics.api.jaxb.ShortDateAdapter;
 
 import com.genologics.ri.ExternalId;
 import com.genologics.ri.GenologicsEntity;
@@ -64,14 +67,17 @@ public class Project implements LimsEntity<Project>, Serializable
 
     @XmlElement(name = "open-date")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date openDate;
 
     @XmlElement(name = "close-date")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date closeDate;
 
     @XmlElement(name = "invoice-date")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date invoiceDate;
 
     protected ResearcherLink researcher;

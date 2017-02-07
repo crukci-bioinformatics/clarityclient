@@ -80,9 +80,10 @@
     </licenses>
 
     <properties>
-        <spring.version>4.3.3.RELEASE</spring.version>
+        <spring.version>4.3.5.RELEASE</spring.version>
         <aspectj.version>1.7.4</aspectj.version>
-        <slf4j.version>1.7.13</slf4j.version>
+        <slf4j.version>1.7.22</slf4j.version>
+        <jaxb.version>2.2.11</jaxb.version>
         <xlint.options>-Xlint:all</xlint.options>
     </properties>
 
@@ -323,8 +324,8 @@
                     <show>protected</show>
                     <links>
                         <link>http://www.slf4j.org/apidocs/</link>
-                        <link>http://docs.spring.io/spring/docs/4.2.x/javadoc-api/</link>
-                        <link>http://docs.spring.io/spring-integration/docs/4.2.x/api/</link>
+                        <link>http://docs.spring.io/spring/docs/4.3.x/javadoc-api/</link>
+                        <link>http://docs.spring.io/spring-integration/docs/4.3.x/api/</link>
                         <link>http://hc.apache.org/httpcomponents-client-4.5.x/httpclient/apidocs/</link>
                         <link>http://hc.apache.org/httpcomponents-core-ga/httpcore/apidocs/</link>
                         <link>http://eclipse.org/aspectj/doc/released/runtime-api/</link>
@@ -505,23 +506,27 @@
                 <version>${slf4j.version}</version>
             </dependency>
 
-            <!-- Java 6 includes JAXB, but the is an improvement in the latest code that -->
-            <!-- stops the order that attributes are written in being reversed.          -->
+            <!-- Include a specific reference implementation of JAXB as the ones included -->
+            <!-- in the JREs do not have all the features used by the work flow code.     -->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
-                <version>2.2.3</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>javax.xml.stream</groupId>
-                        <artifactId>stax-api</artifactId>
-                    </exclusion>
-                </exclusions>
+                <version>${jaxb.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.xml.bind</groupId>
-                <artifactId>jaxb-impl</artifactId>
-                <version>2.2.3</version>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>jaxb-runtime</artifactId>
+                <version>${jaxb.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jaxb</groupId>
+                <artifactId>txw2</artifactId>
+                <version>${jaxb.version}</version>
             </dependency>
 
             <dependency>
@@ -617,9 +622,14 @@
             <artifactId>jaxb-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>txw2</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>

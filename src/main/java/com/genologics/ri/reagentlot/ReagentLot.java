@@ -29,6 +29,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.cruk.genologics.api.jaxb.ShortDateAdapter;
 
 import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.LimsEntity;
@@ -65,14 +68,17 @@ public class ReagentLot implements LimsEntity<ReagentLot>, Serializable
 
     @XmlElement(name = "created-date")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date createdDate;
 
     @XmlElement(name = "last-modified-date")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date lastModifiedDate;
 
     @XmlElement(name = "expiry-date")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date expiryDate;
 
     @XmlElement(name = "created-by")

@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.cruk.genologics.api.jaxb.ShortDateAdapter;
 
 import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.LimsEntity;
@@ -65,6 +68,7 @@ public class GenologicsProcess implements LimsEntity<GenologicsProcess>, Seriali
 
     @XmlElement(name = "date-run")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date dateRun;
 
     @XmlElement(name = "technician")

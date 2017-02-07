@@ -22,25 +22,25 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
- * Adapter for those dates that are exchanged with the API in the long timestamp format.
+ * Adapter for those dates that are exchanged with the API in the short date only format.
  */
-public class LongTimestampAdapter extends AbstractDateAdapter
+public class ShortDateAdapter extends AbstractDateAdapter
 {
     /**
      * Empty constructor.
      */
-    public LongTimestampAdapter()
+    public ShortDateAdapter()
     {
     }
 
     /**
-     * Create a date formatter for the long timestamp format.
+     * Create a date formatter for the short date format.
      *
      * @return The DateFormat object.
      */
     @Override
     protected DateFormat createFormatter()
     {
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        return new SimpleDateFormat("yyyy-MM-dd");
     }
 }

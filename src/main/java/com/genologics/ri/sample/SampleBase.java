@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.cruk.genologics.api.jaxb.ShortDateAdapter;
 
 import com.genologics.ri.ExternalId;
 import com.genologics.ri.LimsEntityLinkable;
@@ -67,10 +70,12 @@ public class SampleBase implements Serializable
 
     @XmlElement(name = "date-received")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date dateReceived;
 
     @XmlElement(name = "date-completed")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date dateCompleted;
 
     protected ProjectLink project;

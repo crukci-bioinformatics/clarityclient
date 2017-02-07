@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.cruk.genologics.api.jaxb.ShortDateAdapter;
 
 import com.genologics.ri.Linkable;
 import com.genologics.ri.configuration.FieldType;
@@ -58,6 +61,7 @@ public class ExecutableProcess implements Serializable
 
     @XmlElement(name = "date-run")
     @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(ShortDateAdapter.class)
     protected Date dateRun;
 
     @XmlElement(name = "technician")
