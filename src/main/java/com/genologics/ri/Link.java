@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -70,7 +70,7 @@ public class Link implements Locatable, Serializable
     {
         uri = limsLink.getUri();
 
-        String[] pathParts = PATH_SPLITTER.split(uri.toString());
+        String[] pathParts = PATH_SPLITTER.split(uri.getPath());
 
         // LIMS id should be the last part of the path.
         // The relative part should be the second to last part.
@@ -96,5 +96,27 @@ public class Link implements Locatable, Serializable
     public void setUri(URI uri)
     {
         this.uri = uri;
+    }
+
+    /**
+     * Extract the LIMS identifier from a URI. The identifier is the
+     * last part of the URI path.
+     *
+     * @param uri The URI.
+     *
+     * @return The id from the URI path, or null if {@code uri} is null.
+     */
+    public static String limsIdFromUri(URI uri)
+    {
+        String id = null;
+
+        if (uri != null)
+        {
+            String[] parts = PATH_SPLITTER.split(uri.getPath());
+
+            id = parts[parts.length - 1];
+        }
+
+        return id;
     }
 }

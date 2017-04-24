@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.LimsLink;
+import com.genologics.ri.LimsEntityLink;
+import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
 
 /**
@@ -37,7 +38,7 @@ import com.genologics.ri.Linkable;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "lab-link", propOrder = { "name" })
-public class LabLink implements LimsLink<Lab>, Serializable
+public class LabLink implements LimsEntityLink<Lab>, Serializable
 {
     private static final long serialVersionUID = 5826900114630147822L;
 
@@ -101,6 +102,18 @@ public class LabLink implements LimsLink<Lab>, Serializable
     public void setUri(URI uri)
     {
         this.uri = uri;
+    }
+
+    @Override
+    public String getLimsid()
+    {
+        return Link.limsIdFromUri(uri);
+    }
+
+    @Override
+    public void setLimsid(String id)
+    {
+        // Does nothing.
     }
 
     @Override

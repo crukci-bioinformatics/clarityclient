@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.ExternalId;
 import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.LimsEntity;
+import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.lab.Lab;
@@ -51,7 +53,7 @@ import com.genologics.ri.userdefined.UDT;
 @XmlType(name = "researcher",
          propOrder = { "firstName", "lastName", "phone", "fax", "email", "lab", "type", "fields",
                        "externalIds", "credentials", "initials" })
-public class Researcher implements Linkable<Researcher>, Serializable
+public class Researcher implements LimsEntity<Researcher>, Serializable
 {
     private static final long serialVersionUID = 2552745292977587999L;
 
@@ -269,4 +271,15 @@ public class Researcher implements Linkable<Researcher>, Serializable
         this.uri = value;
     }
 
+    @Override
+    public String getLimsid()
+    {
+        return Link.limsIdFromUri(uri);
+    }
+
+    @Override
+    public void setLimsid(String id)
+    {
+        // Does nothing.
+    }
 }
