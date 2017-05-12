@@ -99,7 +99,7 @@ public class GenologicsFailureResponseErrorHandler extends DefaultResponseErrorH
     public void handleError(ClientHttpResponse response) throws IOException
     {
         HttpStatus statusCode = response.getStatusCode();
-        if (statusCode.series() == HttpStatus.Series.CLIENT_ERROR)
+        if (statusCode.is4xxClientError() || statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
         {
             // Try and decode the message body. If it forms a Genologics exception,
             // throw that. Otherwise fall through.
