@@ -35,7 +35,7 @@ public interface LimsEntityLinkable<E extends LimsEntity<E>> extends Linkable<E>
     String getLimsid();
 
     /**
-     * Set the LIMS if for this object.
+     * Set the LIMS id for this object.
      *
      * @param id The new LIMS id.
      */
