@@ -1,0 +1,4 @@
+data/*		linguist-vendored
+src/main/xsd/*	linguist-vendored
+src/test/*	linguist-vendored
+src/site/*	linguist-vendored
