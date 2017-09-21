@@ -1,9 +1,9 @@
-CRUK-CI Genologics API Java Client
-==================================
+# CRUK-CI Genologics API Java Client
 
 The Cancer Research UK Cambridge Institute (CRUK-CI) Genologics Java Client
-provides the Java or Groovy developer a means to work with Genologics' REST
-API using objects rather than XML or DOM document trees.
+provides the Java or Groovy developer a means to work with
+[Genologics' REST API](https://www.genologics.com/developer/) using objects
+rather than XML or DOM document trees.
 
 It provides a single interface to perform (almost) all the operations
 supported by the Genologics' REST API with XML to Java object conversion,
@@ -16,27 +16,20 @@ messages sent to and received from Genologics' REST API. The communication
 uses Apache's HTTP Java client and Spring's REST client. Spring is used
 throughout this tool.
 
-Features
---------
+## Features
 
 1. Automatic conversion between XML and Java objects.
-
 2. Automatic handling of exceptions from the server.
-
 3. Automatic and transparent use of batch retrieve, update and create
 mechanisms where available.
-
 4. Creation of files with the upload to the file store (likewise file
 removal).
-
 5. Optional transparent caching mechanism.
-
 6. Debugging classes to show traffic and timings between the client
 and server.
 
 
-Building
---------
+## Building
 
 Having got this check out of the code, run:
   
@@ -48,6 +41,7 @@ You'll need Maven 2.2 or newer.
 Alternatively, you can add our Maven repository to your POM and let
 Maven do the work. Add a <repositories> section containing:
 
+```XML
     <repository>
         <id>crukci-bioinformatics</id>
         <url>http://content.cruk.cam.ac.uk/bioinformatics/maven</url>
@@ -58,20 +52,21 @@ Maven do the work. Add a <repositories> section containing:
             <enabled>false</enabled>
         </snapshots>
     </repository>
-  
+```
 
-Usage
------
+## Usage
 
 Add the JAR file to your POM (I'm assuming you're using Maven now):
 
+```XML
     <dependency>
         <groupId>org.cruk.genologics</groupId>
         <artifactId>clarity-client</artifactId>
         <version>...</version>
     </dependency>
+```
 
 (Fill in the <version> tag with the version of the API.)
 
 For details of using the API, please refer to the documentation at
-http://crukci-bioinformatics.github.io/clarityclient
+<http://crukci-bioinformatics.github.io/clarityclient>
