@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -54,6 +54,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link SharedResultFile }
+     *
+     */
+    public SharedResultFile createSharedResultFile() {
+        return new SharedResultFile();
+    }
+
+    /**
+     * Create an instance of {@link StepProperty }
+     *
+     */
+    public StepProperty createStepProperty() {
+        return new StepProperty();
+    }
+
+    /**
+     * Create an instance of {@link Parameter }
+     *
+     */
+    public Parameter createParameter() {
+        return new Parameter();
+    }
+
+    /**
      * Create an instance of {@link ProcessType }
      *
      */
@@ -62,11 +86,99 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ControlTypeLink }
+     *
+     */
+    public ControlTypeLink createControlTypeLink() {
+        return new ControlTypeLink();
+    }
+
+    /**
+     * Create an instance of {@link ContainerTypeLink }
+     *
+     */
+    public ContainerTypeLink createContainerTypeLink() {
+        return new ContainerTypeLink();
+    }
+
+    /**
+     * Create an instance of {@link IceBucketField }
+     *
+     */
+    public IceBucketField createIceBucketField() {
+        return new IceBucketField();
+    }
+
+    /**
+     * Create an instance of {@link ProcessTypes }
+     *
+     */
+    public ProcessTypes createProcessTypes() {
+        return new ProcessTypes();
+    }
+
+    /**
+     * Create an instance of {@link EppTrigger }
+     *
+     */
+    public EppTrigger createEppTrigger() {
+        return new EppTrigger();
+    }
+
+    /**
+     * Create an instance of {@link StepSetup }
+     *
+     */
+    public StepSetup createStepSetup() {
+        return new StepSetup();
+    }
+
+    /**
+     * Create an instance of {@link Field }
+     *
+     */
+    public Field createField() {
+        return new Field();
+    }
+
+    /**
+     * Create an instance of {@link TypeDefinition }
+     *
+     */
+    public TypeDefinition createTypeDefinition() {
+        return new TypeDefinition();
+    }
+
+    /**
      * Create an instance of {@link ProcessTypeLink }
      *
      */
     public ProcessTypeLink createProcessTypeLink() {
         return new ProcessTypeLink();
+    }
+
+    /**
+     * Create an instance of {@link QueueField }
+     *
+     */
+    public QueueField createQueueField() {
+        return new QueueField();
+    }
+
+    /**
+     * Create an instance of {@link ProcessOutput }
+     *
+     */
+    public ProcessOutput createProcessOutput() {
+        return new ProcessOutput();
+    }
+
+    /**
+     * Create an instance of {@link ReagentKitLink }
+     *
+     */
+    public ReagentKitLink createReagentKitLink() {
+        return new ReagentKitLink();
     }
 
     /**
@@ -83,38 +195,6 @@ public class ObjectFactory {
      */
     public ProcessTypeAttribute createProcessTypeAttribute() {
         return new ProcessTypeAttribute();
-    }
-
-    /**
-     * Create an instance of {@link Parameter }
-     *
-     */
-    public Parameter createParameter() {
-        return new Parameter();
-    }
-
-    /**
-     * Create an instance of {@link ProcessTypes }
-     *
-     */
-    public ProcessTypes createProcessTypes() {
-        return new ProcessTypes();
-    }
-
-    /**
-     * Create an instance of {@link ProcessOutput }
-     *
-     */
-    public ProcessOutput createProcessOutput() {
-        return new ProcessOutput();
-    }
-
-    /**
-     * Create an instance of {@link TypeDefinition }
-     *
-     */
-    public TypeDefinition createTypeDefinition() {
-        return new TypeDefinition();
     }
 
     /**
