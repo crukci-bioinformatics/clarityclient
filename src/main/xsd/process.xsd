@@ -76,9 +76,9 @@
         <xs:annotation>
           <xs:documentation>
             <![CDATA[Each file provides a URI linking to the detailed representation of a file associated with the Process.
-<br/>Always returns with GET: No
-<br/>Updatable with PUT: Yes
-<br/>Required for PUT: No]]>
+<br/>Always returns with GET: No, however if one or more files are attached to a given Process they will be returned.
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No, files cannot be modified through the Process resource. Use the Files resource instead.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>

@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum Status
 {
-    QUEUED, IN_PROGRESS, SKIPPED, REMOVED, COMPLETE;
+    QUEUED, IN_PROGRESS, SKIPPED, REMOVED, COMPLETE, REWORKED;
 
     public String value()
     {

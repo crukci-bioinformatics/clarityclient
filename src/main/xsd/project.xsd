@@ -111,11 +111,11 @@
         <xs:annotation>
           <xs:documentation>
             <![CDATA[Each File provides a URI linking to the detailed representation of a File associated with the Project.
-<br/>Always returns with GET: No
-<br/>Creatable with POST: Yes
+<br/>Always returns with GET: No, however if one or more files are attached to a given Project they will be returned.
+<br/>Creatable with POST: No
 <br/>Required for POST: No
-<br/>Updatable with PUT: Yes
-<br/>Required for PUT: No]]>
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No, files cannot be modified through the Projects resource. Use the Files resource instead.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -207,27 +207,9 @@ the next-page element provides a URI that links to the next page of projects.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="name" type="xs:string" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            <![CDATA[The name of the project.]]>
-          </xs:documentation>
-        </xs:annotation>
-      </xs:element>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
     </xs:sequence>
-    <xs:attribute name="limsid" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The LIMSID of the project.]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="uri" type="xs:anyURI">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The URI of the project.]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string"/>
+    <xs:attribute name="uri" type="xs:anyURI"/>
   </xs:complexType>
 </xs:schema>

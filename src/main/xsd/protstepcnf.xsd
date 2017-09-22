@@ -36,7 +36,7 @@ as well as configuration option and filters.]]>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="container-type" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="container-type" type="protstepcnf:generic-type-link" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation>
                   <![CDATA[List of permitted containers for this specific protocol step]]>
@@ -54,7 +54,7 @@ as well as configuration option and filters.]]>
         </xs:annotation>
         <xs:complexType>
           <xs:sequence>
-            <xs:element name="reagent-category" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="reagent-category" type="protstepcnf:generic-type-link" minOccurs="0" maxOccurs="unbounded">
               <xs:annotation>
                 <xs:documentation>
                   <![CDATA[List of permitted reagent categories for this specific protocol step]]>
@@ -100,6 +100,24 @@ as well as configuration option and filters.]]>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
+      <xs:element name="permitted-instrument-types" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[List of permitted instrument types for this specific protocol step]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="instrument-type" type="protstepcnf:generic-type-link" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[List of permitted instrument types for this specific protocol step]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
       <xs:element name="transitions" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
@@ -120,11 +138,13 @@ upon completion of this current step]]>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="default-grouping" type="xs:string" minOccurs="0">
+      <xs:element name="default-grouping" type="protstepcnf:generic-type-link" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             <![CDATA[Field by which the queue view samples will be
-grouped by default.]]>
+grouped by default.
+This field is deprecated. Please use "<milestone>DefaultGrouping" (for example, "queueDefaultGrouping") in a
+step-property field instead.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -142,6 +162,26 @@ the queue view]]>
                 <xs:documentation>
                   <![CDATA[UDF columns that will be displayed on
 the queue view]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="ice-bucket-fields" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[UDF columns that will be displayed on
+the ice bucket view]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="ice-bucket-field" type="protstepcnf:icebucketfield" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[UDF columns that will be displayed on
+the ice bucket view]]>
                 </xs:documentation>
               </xs:annotation>
             </xs:element>
@@ -260,22 +300,26 @@ on the samples contained in the work view]]>
         <![CDATA[Control-type-link is a child element type of controlTypes and provides a URI linking to the detailed representation of a ControlType.]]>
       </xs:documentation>
     </xs:annotation>
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The name of the ControlType.
+    <xs:complexContent>
+      <xs:extension base="protstepcnf:lockable-setting">
+        <xs:attribute name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The name of the ControlType.
 <br/>Always returns with GET: Yes]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="uri" type="xs:anyURI">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The URI of the ControlType.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="uri" type="xs:anyURI">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The URI of the ControlType.
 <br/>Always returns with GET: Yes]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="epp-trigger">
     <xs:annotation>
@@ -283,38 +327,42 @@ on the samples contained in the work view]]>
         <![CDATA[EPP trigger configuration for the Protocol Step.]]>
       </xs:documentation>
     </xs:annotation>
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The protocol step's process parameter name.
+    <xs:complexContent>
+      <xs:extension base="protstepcnf:lockable-setting">
+        <xs:attribute name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The protocol step's process parameter name.
 <br/>Always returns with GET: Yes]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="type" type="protstepcnf:trigger-type">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The protocol step's trigger type.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="protstepcnf:trigger-type">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The protocol step's trigger type.
 <br/>Always returns with GET: Yes]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="point" type="protstepcnf:trigger-point">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The protocol step's trigger point.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="point" type="protstepcnf:trigger-point">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The protocol step's trigger point.
 <br/>Always returns with GET: No; if the type is <tt>TriggerType.MANUAL</tt> or <tt>TriggerType.UNUSED</tt>, the trigger point will not have a value.]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="status" type="protstepcnf:trigger-status">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The protocol step's trigger status.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="status" type="protstepcnf:trigger-status">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The protocol step's trigger status.
 <br/>Always returns with GET: No; if the type is <tt>TriggerType.MANUAL</tt> or <tt>TriggerType.UNUSED</tt>, the trigger status will not have a value.]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="field">
     <xs:annotation>
@@ -326,33 +374,37 @@ samples in queue and work view as well as
 those on the actual step]]>
       </xs:documentation>
     </xs:annotation>
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The name of the Field.]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="attach-to" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The element that the Field will attach to.]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="style" type="protstepcnf:style">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The style of field, either 'USER_DEFINED' or 'BUILT_IN'.
+    <xs:complexContent>
+      <xs:extension base="protstepcnf:lockable-setting">
+        <xs:attribute name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The name of the Field.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="attach-to" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The element that the Field will attach to.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="protstepcnf:style">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The style of field, either 'USER_DEFINED' or 'BUILT_IN'.
 If the style attribute is omitted from a PUT request, the system will act in the same way that it did before
 the style attribute was available, and give preference to using the built-in field when both a
 built-in and UDF match the name and attach-to.
 <br/>Always returns with GET: Yes
 <br/>Updatable with PUT: Yes
 <br/>Required for PUT: No]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="file">
     <xs:annotation>
@@ -373,6 +425,60 @@ built-in and UDF match the name and attach-to.
       <xs:annotation>
         <xs:documentation>
           <![CDATA[The shared result file output index of the step output.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="generic-type-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Generic-type is a lockable child element that provides a name linking an entity to the step.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="locked" type="xs:boolean">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[A flag indicating if this setting is locked or not.
+<br/>Always returns with GET: Yes]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="icebucketfield">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A field has a name and an attach to value,
+these fields are used to keep track of all the UDF
+values for samples in ice bucket view]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexContent>
+      <xs:extension base="protstepcnf:field">
+        <xs:attribute name="detail" type="xs:boolean">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[A flag indicating if this field is for detail or not.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="lockable-setting">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[A protocol step setting is considered locked if the Master Step has defined that setting.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="locked" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[A flag indicating if this setting is locked or not.
+<br/>Always returns with GET: Yes]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
@@ -452,22 +558,26 @@ those on the actual step]]>
         <![CDATA[Reagent-kit-link is a child element type of reagentKits and provides a URI linking to the detailed representation of a ReagentKit.]]>
       </xs:documentation>
     </xs:annotation>
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The name of the ReagentKit.
+    <xs:complexContent>
+      <xs:extension base="protstepcnf:lockable-setting">
+        <xs:attribute name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The name of the ReagentKit.
 <br/>Always returns with GET: Yes]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="uri" type="xs:anyURI">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The URI of the ReagentKit.
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="uri" type="xs:anyURI">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The URI of the ReagentKit.
 <br/>Always returns with GET: Yes]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="step-property">
     <xs:annotation>
@@ -478,20 +588,24 @@ This information contains internally used properties that will change. These pro
 suitable for use when copying protocol steps, but should not be manipulated.]]>
       </xs:documentation>
     </xs:annotation>
-    <xs:attribute name="name" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The property name.]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
-    <xs:attribute name="value" type="xs:string">
-      <xs:annotation>
-        <xs:documentation>
-          <![CDATA[The property value.]]>
-        </xs:documentation>
-      </xs:annotation>
-    </xs:attribute>
+    <xs:complexContent>
+      <xs:extension base="protstepcnf:lockable-setting">
+        <xs:attribute name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The property name.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The property value.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="step-setup">
     <xs:annotation>
@@ -499,26 +613,37 @@ suitable for use when copying protocol steps, but should not be manipulated.]]>
         <![CDATA[Step-setup is a child element that describes the shared result file placeholder information for the step-setup view.]]>
       </xs:documentation>
     </xs:annotation>
-    <xs:sequence>
-      <xs:element name="files" minOccurs="0">
-        <xs:annotation>
-          <xs:documentation>
-            <![CDATA[List of shared result file outputs.]]>
-          </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="file" type="protstepcnf:file" minOccurs="0" maxOccurs="unbounded">
-              <xs:annotation>
-                <xs:documentation>
-                  <![CDATA[List of shared result file outputs.]]>
-                </xs:documentation>
-              </xs:annotation>
-            </xs:element>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-    </xs:sequence>
+    <xs:complexContent>
+      <xs:extension base="protstepcnf:lockable-setting">
+        <xs:sequence>
+          <xs:element name="files" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                <![CDATA[List of shared result file outputs.]]>
+              </xs:documentation>
+            </xs:annotation>
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="file" type="protstepcnf:file" minOccurs="0" maxOccurs="unbounded">
+                  <xs:annotation>
+                    <xs:documentation>
+                      <![CDATA[List of shared result file outputs.]]>
+                    </xs:documentation>
+                  </xs:annotation>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="enabled" use="required" type="xs:boolean">
+          <xs:annotation>
+            <xs:documentation>
+              <![CDATA[The enabled flag determines if Step Setup is enabled for the step.]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:simpleType name="style">
     <xs:annotation>

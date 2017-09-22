@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,12 +24,13 @@ import java.net.URI;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.GenologicsEntity;
-import com.genologics.ri.Linkable;
+import com.genologics.ri.LimsEntity;
 
 /**
  * The detailed representation of an instrument.
@@ -37,49 +38,67 @@ import com.genologics.ri.Linkable;
 @GenologicsEntity(uriSection = "instruments")
 @XmlRootElement(name = "instrument")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "instrument", propOrder = { "name", "type" })
-public class Instrument implements Linkable<Instrument>, Serializable
+@XmlType(name = "instrument", propOrder = { "name", "type", "serialNumber", "expiryDate", "archived" })
+public class Instrument implements LimsEntity<Instrument>, Serializable
 {
-    private static final long serialVersionUID = -6971307261105200113L;
-
-    @XmlAttribute(name = "uri")
-    @XmlSchemaType(name = "anyURI")
-    protected URI uri;
+    private static final long serialVersionUID = 1517557403395348841L;
 
     protected String name;
 
     protected String type;
 
+    @XmlElement(name = "serial-number")
+    protected String serialNumber;
+
+    @XmlElement(name = "expiry-date")
+    protected String expiryDate;
+
+    protected Boolean archived;
+
+    @XmlAttribute(name = "uri")
+    @XmlSchemaType(name = "anyURI")
+    protected URI uri;
+
+    @XmlAttribute(name = "limsid")
+    protected String limsid;
+
     public Instrument()
     {
     }
 
-    public Instrument(URI uri)
+    public Instrument(String name)
     {
-        this.uri = uri;
-    }
-
-    public Instrument(URI uri, String name)
-    {
-        this.uri = uri;
         this.name = name;
     }
 
-    public Instrument(URI uri, String name, String type)
+    public Instrument(String name, String type)
     {
-        this.uri = uri;
         this.name = name;
         this.type = type;
     }
 
+    @Override
     public URI getUri()
     {
         return uri;
     }
 
+    @Override
     public void setUri(URI uri)
     {
         this.uri = uri;
+    }
+
+    @Override
+    public String getLimsid()
+    {
+        return limsid;
+    }
+
+    @Override
+    public void setLimsid(String limsid)
+    {
+        this.limsid = limsid;
     }
 
     public String getName()
@@ -100,5 +119,35 @@ public class Instrument implements Linkable<Instrument>, Serializable
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    public String getSerialNumber()
+    {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber)
+    {
+        this.serialNumber = serialNumber;
+    }
+
+    public String getExpiryDate()
+    {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate)
+    {
+        this.expiryDate = expiryDate;
+    }
+
+    public Boolean getArchived()
+    {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived)
+    {
+        this.archived = archived;
     }
 }

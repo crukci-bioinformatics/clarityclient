@@ -154,9 +154,9 @@ This element is repeated for each UDF associated with the Artifact.
         <xs:annotation>
           <xs:documentation>
             <![CDATA[File provides a URI linking to the detailed representation of the File associated with the Artifact.
-<br/>Always returns with GET: No
-<br/>Updatable with PUT: Yes, only supported for SearchResultFile, ResultFile, and SpotList type Artifacts.
-<br/>Required for PUT: No]]>
+<br/>Always returns with GET: No, however if a file is attached to a given Artifact it will be returned.
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No, files cannot be modified through the Artifacts resource. Use the Files resource instead.]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -398,6 +398,7 @@ to the detailed representation of a submitted Sample for the Artifact.]]>
       <xs:enumeration value="SKIPPED"/>
       <xs:enumeration value="REMOVED"/>
       <xs:enumeration value="COMPLETE"/>
+      <xs:enumeration value="REWORKED"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="artifacts">

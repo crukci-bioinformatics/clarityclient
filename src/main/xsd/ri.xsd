@@ -189,14 +189,19 @@ For a URL, the URL should be an absolute URL and not a relative URL to identify 
       <xs:documentation>
         <![CDATA[A link provides a URI linking to an additional resource.<br/><br/>
 The link is modelled on the link element defined by the
-<a href="http://atompub.org/rfc4287.html">Atom Syndication Format</a>. The link includes
+<a href="https://tools.ietf.org/html/rfc4287">Atom Syndication Format</a>. The link includes
 a rel attribute that describes the URI of the link.]]>
       </xs:documentation>
     </xs:annotation>
     <xs:attribute name="rel" type="xs:string">
       <xs:annotation>
         <xs:documentation>
-          <![CDATA[The rel of the link.]]>
+          <![CDATA[The rel attribute defines the link's relationship type.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

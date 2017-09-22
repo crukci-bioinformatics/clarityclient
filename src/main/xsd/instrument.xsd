@@ -23,11 +23,39 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="serial-number" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The serial number of the Instrument.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="expiry-date" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The expiry date of the Instrument.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="archived" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The archived flag specifies if an Instrument is archived.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="uri" type="xs:anyURI">
       <xs:annotation>
         <xs:documentation>
           <![CDATA[The URI of the Instrument.]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="limsid" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The limsid of the Instrument.]]>
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
