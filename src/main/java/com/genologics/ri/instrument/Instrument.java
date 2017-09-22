@@ -47,18 +47,30 @@ public class Instrument implements LimsEntity<Instrument>, Serializable
 
     protected String type;
 
+    /**
+     * @since 2.25
+     */
     @XmlElement(name = "serial-number")
     protected String serialNumber;
 
+    /**
+     * @since 2.25
+     */
     @XmlElement(name = "expiry-date")
     protected String expiryDate;
 
+    /**
+     * @since 2.25
+     */
     protected Boolean archived;
 
     @XmlAttribute(name = "uri")
     @XmlSchemaType(name = "anyURI")
     protected URI uri;
 
+    /**
+     * @since 2.25
+     */
     @XmlAttribute(name = "limsid")
     protected String limsid;
 

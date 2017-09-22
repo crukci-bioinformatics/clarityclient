@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
@@ -48,7 +49,7 @@ import com.genologics.ri.configuration.FieldLink;
                        "processOutputs", "processTypeAttributes" })
 public class ProcessType implements Linkable<ProcessType>, Serializable
 {
-    private static final long serialVersionUID = 2955957228810223128L;
+    private static final long serialVersionUID = 3103866326222677563L;
 
     @XmlElement(name = "field-definition")
     protected List<FieldLink> fieldDefinitions;
@@ -67,6 +68,89 @@ public class ProcessType implements Linkable<ProcessType>, Serializable
 
     @XmlElement(name = "process-type-attribute")
     protected List<ProcessTypeAttribute> processTypeAttributes;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "permitted-containers")
+    @XmlElement(name = "container-type")
+    protected List<ContainerTypeLink> permittedContainers;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "permitted-reagent-categories")
+    @XmlElement(name = "reagent-category")
+    protected List<String> permittedReagentCategories;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "required-reagent-kits")
+    @XmlElement(name = "reagent-kit")
+    protected List<ReagentKitLink> requiredReagentKits;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "permitted-control-types")
+    @XmlElement(name = "control-type")
+    protected List<ControlTypeLink> permittedControlTypes;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "permitted-instrument-types")
+    @XmlElement(name = "instrument-type")
+    protected List<String> permittedInstrumentTypes;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "queue-fields")
+    @XmlElement(name = "queue-field")
+    protected List<QueueField> queueFields;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "ice-bucket-fields")
+    @XmlElement(name = "ice-bucket-field")
+    protected List<IceBucketField> iceBucketFields;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "step-fields")
+    @XmlElement(name = "step-field")
+    protected List<Field> stepFields;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "sample-fields")
+    @XmlElement(name = "sample-field")
+    protected List<Field> sampleFields;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "step-properties")
+    @XmlElement(name = "step-property")
+    protected List<StepProperty> stepProperties;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElement(name = "step-setup")
+    protected StepSetup stepSetup;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "epp-triggers")
+    @XmlElement(name = "epp-trigger")
+    protected List<EppTrigger> eppTriggers;
 
     @XmlAttribute(name = "name")
     protected String name;
@@ -170,6 +254,115 @@ public class ProcessType implements Linkable<ProcessType>, Serializable
             processTypeAttributes = new ArrayList<ProcessTypeAttribute>();
         }
         return processTypeAttributes;
+    }
+
+    public List<ContainerTypeLink> getPermittedContainers()
+    {
+        if (permittedContainers == null)
+        {
+            permittedContainers = new ArrayList<ContainerTypeLink>();
+        }
+        return permittedContainers;
+    }
+
+    public List<String> getPermittedReagentCategories()
+    {
+        if (permittedReagentCategories == null)
+        {
+            permittedReagentCategories = new ArrayList<String>();
+        }
+        return permittedReagentCategories;
+    }
+
+    public List<ReagentKitLink> getRequiredReagentKits()
+    {
+        if (requiredReagentKits == null)
+        {
+            requiredReagentKits = new ArrayList<ReagentKitLink>();
+        }
+        return requiredReagentKits;
+    }
+
+    public List<ControlTypeLink> getPermittedControlTypes()
+    {
+        if (permittedControlTypes == null)
+        {
+            permittedControlTypes = new ArrayList<ControlTypeLink>();
+        }
+        return permittedControlTypes;
+    }
+
+    public List<String> getPermittedInstrumentTypes()
+    {
+        if (permittedInstrumentTypes == null)
+        {
+            permittedInstrumentTypes = new ArrayList<String>();
+        }
+        return permittedInstrumentTypes;
+    }
+
+    public List<QueueField> getQueueFields()
+    {
+        if (queueFields == null)
+        {
+            queueFields = new ArrayList<QueueField>();
+        }
+        return queueFields;
+    }
+
+    public List<IceBucketField> getIceBucketFields()
+    {
+        if (iceBucketFields == null)
+        {
+            iceBucketFields = new ArrayList<IceBucketField>();
+        }
+        return iceBucketFields;
+    }
+
+    public List<Field> getStepFields()
+    {
+        if (stepFields == null)
+        {
+            stepFields = new ArrayList<Field>();
+        }
+        return stepFields;
+    }
+
+    public List<Field> getSampleFields()
+    {
+        if (sampleFields == null)
+        {
+            sampleFields = new ArrayList<Field>();
+        }
+        return sampleFields;
+    }
+
+    public List<StepProperty> getStepProperties()
+    {
+        if (stepProperties == null)
+        {
+            stepProperties = new ArrayList<StepProperty>();
+        }
+        return stepProperties;
+    }
+
+    public StepSetup getStepSetup()
+    {
+        return stepSetup;
+    }
+
+    public void setStepSetup(StepSetup stepSetup)
+    {
+        this.stepSetup = stepSetup;
+    }
+
+    public List<EppTrigger> getEppTriggers()
+    {
+        if (eppTriggers == null)
+        {
+            eppTriggers = new ArrayList<EppTrigger>();
+        }
+        return eppTriggers;
     }
 
 }
