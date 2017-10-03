@@ -70,3 +70,18 @@ Add the JAR file to your POM (I'm assuming you're using Maven now):
 
 For details of using the API, please refer to the documentation at
 <http://crukci-bioinformatics.github.io/clarityclient>
+
+## Clarity 5
+
+The 2.25 version of the library has been updated to work with Clarity 5,
+supporting version 2.25 of the Clarity API. However, here at CRUK-CI we will
+not be upgrading to Clarity 5.0, and it will be some time before we are ready
+to move to one of its successors (we use both LabLink and Operations a lot,
+and cannot upgrade until their functionality has been replicated in Clarity).
+
+Version 2.25 of the client has been developed only against the XML schemas
+for version 2.25 of the API. It has not been tested against an actual Clarity
+server. I hope by producing this version of the library those who are using it
+and are on Clarity 5.0 will be able to benefit. If information is lost or a
+message cannot be unmarshalled, please get in touch so I can fix the problem
+or offer a solution yourself.
