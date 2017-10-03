@@ -6,41 +6,49 @@
     <protocol-step-index>1</protocol-step-index>
     <process-type uri="http://limsdev.cri.camres.org:8080/api/v2/processtypes/46">MiSeq Load Cartridge</process-type>
     <permitted-containers>
-        <container-type>MiSeq Reagent Cartridge</container-type>
-        <container-type>Illumina Flow Cell</container-type>
+        <container-type locked="false">MiSeq Reagent Cartridge</container-type>
+        <container-type locked="true">Illumina Flow Cell</container-type>
     </permitted-containers>
     <permitted-reagent-categories>
-        <reagent-category>Truseq LT</reagent-category>
-        <reagent-category>Ovation Ultralow</reagent-category>
+        <reagent-category locked="true">Truseq LT</reagent-category>
+        <reagent-category locked="true">Ovation Ultralow</reagent-category>
     </permitted-reagent-categories>
     <required-reagent-kits>
-        <reagent-kit uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/1" name="TruSeq ChIP Sample Prep Kit 48 Samples - Set A"/>
-        <reagent-kit uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/2" name="Internal Genetics Kit"/>
+        <reagent-kit locked="true" uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/1" name="TruSeq ChIP Sample Prep Kit 48 Samples - Set A"/>
+        <reagent-kit locked="false" uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/2" name="Internal Genetics Kit"/>
     </required-reagent-kits>
     <permitted-control-types>
-        <control-type uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/1" />
-        <control-type uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/2" />
+        <control-type locked="true" uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/1" />
+        <control-type locked="false" uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/2" />
     </permitted-control-types>
+    <permitted-instrument-types>
+        <instrument-type locked="true">MiSeq</instrument-type>
+        <instrument-type>NextSeq</instrument-type>
+    </permitted-instrument-types>
     <transitions>
         <transition next-step-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/50" sequence="2" name="MiSeq Run"/>
         <transition next-step-uri="http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/51" sequence="3" name="MiSeq Abort"/>
     </transitions>
-    <default-grouping>The Main Group</default-grouping>
+    <default-grouping locked="false">The Main Group</default-grouping>
     <queue-fields>
-        <queue-field detail="false" attach-to="Analyte" name="Sample Name" style="BUILT_IN"/>
+        <queue-field locked="false" detail="false" attach-to="Analyte" name="Sample Name" style="BUILT_IN"/>
         <queue-field detail="false" attach-to="Container" name="Well" style="BUILT_IN"/>
         <queue-field detail="false" attach-to="Container" name="Container Name" style="BUILT_IN"/>
         <queue-field detail="true" attach-to="Project" name="Project Name" style="BUILT_IN"/>
-        <queue-field detail="true" attach-to="Container" name="LIMS ID (Container)" style="BUILT_IN"/>
+        <queue-field locked="true" detail="true" attach-to="Container" name="LIMS ID (Container)" style="BUILT_IN"/>
         <queue-field detail="false" attach-to="Analyte" name="Waiting" style="BUILT_IN"/>
     </queue-fields>
+    <ice-bucket-fields>
+        <ice-bucket-field locked="true" detail="false" attach-to="ConfiguredProcess" name="Holder" style="BUILT_IN"/>
+        <ice-bucket-field detail="true" attach-to="ConfiguredProcess" name="IceBucket" style="USER_DEFINED"/>
+    </ice-bucket-fields>
     <step-fields>
         <step-field attach-to="ConfiguredProcess" name="Adapter" style="USER_DEFINED"/>
-        <step-field attach-to="ConfiguredProcess" name="FilterPCRDuplicates" style="USER_DEFINED"/>
+        <step-field locked="false" attach-to="ConfiguredProcess" name="FilterPCRDuplicates" style="USER_DEFINED"/>
         <step-field attach-to="ConfiguredProcess" name="GenomeFolder" style="USER_DEFINED"/>
         <step-field attach-to="Process" name="LIMS ID (Process)" style="BUILT_IN"/>
         <step-field attach-to="ConfiguredProcess" name="OnlyGenerateFASTQ" style="USER_DEFINED"/>
-        <step-field attach-to="ConfiguredProcess" name="PhiX control used?" style="USER_DEFINED"/>
+        <step-field locked="true" attach-to="ConfiguredProcess" name="PhiX control used?" style="USER_DEFINED"/>
         <step-field attach-to="ConfiguredProcess" name="Read 1 Cycles" style="USER_DEFINED"/>
         <step-field attach-to="ConfiguredProcess" name="Read 2 Cycles" style="USER_DEFINED"/>
         <step-field attach-to="ConfiguredProcess" name="Workflow" style="USER_DEFINED"/>
@@ -49,22 +57,32 @@
         <sample-field attach-to="Analyte" name="Sample Name" style="BUILT_IN"/>
         <sample-field attach-to="Sample" name="SLX Identifier" style="USER_DEFINED"/>
         <sample-field attach-to="Container" name="Container Name" style="BUILT_IN"/>
-        <sample-field attach-to="Sample" name="Read Length" style="USER_DEFINED"/>
+        <sample-field locked="false" attach-to="Sample" name="Read Length" style="USER_DEFINED"/>
         <sample-field attach-to="Analyte" name="Primer Set" style="USER_DEFINED"/>
         <sample-field attach-to="Analyte" name="Workflow" style="USER_DEFINED"/>
-        <sample-field attach-to="Sample" name="Index Type" style="USER_DEFINED"/>
+        <sample-field locked="true" attach-to="Sample" name="Index Type" style="USER_DEFINED"/>
         <sample-field attach-to="Sample" name="Reference Genome" style="USER_DEFINED"/>
         <sample-field attach-to="Sample" name="Submission Comments" style="USER_DEFINED"/>
     </sample-fields>
     <step-properties>
-        <step-property value="false" name="qcProtocolStep"/>
+        <step-property locked="true" value="false" name="qcProtocolStep"/>
         <step-property value="false" name="qcWithPlacement"/>
-        <step-property value="false" name="measurementWithFile"/>
+        <step-property locked="false" value="false" name="measurementWithFile"/>
         <step-property value="" name="stepDetailsHeading"/>
         <step-property value="" name="sampleDetailsHeading"/>
     </step-properties>
+    <step-setup locked="false" enabled="true">
+        <files>
+            <file shared-result-file-index="0">
+                <message>Shared result file zero</message>
+            </file>
+            <file shared-result-file-index="1">
+                <message>Shared result file one</message>
+            </file>
+        </files>
+    </step-setup>
     <epp-triggers>
-        <epp-trigger type="MANUAL" name="Generate SampleSheet CSV" status="PLACEMENT"/>
-        <epp-trigger type="AUTOMATIC" name="Update Files" point="AFTER"/>
+        <epp-trigger locked="false" type="MANUAL" name="Generate SampleSheet CSV" status="PLACEMENT"/>
+        <epp-trigger locked="true" type="AUTOMATIC" name="Update Files" point="AFTER"/>
     </epp-triggers>
 </protstepcnf:step>

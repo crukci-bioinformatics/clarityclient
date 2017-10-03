@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -59,16 +59,19 @@ public class ProcessOutput implements Serializable
     @XmlElement(name = "output-name")
     protected String outputName;
 
+    @Deprecated
     @XmlElement(name = "field-definition")
     protected List<FieldLink> fieldDefinitions;
 
-    @XmlElement(name = "assign-working-flag")
     @Deprecated
+    @XmlElement(name = "assign-working-flag")
     protected Boolean assignWorkingFlag;
 
 
     /**
      * Each field definition provides a URI linking to the configuration of a user-defined field for the output type.
+     *
+     * @deprecated These field definitions are ignored as of Clarity LIMS 5.0.
      */
     public List<FieldLink> getFieldDefinitions()
     {

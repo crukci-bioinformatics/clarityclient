@@ -85,11 +85,11 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
 
     @XmlElementWrapper(name = "permitted-containers")
     @XmlElement(name = "container-type")
-    protected List<String> permittedContainerTypes;
+    protected List<GenericTypeLink> permittedContainerTypes;
 
     @XmlElementWrapper(name = "permitted-reagent-categories")
     @XmlElement(name = "reagent-category")
-    protected List<String> permittedReagentCategories;
+    protected List<GenericTypeLink> permittedReagentCategories;
 
     /**
      * @since 2.18
@@ -116,6 +116,7 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
     /**
      * @since 2.18
      */
+    @Deprecated
     @XmlElement(name = "default-grouping")
     protected GenericTypeLink defaultGrouping;
 
@@ -252,39 +253,39 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
         this.processType = new ProcessTypeLink(processType);
     }
 
-    public List<String> getPermittedContainerTypes()
+    public List<GenericTypeLink> getPermittedContainerTypes()
     {
         if (permittedContainerTypes == null)
         {
-            permittedContainerTypes = new ArrayList<String>();
+            permittedContainerTypes = new ArrayList<GenericTypeLink>();
         }
         return permittedContainerTypes;
     }
 
     public String addPermittedContainer(String containerType)
     {
-        getPermittedContainerTypes().add(containerType);
+        getPermittedContainerTypes().add(new GenericTypeLink(containerType));
         return containerType;
     }
 
     public String addPermittedContainer(ContainerType type)
     {
-        getPermittedContainerTypes().add(type.getName());
+        getPermittedContainerTypes().add(new GenericTypeLink(type.getName()));
         return type.getName();
     }
 
-    public List<String> getPermittedReagentCategories()
+    public List<GenericTypeLink> getPermittedReagentCategories()
     {
         if (permittedContainerTypes == null)
         {
-            permittedContainerTypes = new ArrayList<String>();
+            permittedContainerTypes = new ArrayList<GenericTypeLink>();
         }
         return permittedContainerTypes;
     }
 
     public String addPermittedReagentCategory(String category)
     {
-        getPermittedReagentCategories().add(category);
+        getPermittedReagentCategories().add(new GenericTypeLink(category));
         return category;
     }
 
@@ -294,7 +295,7 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
         if (reagentType != null && reagentType.getReagentCategory() != null)
         {
             category = reagentType.getReagentCategory();
-            getPermittedReagentCategories().add(category);
+            getPermittedReagentCategories().add(new GenericTypeLink(category));
         }
         return category;
     }
@@ -359,12 +360,17 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
      * Field by which the queue view samples will be grouped by default.
      *
      * @return Grouping field.
+     *
+     * @deprecated Please use "&lt;milestone&gt;DefaultGrouping"
+     * (for example, "queueDefaultGrouping") in a {@link StepProperty} field instead.
      */
+    @Deprecated
     public GenericTypeLink getDefaultGrouping()
     {
         return defaultGrouping;
     }
 
+    @Deprecated
     public void setDefaultGrouping(GenericTypeLink defaultGrouping)
     {
         this.defaultGrouping = defaultGrouping;

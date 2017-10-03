@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.Linkable;
-import com.genologics.ri.configuration.Field;
 import com.genologics.ri.configuration.FieldLink;
 
 /**
@@ -55,6 +54,7 @@ public class ProcessType implements Linkable<ProcessType>, Serializable
 {
     private static final long serialVersionUID = 3103866326222677563L;
 
+    @Deprecated
     @XmlElement(name = "field-definition")
     protected List<FieldLink> fieldDefinitions;
 
@@ -199,6 +199,12 @@ public class ProcessType implements Linkable<ProcessType>, Serializable
         this.uri = uri;
     }
 
+    /**
+     * Each field definition provides a URI linking to the configuration of a user-defined field for the output type.
+     *
+     * @deprecated These field definitions are ignored as of Clarity LIMS 5.0.
+     */
+    @Deprecated
     public List<FieldLink> getFieldDefinitions()
     {
         if (fieldDefinitions == null)
@@ -226,7 +232,7 @@ public class ProcessType implements Linkable<ProcessType>, Serializable
         return typeDefinitions;
     }
 
-    public TypeDefinition addTypeDefinition(Linkable<Field> link)
+    public TypeDefinition addTypeDefinition(Linkable<com.genologics.ri.configuration.Field> link)
     {
         TypeDefinition td = new TypeDefinition(link);
         getTypeDefinitions().add(td);
