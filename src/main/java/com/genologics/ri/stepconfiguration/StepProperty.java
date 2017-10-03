@@ -11,14 +11,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.genologics.ri.stepconfiguration;
-
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,9 +32,9 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "step-property")
-public class StepProperty implements Serializable
+public class StepProperty extends LockableSetting
 {
-    private static final long serialVersionUID = -3586519707336641333L;
+    private static final long serialVersionUID = -4406681767879834495L;
 
     @XmlAttribute(name = "name")
     protected String name;

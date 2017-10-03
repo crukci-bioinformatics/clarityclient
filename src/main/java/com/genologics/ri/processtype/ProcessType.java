@@ -46,7 +46,11 @@ import com.genologics.ri.configuration.FieldLink;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "process-type",
          propOrder = { "fieldDefinitions", "parameters", "typeDefinitions", "processInputs",
-                       "processOutputs", "processTypeAttributes" })
+                       "processOutputs", "processTypeAttributes",
+                       "permittedContainers", "permittedReagentCategories", "requiredReagentKits",
+                       "permittedControlTypes", "permittedInstrumentTypes",
+                       "queueFields", "iceBucketFields", "stepFields", "sampleFields",
+                       "stepProperties", "stepSetup", "eppTriggers" })
 public class ProcessType implements Linkable<ProcessType>, Serializable
 {
     private static final long serialVersionUID = 3103866326222677563L;
@@ -104,7 +108,7 @@ public class ProcessType implements Linkable<ProcessType>, Serializable
     @XmlElement(name = "instrument-type")
     protected List<String> permittedInstrumentTypes;
 
-    /**
+    /**queueFields
      * @since 2.25
      */
     @XmlElementWrapper(name = "queue-fields")

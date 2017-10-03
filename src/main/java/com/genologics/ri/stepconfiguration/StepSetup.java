@@ -11,18 +11,19 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.genologics.ri.stepconfiguration;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
@@ -33,13 +34,16 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "step-setup")
-public class StepSetup implements Serializable
+public class StepSetup extends LockableSetting
 {
-    private static final long serialVersionUID = 7774048564737718284L;
+    private static final long serialVersionUID = 3706069288148584102L;
 
     @XmlElementWrapper(name = "files")
     @XmlElement(name = "file")
     protected List<SharedResultFile> files;
+
+    @XmlAttribute(name = "enabled", required = true)
+    protected boolean enabled;
 
     public List<SharedResultFile> getFiles()
     {
@@ -56,4 +60,13 @@ public class StepSetup implements Serializable
         return file;
     }
 
+    public boolean isEnabled()
+    {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+    }
 }

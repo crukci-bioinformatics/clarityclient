@@ -18,73 +18,73 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
+
+import org.apache.commons.lang3.ClassUtils;
 
 
 /**
- * EPP trigger configuration for the Protocol Step.
+ * Generic-type is a lockable child element that provides a name linking an entity to the step.
+ *
+ * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "epp-trigger")
-public class EppTrigger extends LockableSetting
+@XmlType(name = "generic-type-link", propOrder = { "value" })
+public class GenericTypeLink implements Serializable
 {
-    private static final long serialVersionUID = 8850458905996420686L;
+    private static final long serialVersionUID = -7599295833392440499L;
 
-    @XmlAttribute(name = "name")
-    protected String name;
+    @XmlValue
+    protected String value;
 
-    @XmlAttribute(name = "type")
-    protected TriggerType type;
-
-    @XmlAttribute(name = "point")
-    protected TriggerPoint point;
-
-    @XmlAttribute(name = "status")
-    protected TriggerStatus status;
+    @XmlAttribute(name = "locked")
+    protected Boolean locked;
 
 
-    public String getName()
+    public GenericTypeLink()
     {
-        return name;
     }
 
-    public void setName(String name)
+    public GenericTypeLink(String value)
     {
-        this.name = name;
+        this.value = value;
     }
 
-    public TriggerType getType()
+    public String getValue()
     {
-        return type;
+        return value;
     }
 
-    public void setType(TriggerType type)
+    public void setValue(String value)
     {
-        this.type = type;
+        this.value = value;
     }
 
-    public TriggerPoint getPoint()
+    public Boolean getLocked()
     {
-        return point;
+        return locked;
     }
 
-    public void setPoint(TriggerPoint point)
+    public void setLocked(Boolean locked)
     {
-        this.point = point;
+        this.locked = locked;
     }
 
-    public TriggerStatus getStatus()
+    @Override
+    public String toString()
     {
-        return status;
+        StringBuilder sb = new StringBuilder(32);
+        sb.append(ClassUtils.getShortClassName(getClass()));
+        if (value != null)
+        {
+            sb.append(':').append(value);
+        }
+        return sb.toString();
     }
-
-    public void setStatus(TriggerStatus status)
-    {
-        this.status = status;
-    }
-
-
 }

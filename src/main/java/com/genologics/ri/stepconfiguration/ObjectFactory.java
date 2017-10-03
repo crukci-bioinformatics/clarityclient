@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -54,67 +54,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ControlTypeLink }
+     *
+     */
+    public ControlTypeLink createControlTypeLink() {
+        return new ControlTypeLink();
+    }
+
+    /**
      * Create an instance of {@link StepProperty }
      *
      */
     public StepProperty createStepProperty() {
         return new StepProperty();
-    }
-
-    /**
-     * Create an instance of {@link ProcessTypeLink }
-     *
-     */
-    public ProcessTypeLink createProcessTypeLink() {
-        return new ProcessTypeLink();
-    }
-
-    /**
-     * Create an instance of {@link SharedResultFile }
-     *
-     */
-    public SharedResultFile createSharedResultFile() {
-        return new SharedResultFile();
-    }
-
-    /**
-     * Create an instance of {@link QueueField }
-     *
-     */
-    public QueueField createQueueField() {
-        return new QueueField();
-    }
-
-    /**
-     * Create an instance of {@link NextStep }
-     *
-     */
-    public NextStep createNextStep() {
-        return new NextStep();
-    }
-
-    /**
-     * Create an instance of {@link Field }
-     *
-     */
-    public Field createField() {
-        return new Field();
-    }
-
-    /**
-     * Create an instance of {@link ProtocolStep }
-     *
-     */
-    public ProtocolStep createProtocolStep() {
-        return new ProtocolStep();
-    }
-
-    /**
-     * Create an instance of {@link StepSetup }
-     *
-     */
-    public StepSetup createStepSetup() {
-        return new StepSetup();
     }
 
     /**
@@ -126,6 +78,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link LockableSetting }
+     *
+     */
+    public LockableSetting createLockableSetting() {
+        return new LockableSetting();
+    }
+
+    /**
+     * Create an instance of {@link ProtocolStep }
+     *
+     */
+    public ProtocolStep createProtocolStep() {
+        return new ProtocolStep();
+    }
+
+    /**
+     * Create an instance of {@link ProcessTypeLink }
+     *
+     */
+    public ProcessTypeLink createProcessTypeLink() {
+        return new ProcessTypeLink();
+    }
+
+    /**
      * Create an instance of {@link ReagentKitLink }
      *
      */
@@ -134,11 +110,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ControlTypeLink }
+     * Create an instance of {@link IceBucketField }
      *
      */
-    public ControlTypeLink createControlTypeLink() {
-        return new ControlTypeLink();
+    public IceBucketField createIceBucketField() {
+        return new IceBucketField();
+    }
+
+    /**
+     * Create an instance of {@link SharedResultFile }
+     *
+     */
+    public SharedResultFile createSharedResultFile() {
+        return new SharedResultFile();
+    }
+
+    /**
+     * Create an instance of {@link StepSetup }
+     *
+     */
+    public StepSetup createStepSetup() {
+        return new StepSetup();
+    }
+
+    /**
+     * Create an instance of {@link NextStep }
+     *
+     */
+    public NextStep createNextStep() {
+        return new NextStep();
+    }
+
+    /**
+     * Create an instance of {@link GenericTypeLink }
+     *
+     */
+    public GenericTypeLink createGenericTypeLink() {
+        return new GenericTypeLink();
+    }
+
+    /**
+     * Create an instance of {@link Field }
+     *
+     */
+    public Field createField() {
+        return new Field();
+    }
+
+    /**
+     * Create an instance of {@link QueueField }
+     *
+     */
+    public QueueField createQueueField() {
+        return new QueueField();
     }
 
     /**

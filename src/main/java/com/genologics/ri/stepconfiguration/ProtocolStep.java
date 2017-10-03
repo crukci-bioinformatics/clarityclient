@@ -43,6 +43,9 @@ import com.genologics.ri.protocolconfiguration.Protocol;
 import com.genologics.ri.reagentkit.ReagentKit;
 import com.genologics.ri.reagenttype.ReagentType;
 
+// TODO - this one needs updating from the "Step" class generated.
+// Will also need to do ObjectFactory, remember? Copy from generated and insert.
+
 /**
  *
  * <p>
@@ -58,8 +61,9 @@ import com.genologics.ri.reagenttype.ReagentType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "step",
          propOrder = { "protocolStepIndex", "processType", "permittedContainerTypes", "permittedReagentCategories",
-                       "requiredReagentKits", "permittedControlTypes", "transitions", "defaultGrouping", "queueFields",
-                       "stepFields", "sampleFields", "stepProperties", "stepSetup", "eppTriggers" })
+                       "requiredReagentKits", "permittedControlTypes", "permittedInstrumentTypes", "transitions",
+                       "defaultGrouping", "queueFields", "iceBucketFields", "stepFields", "sampleFields",
+                       "stepProperties", "stepSetup", "eppTriggers" })
 @XmlRootElement(name = "step")
 public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
 {
@@ -98,6 +102,13 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
     @XmlElement(name = "control-type")
     protected List<ControlTypeLink> permittedControlTypes;
 
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "permitted-instrument-types")
+    @XmlElement(name = "instrument-type")
+    protected List<GenericTypeLink> permittedInstrumentTypes;
+
     @XmlElementWrapper(name = "transitions")
     @XmlElement(name = "transition")
     protected List<NextStep> transitions;
@@ -106,11 +117,18 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
      * @since 2.18
      */
     @XmlElement(name = "default-grouping")
-    protected String defaultGrouping;
+    protected GenericTypeLink defaultGrouping;
 
     @XmlElementWrapper(name = "queue-fields")
     @XmlElement(name = "queue-field")
     protected List<QueueField> queueFields;
+
+    /**
+     * @since 2.25
+     */
+    @XmlElementWrapper(name = "ice-bucket-fields")
+    @XmlElement(name = "ice-bucket-field")
+    protected List<IceBucketField> iceBucketFields;
 
     @XmlElementWrapper(name = "step-fields")
     @XmlElement(name = "step-field")
@@ -313,6 +331,15 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
         return link;
     }
 
+    public List<GenericTypeLink> getPermittedInstrumentTypes()
+    {
+        if (permittedInstrumentTypes == null)
+        {
+            permittedInstrumentTypes = new ArrayList<GenericTypeLink>();
+        }
+        return permittedInstrumentTypes;
+    }
+
     public List<NextStep> getTransitions()
     {
         if (transitions == null)
@@ -333,12 +360,12 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
      *
      * @return Grouping field.
      */
-    public String getDefaultGrouping()
+    public GenericTypeLink getDefaultGrouping()
     {
         return defaultGrouping;
     }
 
-    public void setDefaultGrouping(String defaultGrouping)
+    public void setDefaultGrouping(GenericTypeLink defaultGrouping)
     {
         this.defaultGrouping = defaultGrouping;
     }
@@ -355,6 +382,21 @@ public class ProtocolStep implements Linkable<ProtocolStep>, Serializable
     public QueueField addQueueField(QueueField field)
     {
         getQueueFields().add(field);
+        return field;
+    }
+
+    public List<IceBucketField> getIceBucketFields()
+    {
+        if (iceBucketFields == null)
+        {
+            iceBucketFields = new ArrayList<IceBucketField>();
+        }
+        return iceBucketFields;
+    }
+
+    public IceBucketField addIceBucketField(IceBucketField field)
+    {
+        getIceBucketFields().add(field);
         return field;
     }
 

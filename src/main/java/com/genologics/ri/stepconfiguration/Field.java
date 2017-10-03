@@ -18,8 +18,6 @@
 
 package com.genologics.ri.stepconfiguration;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -33,10 +31,10 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "field")
-@XmlSeeAlso({ QueueField.class })
-public class Field implements Serializable
+@XmlSeeAlso({ QueueField.class, IceBucketField.class })
+public class Field extends LockableSetting
 {
-    private static final long serialVersionUID = 1708402879312358390L;
+    private static final long serialVersionUID = 2627702301901466857L;
 
     @XmlAttribute(name = "name")
     protected String name;

@@ -18,7 +18,6 @@
 
 package com.genologics.ri.stepconfiguration;
 
-import java.io.Serializable;
 import java.net.URI;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,9 +37,9 @@ import com.genologics.ri.controltype.ControlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "control-type-link")
-public class ControlTypeLink implements LimsLink<ControlType>, Serializable
+public class ControlTypeLink extends LockableSetting implements LimsLink<ControlType>
 {
-    private static final long serialVersionUID = -6236122649746717610L;
+    private static final long serialVersionUID = -6200561684960024319L;
 
     @XmlAttribute(name = "uri")
     @XmlSchemaType(name = "anyURI")

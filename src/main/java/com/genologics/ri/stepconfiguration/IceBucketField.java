@@ -25,66 +25,44 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * EPP trigger configuration for the Protocol Step.
+ * A field has a name and an attach to value,
+ * these fields are used to keep track of all the UDF
+ * values for samples in ice bucket view
+ *
+ * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "epp-trigger")
-public class EppTrigger extends LockableSetting
+@XmlType(name = "icebucketfield")
+public class IceBucketField extends Field
 {
-    private static final long serialVersionUID = 8850458905996420686L;
+    private static final long serialVersionUID = -2716908183459254115L;
 
-    @XmlAttribute(name = "name")
-    protected String name;
+    @XmlAttribute(name = "detail")
+    protected Boolean detail;
 
-    @XmlAttribute(name = "type")
-    protected TriggerType type;
-
-    @XmlAttribute(name = "point")
-    protected TriggerPoint point;
-
-    @XmlAttribute(name = "status")
-    protected TriggerStatus status;
-
-
-    public String getName()
+    public IceBucketField()
     {
-        return name;
+        super();
     }
 
-    public void setName(String name)
+    public IceBucketField(String name)
     {
-        this.name = name;
+        super(name);
     }
 
-    public TriggerType getType()
+    public IceBucketField(String name, String attachTo)
     {
-        return type;
+        super(name, attachTo);
     }
 
-    public void setType(TriggerType type)
+    public Boolean getDetail()
     {
-        this.type = type;
+        return detail;
     }
 
-    public TriggerPoint getPoint()
+    public void setDetail(Boolean detail)
     {
-        return point;
+        this.detail = detail;
     }
-
-    public void setPoint(TriggerPoint point)
-    {
-        this.point = point;
-    }
-
-    public TriggerStatus getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(TriggerStatus status)
-    {
-        this.status = status;
-    }
-
 
 }

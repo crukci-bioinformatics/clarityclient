@@ -18,73 +18,44 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * EPP trigger configuration for the Protocol Step.
+ * A protocol step setting is considered locked if the Master Step has defined
+ * that setting.
+ *
+ * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "epp-trigger")
-public class EppTrigger extends LockableSetting
+@XmlType(name = "lockable-setting")
+@XmlSeeAlso({ StepSetup.class, EppTrigger.class, Field.class,
+              ControlTypeLink.class, ReagentKitLink.class, StepProperty.class })
+public class LockableSetting implements Serializable
 {
-    private static final long serialVersionUID = 8850458905996420686L;
+    private static final long serialVersionUID = 1977151383272159438L;
 
-    @XmlAttribute(name = "name")
-    protected String name;
-
-    @XmlAttribute(name = "type")
-    protected TriggerType type;
-
-    @XmlAttribute(name = "point")
-    protected TriggerPoint point;
-
-    @XmlAttribute(name = "status")
-    protected TriggerStatus status;
+    @XmlAttribute(name = "locked")
+    protected Boolean locked;
 
 
-    public String getName()
+    public LockableSetting()
     {
-        return name;
     }
 
-    public void setName(String name)
+    public Boolean isLocked()
     {
-        this.name = name;
+        return locked;
     }
 
-    public TriggerType getType()
+    public void setLocked(Boolean value)
     {
-        return type;
+        this.locked = value;
     }
-
-    public void setType(TriggerType type)
-    {
-        this.type = type;
-    }
-
-    public TriggerPoint getPoint()
-    {
-        return point;
-    }
-
-    public void setPoint(TriggerPoint point)
-    {
-        this.point = point;
-    }
-
-    public TriggerStatus getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(TriggerStatus status)
-    {
-        this.status = status;
-    }
-
 
 }

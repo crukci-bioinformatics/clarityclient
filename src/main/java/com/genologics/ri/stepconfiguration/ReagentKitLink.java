@@ -18,7 +18,6 @@
 
 package com.genologics.ri.stepconfiguration;
 
-import java.io.Serializable;
 import java.net.URI;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -40,9 +39,9 @@ import com.genologics.ri.reagentkit.ReagentKit;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "reagent-kit-link")
-public class ReagentKitLink implements LimsLink<ReagentKit>, Serializable
+public class ReagentKitLink extends LockableSetting implements LimsLink<ReagentKit>
 {
-    private static final long serialVersionUID = -5659881404760243462L;
+    private static final long serialVersionUID = -6108166879985602695L;
 
     @XmlAttribute(name = "name")
     protected String name;
