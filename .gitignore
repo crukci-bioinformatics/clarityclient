@@ -1,10 +1,38 @@
-target/
+# Eclipse
+.classpath
+.project
+.settings
+
+# IntelliJ Idea
+idea.tar.gz
+*.iml
+*.iws
+/.idea/
+/out/
+
+# JVM
+hs_err_pid*
+*.hprof
+
+# Mac
+.DS_Store
+
+# SBT (see: https://github.com/github/gitignore/blob/master/Global/SBT.gitignore)
+.cache
+**/target/
+**/lib_managed/
+**/src_managed/
+project/boot/
+
+# VIM
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+Session.vim
+
+# Miscellaneous (from original project)
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.next
 release.properties
 **/*credentials.properties
-.project
-.classpath
-.settings
 svn-commit*

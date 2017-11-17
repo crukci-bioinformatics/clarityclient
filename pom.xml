@@ -152,8 +152,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.6.1</version>
                     <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                         <encoding>UTF-8</encoding>
                         <compilerArgs>
                             <arg>-Xlint:all</arg>
@@ -285,7 +285,7 @@
                 <configuration>
                     <toolchains>
                         <jdk>
-                            <version>1.6</version>
+                            <version>1.8</version>
                             <vendor>sun</vendor>
                         </jdk>
                     </toolchains>
@@ -321,7 +321,7 @@
                 <version>2.10.4</version>
                 <configuration>
                     <overview>${project.build.sourceDirectory}/overview.html</overview>
-                    <source>1.6</source>
+                    <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <breakiterator>true</breakiterator>
                     <serialwarn>false</serialwarn>
@@ -411,7 +411,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <overview>${project.build.sourceDirectory}/overview.html</overview>
-                    <source>1.6</source>
+                    <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <breakiterator>true</breakiterator>
                     <serialwarn>false</serialwarn>
