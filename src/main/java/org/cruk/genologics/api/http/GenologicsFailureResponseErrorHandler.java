@@ -141,7 +141,7 @@ public class GenologicsFailureResponseErrorHandler extends DefaultResponseErrorH
      *
      * @return The response body, as bytes.
      */
-    private byte[] getResponseBody(ClientHttpResponse response)
+    protected byte[] getResponseBody(ClientHttpResponse response)
     {
         try
         {
