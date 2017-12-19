@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -21,6 +21,7 @@ package com.genologics.ri.routing;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -64,6 +65,18 @@ public class ExtArtifactAssignments implements Serializable
     public void addArtifact(Linkable<Artifact> artifact)
     {
         getArtifacts().add(new ArtifactLink(artifact));
+    }
+
+    public void addAll(Collection<? extends Linkable<Artifact>> links)
+    {
+        getArtifacts();
+        for (Linkable<Artifact> l : links)
+        {
+            if (l != null && l.getUri() != null)
+            {
+                artifacts.add(new ArtifactLink(l));
+            }
+        }
     }
 
     public URI getWorkflowUri()
