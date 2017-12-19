@@ -66,6 +66,18 @@ public class ExtArtifactAssignments implements Serializable
         getArtifacts().add(new ArtifactLink(artifact));
     }
 
+    public void addAll(Collection<? extends Linkable<Artifact>> links)
+    {
+        getArtifacts();
+        for (Linkable<Artifact> l : links)
+        {
+            if (l != null && l.getUri() != null)
+            {
+                artifacts.add(new ArtifactLink(l));
+            }
+        }
+    }
+
     public URI getWorkflowUri()
     {
         return workflowUri;
