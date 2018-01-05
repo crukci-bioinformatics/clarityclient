@@ -133,28 +133,4 @@ public class GenologicsFailureResponseErrorHandler extends DefaultResponseErrorH
         // continue as before.
         super.handleError(response);
     }
-
-    /**
-     * Read the response body from the input stream into a byte array.
-     *
-     * @param response The HTTP response.
-     *
-     * @return The response body, as bytes.
-     */
-    private byte[] getResponseBody(ClientHttpResponse response)
-    {
-        try
-        {
-            InputStream responseBody = response.getBody();
-            if (responseBody != null)
-            {
-                return FileCopyUtils.copyToByteArray(responseBody);
-            }
-        }
-        catch (IOException ex)
-        {
-            // ignore
-        }
-        return new byte[0];
-    }
 }
