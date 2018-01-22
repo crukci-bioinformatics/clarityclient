@@ -45,6 +45,16 @@ public class Routing implements Serializable
     @XmlElement(name = "unassign")
     protected List<ExtArtifactAssignments> unassignedRoutes;
 
+    public void setAssign(ArrayList<ExtArtifactAssignments> assign)
+    {
+        assignedRoutes = assign;
+    }
+
+    public void setUnassign(ArrayList<ExtArtifactAssignments> unassign)
+    {
+        unassignedRoutes = unassign;
+    }
+
     public List<ExtArtifactAssignments> getAssign()
     {
         if (assignedRoutes == null)
