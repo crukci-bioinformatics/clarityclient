@@ -31,7 +31,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.AbstractResource;
 
 /**
@@ -169,7 +168,17 @@ public class URLInputStreamResource extends AbstractResource
      */
     public void close()
     {
-        IOUtils.closeQuietly(inputStream);
+        try
+        {
+            if (inputStream != null)
+            {
+                inputStream.close();
+            }
+        }
+        catch (IOException e)
+        {
+            // Ignore.
+        }
 
         if (httpConnection != null)
         {
