@@ -20,7 +20,6 @@ package org.cruk.genologics.api.http;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -30,7 +29,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 /**
@@ -132,29 +130,5 @@ public class GenologicsFailureResponseErrorHandler extends DefaultResponseErrorH
         // If still here, it's not a GenologicsException that has been received, and so
         // continue as before.
         super.handleError(response);
-    }
-
-    /**
-     * Read the response body from the input stream into a byte array.
-     *
-     * @param response The HTTP response.
-     *
-     * @return The response body, as bytes.
-     */
-    protected byte[] getResponseBody(ClientHttpResponse response)
-    {
-        try
-        {
-            InputStream responseBody = response.getBody();
-            if (responseBody != null)
-            {
-                return FileCopyUtils.copyToByteArray(responseBody);
-            }
-        }
-        catch (IOException ex)
-        {
-            // ignore
-        }
-        return new byte[0];
     }
 }
