@@ -47,6 +47,8 @@
 
     <bean id="genologicsCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:/org/cruk/genologics/api/ehcache.xml"/>
+        <property name="cacheManagerName" value="genologicsAPI"/>
+        <property name="acceptExisting" value="true"/>
     </bean>
 
     <bean id="genologicsApiCacheAspect" class="org.cruk.genologics.api.cache.GenologicsAPICache">

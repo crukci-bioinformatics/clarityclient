@@ -146,6 +146,7 @@ public class GenologicsAPIBatchOperationTest
 
         ClientHttpResponse httpResponse = EasyMock.createMock(ClientHttpResponse.class);
         EasyMock.expect(httpResponse.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
+        EasyMock.expect(httpResponse.getRawStatusCode()).andReturn(HttpStatus.OK.value()).anyTimes();
         EasyMock.expect(httpResponse.getHeaders()).andReturn(headers).anyTimes();
         EasyMock.expect(httpResponse.getBody()).andReturn(responseStream).once();
         httpResponse.close();
@@ -225,6 +226,7 @@ public class GenologicsAPIBatchOperationTest
 
         ClientHttpResponse httpResponse1 = EasyMock.createMock(ClientHttpResponse.class);
         EasyMock.expect(httpResponse1.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
+        EasyMock.expect(httpResponse1.getRawStatusCode()).andReturn(HttpStatus.OK.value()).anyTimes();
         EasyMock.expect(httpResponse1.getHeaders()).andReturn(headers).anyTimes();
         EasyMock.expect(httpResponse1.getBody()).andReturn(response1Stream).once();
         httpResponse1.close();
@@ -237,6 +239,7 @@ public class GenologicsAPIBatchOperationTest
 
         ClientHttpResponse httpResponse2 = EasyMock.createMock(ClientHttpResponse.class);
         EasyMock.expect(httpResponse2.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
+        EasyMock.expect(httpResponse2.getRawStatusCode()).andReturn(HttpStatus.OK.value()).anyTimes();
         EasyMock.expect(httpResponse2.getHeaders()).andReturn(headers).anyTimes();
         EasyMock.expect(httpResponse2.getBody()).andReturn(response2Stream).once();
         httpResponse2.close();

@@ -2432,15 +2432,13 @@ public class GenologicsAPIImpl implements GenologicsAPI
         switch (response.getStatusCode().series())
         {
             case SUCCESSFUL:
-                InputStream in = response.getBody();
-                try
+                try (InputStream in = response.getBody())
                 {
                     byte[] buffer = new byte[8192];
                     IOUtils.copyLarge(in, resultStream, buffer);
                 }
                 finally
                 {
-                    IOUtils.closeQuietly(in);
                     resultStream.flush();
                 }
                 logger.debug("{} download successful.", fileURL);

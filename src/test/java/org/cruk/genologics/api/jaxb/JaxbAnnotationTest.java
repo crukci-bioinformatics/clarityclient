@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -487,7 +488,7 @@ public class JaxbAnnotationTest
 
         File exampleFile = new File(exampleDirectory, className.toLowerCase() + ".xml");
 
-        final String originalXml = FileUtils.readFileToString(exampleFile);
+        final String originalXml = FileUtils.readFileToString(exampleFile, StandardCharsets.UTF_8);
 
         Object unmarshalled = marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
 
@@ -507,8 +508,8 @@ public class JaxbAnnotationTest
         {
             try
             {
-                FileUtils.write(new File("target/" + className + "-original.xml"), originalXml);
-                FileUtils.write(new File("target/" + className + "-marshalled.xml"), marshalledXml);
+                FileUtils.write(new File("target/" + className + "-original.xml"), originalXml, StandardCharsets.UTF_8);
+                FileUtils.write(new File("target/" + className + "-marshalled.xml"), marshalledXml, StandardCharsets.UTF_8);
             }
             catch (IOException io)
             {

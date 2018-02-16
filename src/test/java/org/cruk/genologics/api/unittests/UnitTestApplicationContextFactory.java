@@ -24,10 +24,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
 
-import org.apache.commons.io.IOUtils;
+import org.cruk.genologics.api.GenologicsAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.cruk.genologics.api.GenologicsAPI;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -49,25 +48,20 @@ public final class UnitTestApplicationContextFactory
 
     public static boolean setCredentialsOnApi(GenologicsAPI api)
     {
-        InputStream propsIn = UnitTestApplicationContextFactory.class.getResourceAsStream("/testcredentials.properties");
-        if (propsIn != null)
+        try (InputStream propsIn = UnitTestApplicationContextFactory.class.getResourceAsStream("/testcredentials.properties"))
         {
-            try
+            if (propsIn != null)
             {
                 Properties credentials = new Properties();
                 credentials.load(propsIn);
                 api.setConfiguration(credentials);
                 return true;
             }
-            catch (IOException e)
-            {
-                Logger logger = LoggerFactory.getLogger(UnitTestApplicationContextFactory.class);
-                logger.error("Could not read from credentials file: ", e);
-            }
-            finally
-            {
-                IOUtils.closeQuietly(propsIn);
-            }
+        }
+        catch (IOException e)
+        {
+            Logger logger = LoggerFactory.getLogger(UnitTestApplicationContextFactory.class);
+            logger.error("Could not read from credentials file: ", e);
         }
         return false;
     }
