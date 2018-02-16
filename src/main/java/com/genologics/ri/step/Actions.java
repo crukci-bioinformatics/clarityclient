@@ -102,6 +102,11 @@ public class Actions implements Linkable<Actions>, Serializable
         return nextActions;
     }
 
+    public void setNextActions(List<NextAction> nextActionsAssign)
+    {
+        nextActions = nextActionsAssign;
+    }
+
     public URI getUri()
     {
         return uri;
