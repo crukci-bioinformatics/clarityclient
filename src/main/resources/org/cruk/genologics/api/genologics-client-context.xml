@@ -239,7 +239,11 @@
         <property name="errorHandler" ref="genologicsExceptionErrorHandler"/>
     </bean>
 
-    <bean id="genologicsAPI" class="org.cruk.genologics.api.impl.GenologicsAPIImpl">
+    <!--
+        Base definition for the API bean. Allows the concrete beans, usually called
+        "genologicsAPI", to inherit from this and only specify changed properties.
+    --> 
+    <bean id="genologicsAPIBase" class="org.cruk.genologics.api.impl.GenologicsAPIImpl" abstract="true">
         <property name="filestoreSessionFactory" ref="filestoreSFTPSessionFactory"/>
         <property name="jaxbMarshaller" ref="genologicsJaxbMarshaller"/>
         <property name="httpRequestFactory" ref="genologicsClientHttpRequestFactory"/>
@@ -247,4 +251,11 @@
         <property name="httpClient" ref="genologicsHttpClient"/>
         <property name="fileUploadClient" ref="genologicsFileUploadTemplate"/>
     </bean>
+
+    <!--
+        Concrete API bean. This definition can be overwritten if necessary, for example
+        to provide a configuration at construction.
+    -->
+    <bean id="genologicsAPI" parent="genologicsAPIBase"/>
+
 </beans>
