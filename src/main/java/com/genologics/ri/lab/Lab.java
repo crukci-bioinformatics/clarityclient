@@ -237,4 +237,12 @@ public class Lab implements LimsEntity<Lab>, Serializable
     {
         // Does nothing.
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder(50);
+        sb.append(getLimsid()).append(' ').append(name);
+        return sb.toString();
+    }
 }

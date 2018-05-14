@@ -295,7 +295,7 @@ public class Project implements LimsEntity<Project>, Serializable
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(30);
         sb.append(limsid).append(' ').append(name);
         return sb.toString();
     }
