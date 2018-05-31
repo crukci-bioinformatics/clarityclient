@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
@@ -37,7 +38,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "next-action")
-public class NextAction implements Serializable
+public class NextAction implements LimsLink<Artifact>, Serializable
 {
     private static final long serialVersionUID = -8061858911629830727L;
 
@@ -153,5 +154,23 @@ public class NextAction implements Serializable
     public void setReworkStep(Linkable<ProtocolStep> step)
     {
         reworkStepUri = step == null ? null : step.getUri();
+    }
+
+    @Override
+    public void setUri(URI uri)
+    {
+        this.artifactUri = uri;
+    }
+
+    @Override
+    public URI getUri()
+    {
+        return artifactUri;
+    }
+
+    @Override
+    public Class<Artifact> getEntityClass()
+    {
+        return Artifact.class;
     }
 }

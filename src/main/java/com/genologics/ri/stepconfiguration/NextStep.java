@@ -27,6 +27,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.LimsLink;
+import com.genologics.ri.Linkable;
+
 /**
  *
  * List of step transitions including the URI allowing access to the specific
@@ -34,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "next-step")
-public class NextStep implements Serializable
+public class NextStep implements LimsLink<ProtocolStep>, Serializable
 {
     private static final long serialVersionUID = -955680094983735241L;
 
@@ -73,14 +76,29 @@ public class NextStep implements Serializable
         return nextStepUri;
     }
 
+    public URI getUri()
+    {
+        return nextStepUri;
+    }
+
     public void setNextStepUri(URI nextStepUri)
     {
         this.nextStepUri = nextStepUri;
     }
 
-    public void setNextStep(ProtocolStep step)
+    public void setNextStep(Linkable<ProtocolStep> step)
     {
         this.nextStepUri = step.getUri();
     }
 
+    public void setUri(URI nextStepUri)
+    {
+        this.nextStepUri = nextStepUri;
+    }
+
+    @Override
+    public Class<ProtocolStep> getEntityClass()
+    {
+        return ProtocolStep.class;
+    }
 }

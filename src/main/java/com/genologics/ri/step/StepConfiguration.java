@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
+import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
 
@@ -39,7 +40,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "step-configuration")
-public class StepConfiguration implements Serializable
+public class StepConfiguration implements LimsLink<ProtocolStep>, Serializable
 {
     private static final long serialVersionUID = 7902167896883448736L;
 
@@ -83,6 +84,11 @@ public class StepConfiguration implements Serializable
         this.protocolStepUri = protocolStepUri;
     }
 
+    public void setProtocolStep(Linkable<ProtocolStep> protocolStep)
+    {
+        this.protocolStepUri = protocolStep.getUri();
+    }
+
     public String getStepName()
     {
         return stepName;
@@ -91,6 +97,24 @@ public class StepConfiguration implements Serializable
     public void setStepName(String stepName)
     {
         this.stepName = stepName;
+    }
+
+    @Override
+    public URI getUri()
+    {
+        return protocolStepUri;
+    }
+
+    @Override
+    public void setUri(URI uri)
+    {
+        this.protocolStepUri = uri;
+    }
+
+    @Override
+    public Class<ProtocolStep> getEntityClass()
+    {
+        return ProtocolStep.class;
     }
 
 }
