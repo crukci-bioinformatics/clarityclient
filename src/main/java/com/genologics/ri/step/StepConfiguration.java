@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlValue;
 
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
-import com.genologics.ri.Locatable;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
 
 
