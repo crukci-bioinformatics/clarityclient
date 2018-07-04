@@ -2,8 +2,8 @@
 <inst:instrument xmlns:inst="http://genologics.com/ri/instrument"
                  uri="http://limsdev.cri.camres.org:8080/api/v2/instruments/3"
                  limsid="3">
-    <name>Miseq [M01214]</name>
-    <type>Miseq</type>
+    <name>MiSeq [M01214]</name>
+    <type>MiSeq</type>
     <serial-number>M01214</serial-number>
     <expiry-date>2017-10-01</expiry-date>
     <archived>false</archived>
