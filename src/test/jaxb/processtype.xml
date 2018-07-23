@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ptp:process-type xmlns:ptp="http://genologics.com/ri/processtype"
+                  xmlns:file="http://genologics.com/ri/file"
                   uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11"
                   name="Bioanalyzer QC (Library Validation) 4.0">
     <field-definition uri="http://lims.cri.camres.org:8080/api/v2/processtypes/11/fields/107" name="Criteria 1 - Source Data Field" />
@@ -18,12 +19,23 @@
         <run-program-per-event>false</run-program-per-event>
         <channel>limsserver</channel>
         <invocation-type>PostProcess</invocation-type>
+        <file:file limsid="92-1390-40-155" uri="http://limsdev.cri.camres.org:8080/api/v2/files/92-1390-40-155" />
+        <file:file limsid="40-1000117" uri="https://limsdev.cruk.cam.ac.uk/api/v2/files/40-1000117" />
     </parameter>
     <parameter name="Do some other stuff">
         <string>java SomeClass</string>
         <run-program-per-event>true</run-program-per-event>
         <channel>limsserver</channel>
         <invocation-type>PostProcess</invocation-type>
+        <file:file limsid="40-1000297" uri="https://limsdev.cruk.cam.ac.uk/api/v2/files/40-1000297" />
+        <file:file limsid="40-1000298" uri="https://limsdev.cruk.cam.ac.uk/api/v2/files/40-1000298" />
+        <file:file limsid="92-5098-40-476" uri="http://lims.cri.camres.org:8080/api/v2/files/92-5098-40-476">
+            <attached-to>http://lims.cri.camres.org:8080/api/v2/artifacts/92-5098</attached-to>
+            <content-location>sftp://lims.cri.camres.org/home/glsftp/Process/2013/1/24-1488/92-5098-40-476.html</content-location>
+            <original-location>/opt/gls/clarity/ai/temp/runExternalProgram-25012013-2786448508091647588.24-1488/92-5098.html</original-location>
+            <original-name>instructions.html</original-name>
+            <is-published>false</is-published>
+        </file:file>
     </parameter>
     <type-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udts/51" name="UDT1" />
     <type-definition uri="http://lims.cri.camres.org:8080/api/v2/configuration/udts/54" name="UDT2" />
@@ -81,16 +93,16 @@
     <process-type-attribute name="OutputSorting">Input LIMS ID</process-type-attribute>
     <process-type-attribute name="SkipInputPanel">true</process-type-attribute>
     <permitted-containers>
-        <container-type name="Flow Cell" uri="http://limsdev.cri.camres.org:8080/api/v2/containertypes/154"/>
-        <container-type name="QC Chip" uri="http://limsdev.cri.camres.org:8080/api/v2/containertypes/112"/>
+        <container-type name="Flow Cell" uri="http://limsdev.cri.camres.org:8080/api/v2/containertypes/154" />
+        <container-type name="QC Chip" uri="http://limsdev.cri.camres.org:8080/api/v2/containertypes/112" />
     </permitted-containers>
     <permitted-reagent-categories>
         <reagent-category>Category EH</reagent-category>
         <reagent-category>Reagent Null</reagent-category>
     </permitted-reagent-categories>
     <required-reagent-kits>
-        <reagent-kit name="RKit#0" uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/1"/>
-        <reagent-kit name="OtherReagent" uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/4"/>
+        <reagent-kit name="RKit#0" uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/1" />
+        <reagent-kit name="OtherReagent" uri="http://limsdev.cri.camres.org:8080/api/v2/reagentkits/4" />
     </required-reagent-kits>
     <permitted-control-types>
         <control-type name="Basic" uri="http://limsdev.cri.camres.org:8080/api/v2/controltypes/1" />
@@ -101,45 +113,45 @@
         <instrument-type>NextSeq</instrument-type>
     </permitted-instrument-types>
     <queue-fields>
-        <queue-field detail="false" attach-to="Analyte" name="Sample Name" style="BUILT_IN"/>
-        <queue-field detail="false" attach-to="Container" name="Well" style="BUILT_IN"/>
-        <queue-field detail="false" attach-to="Container" name="Container Name" style="BUILT_IN"/>
-        <queue-field detail="true" attach-to="Project" name="Project Name" style="BUILT_IN"/>
-        <queue-field detail="true" attach-to="Container" name="LIMS ID (Container)" style="BUILT_IN"/>
-        <queue-field detail="false" attach-to="Analyte" name="Waiting" style="BUILT_IN"/>
+        <queue-field detail="false" attach-to="Analyte" name="Sample Name" style="BUILT_IN" />
+        <queue-field detail="false" attach-to="Container" name="Well" style="BUILT_IN" />
+        <queue-field detail="false" attach-to="Container" name="Container Name" style="BUILT_IN" />
+        <queue-field detail="true" attach-to="Project" name="Project Name" style="BUILT_IN" />
+        <queue-field detail="true" attach-to="Container" name="LIMS ID (Container)" style="BUILT_IN" />
+        <queue-field detail="false" attach-to="Analyte" name="Waiting" style="BUILT_IN" />
     </queue-fields>
     <ice-bucket-fields>
-        <ice-bucket-field detail="false" attach-to="ConfiguredProcess" name="Holder" style="BUILT_IN"/>
-        <ice-bucket-field detail="true" attach-to="ConfiguredProcess" name="IceBucket" style="USER_DEFINED"/>
+        <ice-bucket-field detail="false" attach-to="ConfiguredProcess" name="Holder" style="BUILT_IN" />
+        <ice-bucket-field detail="true" attach-to="ConfiguredProcess" name="IceBucket" style="USER_DEFINED" />
     </ice-bucket-fields>
     <step-fields>
-        <step-field attach-to="ConfiguredProcess" name="Adapter" style="USER_DEFINED"/>
-        <step-field attach-to="ConfiguredProcess" name="FilterPCRDuplicates" style="USER_DEFINED"/>
-        <step-field attach-to="ConfiguredProcess" name="GenomeFolder" style="USER_DEFINED"/>
-        <step-field attach-to="Process" name="LIMS ID (Process)" style="BUILT_IN"/>
-        <step-field attach-to="ConfiguredProcess" name="OnlyGenerateFASTQ" style="USER_DEFINED"/>
-        <step-field attach-to="ConfiguredProcess" name="PhiX control used?" style="USER_DEFINED"/>
-        <step-field attach-to="ConfiguredProcess" name="Read 1 Cycles" style="USER_DEFINED"/>
-        <step-field attach-to="ConfiguredProcess" name="Read 2 Cycles" style="USER_DEFINED"/>
-        <step-field attach-to="ConfiguredProcess" name="Workflow" style="USER_DEFINED"/>
+        <step-field attach-to="ConfiguredProcess" name="Adapter" style="USER_DEFINED" />
+        <step-field attach-to="ConfiguredProcess" name="FilterPCRDuplicates" style="USER_DEFINED" />
+        <step-field attach-to="ConfiguredProcess" name="GenomeFolder" style="USER_DEFINED" />
+        <step-field attach-to="Process" name="LIMS ID (Process)" style="BUILT_IN" />
+        <step-field attach-to="ConfiguredProcess" name="OnlyGenerateFASTQ" style="USER_DEFINED" />
+        <step-field attach-to="ConfiguredProcess" name="PhiX control used?" style="USER_DEFINED" />
+        <step-field attach-to="ConfiguredProcess" name="Read 1 Cycles" style="USER_DEFINED" />
+        <step-field attach-to="ConfiguredProcess" name="Read 2 Cycles" style="USER_DEFINED" />
+        <step-field attach-to="ConfiguredProcess" name="Workflow" style="USER_DEFINED" />
     </step-fields>
     <sample-fields>
-        <sample-field attach-to="Analyte" name="Sample Name" style="BUILT_IN"/>
-        <sample-field attach-to="Sample" name="SLX Identifier" style="USER_DEFINED"/>
-        <sample-field attach-to="Container" name="Container Name" style="BUILT_IN"/>
-        <sample-field attach-to="Sample" name="Read Length" style="USER_DEFINED"/>
-        <sample-field attach-to="Analyte" name="Primer Set" style="USER_DEFINED"/>
-        <sample-field attach-to="Analyte" name="Workflow" style="USER_DEFINED"/>
-        <sample-field attach-to="Sample" name="Index Type" style="USER_DEFINED"/>
-        <sample-field attach-to="Sample" name="Reference Genome" style="USER_DEFINED"/>
-        <sample-field attach-to="Sample" name="Submission Comments" style="USER_DEFINED"/>
+        <sample-field attach-to="Analyte" name="Sample Name" style="BUILT_IN" />
+        <sample-field attach-to="Sample" name="SLX Identifier" style="USER_DEFINED" />
+        <sample-field attach-to="Container" name="Container Name" style="BUILT_IN" />
+        <sample-field attach-to="Sample" name="Read Length" style="USER_DEFINED" />
+        <sample-field attach-to="Analyte" name="Primer Set" style="USER_DEFINED" />
+        <sample-field attach-to="Analyte" name="Workflow" style="USER_DEFINED" />
+        <sample-field attach-to="Sample" name="Index Type" style="USER_DEFINED" />
+        <sample-field attach-to="Sample" name="Reference Genome" style="USER_DEFINED" />
+        <sample-field attach-to="Sample" name="Submission Comments" style="USER_DEFINED" />
     </sample-fields>
     <step-properties>
-        <step-property value="false" name="qcProtocolStep"/>
-        <step-property value="false" name="qcWithPlacement"/>
-        <step-property value="false" name="measurementWithFile"/>
-        <step-property value="" name="stepDetailsHeading"/>
-        <step-property value="" name="sampleDetailsHeading"/>
+        <step-property value="false" name="qcProtocolStep" />
+        <step-property value="false" name="qcWithPlacement" />
+        <step-property value="false" name="measurementWithFile" />
+        <step-property value="" name="stepDetailsHeading" />
+        <step-property value="" name="sampleDetailsHeading" />
     </step-properties>
     <step-setup enabled="true">
         <files>
@@ -152,7 +164,7 @@
         </files>
     </step-setup>
     <epp-triggers>
-        <epp-trigger type="MANUAL" name="Generate SampleSheet CSV" status="PLACEMENT"/>
-        <epp-trigger type="AUTOMATIC" name="Update Files" point="AFTER"/>
+        <epp-trigger type="MANUAL" name="Generate SampleSheet CSV" status="PLACEMENT" />
+        <epp-trigger type="AUTOMATIC" name="Update Files" point="AFTER" />
     </epp-triggers>
 </ptp:process-type>

@@ -48,7 +48,7 @@ import com.genologics.ri.file.GenologicsFile;
 @GenologicsEntity(uriSection = "configuration/automations")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "automation",
-         propOrder = { "context", "string", "runProgramPerEvent", "channel", "files", "processTypes" })
+         propOrder = { "context", "script", "runProgramPerEvent", "channel", "files", "processTypes" })
 @XmlRootElement(name = "automation")
 public class Automation implements Locatable, Serializable
 {
@@ -57,8 +57,8 @@ public class Automation implements Locatable, Serializable
     @XmlElement
     protected Context context;
 
-    @XmlElement
-    protected String string;
+    @XmlElement(name = "string")
+    protected String script;
 
     @XmlElement(name = "run-program-per-event")
     protected Boolean runProgramPerEvent;
@@ -95,14 +95,14 @@ public class Automation implements Locatable, Serializable
         this.context = value;
     }
 
-    public String getString()
+    public String getScript()
     {
-        return string;
+        return script;
     }
 
-    public void setString(String value)
+    public void setScript(String script)
     {
-        this.string = value;
+        this.script = script;
     }
 
     public Boolean isRunProgramPerEvent()

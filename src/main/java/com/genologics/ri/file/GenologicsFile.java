@@ -43,10 +43,10 @@ import com.genologics.ri.Linkable;
 @GenologicsEntity(uriSection = "files", creatable = true, updateable = true, removable = true)
 @XmlRootElement(name = "file")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "file", propOrder = { "attachedTo", "contentLocation", "originalLocation", "published" })
+@XmlType(name = "file", propOrder = { "attachedTo", "contentLocation", "originalLocation", "originalName", "published" })
 public class GenologicsFile implements LimsEntity<GenologicsFile>, LimsEntityLink<GenologicsFile>, Serializable
 {
-    private static final long serialVersionUID = 9170097758006050623L;
+    private static final long serialVersionUID = -6683975101172687186L;
 
     @XmlElement(name = "attached-to")
     @XmlSchemaType(name = "anyURI")
@@ -58,6 +58,12 @@ public class GenologicsFile implements LimsEntity<GenologicsFile>, LimsEntityLin
 
     @XmlElement(name = "original-location")
     protected String originalLocation;
+
+    /**
+     * @since 2.26
+     */
+    @XmlElement(name = "original-name")
+    protected String originalName;
 
     @XmlElement(name = "is-published")
     protected Boolean published;
@@ -138,6 +144,24 @@ public class GenologicsFile implements LimsEntity<GenologicsFile>, LimsEntityLin
     public void setOriginalLocation(String originalLocation)
     {
         this.originalLocation = originalLocation;
+    }
+
+    /**
+     * This element provides the original name of the file before it was imported into the system.
+     * This is calculated from the original-location.
+     *
+     * @return The original file name.
+     *
+     * @since 2.26
+     */
+    public String getOriginalName()
+    {
+        return originalName;
+    }
+
+    public void setOriginalName(String originalName)
+    {
+        this.originalName = originalName;
     }
 
     /**

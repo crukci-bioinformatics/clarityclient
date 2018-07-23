@@ -11,20 +11,26 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package com.genologics.ri.processtype;
 
+import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
+import com.genologics.ri.file.GenologicsFile;
 
 /**
  *
@@ -35,10 +41,10 @@ import javax.xml.bind.annotation.XmlType;
  * process-type.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "parameter", propOrder = { "file", "script", "runProgramPerEvent", "channel", "invocationType" })
+@XmlType(name = "parameter", propOrder = { "file", "script", "runProgramPerEvent", "channel", "invocationType", "files" })
 public class Parameter implements Serializable
 {
-    private static final long serialVersionUID = -6835659948916373206L;
+    private static final long serialVersionUID = -803288179230938758L;
 
     @XmlElement(name = "file")
     @Deprecated
@@ -60,6 +66,12 @@ public class Parameter implements Serializable
     @XmlElement(name = "invocation-type")
     @Deprecated
     protected InvocationType invocationType;
+
+    /**
+     * @since 2.26
+     */
+    @XmlElement(name = "file", namespace = FILE_NAMESPACE)
+    protected List<GenologicsFile> files;
 
     @XmlAttribute(name = "name")
     protected String name;
@@ -141,5 +153,21 @@ public class Parameter implements Serializable
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    /**
+     * Each File provides a URI linking to the detailed representation of a File associated with the Process Parameter.
+     *
+     * @return A list of files.
+     *
+     * @since 2.26
+     */
+    public List<GenologicsFile> getFiles()
+    {
+        if (files == null)
+        {
+            files = new ArrayList<>();
+        }
+        return files;
     }
 }

@@ -25,6 +25,7 @@
         <attached-to>http://lims.cri.camres.org:8080/api/v2/artifacts/92-5098</attached-to>
         <content-location>sftp://lims.cri.camres.org/home/glsftp/Process/2013/1/24-1488/92-5098-40-476.html</content-location>
         <original-location>/opt/gls/clarity/ai/temp/runExternalProgram-25012013-2786448508091647588.24-1488/92-5098.html</original-location>
+        <original-name>instructions.html</original-name>
         <is-published>false</is-published>
     </file:file>
     <artifact-group uri="http://lims.cri.camres.org:8080/api/v2/artifactgroups/55" name="SLX Sequencing for HiSeq"/>

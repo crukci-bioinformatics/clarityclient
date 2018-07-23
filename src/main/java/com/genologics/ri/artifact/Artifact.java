@@ -117,6 +117,9 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
     @XmlElement(name = "workflow-stage")
     protected List<WorkflowStage> workflowStages;
 
+    /**
+     * @since 2.26
+     */
     @XmlElement(name = "demux")
     protected DemuxLink demux;
 
