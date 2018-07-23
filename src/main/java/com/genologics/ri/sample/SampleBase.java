@@ -228,13 +228,7 @@ public class SampleBase implements Serializable
     }
 
     /**
-     * The user-defined type of the Sample. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No, unless the UDT has been configured as required. <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, unless the UDT has been configured as required. If
-     * a current UDT is not provided, existing values are deleted.
+     * The user-defined type of the Sample.
      */
     public UDT getUserDefinedType()
     {
@@ -254,13 +248,7 @@ public class SampleBase implements Serializable
     }
 
     /**
-     * The user-defined fields of the Sample. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No, unless the UDF has been configured as required. <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, unless the UDF has been configured as required. If
-     * a current UDF is not provided, existing values are deleted.
+     * The user-defined fields of the Sample.
      */
     public List<UDF> getUserDefinedFields()
     {
@@ -289,12 +277,7 @@ public class SampleBase implements Serializable
 
     /**
      * Each external id is an identifier that allows looking up related
-     * information about the Sample from an external system. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No
+     * information about the Sample from an external system.
      */
     public List<ExternalId> getExternalIds()
     {
@@ -307,14 +290,7 @@ public class SampleBase implements Serializable
 
     /**
      * Each file provides a URI linking to the detailed representation of a file
-     * associated with the Sample. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, but files cannot be removed in this manner, only
-     * added. A file must be HTTP DELETED, or PUT to a new Sample to remove it
-     * from the old Sample.
+     * associated with the Sample.
      */
     public List<GenologicsFile> getFiles()
     {

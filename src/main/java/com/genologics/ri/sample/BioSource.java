@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -79,13 +79,7 @@ public class BioSource implements Serializable
     }
 
     /**
-     * The user-defined fields of the biosource. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No, unless the UDF has been configured as required. <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, unless the UDF has been configured as required. If
-     * a current UDF is not provided, existing values are deleted.
+     * The user-defined fields of the biosource.
      */
     public List<UDF> getFields()
     {

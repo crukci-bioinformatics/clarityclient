@@ -40,14 +40,16 @@ import com.genologics.ri.PaginatedBatch;
 
 /**
  *
- * The representation of a queue.<br/>
- * <br/>
+ * The representation of a queue.
+ * <p>
  * It represents and is used to list all of the elements contained within a
  * queue. A queue is a representation of samples that are ready to run through a
- * Protocol Step.<br/>
- * <br/>
+ * Protocol Step.
+ * </p>
+ * <p>
  * Each artifact listed in the queue will contain elements to show when it was
  * queued and its container location.
+ * </p>
  *
  * @since 2.19
  */
