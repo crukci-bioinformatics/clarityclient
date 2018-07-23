@@ -1,6 +1,6 @@
 /*
  * CRUK-CI Genologics REST API Java Client.
- * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
+ * Copyright (C) 2018 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.genologics.ri.protocolconfiguration;
+package com.genologics.ri.automation;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -28,50 +28,40 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsLink;
-import com.genologics.ri.Linkable;
+import com.genologics.ri.processtype.ProcessType;
 
+/**
+ * Provides links to process types the automation is enabled on.
+ *
+ * @since 2.26
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "protocol-link")
-public class ProtocolLink implements LimsLink<Protocol>, Serializable
+@XmlType(name = "process-type")
+public class ProcessTypeLink implements LimsLink<ProcessType>, Serializable
 {
-    private static final long serialVersionUID = 5561496957381579448L;
-
-    @XmlAttribute(name = "name")
-    protected String name;
+    private static final long serialVersionUID = 1189833674343873526L;
 
     @XmlAttribute(name = "uri")
     @XmlSchemaType(name = "anyURI")
     protected URI uri;
 
+    @XmlAttribute(name = "name")
+    protected String name;
 
-    public ProtocolLink()
+
+    public ProcessTypeLink()
     {
     }
 
-    public ProtocolLink(URI uri)
+    public ProcessTypeLink(URI uri)
     {
         this.uri = uri;
     }
 
-    public ProtocolLink(URI uri, String name)
+    public ProcessTypeLink(URI uri, String name)
     {
         this.uri = uri;
         this.name = name;
-    }
-
-    public ProtocolLink(Linkable<Protocol> link)
-    {
-        this.uri = link.getUri();
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String value)
-    {
-        this.name = value;
     }
 
     public URI getUri()
@@ -84,10 +74,20 @@ public class ProtocolLink implements LimsLink<Protocol>, Serializable
         this.uri = value;
     }
 
-    @Override
-    public Class<Protocol> getEntityClass()
+    public String getName()
     {
-        return Protocol.class;
+        return name;
+    }
+
+    public void setName(String value)
+    {
+        this.name = value;
+    }
+
+    @Override
+    public Class<ProcessType> getEntityClass()
+    {
+        return ProcessType.class;
     }
 
     @Override

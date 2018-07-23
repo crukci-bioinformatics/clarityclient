@@ -1,0 +1,220 @@
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/automation" xmlns:aut="http://genologics.com/ri/automation" xmlns:file="http://genologics.com/ri/file" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/file" schemaLocation="file.xsd"/>
+  <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
+  <xs:element name="automation" type="aut:automation"/>
+  <xs:element name="automations" type="aut:automations"/>
+  <xs:complexType name="automation">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The automation element integrates the process with the Automation Worker (previously called External Program Plugin or EPP).
+When a user runs the process, the system automatically issue a command, or submits files and scripts to
+third-party programs for further processing.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="context" type="aut:context" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The context of this automation. The only available value is <tt>Context.STEP</tt>.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="string" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The value of the automation.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="run-program-per-event" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Deprecated, this property is no longer supported.
+Should the automation run once for each process related event?
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="channel" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The channel of this automation.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="file:file" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each File provides a URI linking to the detailed representation of a File associated with the Automation.
+<br/>Always returns with GET: No, however if one or more files are attached to a given Automation they will be returned.
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No, files cannot be modified through the Automation resource. Use the Files resource instead.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="process-types" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The list of process types the automation is enabled on.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="process-type" type="aut:process-type" minOccurs="0" maxOccurs="unbounded">
+              <xs:annotation>
+                <xs:documentation>
+                  <![CDATA[The list of process types the automation is enabled on.
+<br/>Always returns with GET: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the automation.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the automation.
+<br/>Always returns with GET: Yes
+<br/>Creatable with POST: Yes
+<br/>Required for POST: Yes
+<br/>Updatable with PUT: Yes
+<br/>Required for PUT: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:simpleType name="context">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The available options for the automation context.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="STEP"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="process-type">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[Provides links to process types the automation is enabled on.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the process type.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the process type.
+<br/>Always returns with GET: Yes
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="automations">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[The representation for a list of automation links.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="automation" type="aut:automation-link" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The list of automations.
+<br/>Always returns with GET: Yes]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="previous-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The previous page element, contains a link to the previous page of automations, if required.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="next-page" type="ri:page" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[The next page element, contains a link to the next page of automations, if required.
+<br/>Always returns with GET: No]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the automations.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  <xs:complexType name="automation-link">
+    <xs:annotation>
+      <xs:documentation>
+        <![CDATA[automation-Link is a child element type of automations and provides a URI linking to
+the detailed representation of a automation.]]>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The name of the automation.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI of the automation.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

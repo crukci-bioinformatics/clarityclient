@@ -53,6 +53,8 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
 import com.genologics.ri.artifactgroup.ArtifactGroup;
+import com.genologics.ri.automation.Automation;
+import com.genologics.ri.automation.Automations;
 import com.genologics.ri.configuration.Field;
 import com.genologics.ri.configuration.Type;
 import com.genologics.ri.container.Container;
@@ -144,6 +146,18 @@ public class SerializationTest
     public void testArtifactGroup() throws Throwable
     {
         fetchMarshalAndSerialize(ArtifactGroup.class);
+    }
+
+    @Test
+    public void testAutomation() throws Throwable
+    {
+        fetchMarshalAndSerialize(Automation.class);
+    }
+
+    @Test
+    public void testAutomations() throws Throwable
+    {
+        fetchMarshalAndSerialize(Automations.class);
     }
 
     @Test

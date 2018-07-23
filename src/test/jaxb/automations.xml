@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aut:automations xmlns:aut="http://genologics.com/ri/automation"
+                 uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/automations">
+    <automation name="auto1" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/automations/1"/>
+    <automation name="autoA" uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/automations/2"/>
+</aut:automations>

@@ -28,6 +28,7 @@ public final class Namespaces
     public static final String ROOT_NAMESPACE = "http://genologics.com/ri";
     public static final String ARTIFACT_NAMESPACE = "http://genologics.com/ri/artifact";
     public static final String ARTIFACT_GROUP_NAMESPACE = "http://genologics.com/ri/artifactgroup";
+    public static final String AUTOMATION_NAMESPACE = "http://genologics.com/ri/automation";
     public static final String CONFIGURATION_NAMESPACE = "http://genologics.com/ri/configuration";
     public static final String CONTAINER_NAMESPACE = "http://genologics.com/ri/container";
     public static final String CONTAINER_TYPE_NAMESPACE = "http://genologics.com/ri/containertype";

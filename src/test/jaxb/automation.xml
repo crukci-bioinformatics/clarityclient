@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aut:automation xmlns:aut="http://genologics.com/ri/automation"
+                 xmlns:file="http://genologics.com/ri/file"
+                 uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/automation/1"
+                 name="auto1">
+    <context>STEP</context>
+    <string>Do the external thing.</string>
+    <run-program-per-event>false</run-program-per-event>
+    <channel>limsserver</channel>
+    <file:file limsid="92-5098-40-476" uri="http://lims.cri.camres.org:8080/api/v2/files/92-5098-40-476">
+        <attached-to>http://lims.cri.camres.org:8080/api/v2/artifacts/92-5098</attached-to>
+        <content-location>sftp://lims.cri.camres.org/home/glsftp/Process/2013/1/24-1488/92-5098-40-476.html</content-location>
+        <original-location>/opt/gls/clarity/ai/temp/runExternalProgram-25012013-2786448508091647588.24-1488/92-5098.html</original-location>
+        <is-published>false</is-published>
+    </file:file>
+    <file:file limsid="ADM1-40-1" uri="http://lims.cri.camres.org:8080/api/v2/files/ADM1-40-1" />
+    <file:file limsid="PAJ13-40-116" uri="http://lims.cri.camres.org:8080/api/v2/files/PAJ13-40-116" />
+    <process-types>
+        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/554" name="Aggregate QC (DNA) 5.0"/>
+        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/555" name="Aggregate QC (Library Validation) 5.0"/>
+        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/556" name="Bioanalyzer QC (DNA) 5.0"/>
+        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/904" name="Post GEM Incubation Cleanup (10X)"/>
+        <process-type uri="https://limsdev.cruk.cam.ac.uk/api/v2/processtypes/954" name="Tagment DNA (TruSeq Rapid)"/>
+    </process-types>
+</aut:automation>

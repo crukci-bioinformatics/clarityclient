@@ -58,6 +58,8 @@ import org.w3c.dom.Node;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
 import com.genologics.ri.artifactgroup.ArtifactGroup;
+import com.genologics.ri.automation.Automation;
+import com.genologics.ri.automation.Automations;
 import com.genologics.ri.configuration.Field;
 import com.genologics.ri.configuration.Type;
 import com.genologics.ri.container.Container;
@@ -146,6 +148,18 @@ public class JaxbAnnotationTest
     public void testArtifactGroup() throws Throwable
     {
         fetchMarshalAndCompare(ArtifactGroup.class);
+    }
+
+    @Test
+    public void testAutomation() throws Throwable
+    {
+        fetchMarshalAndCompare(Automation.class);
+    }
+
+    @Test
+    public void testAutomations() throws Throwable
+    {
+        fetchMarshalAndCompare(Automations.class);
     }
 
     @Test

@@ -118,6 +118,7 @@
         <value>com.genologics.ri</value>
         <value>com.genologics.ri.artifact</value>
         <value>com.genologics.ri.artifactgroup</value>
+        <value>com.genologics.ri.automation</value>
         <value>com.genologics.ri.configuration</value>
         <value>com.genologics.ri.container</value>
         <value>com.genologics.ri.containertype</value>

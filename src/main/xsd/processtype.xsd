@@ -1,4 +1,5 @@
-<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/processtype" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema version="1.0" targetNamespace="http://genologics.com/ri/processtype" xmlns:file="http://genologics.com/ri/file" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:ri="http://genologics.com/ri" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://genologics.com/ri/file" schemaLocation="file.xsd"/>
   <xs:import namespace="http://genologics.com/ri/configuration" schemaLocation="configuration.xsd"/>
   <xs:import namespace="http://genologics.com/ri" schemaLocation="ri.xsd"/>
   <xs:element name="process-type" type="ptp:process-type"/>
@@ -621,7 +622,7 @@ The file of the parameter.
           <xs:documentation>
             <![CDATA[Deprecated, this property is no longer supported.
 Should the EPP run once for each process related event?
-<br/>Always returns with GET: No]]>
+<br/>Always returns with GET: Yes]]>
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -642,11 +643,31 @@ The epp invocation type of this script.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element ref="file:file" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            <![CDATA[Each File provides a URI linking to the detailed representation of a File associated with the Process Parameter.
+<br/>Always returns with GET: No, however if one or more files are attached to a given Process Parameter they will be returned.
+<br/>Creatable with POST: No
+<br/>Required for POST: No
+<br/>Updatable with PUT: No
+<br/>Required for PUT: No, files cannot be modified through the Process Parameter resource. Use the Files resource instead.]]>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="name" type="xs:string">
       <xs:annotation>
         <xs:documentation>
           <![CDATA[The name of the process type parameter.
+<br/>Always returns with GET: Yes]]>
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="uri" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          <![CDATA[The URI linking to the process parameter / automation.
 <br/>Always returns with GET: Yes]]>
         </xs:documentation>
       </xs:annotation>
