@@ -1,6 +1,7 @@
 com.genologics.ri
 com.genologics.ri.artifact
 com.genologics.ri.artifactgroup
+com.genologics.ri.automation
 com.genologics.ri.configuration
 com.genologics.ri.container
 com.genologics.ri.containertype
