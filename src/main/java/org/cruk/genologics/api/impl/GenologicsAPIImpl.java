@@ -1009,17 +1009,14 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
         checkServerSet();
 
-        String uri;
-        if (entityAnno.processStepComponent())
+        StringBuilder uri = new StringBuilder(apiRoot);
+        uri.append(entityAnno.uriSection()).append('/').append(limsid);
+        if (StringUtils.isNotEmpty(entityAnno.uriSubsection()))
         {
-            uri = apiRoot + "steps/" + limsid + '/' + entityAnno.uriSection();
-        }
-        else
-        {
-            uri = apiRoot + entityAnno.uriSection() + '/' + limsid;
+            uri.append('/').append(entityAnno.uriSubsection());
         }
 
-        return uri;
+        return uri.toString();
     }
 
     @Override
@@ -1424,8 +1421,10 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
         checkServerSet();
 
-        String uri;
-        if (entityAnno.processStepComponent())
+        boolean processStepComponent = "steps".equals(entityAnno.uriSection()) && StringUtils.isNotEmpty(entityAnno.uriSubsection());
+
+        StringBuilder uri = new StringBuilder(100);
+        if (processStepComponent)
         {
             try
             {
@@ -1435,7 +1434,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
                     throw new IllegalArgumentException("entity does not have its Step URI set. This is needed to post a new " +
                                                        getShortClassName(entityClass) + ".");
                 }
-                uri = step.getUri().toString() + '/' + entityAnno.uriSection();
+                uri.append(step.getUri()).append('/').append(entityAnno.uriSubsection());
             }
             catch (NoSuchMethodException e)
             {
@@ -1452,10 +1451,10 @@ public class GenologicsAPIImpl implements GenologicsAPI
         }
         else
         {
-            uri = apiRoot + entityAnno.uriSection();
+            uri.append(apiRoot).append(entityAnno.uriSection());
         }
 
-        doCreateSingle(entity, uri);
+        doCreateSingle(entity, uri.toString());
     }
 
     /**
@@ -1587,8 +1586,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
             if (doBatchCreates)
             {
-                assert !entityAnno.processStepComponent() : "Have bulk create for process step component. This is not supported.";
-
                 try
                 {
                     List<E> createdEntities = new ArrayList<E>(entities.size());
@@ -1883,8 +1880,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
             if (doBatchUpdates)
             {
-                assert !entityAnno.processStepComponent() : "Have bulk update for process step component. This is not supported.";
-
                 try
                 {
                     List<E> updatedEntities = new ArrayList<E>(entities.size());

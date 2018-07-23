@@ -57,6 +57,7 @@ import org.w3c.dom.Node;
 
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
+import com.genologics.ri.artifact.Demux;
 import com.genologics.ri.artifactgroup.ArtifactGroup;
 import com.genologics.ri.automation.Automation;
 import com.genologics.ri.automation.Automations;
@@ -190,6 +191,12 @@ public class JaxbAnnotationTest
     public void testControlType() throws Throwable
     {
         fetchMarshalAndCompare(ControlType.class);
+    }
+
+    @Test
+    public void testDemux() throws Throwable
+    {
+        fetchMarshalAndCompare(Demux.class);
     }
 
     @Test

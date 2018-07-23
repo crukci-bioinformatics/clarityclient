@@ -46,7 +46,7 @@ import com.genologics.ri.userdefined.UDF;
 /**
  * @since 2.18
  */
-@GenologicsEntity(uriSection = "details", processStepComponent = true, updateable = true)
+@GenologicsEntity(uriSection = "steps", uriSubsection = "details", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "details", propOrder = { "step", "configuration", "inputOutputMaps", "fields", "preset", "instrument" })
 @XmlRootElement(name = "details")

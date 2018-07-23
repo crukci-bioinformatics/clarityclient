@@ -34,6 +34,10 @@
            maxElementsInMemory="2000"
            timeToLiveSeconds="300" />
 
+    <cache name="com.genologics.ri.artifact.Demux"
+           maxElementsInMemory="1000"
+           timeToLiveSeconds="300" />
+
     <cache name="com.genologics.ri.sample.Sample"
            maxElementsInMemory="1000"
            timeToLiveSeconds="300" />
@@ -96,6 +100,10 @@
 
     <cache name="com.genologics.ri.protocolconfiguration.ProtocolStep"
            maxElementsInMemory="300"
+           timeToLiveSeconds="1800" />
+
+    <cache name="com.genologics.ri.automation.Automation"
+           maxElementsInMemory="100"
            timeToLiveSeconds="1800" />
 
 </ehcache>

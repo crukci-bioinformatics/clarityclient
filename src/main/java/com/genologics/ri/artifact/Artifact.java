@@ -68,10 +68,10 @@ import com.genologics.ri.userdefined.UDF;
 @XmlType(name = "artifact",
          propOrder = { "name", "type", "outputType", "parentProcess", "qcFlag", "location",
                        "workingFlag", "samples", "reagentLabels", "controlType", "fields", "file",
-                       "artifactGroups", "workflowStages" })
+                       "artifactGroups", "workflowStages", "demux" })
 public class Artifact implements LimsEntity<Artifact>, Serializable
 {
-    private static final long serialVersionUID = -6783743293758153327L;
+    private static final long serialVersionUID = 4667019853212119178L;
 
     protected String name;
 
@@ -116,6 +116,9 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
     @XmlElementWrapper(name = "workflow-stages")
     @XmlElement(name = "workflow-stage")
     protected List<WorkflowStage> workflowStages;
+
+    @XmlElement(name = "demux")
+    protected DemuxLink demux;
 
     @XmlAttribute(name = "limsid")
     protected String limsid;
@@ -334,6 +337,16 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
             getWorkflowStages().add(stage);
         }
         return stage;
+    }
+
+    public DemuxLink getDemux()
+    {
+        return demux;
+    }
+
+    public void setDemux(Linkable<Demux> demux)
+    {
+        this.demux = demux == null ? null : new DemuxLink(demux.getUri());
     }
 
     @Override

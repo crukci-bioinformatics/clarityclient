@@ -28,6 +28,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -1134,13 +1135,10 @@ public class GenologicsAPICache
                         "Use load(String, String, Class) for this type.");
             }
 
-            if (entityAnno.processStepComponent())
+            uri.append(entityAnno.uriSection()).append('/').append(ids[0]);
+            if (StringUtils.isNotEmpty(entityAnno.uriSubsection()))
             {
-                uri.append("steps/").append(ids[0]).append('/').append(entityAnno.uriSection());
-            }
-            else
-            {
-                uri.append(entityAnno.uriSection()).append('/').append(ids[0]);
+                uri.append('/').append(entityAnno.uriSubsection());
             }
         }
 

@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -46,12 +46,30 @@ public class ObjectFactory {
     private final static QName _Artifacts_QNAME = new QName(ARTIFACT_NAMESPACE, "artifacts");
     private final static QName _Details_QNAME = new QName(ARTIFACT_NAMESPACE, "details");
     private final static QName _Artifact_QNAME = new QName(ARTIFACT_NAMESPACE, "artifact");
+    private final static QName _Demux_QNAME = new QName(ARTIFACT_NAMESPACE, "demux");
+    private final static QName _DemuxDetails_QNAME = new QName(ARTIFACT_NAMESPACE, "demux-details");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.genologics.ri.artifact
      *
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link DemuxDetails }
+     *
+     */
+    public DemuxDetails createDemuxDetails() {
+        return new DemuxDetails();
+    }
+
+    /**
+     * Create an instance of {@link PoolStep }
+     *
+     */
+    public PoolStep createPoolStep() {
+        return new PoolStep();
     }
 
     /**
@@ -71,11 +89,51 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Demux }
+     *
+     */
+    public Demux createDemux() {
+        return new Demux();
+    }
+
+    /**
      * Create an instance of {@link ReagentLabel }
      *
      */
     public ReagentLabel createReagentLabel() {
         return new ReagentLabel();
+    }
+
+    /**
+     * Create an instance of {@link DemuxSourceArtifact }
+     *
+     */
+    public DemuxSourceArtifact createDemuxSourceArtifact() {
+        return new DemuxSourceArtifact();
+    }
+
+    /**
+     * Create an instance of {@link DemuxLink }
+     *
+     */
+    public DemuxLink createDemuxLink() {
+        return new DemuxLink();
+    }
+
+    /**
+     * Create an instance of {@link DemuxArtifactSample }
+     *
+     */
+    public DemuxArtifactSample createDemuxArtifactSample() {
+        return new DemuxArtifactSample();
+    }
+
+    /**
+     * Create an instance of {@link DemuxArtifact }
+     *
+     */
+    public DemuxArtifact createDemuxArtifact() {
+        return new DemuxArtifact();
     }
 
     /**
@@ -153,4 +211,21 @@ public class ObjectFactory {
         return new JAXBElement<Artifact>(_Artifact_QNAME, Artifact.class, null, value);
     }
 
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link DemuxDetails }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = ARTIFACT_NAMESPACE, name = "demux-details")
+    public JAXBElement<DemuxDetails> createDemuxDetails(DemuxDetails value) {
+        return new JAXBElement<DemuxDetails>(_DemuxDetails_QNAME, DemuxDetails.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Demux }{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "http://genologics.com/ri/artifact", name = "demux")
+    public JAXBElement<Demux> createDemux(Demux value) {
+        return new JAXBElement<Demux>(_Demux_QNAME, Demux.class, null, value);
+    }
 }

@@ -27,7 +27,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.beanutils.PropertyUtils;
+
 import com.genologics.ri.LimsLink;
+import com.genologics.ri.Linkable;
 import com.genologics.ri.processtype.ProcessType;
 
 /**
@@ -72,6 +75,20 @@ public class ProcessTypeLink implements LimsLink<ProcessType>, Serializable
     public void setUri(URI value)
     {
         this.uri = value;
+    }
+
+    public void setProcessType(Linkable<ProcessType> processType)
+    {
+        uri = processType == null ? null : processType.getUri();
+        name = null;
+        try
+        {
+            name = (String)PropertyUtils.getProperty(processType, "name");
+        }
+        catch (Exception e)
+        {
+            // Ignore everything - it's only an attempt.
+        }
     }
 
     public String getName()

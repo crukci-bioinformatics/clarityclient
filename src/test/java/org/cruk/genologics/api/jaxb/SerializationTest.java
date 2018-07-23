@@ -52,6 +52,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
+import com.genologics.ri.artifact.Demux;
 import com.genologics.ri.artifactgroup.ArtifactGroup;
 import com.genologics.ri.automation.Automation;
 import com.genologics.ri.automation.Automations;
@@ -188,6 +189,12 @@ public class SerializationTest
     public void testControlType() throws Throwable
     {
         fetchMarshalAndSerialize(ControlType.class);
+    }
+
+    @Test
+    public void testDemux() throws Throwable
+    {
+        fetchMarshalAndSerialize(Demux.class);
     }
 
     @Test

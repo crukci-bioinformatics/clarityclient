@@ -36,7 +36,7 @@ import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
 
-@GenologicsEntity(uriSection = "actions", processStepComponent = true, updateable = true)
+@GenologicsEntity(uriSection = "steps", uriSubsection = "actions", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "actions", propOrder = { "step", "configuration", "nextActions", "escalation" })
 @XmlRootElement(name = "actions")
