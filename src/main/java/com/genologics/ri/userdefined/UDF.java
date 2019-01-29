@@ -262,7 +262,7 @@ public class UDF implements Serializable
         {
             if (failMessage == null)
             {
-                failMessage = "UDF '" + name + "' does not exist.";
+                failMessage = "UDF \"" + name + "\" does not exist.";
             }
             throw new MissingUDFException(name, failMessage);
         }
@@ -417,6 +417,15 @@ public class UDF implements Serializable
         if (name == null)
         {
             throw new IllegalArgumentException("name cannot be null");
+        }
+
+        if (thing == null && fail)
+        {
+            if (failMessage == null)
+            {
+                failMessage = "UDF \"" + name + "\" does not exist because 'thing' is null.";
+            }
+            throw new MissingUDFException(name, failMessage);
         }
 
         UDF udf = null;

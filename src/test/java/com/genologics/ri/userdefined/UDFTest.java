@@ -88,7 +88,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            // Ok.
+            assertEquals("Exception message wrong", "UDF \"User Comments\" does not exist.", e.getMessage());
         }
 
         try
@@ -98,7 +98,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            // Ok.
+            assertEquals("Exception message wrong", "UDF \"No Field\" does not exist.", e.getMessage());
         }
 
         try
@@ -130,7 +130,7 @@ public class UDFTest
         String value = UDF.getUDFValue(a.getUserDefinedFields(), "User Comments");
         assertNotNull("No UDF found", value);
 
-        value = UDF.getUDFValue(null, "User Comments");
+        value = UDF.getUDFValue((Collection<?>)null, "User Comments");
         assertNull("UDF found in null collection", value);
 
         value = UDF.getUDFValue(a.getUserDefinedFields(), "No Field");
@@ -151,12 +151,12 @@ public class UDFTest
 
         try
         {
-            value = UDF.getUDFValue(null, "User Comments", true);
+            value = UDF.getUDFValue((Collection<?>)null, "User Comments", true);
             fail("No exception with UDF from null collection.");
         }
         catch (MissingUDFException e)
         {
-            // Ok.
+            assertEquals("Exception message wrong", "UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage());
         }
 
         try
@@ -166,7 +166,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            // Ok.
+            assertEquals("Exception message wrong", "UDF \"No Field\" does not exist.", e.getMessage());
         }
 
         try
@@ -295,12 +295,12 @@ public class UDFTest
 
         try
         {
-            udf = UDF.getUDF(null, "User Comments", true);
-            fail("No exception with UDF from null collection.");
+            udf = UDF.getUDF((Artifact)null, "User Comments", true);
+            fail("No exception with UDF from null entity.");
         }
         catch (MissingUDFException e)
         {
-            // Ok.
+            assertEquals("Exception message wrong", "UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage());
         }
 
         try
@@ -310,7 +310,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            // Ok.
+            assertEquals("Exception message wrong", "UDF \"No Field\" does not exist on Artifact ADM2A8PA1", e.getMessage());
         }
 
         try
@@ -363,12 +363,12 @@ public class UDFTest
 
         try
         {
-            value = UDF.getUDFValue(null, "User Comments", true);
-            fail("No exception with UDF from null collection.");
+            value = UDF.getUDFValue((Artifact)null, "User Comments", true);
+            fail("No exception with UDF from null entity.");
         }
         catch (MissingUDFException e)
         {
-            // Ok.
+            assertEquals("Exception message wrong", "UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage());
         }
 
         try
@@ -378,7 +378,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            // Ok.
+            assertEquals("Exception message wrong", "UDF \"No Field\" does not exist on Artifact ADM2A8PA1", e.getMessage());
         }
 
         try
