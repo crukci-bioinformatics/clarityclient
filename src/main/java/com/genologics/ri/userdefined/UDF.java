@@ -33,8 +33,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
+import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.genologics.ri.LimsEntityLinkable;
+import com.genologics.ri.Locatable;
 import com.genologics.ri.configuration.FieldType;
 
 /**
@@ -420,8 +423,34 @@ public class UDF implements Serializable
 
         if (thing != null)
         {
-            Collection<UDF> udfs = getUDFCollection(thing);
-            udf = getUDF(udfs, name, fail, failMessage);
+            try
+            {
+                Collection<UDF> udfs = getUDFCollection(thing);
+                udf = getUDF(udfs, name, fail, failMessage);
+            }
+            catch (MissingUDFException e)
+            {
+                // If there is no explicit fail message, we might be able to provide a better one
+                // than that given by getUDF(...).
+                if (failMessage == null)
+                {
+                    String better = "UDF \"{0}\" does not exist on {1} {2}";
+                    if (thing instanceof LimsEntityLinkable<?>)
+                    {
+                        LimsEntityLinkable<?> linkable = (LimsEntityLinkable<?>)thing;
+                        failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), linkable.getLimsid());
+                        throw new MissingUDFException(name, failMessage);
+                    }
+                    if (thing instanceof Locatable)
+                    {
+                        Locatable locatable = (Locatable)thing;
+                        failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), locatable.getUri());
+                        throw new MissingUDFException(name, failMessage);
+                    }
+                }
+
+                throw e;
+            }
         }
 
         return udf;

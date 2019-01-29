@@ -63,6 +63,16 @@ public class StepCreation implements Serializable
     @XmlElement(name = "input")
     protected List<CreationInput> inputs;
 
+
+    public StepCreation()
+    {
+    }
+
+    public StepCreation(StepConfiguration configuration)
+    {
+        this.configuration = configuration;
+    }
+
     public StepConfiguration getConfiguration()
     {
         return configuration;
