@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,6 +44,15 @@ public class SpecialType implements Serializable
     @XmlAttribute(name = "name")
     protected String name;
 
+    public SpecialType()
+    {
+    }
+
+    public SpecialType(String name)
+    {
+        this.name = name;
+    }
+
     public List<Attribute> getAttributes()
     {
         if (attributes == null)
@@ -51,6 +60,19 @@ public class SpecialType implements Serializable
             attributes = new ArrayList<Attribute>();
         }
         return this.attributes;
+    }
+
+    public void addAttribute(Attribute a)
+    {
+        if (a != null)
+        {
+            getAttributes().add(a);
+        }
+    }
+
+    public void addAttribute(String name, String value)
+    {
+        getAttributes().add(new Attribute(name, value));
     }
 
     public String getName()
