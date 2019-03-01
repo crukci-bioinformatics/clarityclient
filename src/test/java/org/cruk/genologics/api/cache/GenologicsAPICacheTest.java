@@ -19,13 +19,15 @@
 package org.cruk.genologics.api.cache;
 
 import static org.cruk.genologics.api.cache.GenologicsAPICache.NO_STATE_VALUE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.Security;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,7 +38,6 @@ import java.util.Map;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
 import org.easymock.EasyMock;
@@ -98,18 +99,6 @@ public class GenologicsAPICacheTest
     private Container container;
     private Sample[] samples;
     private Container poolContainer;
-
-    static
-    {
-        // Require the BouncyCastle JCE provider for Java 6 https connections.
-
-        float javaVersionF = Float.parseFloat(System.getProperty("java.specification.version"));
-        int javaVersion = (int)(javaVersionF * 10f);
-        if (javaVersion <= 16)
-        {
-            Security.addProvider(new BouncyCastleProvider());
-        }
-    }
 
     public GenologicsAPICacheTest()
     {

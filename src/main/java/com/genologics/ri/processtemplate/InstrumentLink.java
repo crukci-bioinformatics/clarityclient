@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.LimsLink;
+import com.genologics.ri.LimsEntityLink;
+import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.instrument.Instrument;
 
@@ -39,7 +40,7 @@ import com.genologics.ri.instrument.Instrument;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "instrument")
-public class InstrumentLink implements LimsLink<Instrument>, Serializable
+public class InstrumentLink implements LimsEntityLink<Instrument>, Serializable
 {
     private static final long serialVersionUID = -2255676271595073801L;
 
@@ -75,5 +76,17 @@ public class InstrumentLink implements LimsLink<Instrument>, Serializable
     public void setUri(URI uri)
     {
         this.uri = uri;
+    }
+
+    @Override
+    public String getLimsid()
+    {
+        return Link.limsIdFromUri(uri);
+    }
+
+    @Override
+    public void setLimsid(String id)
+    {
+        // Does nothing.
     }
 }

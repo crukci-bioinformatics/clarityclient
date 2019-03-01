@@ -36,6 +36,8 @@
 
     <context:annotation-config />
 
+    <bean id="java6Https" class="org.cruk.genologics.api.java6.Java6Https"/>
+
     <bean id="unittestRestTemplateTracker" class="org.cruk.genologics.api.cache.RestCallTrackingAspect">
         <property name="cacheManager" ref="genologicsCacheManager"/>
     </bean>
