@@ -55,10 +55,11 @@
     <context:property-placeholder location="classpath:/org/cruk/genologics/api/genologics-client-http.properties" ignore-unresolvable="true" />
 
     <bean id="filestoreSFTPSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
+        <property name="allowUnknownKeys" value="true"/>
         <property name="sessionConfig">
             <!-- Note: this set up required to stop the Kerberos user name prompts in Java 7. -->
             <props>
-                <prop key="PreferredAuthentications">publickey,password,keyboard-interactive</prop>
+                <prop key="PreferredAuthentications">publickey,password</prop>
 
                 <!-- May want this turned on if you are being particularly security conscious. -->
                 <!-- Can cause issues if host keys change, so by default it's turned off.      -->
