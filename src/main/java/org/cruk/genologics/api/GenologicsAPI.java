@@ -109,6 +109,8 @@ public interface GenologicsAPI
      * just the protocol, host and port.
      *
      * @return The server base URL.
+     *
+     * @throws IllegalStateException if the API has not been configured.
      */
     URL getServer();
 
@@ -127,6 +129,8 @@ public interface GenologicsAPI
      * API path ({@code /api/v2}).
      *
      * @return The API base address.
+     *
+     * @throws IllegalStateException if the API has not been configured.
      */
     String getServerApiAddress();
 
@@ -134,6 +138,8 @@ public interface GenologicsAPI
      * Get the user name of the researcher currently connecting to the server.
      *
      * @return The user name used for connections.
+     *
+     * @throws IllegalStateException if the API has not been configured.
      */
     String getUsername();
 
