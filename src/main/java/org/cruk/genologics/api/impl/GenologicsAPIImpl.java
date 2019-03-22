@@ -447,10 +447,6 @@ public class GenologicsAPIImpl implements GenologicsAPI
     @Override
     public URL getServer()
     {
-        if (serverAddress == null)
-        {
-            throw new IllegalStateException("Genologics API has not been configured yet.");
-        }
         return serverAddress;
     }
 
@@ -488,20 +484,12 @@ public class GenologicsAPIImpl implements GenologicsAPI
     @Override
     public String getServerApiAddress()
     {
-        if (serverAddress == null)
-        {
-            throw new IllegalStateException("Genologics API has not been configured yet.");
-        }
         return apiRoot;
     }
 
     @Override
     public String getUsername()
     {
-        if (apiCredentials == null)
-        {
-            throw new IllegalStateException("Genologics API has not been configured yet.");
-        }
         return apiCredentials.getUserName();
     }
 

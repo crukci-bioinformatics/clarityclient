@@ -1104,6 +1104,10 @@ public class GenologicsAPICache
                     "The class " + entityClass.getName() + " has not been annotated with the GenologicsEntity annotation.");
         }
 
+        if (api.getServerApiAddress() == null)
+        {
+            throw new IllegalStateException("Genologics API has not been configured yet.");
+        }
         StringBuilder uri = new StringBuilder(api.getServerApiAddress());
 
         if (entityAnno.primaryEntity() != void.class)

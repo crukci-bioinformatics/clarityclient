@@ -119,8 +119,6 @@ public interface GenologicsAPI
      *
      * @param serverAddress The base URL. Should just be the protocol, host and port with
      * no path.
-     *
-     * @throws IllegalArgumentException if {@code serverAddress} is null.
      */
     void setServer(URL serverAddress);
 
@@ -129,8 +127,6 @@ public interface GenologicsAPI
      * API path ({@code /api/v2}).
      *
      * @return The API base address.
-     *
-     * @throws IllegalStateException if the API has not been configured.
      */
     String getServerApiAddress();
 
@@ -138,8 +134,6 @@ public interface GenologicsAPI
      * Get the user name of the researcher currently connecting to the server.
      *
      * @return The user name used for connections.
-     *
-     * @throws IllegalStateException if the API has not been configured.
      */
     String getUsername();
 
