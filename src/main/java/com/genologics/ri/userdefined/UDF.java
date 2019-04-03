@@ -609,9 +609,11 @@ public class UDF implements Serializable
         {
             if (udf != null)
             {
-                // Remove the field.
-                udfs.remove(udf);
-                udf = null;
+                // Need to set the value to empty so when the call is made the
+                // API will actually set the value (or rather clear it). It seems
+                // that the assumption that it can just be removed from the list
+                // is wrong.
+                udf.setValue(StringUtils.EMPTY);
             }
         }
         else
