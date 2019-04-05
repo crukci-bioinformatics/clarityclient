@@ -491,6 +491,11 @@ public class UDF implements Serializable
                     Locatable locatable = (Locatable)thing;
                     failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), locatable.getUri());
                 }
+                else
+                {
+                    failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()),
+                                                       Integer.toHexString(System.identityHashCode(thing)));
+                }
             }
         }
         return failMessage;
