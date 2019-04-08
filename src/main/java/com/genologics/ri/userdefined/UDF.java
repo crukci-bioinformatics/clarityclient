@@ -183,7 +183,7 @@ public class UDF implements Serializable
     public static String getUDFValue(Collection<UDF> udfs, String name, String defaultValue)
     {
         String value = getUDFValue(udfs, name, false, null);
-        return value != null ? value : defaultValue;
+        return StringUtils.isNotEmpty(value) ? value : defaultValue;
     }
 
     /**
@@ -347,7 +347,7 @@ public class UDF implements Serializable
     public static String getUDFValue(Object thing, String name, String defaultValue)
     {
         String value = getUDFValue(thing, name, false, null);
-        return value != null ? value : defaultValue;
+        return StringUtils.isNotEmpty(value) ? value : defaultValue;
     }
 
     /**
