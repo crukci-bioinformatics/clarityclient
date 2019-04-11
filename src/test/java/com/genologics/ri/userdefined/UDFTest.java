@@ -234,8 +234,9 @@ public class UDFTest
         assertEquals("Set UDF added when it should have just set", 2, udfs.size());
 
         udf = UDF.setUDF(udfs, "Field1", null);
-        assertNull("Set UDF to null returned a field", udf);
-        assertEquals("Set UDF to null hasn't removed from the collection", 1, udfs.size());
+        assertNotNull("Set UDF to null didn't return a field", udf);
+        assertEquals("Set UDF to null changed the collection", 2, udfs.size());
+        assertEquals("Set UDF to null should result in an empty value", "", udf.getValue());
     }
 
     @Test

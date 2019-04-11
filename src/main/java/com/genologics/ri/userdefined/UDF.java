@@ -183,7 +183,7 @@ public class UDF implements Serializable
     public static String getUDFValue(Collection<UDF> udfs, String name, String defaultValue)
     {
         String value = getUDFValue(udfs, name, false, null);
-        return value != null ? value : defaultValue;
+        return StringUtils.isNotEmpty(value) ? value : defaultValue;
     }
 
     /**
@@ -260,11 +260,7 @@ public class UDF implements Serializable
 
         if (fail)
         {
-            if (failMessage == null)
-            {
-                failMessage = "UDF \"" + name + "\" does not exist.";
-            }
-            throw new MissingUDFException(name, failMessage);
+            throw new MissingUDFException(name, getMissingUDFMessage(name, failMessage));
         }
 
         return null;
@@ -289,7 +285,11 @@ public class UDF implements Serializable
     public static String getUDFValue(Collection<UDF> udfs, String name, boolean fail, String failMessage)
     {
         UDF udf = getUDF(udfs, name, fail, failMessage);
-        return udf == null ? null : udf.getValue();
+        if (udf != null && fail && StringUtils.isEmpty(udf.getValue()))
+        {
+            throw new MissingUDFException(name, getMissingUDFMessage(name, failMessage));
+        }
+        return udf == null || StringUtils.isEmpty(udf.getValue()) ? null : udf.getValue();
     }
 
     /**
@@ -347,7 +347,7 @@ public class UDF implements Serializable
     public static String getUDFValue(Object thing, String name, String defaultValue)
     {
         String value = getUDFValue(thing, name, false, null);
-        return value != null ? value : defaultValue;
+        return StringUtils.isNotEmpty(value) ? value : defaultValue;
     }
 
     /**
@@ -421,11 +421,7 @@ public class UDF implements Serializable
 
         if (thing == null && fail)
         {
-            if (failMessage == null)
-            {
-                failMessage = "UDF \"" + name + "\" does not exist because 'thing' is null.";
-            }
-            throw new MissingUDFException(name, failMessage);
+            throw new MissingUDFException(name, getMissingUDFMessage(thing, name, failMessage));
         }
 
         UDF udf = null;
@@ -441,28 +437,68 @@ public class UDF implements Serializable
             {
                 // If there is no explicit fail message, we might be able to provide a better one
                 // than that given by getUDF(...).
-                if (failMessage == null)
-                {
-                    String better = "UDF \"{0}\" does not exist on {1} {2}";
-                    if (thing instanceof LimsEntityLinkable<?>)
-                    {
-                        LimsEntityLinkable<?> linkable = (LimsEntityLinkable<?>)thing;
-                        failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), linkable.getLimsid());
-                        throw new MissingUDFException(name, failMessage);
-                    }
-                    if (thing instanceof Locatable)
-                    {
-                        Locatable locatable = (Locatable)thing;
-                        failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), locatable.getUri());
-                        throw new MissingUDFException(name, failMessage);
-                    }
-                }
-
-                throw e;
+                throw new MissingUDFException(name, getMissingUDFMessage(thing, name, failMessage));
             }
         }
 
         return udf;
+    }
+
+    /**
+     * Create a message for the MissingUDFException when {@code failMessage} is not set.
+     *
+     * @param name The name of the UDF.
+     * @param failMessage The fail message supplied by the caller.
+     *
+     * @return A suitable failure message for the exception.
+     */
+    private static String getMissingUDFMessage(String name, String failMessage)
+    {
+        if (failMessage == null)
+        {
+            failMessage = "UDF \"" + name + "\" does not exist.";
+        }
+        return failMessage;
+    }
+
+    /**
+     * Create a message for the MissingUDFException when {@code failMessage} is not set.
+     *
+     * @param thing The object the UDF is set on.
+     * @param name The name of the UDF.
+     * @param failMessage The fail message supplied by the caller.
+     *
+     * @return A suitable failure message for the exception.
+     */
+    private static String getMissingUDFMessage(Object thing, String name, String failMessage)
+    {
+        if (failMessage == null)
+        {
+            if (thing == null)
+            {
+                failMessage = "UDF \"" + name + "\" does not exist because 'thing' is null.";
+            }
+            else
+            {
+                String better = "UDF \"{0}\" does not exist on {1} {2}";
+                if (thing instanceof LimsEntityLinkable<?>)
+                {
+                    LimsEntityLinkable<?> linkable = (LimsEntityLinkable<?>)thing;
+                    failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), linkable.getLimsid());
+                }
+                else if (thing instanceof Locatable)
+                {
+                    Locatable locatable = (Locatable)thing;
+                    failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), locatable.getUri());
+                }
+                else
+                {
+                    failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()),
+                                                       Integer.toHexString(System.identityHashCode(thing)));
+                }
+            }
+        }
+        return failMessage;
     }
 
     /**
@@ -486,6 +522,10 @@ public class UDF implements Serializable
     public static String getUDFValue(Object thing, String name, boolean fail, String failMessage)
     {
         UDF udf = getUDF(thing, name, fail, failMessage);
+        if (udf != null && fail && StringUtils.isEmpty(udf.getValue()))
+        {
+            throw new MissingUDFException(name, getMissingUDFMessage(thing, name, failMessage));
+        }
         return udf == null ? null : udf.getValue();
     }
 
@@ -609,9 +649,11 @@ public class UDF implements Serializable
         {
             if (udf != null)
             {
-                // Remove the field.
-                udfs.remove(udf);
-                udf = null;
+                // Need to set the value to empty so when the call is made the
+                // API will actually set the value (or rather clear it). It seems
+                // that the assumption that it can just be removed from the list
+                // is wrong.
+                udf.setValue(StringUtils.EMPTY);
             }
         }
         else
