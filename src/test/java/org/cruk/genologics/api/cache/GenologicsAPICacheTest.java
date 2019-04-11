@@ -83,6 +83,11 @@ public class GenologicsAPICacheTest
      */
     public static final String FULL_TEST_SYSTEM_PROPERTY = "live.cache.test";
 
+    /**
+     * Need an update key store (trust store) for the tests to work under Java 6.
+     */
+    private static final File KEYSTORE_FILE = new File("java6-cacerts");
+
     protected Logger logger = LoggerFactory.getLogger(GenologicsAPICacheTest.class);
 
     protected AbstractApplicationContext context;
@@ -520,6 +525,7 @@ public class GenologicsAPICacheTest
     public void readonlyTest() throws Exception
     {
         Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
+        Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", KEYSTORE_FILE.exists());
 
         checkCredentialsSet();
 
@@ -563,6 +569,7 @@ public class GenologicsAPICacheTest
     public void fullTest() throws Exception
     {
         Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
+        Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", KEYSTORE_FILE.exists());
 
         checkCredentialsSet();
 
@@ -626,24 +633,18 @@ public class GenologicsAPICacheTest
             s.setProject(project);
             s.setSubmitter(apiUser);
 
-            UDF.setUDF(s, "Read Length", "50");
-            UDF.setUDF(s, "Column", "2");
-            UDF.setUDF(s, "Concentration", "-1");
+            UDF.setUDF(s, "Read Length", 50);
+            UDF.setUDF(s, "Concentration", 0);
             UDF.setUDF(s, "Library Type", "Other");
-            UDF.setUDF(s, "Number of Lanes", "2");
-            UDF.setUDF(s, "Pool Size", "-1");
+            UDF.setUDF(s, "Number of Lanes", 2);
+            UDF.setUDF(s, "Pool Size", samples.length);
             UDF.setUDF(s, "Priority Status", "Standard");
             UDF.setUDF(s, "Reference Genome", "Homo sapiens [GRCh37]");
-            UDF.setUDF(s, "Row", "A");
-            UDF.setUDF(s, "Sample Source", "Not Assigned");
             UDF.setUDF(s, "Sample Type", "DNA");
-            UDF.setUDF(s, "Sequencer", "Not Assigned");
             UDF.setUDF(s, "SLX Identifier", "SLX-0000");
             UDF.setUDF(s, "Sequencing Type", "Paired End");
             UDF.setUDF(s, "Index Type", "Unspecified (Other)");
-            UDF.setUDF(s, "Volume", "-1");
-            UDF.setUDF(s, "Average Library Length", "-1");
-            UDF.setUDF(s, "Version Number", "Not Assigned");
+            UDF.setUDF(s, "Average Library Length", 10);
             UDF.setUDF(s, "Workflow", "MiSeq Express");
             UDF.setUDF(s, "Billing Information", "SWAG/000");
 

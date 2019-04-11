@@ -80,6 +80,7 @@
     </licenses>
 
     <properties>
+        <dependency.locations.enabled>false</dependency.locations.enabled>
         <spring.version>4.3.19.RELEASE</spring.version>
         <aspectj.version>1.8.13</aspectj.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -279,6 +280,17 @@
                 </configuration>
             </plugin>
 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <!-- Additional Java 6 certificates -->
+                        <javax.net.ssl.trustStore>${basedir}/java6-cacerts</javax.net.ssl.trustStore>
+                        <javax.net.ssl.trustStorePassword>changeit</javax.net.ssl.trustStorePassword>
+                  </systemPropertyVariables>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-toolchains-plugin</artifactId>
