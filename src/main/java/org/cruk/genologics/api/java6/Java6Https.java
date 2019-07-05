@@ -38,69 +38,80 @@ public final class Java6Https
 {
     private static boolean checked;
 
+    /**
+     * Make sure that the BouncyCastle provider is set up if necessary.
+     */
     public static synchronized final void checkHttps()
     {
         if (!checked)
         {
-            int spec = Math.round(Float.parseFloat(System.getProperty("java.vm.specification.version")) * 10f);
-
-            if (spec <= 16)
+            try
             {
-                Logger logger = LoggerFactory.getLogger(Java6Https.class);
+                int spec = Math.round(Float.parseFloat(System.getProperty("java.vm.specification.version")) * 10f);
 
-                try
+                if (spec <= 16)
                 {
-                    final String bcClass = "org.bouncycastle.jce.provider.BouncyCastleProvider";
+                    Logger logger = LoggerFactory.getLogger(Java6Https.class);
 
-                    boolean haveBC = false;
-                    Provider[] registeredProviders = Security.getProviders();
-                    for (Provider p : registeredProviders)
+                    try
                     {
-                        if (p.getClass().getName().equals(bcClass))
+                        final String bcClass = "org.bouncycastle.jce.provider.BouncyCastleProvider";
+
+                        boolean haveBC = false;
+                        Provider[] registeredProviders = Security.getProviders();
+                        for (Provider p : registeredProviders)
                         {
-                            haveBC = true;
-                            break;
+                            if (p.getClass().getName().equals(bcClass))
+                            {
+                                haveBC = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if (!haveBC)
+                        if (!haveBC)
+                        {
+                            Class<?> bc = Class.forName(bcClass);
+                            Provider p = (Provider)bc.newInstance();
+
+                            Security.addProvider(p);
+                        }
+
+                        logger.debug("Added BouncyCastle provider to security providers list.");
+                    }
+                    catch (ClassNotFoundException e)
                     {
-                        Class<?> bc = Class.forName(bcClass);
-                        Provider p = (Provider)bc.newInstance();
-
-                        Security.addProvider(p);
+                        logger.error("Cannot locate BouncyCastle provider.");
                     }
-
-                    logger.debug("Added BouncyCastle provider to security providers list.");
+                    catch (IllegalAccessException e)
+                    {
+                        logger.error("Cannot instantiate a BouncyCastle provider.");
+                    }
+                    catch (InstantiationException e)
+                    {
+                        logger.error("Cannot instantiate a BouncyCastle provider.");
+                    }
+                    catch (SecurityException e)
+                    {
+                        logger.error("Not allowed to add the BouncyCastle provider: {}", e.getMessage());
+                    }
+                    catch (Exception e)
+                    {
+                        logger.error("Cannot establish the BouncyCastle provider:", e);
+                    }
                 }
-                catch (ClassNotFoundException e)
-                {
-                    logger.error("Cannot locate BouncyCastle provider.");
-                }
-                catch (IllegalAccessException e)
-                {
-                    logger.error("Cannot instantiate a BouncyCastle provider.");
-                }
-                catch (InstantiationException e)
-                {
-                    logger.error("Cannot instantiate a BouncyCastle provider.");
-                }
-                catch (SecurityException e)
-                {
-                    logger.error("Not allowed to add the BouncyCastle provider: {}", e.getMessage());
-                }
-                catch (Exception e)
-                {
-                    logger.error("Cannot establish the BouncyCastle provider:", e);
-                }
-                finally
-                {
-                    checked = true;
-                }
+            }
+            finally
+            {
+                checked = true;
             }
         }
     }
 
+    /**
+     * Constructor that simply calls {@code checkHttps()} to set up the
+     * BouncyCastle provider if necessary and possible. Calling here allows
+     * this class to be created as a bean in Spring.
+     */
     public Java6Https()
     {
         checkHttps();
