@@ -131,7 +131,7 @@ public class GenologicsAPICacheTest
     public void cleanup()
     {
         testAspect.setEnabled(false);
-        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.LATEST);
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.NEWER);
         cacheAspect.clear();
 
         if (project != null)
@@ -168,6 +168,59 @@ public class GenologicsAPICacheTest
         assertEquals("Version wrong with state", 5432L, e.getVersion());
     }
 
+    @Test
+    public void testRemoveStateIfNecessary() throws Throwable
+    {
+        final String base = "https://limsdev.cruk.cam.ac.uk/api/v2/artifacts/1234";
+
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.UP_TO_DATE);
+
+        URI original = new URI(base);
+        URI stripped = cacheAspect.removeStateIfNecessary(original, Artifact.class);
+        assertEquals("URI without state changed", original.toString(), stripped.toString());
+
+        original = new URI(base + "?state=1234");
+        stripped = cacheAspect.removeStateIfNecessary(original, Artifact.class);
+        assertEquals("State not removed", base, stripped.toString());
+
+        original = new URI(base + "?state=1234&type=Hello");
+        stripped = cacheAspect.removeStateIfNecessary(original, Artifact.class);
+        assertEquals("State not removed", base + "?type=Hello", stripped.toString());
+
+        original = new URI(base + "?type=Hello&state=1234");
+        stripped = cacheAspect.removeStateIfNecessary(original, Artifact.class);
+        assertEquals("State not removed", base + "?type=Hello", stripped.toString());
+
+        original = new URI(base + "?type=Hello&state=1234&name=What");
+        stripped = cacheAspect.removeStateIfNecessary(original, Artifact.class);
+        assertEquals("State not removed", base + "?type=Hello&name=What", stripped.toString());
+
+        original = new URI(base + "?type=Hello&state=1234&&name=What");
+        stripped = cacheAspect.removeStateIfNecessary(original, Artifact.class);
+        assertEquals("State not removed", base + "?type=Hello&name=What", stripped.toString());
+
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.NEWER);
+
+        stripped = cacheAspect.removeStateIfNecessary(original, Artifact.class);
+        assertEquals("State not removed", base + "?type=Hello&state=1234&&name=What", stripped.toString());
+
+        ProceedingJoinPoint pjp = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp.getArgs()).andReturn(new Object[] { CacheStatefulBehaviour.UP_TO_DATE }).once();
+        EasyMock.expect(pjp.proceed()).andReturn(null).once();
+        EasyMock.replay(pjp);
+        cacheAspect.overrideBehaviour(pjp);
+
+        stripped = cacheAspect.removeStateIfNecessary(original, Artifact.class);
+        assertEquals("State not removed", base + "?type=Hello&name=What", stripped.toString());
+
+        // An entity that doesn't say it has a state. In that case, there will be no
+        // reparsing done.
+
+        original = new URI("https://limsdev.cruk.cam.ac.uk/api/v2/samples?state=1234");
+        stripped = cacheAspect.removeStateIfNecessary(original, Sample.class);
+        assertEquals("State removed", original.toString(), stripped.toString());
+    }
+
     private void checkCredentialsSet()
     {
         Assume.assumeTrue("Could not set credentials for the API, which is needed for this test. " +
@@ -191,11 +244,11 @@ public class GenologicsAPICacheTest
     }
 
     @Test
-    public void testLoadOrRetrieveLatest() throws Throwable
+    public void testLoadOrRetrieveNewer() throws Throwable
     {
         checkCredentialsSet();
 
-        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.LATEST);
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.NEWER);
 
         //CacheManager mockCacheManager = EasyMock.createMock(CacheManager.class);
         //EasyMock.expect(mockCacheManager.getCache(Artifact.class.getName())).andReturn(value);
@@ -437,11 +490,108 @@ public class GenologicsAPICacheTest
     }
 
     @Test
+    public void testLoadOrRetrieveUpToDate() throws Throwable
+    {
+        checkCredentialsSet();
+
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.UP_TO_DATE);
+
+        //CacheManager mockCacheManager = EasyMock.createMock(CacheManager.class);
+        //EasyMock.expect(mockCacheManager.getCache(Artifact.class.getName())).andReturn(value);
+
+        cacheAspect.getCache(Artifact.class).removeAll();
+
+        String base = api.getServerApiAddress();
+
+        Signature jpSig = createSignatureMock();
+
+        Artifact a1 = new Artifact();
+        a1.setUri(new URI(base + "/artifacts/2-1771911?state=1294907"));
+        a1.setLimsid("2-1771911");
+
+        Object[] a1args = { a1.getUri(), a1.getClass() };
+
+        ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+
+        EasyMock.replay(pjp1, jpSig);
+
+        Object returned = cacheAspect.retrieve(pjp1);
+
+        EasyMock.verify(pjp1, jpSig);
+        assertSame("Did not return a1", a1, returned);
+
+        Artifact a2 = new Artifact();
+        a2.setUri(new URI(base + "/artifacts/2-1771911?state=1500000"));
+        a2.setLimsid("2-1771911");
+
+        Object[] a2args = { a2.getUri(), a2.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+        EasyMock.expect(pjp2.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp2.proceed()).andReturn(a2).once();
+
+        EasyMock.replay(pjp2, jpSig);
+
+        returned = cacheAspect.retrieve(pjp2);
+        assertSame("Did not return a2", a2, returned);
+
+        EasyMock.verify(pjp2, jpSig);
+
+        // With requests for up to date, expect a new call to the API for all. This
+        // might retrieve the same item, but the call goes through regardless.
+
+        Artifact a3 = new Artifact();
+        a3.setUri(new URI(base + "/artifacts/2-1771911?state=1101002"));
+        a3.setLimsid("2-1771911");
+
+        Object[] a3args = { a3.getUri().toString(), a3.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(3);
+        EasyMock.expect(pjp3.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp3.proceed()).andReturn(a3).once();
+
+        EasyMock.replay(pjp3, jpSig);
+
+        returned = cacheAspect.retrieve(pjp3);
+
+        EasyMock.verify(pjp3, jpSig);
+        assertSame("Did not return a3", a3, returned);
+
+        // With no state, still go back to the API to fetch the latest version.
+
+        Artifact a4 = new Artifact();
+        a4.setUri(new URI(base + "/artifacts/2-1771911"));
+        a4.setLimsid("2-1771911");
+
+        Object[] a4args = { a4.getUri().toString(), a4.getClass() };
+
+        jpSig = createSignatureMock();
+        ProceedingJoinPoint pjp4 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(3);
+        EasyMock.expect(pjp4.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp4.proceed()).andReturn(a4).once();
+
+        EasyMock.replay(pjp4, jpSig);
+
+        returned = cacheAspect.retrieve(pjp4);
+
+        EasyMock.verify(pjp4, jpSig);
+        assertSame("Did not return a4", a4, returned);
+    }
+
+    @Test
     public void testLoadOrRetrieveWithOverride() throws Throwable
     {
         checkCredentialsSet();
 
-        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.LATEST);
+        cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.NEWER);
         cacheAspect.getCache(Artifact.class).removeAll();
 
         String base = api.getServerApiAddress();
@@ -513,6 +663,33 @@ public class GenologicsAPICacheTest
         cacheAspect.resetBehaviour(pjp3c);
 
         EasyMock.verify(pjp3a, pjp3b, pjp3c, jpSig);
+        assertSame("Did not return a3", a3, returned);
+
+        // With an override of UP_TO_DATE, we should also get a call to the server.
+
+        jpSig = createSignatureMock();
+
+        Object[] a4aargs = { CacheStatefulBehaviour.UP_TO_DATE };
+
+        ProceedingJoinPoint pjp4a = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp4a.getArgs()).andReturn(a4aargs).once();
+        EasyMock.expect(pjp4a.proceed()).andReturn(null).once();
+
+        ProceedingJoinPoint pjp4b = EasyMock.createStrictMock(ProceedingJoinPoint.class);
+        EasyMock.expect(pjp4b.getArgs()).andReturn(a3bargs).times(3);
+        EasyMock.expect(pjp4b.getSignature()).andReturn(jpSig).times(0, 1);
+        EasyMock.expect(pjp4b.proceed()).andReturn(a3).once();
+
+        JoinPoint pjp4c = EasyMock.createStrictMock(JoinPoint.class);
+        EasyMock.expect(pjp4c.getSignature()).andReturn(jpSig).once();
+
+        EasyMock.replay(pjp4a, pjp4b, pjp4c, jpSig);
+
+        cacheAspect.overrideBehaviour(pjp4a);
+        returned = cacheAspect.retrieve(pjp4b);
+        cacheAspect.resetBehaviour(pjp4c);
+
+        EasyMock.verify(pjp4a, pjp4b, pjp4c, jpSig);
         assertSame("Did not return a3", a3, returned);
     }
 
