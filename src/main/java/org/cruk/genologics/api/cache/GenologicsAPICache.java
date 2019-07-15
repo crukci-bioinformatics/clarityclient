@@ -303,13 +303,15 @@ public class GenologicsAPICache
         try
         {
             uri = (URI)thing;
+            uri = removeStateIfNecessary(uri, entityClass);
+            pjp.getArgs()[0] = uri;
         }
         catch (ClassCastException e)
         {
             uri = new URI(thing.toString());
+            uri = removeStateIfNecessary(uri, entityClass);
+            pjp.getArgs()[0] = uri.toString();
         }
-
-        uri = removeStateIfNecessary(uri, entityClass);
 
         return loadOrRetrieve(pjp, uri.toString(), entityClass);
     }
@@ -509,7 +511,7 @@ public class GenologicsAPICache
                 }
             }
 
-            genologicsObject = (Locatable)pjp.proceed();
+            genologicsObject = (Locatable)pjp.proceed(pjp.getArgs());
 
             if (wrapper == null)
             {

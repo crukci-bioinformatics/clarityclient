@@ -266,9 +266,9 @@ public class GenologicsAPICacheTest
         Object[] a1args = { a1.getUri(), a1.getClass() };
 
         ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(5);
         EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+        EasyMock.expect(pjp1.proceed(EasyMock.aryEq(a1args))).andReturn(a1).once();
 
         EasyMock.replay(pjp1, jpSig);
 
@@ -285,9 +285,9 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(5);
         EasyMock.expect(pjp2.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp2.proceed()).andReturn(a2).once();
+        EasyMock.expect(pjp2.proceed(EasyMock.aryEq(a2args))).andReturn(a2).once();
 
         EasyMock.replay(pjp2, jpSig);
 
@@ -302,7 +302,7 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(3);
+        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(4);
 
         EasyMock.replay(pjp3, jpSig);
 
@@ -317,7 +317,7 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp4 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(3);
+        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(4);
 
         EasyMock.replay(pjp4, jpSig);
 
@@ -346,9 +346,9 @@ public class GenologicsAPICacheTest
         Object[] a1args = { a1.getUri(), a1.getClass() };
 
         ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(5);
         EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+        EasyMock.expect(pjp1.proceed(EasyMock.aryEq(a1args))).andReturn(a1).once();
 
         EasyMock.replay(pjp1, jpSig);
 
@@ -365,9 +365,9 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(5);
         EasyMock.expect(pjp2.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp2.proceed()).andReturn(a2).once();
+        EasyMock.expect(pjp2.proceed(EasyMock.aryEq(a2args))).andReturn(a2).once();
 
         EasyMock.replay(pjp2, jpSig);
 
@@ -386,9 +386,9 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(3);
+        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(5);
         EasyMock.expect(pjp3.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp3.proceed()).andReturn(a3).once();
+        EasyMock.expect(pjp3.proceed(EasyMock.aryEq(a3args))).andReturn(a3).once();
 
         EasyMock.replay(pjp3, jpSig);
 
@@ -403,7 +403,7 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp4 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(3);
+        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(4);
 
         EasyMock.replay(pjp4, jpSig);
 
@@ -432,9 +432,9 @@ public class GenologicsAPICacheTest
         Object[] a1args = { a1.getUri(), a1.getClass() };
 
         ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(5);
         EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+        EasyMock.expect(pjp1.proceed(EasyMock.aryEq(a1args))).andReturn(a1).once();
 
         EasyMock.replay(pjp1, jpSig);
 
@@ -449,7 +449,7 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(4);
 
         EasyMock.replay(pjp2, jpSig);
 
@@ -464,7 +464,7 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(3);
+        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(4);
 
         EasyMock.replay(pjp3, jpSig);
 
@@ -479,7 +479,7 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp4 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(3);
+        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(4);
 
         EasyMock.replay(pjp4, jpSig);
 
@@ -512,9 +512,9 @@ public class GenologicsAPICacheTest
         Object[] a1args = { a1.getUri(), a1.getClass() };
 
         ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(5);
         EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+        EasyMock.expect(pjp1.proceed(EasyMock.aryEq(a1args))).andReturn(a1).once();
 
         EasyMock.replay(pjp1, jpSig);
 
@@ -531,9 +531,9 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(5);
         EasyMock.expect(pjp2.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp2.proceed()).andReturn(a2).once();
+        EasyMock.expect(pjp2.proceed(EasyMock.aryEq(a2args))).andReturn(a2).once();
 
         EasyMock.replay(pjp2, jpSig);
 
@@ -553,9 +553,9 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp3 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(3);
+        EasyMock.expect(pjp3.getArgs()).andReturn(a3args).times(5);
         EasyMock.expect(pjp3.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp3.proceed()).andReturn(a3).once();
+        EasyMock.expect(pjp3.proceed(EasyMock.aryEq(a3args))).andReturn(a3).once();
 
         EasyMock.replay(pjp3, jpSig);
 
@@ -574,9 +574,9 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp4 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(3);
+        EasyMock.expect(pjp4.getArgs()).andReturn(a4args).times(5);
         EasyMock.expect(pjp4.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp4.proceed()).andReturn(a4).once();
+        EasyMock.expect(pjp4.proceed(EasyMock.aryEq(a4args))).andReturn(a4).once();
 
         EasyMock.replay(pjp4, jpSig);
 
@@ -606,9 +606,9 @@ public class GenologicsAPICacheTest
         Object[] a1args = { a1.getUri(), a1.getClass() };
 
         ProceedingJoinPoint pjp1 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(3);
+        EasyMock.expect(pjp1.getArgs()).andReturn(a1args).times(5);
         EasyMock.expect(pjp1.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp1.proceed()).andReturn(a1).once();
+        EasyMock.expect(pjp1.proceed(EasyMock.aryEq(a1args))).andReturn(a1).once();
 
         EasyMock.replay(pjp1, jpSig);
 
@@ -623,7 +623,7 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
         ProceedingJoinPoint pjp2 = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(3);
+        EasyMock.expect(pjp2.getArgs()).andReturn(a2args).times(4);
 
         EasyMock.replay(pjp2, jpSig);
 
@@ -649,9 +649,9 @@ public class GenologicsAPICacheTest
         EasyMock.expect(pjp3a.proceed()).andReturn(null).once();
 
         ProceedingJoinPoint pjp3b = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp3b.getArgs()).andReturn(a3bargs).times(3);
+        EasyMock.expect(pjp3b.getArgs()).andReturn(a3bargs).times(5);
         EasyMock.expect(pjp3b.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp3b.proceed()).andReturn(a3).once();
+        EasyMock.expect(pjp3b.proceed(EasyMock.aryEq(a3bargs))).andReturn(a3).once();
 
         JoinPoint pjp3c = EasyMock.createStrictMock(JoinPoint.class);
         EasyMock.expect(pjp3c.getSignature()).andReturn(jpSig).once();
@@ -669,16 +669,18 @@ public class GenologicsAPICacheTest
 
         jpSig = createSignatureMock();
 
+        Object[] a3bcopy = a3bargs.clone();
         Object[] a4aargs = { CacheStatefulBehaviour.UP_TO_DATE };
+        Object[] a4bargs = { base + "/artifacts/2-1771911", a1.getClass() };
 
         ProceedingJoinPoint pjp4a = EasyMock.createStrictMock(ProceedingJoinPoint.class);
         EasyMock.expect(pjp4a.getArgs()).andReturn(a4aargs).once();
         EasyMock.expect(pjp4a.proceed()).andReturn(null).once();
 
         ProceedingJoinPoint pjp4b = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp4b.getArgs()).andReturn(a3bargs).times(3);
+        EasyMock.expect(pjp4b.getArgs()).andReturn(a3bcopy).times(5);
         EasyMock.expect(pjp4b.getSignature()).andReturn(jpSig).times(0, 1);
-        EasyMock.expect(pjp4b.proceed()).andReturn(a3).once();
+        EasyMock.expect(pjp4b.proceed(EasyMock.aryEq(a4bargs))).andReturn(a3).once();
 
         JoinPoint pjp4c = EasyMock.createStrictMock(JoinPoint.class);
         EasyMock.expect(pjp4c.getSignature()).andReturn(jpSig).once();

@@ -31,6 +31,13 @@ public enum CacheStatefulBehaviour
      * so should only be used in very specific cases. The entity
      * returned replaces the version in the cache, if there is one.
      *
+     * <p>
+     * Ideally, this should be called "LATEST". Since I already used
+     * that before for what is now "NEWER", it is likely to cause
+     * problems if that constant is changed to behave in a different
+     * way.
+     * </p>
+     *
      * @since 2.24.8
      */
     UP_TO_DATE,
@@ -54,6 +61,8 @@ public enum CacheStatefulBehaviour
      * The entity is fetched if the version in the cache is older
      * than the version in the URI. If the same, newer, or the URI
      * has no state version, the cached version is returned.
+     * It is not the latest version in the database: that can be
+     * fetched by using {@code UP_TO_DATE}.
      *
      * @deprecated This is the original name for {@code NEWER}.
      * {@code NEWER} should be used in preference, as it's more accurate.
