@@ -19,7 +19,6 @@
 package org.cruk.genologics.api.cache;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -27,10 +26,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -88,12 +85,6 @@ public class GenologicsAPICache
     private static final int STATE_TERM_LENGTH = STATE_TERM.length();
 
     /**
-     * Regular expression for splitting on ampersand.
-     * @see #removeStateIfNecessary(URI, Class)
-     */
-    private static final Pattern AMPERSAND_SPLIT = Pattern.compile("&");
-
-    /**
      * Logger.
      */
     protected Logger logger = LoggerFactory.getLogger(GenologicsAPICache.class);
@@ -111,7 +102,7 @@ public class GenologicsAPICache
     /**
      * The behaviour for dealing with stateful entities.
      */
-    protected CacheStatefulBehaviour behaviour = CacheStatefulBehaviour.NEWER;
+    protected CacheStatefulBehaviour behaviour = CacheStatefulBehaviour.LATEST;
 
     /**
      * Lock to prevent the cache behaviour changing during an operation.
@@ -298,22 +289,9 @@ public class GenologicsAPICache
             throw new IllegalArgumentException("uri cannot be null");
         }
         Class<?> entityClass = (Class<?>)pjp.getArgs()[1];
+        String uri = thing.toString();
 
-        URI uri;
-        try
-        {
-            uri = (URI)thing;
-            uri = removeStateIfNecessary(uri, entityClass);
-            pjp.getArgs()[0] = uri;
-        }
-        catch (ClassCastException e)
-        {
-            uri = new URI(thing.toString());
-            uri = removeStateIfNecessary(uri, entityClass);
-            pjp.getArgs()[0] = uri.toString();
-        }
-
-        return loadOrRetrieve(pjp, uri.toString(), entityClass);
+        return loadOrRetrieve(pjp, uri, entityClass);
     }
 
     /**
@@ -396,11 +374,9 @@ public class GenologicsAPICache
             throw new IllegalArgumentException("link uri cannot be null");
         }
 
-        URI uri = link.getUri();
-        uri = removeStateIfNecessary(uri, link.getEntityClass());
-        link.setUri(uri);
+        String uri = link.getUri().toString();
 
-        return loadOrRetrieve(pjp, uri.toString(), link.getEntityClass());
+        return loadOrRetrieve(pjp, uri, link.getEntityClass());
     }
 
     /**
@@ -435,7 +411,6 @@ public class GenologicsAPICache
      *
      * @throws Throwable if there is an error.
      */
-    @SuppressWarnings("deprecation")
     protected Object loadOrRetrieve(ProceedingJoinPoint pjp, String uri, Class<?> entityClass) throws Throwable
     {
         if (!isCacheable(entityClass))
@@ -448,6 +423,12 @@ public class GenologicsAPICache
         final String className = ClassUtils.getShortClassName(entityClass);
 
         Ehcache cache = getCache(entityClass);
+
+        CacheStatefulBehaviour callBehaviour = behaviourOverride.get();
+        if (callBehaviour == null)
+        {
+            callBehaviour = behaviour;
+        }
 
         Locatable genologicsObject = null;
         String key = keyFromUri(uri);
@@ -467,13 +448,12 @@ public class GenologicsAPICache
                 {
                     version = versionFromUri(uri);
 
-                    switch (getBehaviourForCall())
+                    switch (callBehaviour)
                     {
                         case ANY:
                             genologicsObject = getFromWrapper(wrapper);
                             break;
 
-                        case NEWER:
                         case LATEST:
                             if (version == NO_STATE_VALUE || version <= wrapper.getVersion())
                             {
@@ -486,11 +466,6 @@ public class GenologicsAPICache
                             {
                                 genologicsObject = getFromWrapper(wrapper);
                             }
-                            break;
-
-                        case UP_TO_DATE:
-                            // Ignore the cache, fetch regardless.
-                            version = NO_STATE_VALUE;
                             break;
                     }
                 }
@@ -511,7 +486,7 @@ public class GenologicsAPICache
                 }
             }
 
-            genologicsObject = (Locatable)pjp.proceed(pjp.getArgs());
+            genologicsObject = (Locatable)pjp.proceed();
 
             if (wrapper == null)
             {
@@ -535,7 +510,6 @@ public class GenologicsAPICache
                         case ANY:
                             break;
 
-                        case NEWER:
                         case LATEST:
                             if (version > wrapper.getVersion())
                             {
@@ -548,10 +522,6 @@ public class GenologicsAPICache
                             {
                                 cache.put(createCacheElement(genologicsObject));
                             }
-                            break;
-
-                        case UP_TO_DATE:
-                            cache.put(createCacheElement(genologicsObject));
                             break;
                     }
                 }
@@ -583,7 +553,6 @@ public class GenologicsAPICache
      *
      * @see GenologicsAPI#loadAll(Collection)
      */
-    @SuppressWarnings("deprecation")
     public <E extends Locatable> List<E> loadAll(ProceedingJoinPoint pjp) throws Throwable
     {
         @SuppressWarnings("unchecked")
@@ -602,7 +571,11 @@ public class GenologicsAPICache
             String className = null;
             Boolean stateful = null;
 
-            CacheStatefulBehaviour callBehaviour = getBehaviourForCall();
+            CacheStatefulBehaviour callBehaviour = behaviourOverride.get();
+            if (callBehaviour == null)
+            {
+                callBehaviour = behaviour;
+            }
 
             behaviourLock.lock();
             try
@@ -633,8 +606,6 @@ public class GenologicsAPICache
                         cacheable = isCacheable(link.getEntityClass());
                         stateful = isStateful(link.getEntityClass());
                     }
-
-                    link.setUri(removeStateIfNecessary(link.getUri(), link.getEntityClass()));
 
                     E entity = null;
                     if (!cacheable)
@@ -667,7 +638,6 @@ public class GenologicsAPICache
                                     alreadyCached.add(entity);
                                     break;
 
-                                case NEWER:
                                 case LATEST:
                                     if (version != NO_STATE_VALUE && version > wrapper.getVersion())
                                     {
@@ -690,11 +660,6 @@ public class GenologicsAPICache
                                         entity = getFromWrapper(wrapper);
                                         alreadyCached.add(entity);
                                     }
-                                    break;
-
-                                case UP_TO_DATE:
-                                    toFetch.add(link);
-                                    version = NO_STATE_VALUE;
                                     break;
                             }
                         }
@@ -797,7 +762,6 @@ public class GenologicsAPICache
                                         case ANY:
                                             break;
 
-                                        case NEWER:
                                         case LATEST:
                                             if (version > wrapper.getVersion())
                                             {
@@ -810,10 +774,6 @@ public class GenologicsAPICache
                                             {
                                                 cache.put(createCacheElement(entity));
                                             }
-                                            break;
-
-                                        case UP_TO_DATE:
-                                            cache.put(createCacheElement(entity));
                                             break;
                                     }
                                 }
@@ -1462,68 +1422,5 @@ public class GenologicsAPICache
             key = key.substring(0, query);
         }
         return key;
-    }
-
-    /**
-     * Get the type of stateful behaviour to use for the current call.
-     * Checks if there is a single call override in place. If so, use that;
-     * if not, use the standard behaviour.
-     *
-     * @return The cache behaviour to use this time.
-     */
-    protected CacheStatefulBehaviour getBehaviourForCall()
-    {
-        CacheStatefulBehaviour callBehaviour = behaviourOverride.get();
-        return callBehaviour == null ? behaviour : callBehaviour;
-    }
-
-    /**
-     * Strip the state parameter from a URI query if relevant for the class
-     * and in the URI.
-     *
-     * @param uri The original URI.
-     * @param entityClass The class of the entity being fetched.
-     *
-     * @return The URI minus the state parameter.
-     *
-     * @throws URISyntaxException if there is a problem recreating the URI.
-     */
-    protected URI removeStateIfNecessary(URI uri, Class<?> entityClass)
-    throws URISyntaxException
-    {
-        if (isStateful(entityClass) && getBehaviourForCall() == CacheStatefulBehaviour.UP_TO_DATE)
-        {
-            // For this call, the version needs to be stripped from the URI.
-
-            String query = uri.getRawQuery();
-            if (StringUtils.isNotEmpty(query))
-            {
-                StringBuilder newQuery = new StringBuilder(query.length());
-
-                String[] terms = AMPERSAND_SPLIT.split(query);
-                for (String term : terms)
-                {
-                    if (StringUtils.isNotBlank(term) && !term.startsWith(STATE_TERM))
-                    {
-                        if (newQuery.length() > 0)
-                        {
-                            newQuery.append('&');
-                        }
-                        newQuery.append(term);
-                    }
-                }
-
-                String nq = null;
-                if (newQuery.length() > 0)
-                {
-                    nq = newQuery.toString();
-                }
-
-                return new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
-                               uri.getPath(), nq, uri.getFragment());
-            }
-        }
-
-        return uri;
     }
 }
