@@ -37,14 +37,14 @@
     <!--
         Take care not to include a bean of type
         org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
-        
+
         This creates JDK proxies around the CGLIB proxies needed for the Jaxb2Marshaller,
         which then cannot be set as they aren't actually a type of Jaxb2Marshaller.
-        
+
         This took two days to find but five seconds to fix.
-        
+
         The error one sees is:
-        
+
         java.lang.IllegalStateException: Cannot convert value of type [com.sun.proxy.$Proxy implementing ...]
         to required type [org.springframework.oxm.jaxb.Jaxb2Marshaller] for property 'jaxbMarshaller':
         no matching editors or conversion strategy found
@@ -55,10 +55,11 @@
     <context:property-placeholder location="classpath:/org/cruk/genologics/api/genologics-client-http.properties" ignore-unresolvable="true" />
 
     <bean id="filestoreSFTPSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
+        <property name="allowUnknownKeys" value="true"/>
         <property name="sessionConfig">
             <!-- Note: this set up required to stop the Kerberos user name prompts in Java 7. -->
             <props>
-                <prop key="PreferredAuthentications">publickey,password,keyboard-interactive</prop>
+                <prop key="PreferredAuthentications">publickey,password</prop>
 
                 <!-- May want this turned on if you are being particularly security conscious. -->
                 <!-- Can cause issues if host keys change, so by default it's turned off.      -->
@@ -243,7 +244,7 @@
     <!--
         Base definition for the API bean. Allows the concrete beans, usually called
         "genologicsAPI", to inherit from this and only specify changed properties.
-    --> 
+    -->
     <bean id="genologicsAPIBase" class="org.cruk.genologics.api.impl.GenologicsAPIImpl" abstract="true">
         <property name="filestoreSessionFactory" ref="filestoreSFTPSessionFactory"/>
         <property name="jaxbMarshaller" ref="genologicsJaxbMarshaller"/>
@@ -258,5 +259,15 @@
         to provide a configuration at construction.
     -->
     <bean id="genologicsAPI" parent="genologicsAPIBase"/>
+
+    <bean id="genologicsLatestVersionsResetAspect" class="org.cruk.genologics.api.impl.LatestVersionsResetAspect">
+        <property name="genologicsAPI" ref="genologicsAPI"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect id="genologicsLatestVersionsResettingAspect" ref="genologicsLatestVersionsResetAspect">
+            <aop:after method="fetchStatefulVersions" pointcut="execution(public * *(..)) and bean(genologicsAPI)"/>
+        </aop:aspect>
+    </aop:config>
 
 </beans>

@@ -328,13 +328,13 @@
                     <serialwarn>false</serialwarn>
                     <show>protected</show>
                     <links>
-                        <link>http://www.slf4j.org/apidocs/</link>
-                        <link>http://docs.spring.io/spring/docs/4.3.x/javadoc-api/</link>
-                        <link>http://docs.spring.io/spring-integration/docs/4.3.x/api/</link>
+                        <link>https://www.slf4j.org/apidocs/</link>
+                        <link>https://docs.spring.io/spring/docs/4.3.x/javadoc-api/</link>
+                        <link>https://docs.spring.io/spring-integration/docs/4.3.x/api/</link>
                         <link>http://hc.apache.org/httpcomponents-client-4.5.x/httpclient/apidocs/</link>
                         <link>http://hc.apache.org/httpcomponents-core-ga/httpcore/apidocs/</link>
-                        <link>http://eclipse.org/aspectj/doc/released/runtime-api/</link>
-                        <link>http://eclipse.org/aspectj/doc/released/aspectj5rt-api/</link>
+                        <link>https://eclipse.org/aspectj/doc/released/runtime-api/</link>
+                        <link>https://eclipse.org/aspectj/doc/released/aspectj5rt-api/</link>
                         <link>http://ehcache.org/apidocs/2.6.9/</link>
                     </links>
                 </configuration>
@@ -418,13 +418,13 @@
                     <serialwarn>false</serialwarn>
                     <show>protected</show>
                     <links>
-                        <link>http://www.slf4j.org/apidocs/</link>
-                        <link>http://docs.spring.io/spring/docs/4.3.x/javadoc-api/</link>
-                        <link>http://docs.spring.io/spring-integration/docs/4.3.x/api/</link>
+                        <link>https://www.slf4j.org/apidocs/</link>
+                        <link>https://docs.spring.io/spring/docs/4.3.x/javadoc-api/</link>
+                        <link>https://docs.spring.io/spring-integration/docs/4.3.x/api/</link>
                         <link>http://hc.apache.org/httpcomponents-client-4.5.x/httpclient/apidocs/</link>
                         <link>http://hc.apache.org/httpcomponents-core-ga/httpcore/apidocs/</link>
-                        <link>http://eclipse.org/aspectj/doc/released/runtime-api/</link>
-                        <link>http://eclipse.org/aspectj/doc/released/aspectj5rt-api/</link>
+                        <link>https://eclipse.org/aspectj/doc/released/runtime-api/</link>
+                        <link>https://eclipse.org/aspectj/doc/released/aspectj5rt-api/</link>
                         <link>http://ehcache.org/apidocs/2.6.9/</link>
                     </links>
                 </configuration>

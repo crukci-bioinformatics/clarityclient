@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 import javax.xml.bind.annotation.XmlTransient;
@@ -153,6 +154,17 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * The protocol in URIs and URLs for SFTP.
      */
     private static final String SFTP_PROTOCOL = "sftp";
+
+    /**
+     * The part of the URI that specifies the state number.
+     */
+    private static final String STATE_TERM = "state=";
+
+    /**
+     * Regular expression for splitting on ampersand.
+     * @see #removeStateParameter(URI)
+     */
+    private static final Pattern AMPERSAND_SPLIT = Pattern.compile("&");
 
 
     /**
@@ -295,6 +307,13 @@ public class GenologicsAPIImpl implements GenologicsAPI
      */
     protected Map<Class<?>, Map<String, java.lang.reflect.Field>> updaterFields =
             Collections.synchronizedMap(new HashMap<Class<?>, Map<String, java.lang.reflect.Field>>());
+
+    /**
+     * Thread local flag indicating whether the next call on the thread should
+     * fetch stateful entities without the state parameter to get their latest
+     * versions.
+     */
+    protected ThreadLocal<Boolean> fetchLatestOnNextCall = new ThreadLocal<Boolean>();
 
 
     /**
@@ -1075,9 +1094,48 @@ public class GenologicsAPIImpl implements GenologicsAPI
         return uri;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Deprecated
     public void nextCallCacheOverride(CacheStatefulBehaviour behaviour)
     {
-        // Deliberately does nothing. Handled by the point cuts of the cache.
+        throw new UnsupportedOperationException("nextCallCacheOverride is deprecated and no longer functional.");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void fetchLatestVersions()
+    {
+        fetchLatestOnNextCall.set(Boolean.TRUE);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isFetchLatestVersions()
+    {
+        Boolean fetchLatest = fetchLatestOnNextCall.get();
+        return fetchLatest == null ? false : fetchLatest.booleanValue();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void fetchStatefulVersions(String calledMethod)
+    {
+        boolean wasLatest = isFetchLatestVersions();
+
+        fetchLatestOnNextCall.set(Boolean.FALSE);
+
+        if (wasLatest && logger.isDebugEnabled())
+        {
+            logger.debug("Reverted to respecting state versions after call to {}.", calledMethod);
+        }
     }
 
     // General fetch methods.
@@ -1271,7 +1329,18 @@ public class GenologicsAPIImpl implements GenologicsAPI
             throw new IllegalArgumentException("uri cannot be null or empty");
         }
 
-        checkEntityAnnotated(entityClass);
+        try
+        {
+            GenologicsEntity anno = checkEntityAnnotated(entityClass);
+            if (anno.stateful() && isFetchLatestVersions())
+            {
+                uri = removeStateParameter(uri);
+            }
+        }
+        catch (URISyntaxException e)
+        {
+            throw new IllegalArgumentException("Cannot create a URI object: " + e.getMessage());
+        }
 
         ResponseEntity<E> response = restClient.getForEntity(uri, entityClass);
         return response.getBody();
@@ -1286,7 +1355,11 @@ public class GenologicsAPIImpl implements GenologicsAPI
             throw new IllegalArgumentException("uri cannot be null");
         }
 
-        checkEntityAnnotated(entityClass);
+        GenologicsEntity anno = checkEntityAnnotated(entityClass);
+        if (anno.stateful() && isFetchLatestVersions())
+        {
+            uri = removeStateParameter(uri);
+        }
 
         ResponseEntity<E> response = restClient.getForEntity(uri, entityClass);
         return response.getBody();
@@ -1344,6 +1417,8 @@ public class GenologicsAPIImpl implements GenologicsAPI
                 checkServerSet();
                 String uri = apiRoot + entityAnno.uriSection() + "/batch/retrieve";
 
+                boolean stripState = entityAnno.stateful() && isFetchLatestVersions();
+
                 final int batchCapacity = Math.min(bulkOperationBatchSize, links.size());
                 List<LimsLink<E>> batch = new ArrayList<LimsLink<E>>(batchCapacity);
 
@@ -1358,7 +1433,7 @@ public class GenologicsAPIImpl implements GenologicsAPI
                         batch.add(linkIter.next());
                     }
 
-                    ResponseEntity<Batch<E>> response = restClient.postForEntity(uri, toLinks(batch), batchFetchResultClass);
+                    ResponseEntity<Batch<E>> response = restClient.postForEntity(uri, toLinks(batch, stripState), batchFetchResultClass);
 
                     entities.addAll(response.getBody().getList());
                 }
@@ -2618,16 +2693,22 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * given. Use in batch fetch operations.
      *
      * @param entityLinks The links to the entities.
+     * @param stripState Whether to remove state version parameters from the URIs.
      *
      * @return A Links object containing the URIs.
      */
-    protected Links toLinks(Collection<? extends Linkable<?>> entityLinks)
+    protected Links toLinks(Collection<? extends Linkable<?>> entityLinks, boolean stripState)
     {
         Links links = new Links(entityLinks.size());
 
         for (Linkable<?> limsLink : entityLinks)
         {
-            links.add(limsLink);
+            Link l = new Link(limsLink);
+            if (stripState)
+            {
+                l.setUri(removeStateParameter(l.getUri()));
+            }
+            links.add(l);
         }
 
         return links;
@@ -3034,6 +3115,81 @@ public class GenologicsAPIImpl implements GenologicsAPI
             id = id.substring(lastSlash + 1);
         }
         return id;
+    }
+
+    /**
+     * Strip the state parameter from a URI.
+     *
+     * @param uri The original URI.
+     *
+     * @return The URI minus the state parameter.
+     */
+    protected URI removeStateParameter(URI uri)
+    {
+        String query = uri.getRawQuery();
+        if (StringUtils.isNotEmpty(query))
+        {
+            StringBuilder newQuery = new StringBuilder(query.length());
+
+            boolean hasStateParameter = false;
+            for (String term : AMPERSAND_SPLIT.split(query))
+            {
+                if (StringUtils.isNotBlank(term))
+                {
+                    if (term.startsWith(STATE_TERM))
+                    {
+                        hasStateParameter = true;
+                    }
+                    else
+                    {
+                        if (newQuery.length() > 0)
+                        {
+                            newQuery.append('&');
+                        }
+                        newQuery.append(term);
+                    }
+                }
+            }
+
+            // Don't need a new URI object if nothing has been removed.
+            if (hasStateParameter)
+            {
+                String nq = null;
+                if (newQuery.length() > 0)
+                {
+                    nq = newQuery.toString();
+                }
+
+                try
+                {
+                    return new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
+                                   uri.getPath(), nq, uri.getFragment());
+                }
+                catch (URISyntaxException e)
+                {
+                    // This should never happen, as we're creating the URI from an existing, valid
+                    // URI object. It could only happen if something goes wrong with recreating the
+                    // query string.
+                    throw new AssertionError("Could not recreate a URI: " + e.getMessage());
+                }
+            }
+        }
+
+        return uri;
+    }
+
+    /**
+     * Strip the state parameter from a URI in string form.
+     *
+     * @param uri The original URI string.
+     *
+     * @return The URI minus the state parameter.
+     *
+     * @throws URISyntaxException if there is a problem parsing {@code uri} into a URI object.
+     */
+    protected String removeStateParameter(String uri) throws URISyntaxException
+    {
+        return removeStateParameter(new URI(uri)).toString();
     }
 
     /**

@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.Security;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -36,7 +35,6 @@ import java.util.Map;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
 import org.easymock.EasyMock;
@@ -62,6 +60,9 @@ import com.genologics.ri.file.GenologicsFile;
 import com.genologics.ri.process.GenologicsProcess;
 import com.genologics.ri.processexecution.ExecutableInputOutputMap;
 import com.genologics.ri.processexecution.ExecutableProcess;
+import com.genologics.ri.processtype.ProcessType;
+import com.genologics.ri.processtype.ProcessTypeAttribute;
+import com.genologics.ri.processtype.ProcessTypeLink;
 import com.genologics.ri.project.Project;
 import com.genologics.ri.project.ResearcherLink;
 import com.genologics.ri.researcher.Researcher;
@@ -98,18 +99,6 @@ public class GenologicsAPICacheTest
     private Container container;
     private Sample[] samples;
     private Container poolContainer;
-
-    static
-    {
-        // Require the BouncyCastle JCE provider for Java 6 https connections.
-
-        float javaVersionF = Float.parseFloat(System.getProperty("java.specification.version"));
-        int javaVersion = (int)(javaVersionF * 10f);
-        if (javaVersion <= 16)
-        {
-            Security.addProvider(new BouncyCastleProvider());
-        }
-    }
 
     public GenologicsAPICacheTest()
     {
@@ -495,14 +484,9 @@ public class GenologicsAPICacheTest
         a3.setLimsid("2-1771911");
         a3.setQCFlag(QCFlag.PASSED);
 
-        Object[] a3aargs = { CacheStatefulBehaviour.EXACT };
         Object[] a3bargs = { base + "/artifacts/2-1771911?state=1101002", a1.getClass() };
 
         jpSig = createSignatureMock();
-
-        ProceedingJoinPoint pjp3a = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp3a.getArgs()).andReturn(a3aargs).once();
-        EasyMock.expect(pjp3a.proceed()).andReturn(null).once();
 
         ProceedingJoinPoint pjp3b = EasyMock.createStrictMock(ProceedingJoinPoint.class);
         EasyMock.expect(pjp3b.getArgs()).andReturn(a3bargs).times(3);
@@ -512,13 +496,13 @@ public class GenologicsAPICacheTest
         JoinPoint pjp3c = EasyMock.createStrictMock(JoinPoint.class);
         EasyMock.expect(pjp3c.getSignature()).andReturn(jpSig).once();
 
-        EasyMock.replay(pjp3a, pjp3b, pjp3c, jpSig);
+        EasyMock.replay(pjp3b, pjp3c, jpSig);
 
-        cacheAspect.overrideBehaviour(pjp3a);
+        api.fetchLatestVersions();
         returned = cacheAspect.retrieve(pjp3b);
-        cacheAspect.resetBehaviour(pjp3c);
+        cacheAspect.fetchStatefulVersions(pjp3c);
 
-        EasyMock.verify(pjp3a, pjp3b, pjp3c, jpSig);
+        EasyMock.verify(pjp3b, pjp3c, jpSig);
         assertSame("Did not return a3", a3, returned);
     }
 
@@ -582,6 +566,31 @@ public class GenologicsAPICacheTest
         Assume.assumeTrue("Not running the test \"GenologicsAPICachingAspectTest.fullTest\". " +
                           "Set the property -D" + FULL_TEST_SYSTEM_PROPERTY + "=true to make it run.",
                           runThisTest);
+
+        ProcessType poolProcessType = null;
+        List<LimsLink<ProcessType>> ptLinks = api.listAll(ProcessType.class);
+        for (LimsLink<ProcessType> link : ptLinks)
+        {
+            ProcessTypeLink ptLink = (ProcessTypeLink)link;
+            if (ptLink.getName().equals("Pool Accepted SLX"))
+            {
+                poolProcessType = api.load(ptLink);
+                break;
+            }
+        }
+
+        assertNotNull("Cannot locate 'Pool Accepted SLX' process type", poolProcessType);
+
+        boolean poolingEnabled = false;
+        for (ProcessTypeAttribute pta : poolProcessType.getProcessTypeAttributes())
+        {
+            if (pta.getName().equalsIgnoreCase("enabled"))
+            {
+                poolingEnabled = Boolean.parseBoolean(pta.getValue());
+                break;
+            }
+        }
+        assertTrue("'Pool Accepted SLX' process type is disabled. Turn it on on dev to run this test.", poolingEnabled);
 
         final String projectName = "Caching Aspect Test";
 
@@ -714,7 +723,7 @@ public class GenologicsAPICacheTest
 
         api.create(poolContainer);
 
-        ExecutableProcess execProcess = new ExecutableProcess("Pool Accepted SLX", apiUser);
+        ExecutableProcess execProcess = new ExecutableProcess(poolProcessType.getName(), apiUser);
         ExecutableInputOutputMap iomap = execProcess.newInputOutputMap();
 
         iomap.setShared(true);
