@@ -259,4 +259,14 @@
     -->
     <bean id="genologicsAPI" parent="genologicsAPIBase"/>
 
+    <bean id="genologicsLatestVersionsResetAspect" class="org.cruk.genologics.api.impl.LatestVersionsResetAspect">
+        <property name="genologicsAPI" ref="genologicsAPI"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect id="genologicsLatestVersionsResettingAspect" ref="genologicsLatestVersionsResetAspect">
+            <aop:after method="fetchStatefulVersions" pointcut="execution(public * *(..)) and bean(genologicsAPI)"/>
+        </aop:aspect>
+    </aop:config>
+
 </beans>

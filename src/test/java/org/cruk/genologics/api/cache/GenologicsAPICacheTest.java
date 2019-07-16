@@ -489,30 +489,21 @@ public class GenologicsAPICacheTest
         a3.setLimsid("2-1771911");
         a3.setQCFlag(QCFlag.PASSED);
 
-        Object[] a3aargs = { CacheStatefulBehaviour.EXACT };
         Object[] a3bargs = { base + "/artifacts/2-1771911?state=1101002", a1.getClass() };
 
         jpSig = createSignatureMock();
-
-        ProceedingJoinPoint pjp3a = EasyMock.createStrictMock(ProceedingJoinPoint.class);
-        EasyMock.expect(pjp3a.getArgs()).andReturn(a3aargs).once();
-        EasyMock.expect(pjp3a.proceed()).andReturn(null).once();
 
         ProceedingJoinPoint pjp3b = EasyMock.createStrictMock(ProceedingJoinPoint.class);
         EasyMock.expect(pjp3b.getArgs()).andReturn(a3bargs).times(3);
         EasyMock.expect(pjp3b.getSignature()).andReturn(jpSig).times(0, 1);
         EasyMock.expect(pjp3b.proceed()).andReturn(a3).once();
 
-        JoinPoint pjp3c = EasyMock.createStrictMock(JoinPoint.class);
-        EasyMock.expect(pjp3c.getSignature()).andReturn(jpSig).once();
+        EasyMock.replay(pjp3b, jpSig);
 
-        EasyMock.replay(pjp3a, pjp3b, pjp3c, jpSig);
-
-        cacheAspect.overrideBehaviour(pjp3a);
+        api.fetchLatestVersions();
         returned = cacheAspect.retrieve(pjp3b);
-        cacheAspect.resetBehaviour(pjp3c);
 
-        EasyMock.verify(pjp3a, pjp3b, pjp3c, jpSig);
+        EasyMock.verify(pjp3b, jpSig);
         assertSame("Did not return a3", a3, returned);
     }
 

@@ -58,6 +58,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
+import org.aspectj.lang.JoinPoint;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.GenologicsUpdateException;
@@ -296,12 +297,21 @@ public class GenologicsAPIImpl implements GenologicsAPI
     protected Map<Class<?>, Map<String, java.lang.reflect.Field>> updaterFields =
             Collections.synchronizedMap(new HashMap<Class<?>, Map<String, java.lang.reflect.Field>>());
 
+    /**
+     * Thread local flag indicating whether the next call on the thread should
+     * fetch stateful entities without the state parameter to get their latest
+     * versions.
+     */
+    protected ThreadLocal<Boolean> fetchLatestOnNextCall = new ThreadLocal<Boolean>();
+
 
     /**
      * Standard constructor.
      */
     public GenologicsAPIImpl()
     {
+        fetchLatestOnNextCall.set(Boolean.FALSE);
+
         try
         {
             filestoreSessionFactoryHostField = DefaultSftpSessionFactory.class.getDeclaredField("host");
@@ -1078,9 +1088,40 @@ public class GenologicsAPIImpl implements GenologicsAPI
         return uri;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Deprecated
     public void nextCallCacheOverride(CacheStatefulBehaviour behaviour)
     {
-        // Deliberately does nothing. Handled by the point cuts of the cache.
+        throw new UnsupportedOperationException("nextCallCacheOverride is deprecated and no longer functional.");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void fetchLatestVersions()
+    {
+        fetchLatestOnNextCall.set(Boolean.TRUE);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isFetchLatestVersions()
+    {
+        return fetchLatestOnNextCall.get();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void fetchStatefulVersions()
+    {
+        fetchLatestOnNextCall.set(Boolean.FALSE);
     }
 
     // General fetch methods.

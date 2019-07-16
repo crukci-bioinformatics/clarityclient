@@ -368,30 +368,63 @@ public interface GenologicsAPI
     throws URISyntaxException;
 
     /**
-     * Overrides the cache behaviour for the next call on the same thread.
-     * This does nothing within the API itself but when the cache is used it will
-     * change the handling of stateful entities for the next call only.
-     *
-     * <p>
-     * Typically this will only be used to deal with the QC flags of artifacts,
-     * as these change with the state parameter. All other fields can only return
-     * the current state of the database.
-     * </p>
-     *
-     * <p>
-     * The behaviour will return to the regular behaviour after ANY call to the
-     * API. For this to be effective it must immediately precede the API call being
-     * influenced.
-     * </p>
+     * This method was used to overrides the cache behaviour for the next call on the
+     * same thread. It has been replaced by {@link ##fetchLatestVersions()} which does
+     * the correct thing. Momentarily changing how the cache worked didn't solve the
+     * problem this was intended for (up to date QC flags on Artifacts).
      *
      * @param behaviour The cache behaviour for the next call from the current
      * thread. Can be null to indicate that the call should be the same as the
      * regular cache behaviour.
      *
      * @since 2.24.3
+     *
+     * @deprecated This is the wrong approach, as as of version 2.24.8 is deprecated
+     * and will throw a {@code UnsupportedOperationException}. Replaced by
+     * {@link #fetchLatestVersions()}.
      */
+    @Deprecated
     void nextCallCacheOverride(CacheStatefulBehaviour behaviour);
 
+    /**
+     * Forces the API to fetch the latest versions of stateful entities on the next
+     * call by removing the "state" parameter from the URIs before making the call
+     * to Clarity.
+     *
+     * <p>
+     * Calling this method only applies the change to the next call to the API on
+     * the current thread. After the call, the API returns to normal behaviour
+     * (fetching the entity with the state indicated by the URI). If this method
+     * is invoked and entities that are not stateful are requested, the call here
+     * has no effect. It is not remembered for the next stateful entity request,
+     * so make sure the code calls this immediately before the call it is needed
+     * for.
+     * </p>
+     *
+     * <p>
+     * In practice, this is useful only to get the up to date QC flags from Artifacts.
+     * </p>
+     */
+    void fetchLatestVersions();
+
+    /**
+     * Helper method for the cache, this method returns whether the next call
+     * on the current thread will need to fetch the latest versions of stateful
+     * entities or not.
+     *
+     * @return true if the entities to fetch must be the newest, false if not.
+     */
+    boolean isFetchLatestVersions();
+
+    /**
+     * Undoes the effects of {@link #fetchLatestVersions()} after a call to
+     * ensure subsequent calls will respect the state parameter for stateful
+     * entities. Called by the wrapping aspect after any public method to make
+     * sure the behaviour is reset.
+     *
+     * @see #fetchLatestVersions()
+     */
+    void fetchStatefulVersions();
 
     // Retrieval methods
 

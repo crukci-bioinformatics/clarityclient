@@ -109,11 +109,6 @@ public class GenologicsAPICache
      */
     private Lock behaviourLock = new ReentrantLock();
 
-    /**
-     * Override for the cache behaviour for the next call.
-     */
-    private ThreadLocal<CacheStatefulBehaviour> behaviourOverride = new ThreadLocal<CacheStatefulBehaviour>();
-
 
     /**
      * Empty constructor.
@@ -210,60 +205,6 @@ public class GenologicsAPICache
 
         return cache;
     }
-
-    /**
-     * Join point for changing the cach behaviour on the next call on the same thread.
-     * Sets the thread local override behaviour to that given.
-     *
-     * <p>
-     * The behaviour will be reset on any call to another API method from this thread.
-     * </p>
-     *
-     * @param pjp The join point object.
-     *
-     * @return <code>null</code>
-     *
-     * @throws Throwable if there is an error.
-     *
-     * @see GenologicsAPI#nextCallCacheOverride(CacheStatefulBehaviour)
-     * @see #resetBehaviour(JoinPoint)
-     */
-    public Object overrideBehaviour(ProceedingJoinPoint pjp) throws Throwable
-    {
-        Object[] args = pjp.getArgs();
-
-        behaviourOverride.set((CacheStatefulBehaviour)args[0]);
-
-        if (args[0] != null)
-        {
-            logger.debug("Next call will override the cache behaviour from {} to {}.", behaviour, args[0]);
-        }
-
-        return pjp.proceed();
-    }
-
-    /**
-     * Resets the cache behaviour however it is set to normally behave. This
-     * method is called after every public method call on the API, clearing the
-     * override setting if it is set.
-     *
-     * @param jp The join point object.
-     *
-     * @see GenologicsAPI#nextCallCacheOverride(CacheStatefulBehaviour)
-     * @see #overrideBehaviour(ProceedingJoinPoint)
-     */
-    public void resetBehaviour(JoinPoint jp)
-    {
-        String methodName = jp.getSignature().getName();
-
-        if (behaviourOverride.get() != null && !"nextCallCacheOverride".equals(methodName))
-        {
-            behaviourOverride.set(null);
-
-            logger.debug("Reset cache behaviour override to {} (after call to {}).", behaviour, methodName);
-        }
-    }
-
 
     /**
      * Join point for the {@code GenologicsAPI.retrieve} methods. Fetches the
@@ -424,115 +365,117 @@ public class GenologicsAPICache
 
         Ehcache cache = getCache(entityClass);
 
-        CacheStatefulBehaviour callBehaviour = behaviourOverride.get();
-        if (callBehaviour == null)
-        {
-            callBehaviour = behaviour;
-        }
-
         Locatable genologicsObject = null;
         String key = keyFromUri(uri);
         long version = NO_STATE_VALUE;
 
-        Element wrapper = null;
-        if (key != null)
+        behaviourLock.lock();
+        try
         {
-            wrapper = cache.get(key);
-            if (wrapper != null)
+            Element wrapper = null;
+            if (key != null)
             {
-                if (!statefulEntity)
+                wrapper = cache.get(key);
+                if (wrapper != null)
                 {
-                    genologicsObject = getFromWrapper(wrapper);
-                }
-                else
-                {
-                    version = versionFromUri(uri);
-
-                    switch (callBehaviour)
+                    if (!statefulEntity)
                     {
-                        case ANY:
-                            genologicsObject = getFromWrapper(wrapper);
-                            break;
+                        genologicsObject = getFromWrapper(wrapper);
+                    }
+                    else if (!api.isFetchLatestVersions())
+                    {
+                        version = versionFromUri(uri);
 
-                        case LATEST:
-                            if (version == NO_STATE_VALUE || version <= wrapper.getVersion())
-                            {
+                        switch (behaviour)
+                        {
+                            case ANY:
                                 genologicsObject = getFromWrapper(wrapper);
-                            }
-                            break;
+                                break;
 
-                        case EXACT:
-                            if (version == NO_STATE_VALUE || version == wrapper.getVersion())
-                            {
-                                genologicsObject = getFromWrapper(wrapper);
-                            }
-                            break;
+                            case LATEST:
+                                if (version == NO_STATE_VALUE || version <= wrapper.getVersion())
+                                {
+                                    genologicsObject = getFromWrapper(wrapper);
+                                }
+                                break;
+
+                            case EXACT:
+                                if (version == NO_STATE_VALUE || version == wrapper.getVersion())
+                                {
+                                    genologicsObject = getFromWrapper(wrapper);
+                                }
+                                break;
+                        }
                     }
                 }
             }
-        }
 
-        if (genologicsObject == null)
-        {
-            if (logger.isDebugEnabled())
+            if (genologicsObject == null)
             {
-                if (version == NO_STATE_VALUE)
+                if (logger.isDebugEnabled())
                 {
-                    logger.debug("Don't have {} {} - calling through to API {}", className, key, pjp.getSignature().getName());
+                    if (version == NO_STATE_VALUE)
+                    {
+                        logger.debug("Don't have {} {} - calling through to API {}", className, key, pjp.getSignature().getName());
+                    }
+                    else
+                    {
+                        logger.debug("Have a different version of {} {} - calling through to API {}", className, key, pjp.getSignature().getName());
+                    }
+                }
+
+                genologicsObject = (Locatable)pjp.proceed();
+
+                if (wrapper == null)
+                {
+                    // Not already in the cache, so it needs to be stored.
+                    cache.put(createCacheElement(genologicsObject));
                 }
                 else
                 {
-                    logger.debug("Have a different version of {} {} - calling through to API {}", className, key, pjp.getSignature().getName());
+                    // Most entities already in the cache will just stay there.
+                    // If though we have a stateful entity, there may be cause
+                    // to replace the object in the cache depending on how the
+                    // cache normally behaves. Typically this will be replacing the
+                    // existing with a newer version or replacing for a difference.
+                    // When we don't care about versions, the one already in the cache
+                    // can remain.
+
+                    if (statefulEntity)
+                    {
+                        switch (behaviour)
+                        {
+                            case ANY:
+                                break;
+
+                            case LATEST:
+                                if (version > wrapper.getVersion())
+                                {
+                                    cache.put(createCacheElement(genologicsObject));
+                                }
+                                break;
+
+                            case EXACT:
+                                if (version != wrapper.getVersion())
+                                {
+                                    cache.put(createCacheElement(genologicsObject));
+                                }
+                                break;
+                        }
+                    }
                 }
-            }
-
-            genologicsObject = (Locatable)pjp.proceed();
-
-            if (wrapper == null)
-            {
-                // Not already in the cache, so it needs to be stored.
-                cache.put(createCacheElement(genologicsObject));
             }
             else
             {
-                // Most entities already in the cache will just stay there.
-                // If though we have a stateful entity, there may be cause
-                // to replace the object in the cache depending on how the
-                // cache normally behaves. Typically this will be replacing the
-                // existing with a newer version or replacing for a difference.
-                // When we don't care about versions, the one already in the cache
-                // can remain.
-
-                if (statefulEntity)
+                if (logger.isDebugEnabled())
                 {
-                    switch (behaviour)
-                    {
-                        case ANY:
-                            break;
-
-                        case LATEST:
-                            if (version > wrapper.getVersion())
-                            {
-                                cache.put(createCacheElement(genologicsObject));
-                            }
-                            break;
-
-                        case EXACT:
-                            if (version != wrapper.getVersion())
-                            {
-                                cache.put(createCacheElement(genologicsObject));
-                            }
-                            break;
-                    }
+                    logger.debug("Already have {} {} in the cache.", className, key);
                 }
             }
         }
-        else
+        finally
         {
-            if (logger.isDebugEnabled())
-            {
-                logger.debug("Already have {} {} in the cache.", className, key);
-            }
+            behaviourLock.unlock();
         }
 
         return genologicsObject;
@@ -570,12 +513,6 @@ public class GenologicsAPICache
             Boolean cacheable = null;
             String className = null;
             Boolean stateful = null;
-
-            CacheStatefulBehaviour callBehaviour = behaviourOverride.get();
-            if (callBehaviour == null)
-            {
-                callBehaviour = behaviour;
-            }
 
             behaviourLock.lock();
             try
@@ -629,159 +566,166 @@ public class GenologicsAPICache
                         }
                         else
                         {
-                            long version = versionFromLocatable(link);
-
-                            switch (callBehaviour)
+                            if (api.isFetchLatestVersions())
                             {
-                                case ANY:
-                                    entity = getFromWrapper(wrapper);
-                                    alreadyCached.add(entity);
-                                    break;
+                                toFetch.add(link);
+                            }
+                            else
+                            {
+                                long version = versionFromLocatable(link);
 
-                                case LATEST:
-                                    if (version != NO_STATE_VALUE && version > wrapper.getVersion())
-                                    {
-                                        toFetch.add(link);
-                                    }
-                                    else
-                                    {
+                                switch (behaviour)
+                                {
+                                    case ANY:
                                         entity = getFromWrapper(wrapper);
                                         alreadyCached.add(entity);
-                                    }
-                                    break;
+                                        break;
 
-                                case EXACT:
-                                    if (version != NO_STATE_VALUE && version != wrapper.getVersion())
-                                    {
-                                        toFetch.add(link);
-                                    }
-                                    else
-                                    {
-                                        entity = getFromWrapper(wrapper);
-                                        alreadyCached.add(entity);
-                                    }
-                                    break;
+                                    case LATEST:
+                                        if (version != NO_STATE_VALUE && version > wrapper.getVersion())
+                                        {
+                                            toFetch.add(link);
+                                        }
+                                        else
+                                        {
+                                            entity = getFromWrapper(wrapper);
+                                            alreadyCached.add(entity);
+                                        }
+                                        break;
+
+                                    case EXACT:
+                                        if (version != NO_STATE_VALUE && version != wrapper.getVersion())
+                                        {
+                                            toFetch.add(link);
+                                        }
+                                        else
+                                        {
+                                            entity = getFromWrapper(wrapper);
+                                            alreadyCached.add(entity);
+                                        }
+                                        break;
+                                }
                             }
                         }
                     }
                     results.add(entity);
                 }
-            }
-            finally
-            {
-                behaviourLock.unlock();
-            }
 
-            if (logger.isWarnEnabled())
-            {
-                if (cache.getCacheConfiguration().getMaxEntriesLocalHeap() < links.size())
+                if (logger.isWarnEnabled())
                 {
-                    logger.warn("{} {}s are requested, but the cache will only hold {}. Repeated fetches of this collection will always call through to the API.",
-                            links.size(), className, cache.getCacheConfiguration().getMaxEntriesLocalHeap());
-                }
-            }
-
-            if (logger.isDebugEnabled())
-            {
-                if (alreadyCached.size() == links.size())
-                {
-                    logger.debug("All {} {}s requested are already in the cache.", links.size(), className);
-                }
-                else
-                {
-                    logger.debug("Have {} {}s in the cache; {} to retrieve.", alreadyCached.size(), className, toFetch.size());
-                }
-            }
-
-            // If there is anything to fetch, perform the call to the API then
-            // fill in the nulls in the "results" list from the entities returned
-            // from the API.
-            // The end result is that newly fetched items are put into the cache
-            // and "results" is a fully populated list.
-
-            if (!toFetch.isEmpty())
-            {
-                assert cacheable != null : "No cacheable flag found";
-                assert stateful != null : "No stateful flag found";
-
-                Object[] args = { toFetch };
-                @SuppressWarnings("unchecked")
-                List<E> fetched = (List<E>)pjp.proceed(args);
-
-                ListIterator<E> resultIterator = results.listIterator();
-                ListIterator<E> fetchIterator = fetched.listIterator();
-
-                while (resultIterator.hasNext())
-                {
-                    E entity = resultIterator.next();
-                    if (entity == null)
+                    if (cache.getCacheConfiguration().getMaxEntriesLocalHeap() < links.size())
                     {
-                        assert fetchIterator.hasNext() : "Run out of items in the fetched list.";
-                        entity = fetchIterator.next();
-                        resultIterator.set(entity);
+                        logger.warn("{} {}s are requested, but the cache will only hold {}. Repeated fetches of this collection will always call through to the API.",
+                                links.size(), className, cache.getCacheConfiguration().getMaxEntriesLocalHeap());
+                    }
+                }
 
-                        if (cacheable)
+                if (logger.isDebugEnabled())
+                {
+                    if (alreadyCached.size() == links.size())
+                    {
+                        logger.debug("All {} {}s requested are already in the cache.", links.size(), className);
+                    }
+                    else
+                    {
+                        logger.debug("Have {} {}s in the cache; {} to retrieve.", alreadyCached.size(), className, toFetch.size());
+                    }
+                }
+
+                // If there is anything to fetch, perform the call to the API then
+                // fill in the nulls in the "results" list from the entities returned
+                // from the API.
+                // The end result is that newly fetched items are put into the cache
+                // and "results" is a fully populated list.
+
+                if (!toFetch.isEmpty())
+                {
+                    assert cacheable != null : "No cacheable flag found";
+                    assert stateful != null : "No stateful flag found";
+
+                    Object[] args = { toFetch };
+                    @SuppressWarnings("unchecked")
+                    List<E> fetched = (List<E>)pjp.proceed(args);
+
+                    ListIterator<E> resultIterator = results.listIterator();
+                    ListIterator<E> fetchIterator = fetched.listIterator();
+
+                    while (resultIterator.hasNext())
+                    {
+                        E entity = resultIterator.next();
+                        if (entity == null)
                         {
-                            if (!stateful)
+                            assert fetchIterator.hasNext() : "Run out of items in the fetched list.";
+                            entity = fetchIterator.next();
+                            resultIterator.set(entity);
+
+                            if (cacheable)
                             {
-                                // Entities without state will only have been fetched because they
-                                // were not in the cache. These should just be added.
-
-                                cache.put(createCacheElement(entity));
-                            }
-                            else
-                            {
-                                // Stateful entities may already be in the cache but may have been
-                                // fetched because the requested version is newer or of a different
-                                // state. Some care needs to be taken to update its cached version
-                                // depending on how the cache normally behaves.
-
-                                String key = keyFromLocatable(entity);
-                                Element wrapper = cache.get(key);
-
-                                if (wrapper == null)
+                                if (!stateful)
                                 {
-                                    // Not already cached, so simply add this entity whatever
-                                    // its state.
+                                    // Entities without state will only have been fetched because they
+                                    // were not in the cache. These should just be added.
 
                                     cache.put(createCacheElement(entity));
                                 }
                                 else
                                 {
-                                    // As we have a stateful entity, there may be cause
-                                    // to replace the object in the cache depending on how the
-                                    // cache normally behaves. Typically this will be replacing the
-                                    // existing with a newer version or replacing for a difference.
-                                    // When we don't care about versions, the one already in the cache
-                                    // can remain.
+                                    // Stateful entities may already be in the cache but may have been
+                                    // fetched because the requested version is newer or of a different
+                                    // state. Some care needs to be taken to update its cached version
+                                    // depending on how the cache normally behaves.
 
-                                    long version = versionFromLocatable(entity);
+                                    String key = keyFromLocatable(entity);
+                                    Element wrapper = cache.get(key);
 
-                                    switch (behaviour)
+                                    if (wrapper == null)
                                     {
-                                        case ANY:
-                                            break;
+                                        // Not already cached, so simply add this entity whatever
+                                        // its state.
 
-                                        case LATEST:
-                                            if (version > wrapper.getVersion())
-                                            {
-                                                cache.put(createCacheElement(entity));
-                                            }
-                                            break;
+                                        cache.put(createCacheElement(entity));
+                                    }
+                                    else
+                                    {
+                                        // As we have a stateful entity, there may be cause
+                                        // to replace the object in the cache depending on how the
+                                        // cache normally behaves. Typically this will be replacing the
+                                        // existing with a newer version or replacing for a difference.
+                                        // When we don't care about versions, the one already in the cache
+                                        // can remain.
 
-                                        case EXACT:
-                                            if (version != wrapper.getVersion())
-                                            {
-                                                cache.put(createCacheElement(entity));
-                                            }
-                                            break;
+                                        long version = versionFromLocatable(entity);
+
+                                        switch (behaviour)
+                                        {
+                                            case ANY:
+                                                break;
+
+                                            case LATEST:
+                                                if (version > wrapper.getVersion())
+                                                {
+                                                    cache.put(createCacheElement(entity));
+                                                }
+                                                break;
+
+                                            case EXACT:
+                                                if (version != wrapper.getVersion())
+                                                {
+                                                    cache.put(createCacheElement(entity));
+                                                }
+                                                break;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    assert !fetchIterator.hasNext() : "Have further items fetched after populating results list.";
                 }
-                assert !fetchIterator.hasNext() : "Have further items fetched after populating results list.";
+            }
+            finally
+            {
+                behaviourLock.unlock();
             }
         }
 
