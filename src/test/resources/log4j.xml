@@ -13,7 +13,11 @@
         <priority value="ERROR"/>
     </category>
 
-    <category name="org.cruk.genologics.api.tools">
+    <category name="org.cruk.genologics.api">
+        <priority value="ERROR"/>
+    </category>
+
+    <category name="org.cruk.genologics.api.GenologicsAPI">
         <priority value="ERROR"/>
     </category>
 

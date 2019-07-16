@@ -498,12 +498,16 @@ public class GenologicsAPICacheTest
         EasyMock.expect(pjp3b.getSignature()).andReturn(jpSig).times(0, 1);
         EasyMock.expect(pjp3b.proceed()).andReturn(a3).once();
 
-        EasyMock.replay(pjp3b, jpSig);
+        JoinPoint pjp3c = EasyMock.createStrictMock(JoinPoint.class);
+        EasyMock.expect(pjp3c.getSignature()).andReturn(jpSig).once();
+
+        EasyMock.replay(pjp3b, pjp3c, jpSig);
 
         api.fetchLatestVersions();
         returned = cacheAspect.retrieve(pjp3b);
+        cacheAspect.fetchStatefulVersions(pjp3c);
 
-        EasyMock.verify(pjp3b, jpSig);
+        EasyMock.verify(pjp3b, pjp3c, jpSig);
         assertSame("Did not return a3", a3, returned);
     }
 

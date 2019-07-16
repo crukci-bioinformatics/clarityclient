@@ -37,14 +37,14 @@
     <!--
         Take care not to include a bean of type
         org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator
-        
+
         This creates JDK proxies around the CGLIB proxies needed for the Jaxb2Marshaller,
         which then cannot be set as they aren't actually a type of Jaxb2Marshaller.
-        
+
         This took two days to find but five seconds to fix.
-        
+
         The error one sees is:
-        
+
         java.lang.IllegalStateException: Cannot convert value of type [com.sun.proxy.$Proxy implementing ...]
         to required type [org.springframework.oxm.jaxb.Jaxb2Marshaller] for property 'jaxbMarshaller':
         no matching editors or conversion strategy found
@@ -243,7 +243,7 @@
     <!--
         Base definition for the API bean. Allows the concrete beans, usually called
         "genologicsAPI", to inherit from this and only specify changed properties.
-    --> 
+    -->
     <bean id="genologicsAPIBase" class="org.cruk.genologics.api.impl.GenologicsAPIImpl" abstract="true">
         <property name="filestoreSessionFactory" ref="filestoreSFTPSessionFactory"/>
         <property name="jaxbMarshaller" ref="genologicsJaxbMarshaller"/>

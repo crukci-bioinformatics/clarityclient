@@ -422,9 +422,12 @@ public interface GenologicsAPI
      * entities. Called by the wrapping aspect after any public method to make
      * sure the behaviour is reset.
      *
+     * @param calledMethod The name of the method that caused this to be called.
+     * This is provided by the surrounding join point.
+     *
      * @see #fetchLatestVersions()
      */
-    void fetchStatefulVersions();
+    void fetchStatefulVersions(String calledMethod);
 
     // Retrieval methods
 

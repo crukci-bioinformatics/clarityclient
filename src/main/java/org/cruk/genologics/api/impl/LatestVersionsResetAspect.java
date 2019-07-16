@@ -26,9 +26,6 @@ import java.util.Set;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.genologics.api.GenologicsAPI;
-import org.cruk.genologics.api.cache.GenologicsAPICache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
@@ -47,11 +44,6 @@ public class LatestVersionsResetAspect
      */
     private static final Set<String> NO_RESET_METHODS =
             Collections.unmodifiableSet(new HashSet<String>(Arrays.asList("fetchLatestVersions", "isFetchLatestVersions", "fetchStatefulVersions")));
-
-    /**
-     * Logger.
-     */
-    protected Logger logger = LoggerFactory.getLogger(LatestVersionsResetAspect.class);
 
     /**
      * The API this aspect will call through to.
@@ -91,8 +83,7 @@ public class LatestVersionsResetAspect
 
         if (!NO_RESET_METHODS.contains(methodName))
         {
-            api.fetchStatefulVersions();
-            logger.debug("Reset stateful behaviour after call to {}", methodName);
+            api.fetchStatefulVersions(methodName);
         }
     }
 }

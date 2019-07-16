@@ -33,6 +33,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
+import org.cruk.genologics.api.impl.LatestVersionsResetAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -100,6 +101,11 @@ public class GenologicsAPICache
     protected CacheManager cacheManager;
 
     /**
+     * The aspect that resets API version behaviour.
+     */
+    protected LatestVersionsResetAspect latestVersionsResetAspect;
+
+    /**
      * The behaviour for dealing with stateful entities.
      */
     protected CacheStatefulBehaviour behaviour = CacheStatefulBehaviour.LATEST;
@@ -137,6 +143,19 @@ public class GenologicsAPICache
     public void setCacheManager(CacheManager cacheManager)
     {
         this.cacheManager = cacheManager;
+    }
+
+    /**
+     * Set a reference to the aspect that resets the API's behaviour around stateful
+     * entities.
+     *
+     * @param latestVersionsResetAspect The version resetting aspect.
+     * @see #fetchStatefulVersions(JoinPoint)
+     */
+    @Required
+    public void setLatestVersionsResetAspect(LatestVersionsResetAspect latestVersionsResetAspect)
+    {
+        this.latestVersionsResetAspect = latestVersionsResetAspect;
     }
 
     /**
@@ -204,6 +223,31 @@ public class GenologicsAPICache
         }
 
         return cache;
+    }
+
+    /**
+     * Makes sure the effects of {@link GenologicsAPI#fetchLatestVersions()}
+     * is reset after a call. The API itself has its own wrapper to clear
+     * this after a call, but if the cache intercepts the call and doesn't
+     * call through to the API (because the objects are already in the cache)
+     * we need to make sure the behaviour reverts to respecting the state
+     * version anyway.
+     *
+     * <p>
+     * If one considers this, it might not be necessary because when the API
+     * is instructed to fetch the most recent, the call will always pass through
+     * the cache. This is a belt and braces method.
+     * </p>
+     *
+     * @param jp The join point.
+     *
+     * @see GenologicsAPI#fetchLatestVersions()
+     * @see GenologicsAPI#fetchStatefulVersions()
+     * @see LatestVersionsResetAspect#fetchStatefulVersions(JoinPoint)
+     */
+    public void fetchStatefulVersions(JoinPoint jp)
+    {
+        latestVersionsResetAspect.fetchStatefulVersions(jp);
     }
 
     /**

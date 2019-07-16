@@ -54,6 +54,7 @@
     <bean id="genologicsApiCacheAspect" class="org.cruk.genologics.api.cache.GenologicsAPICache">
         <property name="genologicsAPI" ref="genologicsAPI"/>
         <property name="cacheManager" ref="genologicsCacheManager"/>
+        <property name="latestVersionsResetAspect" ref="genologicsLatestVersionsResetAspect"/>
         <property name="statefulBehaviour" value="LATEST"/>
     </bean>
 
@@ -75,6 +76,8 @@
             <aop:around method="deleteAndRemoveFile" pointcut="execution(public * deleteAndRemoveFile(..)) and bean(genologicsAPI)" />
             <aop:around method="runSomething" pointcut="execution(public * executeProcess(..)) and bean(genologicsAPI)" />
             <aop:around method="runSomething" pointcut="execution(public * beginProcessStep(..)) and bean(genologicsAPI)" />
+
+            <aop:after method="fetchStatefulVersions" pointcut="execution(public * *(..)) and bean(genologicsAPI)"/>
         </aop:aspect>
     </aop:config>
 
