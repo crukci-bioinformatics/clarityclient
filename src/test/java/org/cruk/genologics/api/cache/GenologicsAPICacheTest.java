@@ -19,10 +19,7 @@
 package org.cruk.genologics.api.cache;
 
 import static org.cruk.genologics.api.cache.GenologicsAPICache.NO_STATE_VALUE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,6 +60,9 @@ import com.genologics.ri.file.GenologicsFile;
 import com.genologics.ri.process.GenologicsProcess;
 import com.genologics.ri.processexecution.ExecutableInputOutputMap;
 import com.genologics.ri.processexecution.ExecutableProcess;
+import com.genologics.ri.processtype.ProcessType;
+import com.genologics.ri.processtype.ProcessTypeAttribute;
+import com.genologics.ri.processtype.ProcessTypeLink;
 import com.genologics.ri.project.Project;
 import com.genologics.ri.project.ResearcherLink;
 import com.genologics.ri.researcher.Researcher;
@@ -579,6 +579,31 @@ public class GenologicsAPICacheTest
                           "Set the property -D" + FULL_TEST_SYSTEM_PROPERTY + "=true to make it run.",
                           runThisTest);
 
+        ProcessType poolProcessType = null;
+        List<LimsLink<ProcessType>> ptLinks = api.listAll(ProcessType.class);
+        for (LimsLink<ProcessType> link : ptLinks)
+        {
+            ProcessTypeLink ptLink = (ProcessTypeLink)link;
+            if (ptLink.getName().equals("Pool Accepted SLX"))
+            {
+                poolProcessType = api.load(ptLink);
+                break;
+            }
+        }
+
+        assertNotNull("Cannot locate 'Pool Accepted SLX' process type", poolProcessType);
+
+        boolean poolingEnabled = false;
+        for (ProcessTypeAttribute pta : poolProcessType.getProcessTypeAttributes())
+        {
+            if (pta.getName().equalsIgnoreCase("enabled"))
+            {
+                poolingEnabled = Boolean.parseBoolean(pta.getValue());
+                break;
+            }
+        }
+        assertTrue("'Pool Accepted SLX' process type is disabled. Turn it on on dev to run this test.", poolingEnabled);
+
         final String projectName = "Caching Aspect Test";
 
         if (apiUser == null || plateType == null)
@@ -710,7 +735,7 @@ public class GenologicsAPICacheTest
 
         api.create(poolContainer);
 
-        ExecutableProcess execProcess = new ExecutableProcess("Pool Accepted SLX", apiUser);
+        ExecutableProcess execProcess = new ExecutableProcess(poolProcessType.getName(), apiUser);
         ExecutableInputOutputMap iomap = execProcess.newInputOutputMap();
 
         iomap.setShared(true);
