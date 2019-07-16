@@ -327,6 +327,7 @@
                     <breakiterator>true</breakiterator>
                     <serialwarn>false</serialwarn>
                     <show>protected</show>
+                    <failOnError>false</failOnError>
                     <links>
                         <link>https://www.slf4j.org/apidocs/</link>
                         <link>https://docs.spring.io/spring/docs/4.3.x/javadoc-api/</link>
@@ -417,6 +418,7 @@
                     <breakiterator>true</breakiterator>
                     <serialwarn>false</serialwarn>
                     <show>protected</show>
+                    <failOnError>false</failOnError>
                     <links>
                         <link>https://www.slf4j.org/apidocs/</link>
                         <link>https://docs.spring.io/spring/docs/4.3.x/javadoc-api/</link>
