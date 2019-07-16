@@ -242,7 +242,7 @@ public class GenologicsAPICache
      * @param jp The join point.
      *
      * @see GenologicsAPI#fetchLatestVersions()
-     * @see GenologicsAPI#fetchStatefulVersions()
+     * @see GenologicsAPI#fetchStatefulVersions(String)
      * @see LatestVersionsResetAspect#fetchStatefulVersions(JoinPoint)
      */
     public void fetchStatefulVersions(JoinPoint jp)

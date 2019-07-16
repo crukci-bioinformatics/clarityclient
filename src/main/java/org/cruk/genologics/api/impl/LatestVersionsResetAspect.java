@@ -75,7 +75,7 @@ public class LatestVersionsResetAspect
      *
      * @param jp The join point.
      *
-     * @see GenologicsAPI#fetchStatefulVersions()
+     * @see GenologicsAPI#fetchStatefulVersions(String)
      */
     public void fetchStatefulVersions(JoinPoint jp)
     {

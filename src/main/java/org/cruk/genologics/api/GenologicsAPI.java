@@ -119,6 +119,8 @@ public interface GenologicsAPI
      *
      * @param serverAddress The base URL. Should just be the protocol, host and port with
      * no path.
+     *
+     * @throws IllegalArgumentException if {@code serverAddress} is null.
      */
     void setServer(URL serverAddress);
 
@@ -369,7 +371,7 @@ public interface GenologicsAPI
 
     /**
      * This method was used to overrides the cache behaviour for the next call on the
-     * same thread. It has been replaced by {@link ##fetchLatestVersions()} which does
+     * same thread. It has been replaced by {@link #fetchLatestVersions()} which does
      * the correct thing. Momentarily changing how the cache worked didn't solve the
      * problem this was intended for (up to date QC flags on Artifacts).
      *
