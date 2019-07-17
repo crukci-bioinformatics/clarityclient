@@ -1146,9 +1146,16 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
         statefulOverride.set(null);
 
-        if (hadOverride && calledMethod != null && logger.isDebugEnabled())
+        if (hadOverride && logger.isDebugEnabled())
         {
-            logger.debug("Reverted to normal state version behaviour after call to {}.", calledMethod);
+            if (calledMethod == null)
+            {
+                logger.debug("Reverted to normal state version behaviour.");
+            }
+            else
+            {
+                logger.debug("Reverted to normal state version behaviour after call to {}.", calledMethod);
+            }
         }
     }
 
