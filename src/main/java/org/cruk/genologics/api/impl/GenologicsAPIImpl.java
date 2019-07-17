@@ -1100,7 +1100,21 @@ public class GenologicsAPIImpl implements GenologicsAPI
     @Deprecated
     public void nextCallCacheOverride(CacheStatefulBehaviour behaviour)
     {
-        throw new UnsupportedOperationException("nextCallCacheOverride is deprecated and no longer functional.");
+        if (behaviour != null)
+        {
+            switch (behaviour)
+            {
+                case EXACT:
+                    overrideStateful(StatefulOverride.EXACT);
+                    return;
+
+                case LATEST:
+                    overrideStateful(StatefulOverride.LATEST);
+                    return;
+            }
+        }
+
+        overrideStateful(null);
     }
 
     /**
