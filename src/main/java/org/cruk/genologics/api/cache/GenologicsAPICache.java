@@ -151,7 +151,7 @@ public class GenologicsAPICache
      * entities.
      *
      * @param latestVersionsResetAspect The version resetting aspect.
-     * @see #fetchStatefulVersions(JoinPoint)
+     * @see #cancelStatefulOverride(JoinPoint)
      */
     @Required
     public void setLatestVersionsResetAspect(LatestVersionsResetAspect latestVersionsResetAspect)
@@ -227,7 +227,7 @@ public class GenologicsAPICache
     }
 
     /**
-     * Makes sure the effects of {@link GenologicsAPI#fetchLatestVersions()}
+     * Makes sure the effects of {@code GenologicsAPI.overrideStateful()}
      * is reset after a call. The API itself has its own wrapper to clear
      * this after a call, but if the cache intercepts the call and doesn't
      * call through to the API (because the objects are already in the cache)
