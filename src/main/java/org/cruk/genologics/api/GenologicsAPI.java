@@ -375,9 +375,17 @@ public interface GenologicsAPI
      * which does the correct thing. Momentarily changing how the cache worked didn't solve the
      * problem this was intended for (up to date QC flags on artifacts).
      *
+     * <p>
+     * The values map as:
+     * </p>
+     * <ol>
+     * <li>{@link CacheStatefulBehaviour#EXACT} becomes {@link StatefulOverride#EXACT}.</li>
+     * <li>{@link CacheStatefulBehaviour#LATEST} becomes {@link StatefulOverride#LATEST}.</li>
+     * <li>{@link CacheStatefulBehaviour#ANY} or {@code null} clears the override.</li>
+     * </ol>
+     *
      * @param behaviour The cache behaviour for the next call from the current
-     * thread. Can be null to indicate that the call should be the same as the
-     * regular cache behaviour.
+     * thread.
      *
      * @since 2.24.3
      *

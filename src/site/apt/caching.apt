@@ -69,7 +69,7 @@ by Genologics, though testing has shown this can vary between installations).
   As of release 2.22, the client library will batch bulk operations with
 large numbers of objects into one or more calls to the relevant API end point
 transparently to the user. So we can request our 10,000 artifacts in one call
-to the client and let that fetch them in the most efficent manner.
+to the client and let that fetch them in the most efficient manner.
 
   The number of objects to retrieve or send in each batch can be tuned
 with the <<<setBulkOperationBatchSize>>> method on the client. The default
@@ -109,7 +109,7 @@ releases of the client before 2.22. Modes can be set in the Spring
 configuration (<<<genologics-cache-context.xml>>>) or programmatically on
 the <<<GenologicsAPICache>>> bean using the <<<setStatefulBehaviour>>> method.
 
-* Overriding the cache to get the latest version
+* Overriding the cache behaviour for a single fetch
 
   In actual use, the only time the state parameter is important for an
 artifact is when one is looking for its QC flag value. No other fields have
@@ -120,21 +120,28 @@ provide. This is not true when using the post process URI of the input/output
 maps to obtain the QC flags.
 
   Release 4.24.8 introduced the method
-<<<{{{./apidocs/org/cruk/genologics/api/GenologicsAPI.html}fetchLatestVersions}}>>>
-to the API. This does nothing to the server, but instructs the cache and the
-API client to go back to the server for the latest versions of the artifacts
-regardless on whether they are in the cache or not. The <state> parameter is
-removed from the URL or URLs and the fetch is always performed. The artifacts
-returned will be placed in the cache, but if the client is again instructed to
-fetch one of these artifacts in its latest state, the call will go through to
-the Clarity API again.
+<<<{{{./apidocs/org/cruk/genologics/api/GenologicsAPI.html}overrideStateful}}>>>
+to the API. This allows a single call to be made through the API that will
+fetch the artifact at either the exact version given in the URI or the latest
+available state.
 
-  The "fetch latest" behaviour is only relevant to artifacts and is in place for
-exactly one call to the API after the <<<fetchLatestVersions>>> call. It will
+  When <<<overrideStateful>>> is set to <<<EXACT>>>, the client will call
+through to the Clarity API unless we already have exactly this version of the
+artifact in the cache. As the call returns the cache follows its normal rules
+for whether this version of the artifact is cached.
+
+  When <<<overrideStateful>>> is set to <<<LATEST>>>, the client will remove
+the <state> parameter from the artifact's URI before always calling through
+to the Clarity API. Again, as the call returns the cache follows its normal rules
+for whether this version of the artifact is cached. If the client is again
+instructed to fetch one of the artifact with this same override, the call will
+go through to the Clarity API again.
+
+  The stateful override behaviour is only relevant to artifacts and is in place for
+exactly one call to the API after the <<<overrideStateful>>> call. It will
 always be cleared after the next call to the API, regardless of whether it
-actually has an effect after that call (e.g. calling <<<fetchLatestVersions>>>
-and then <<<getServer>>> will cause the behaviour to be cleared), so one
-should put the call to <<<fetchLatestVersions>>> immediately before the call to
+actually has an effect after that call (e.g. calling <<<overrideStateful>>>
+and then <<<getServer>>> will cause the override to be cleared), so one
+should put the call to <<<overrideStateful>>> immediately before the call to
 <<<retrieve>>>, <<<load>>>, <<<loadAll>>> or <<<reload>>>. This behaviour is
-local to the calling thread, so will not affect calls to the API from other
-threads.
+local to the calling thread, so will not affect calls from other threads.
