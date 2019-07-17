@@ -371,9 +371,9 @@ public interface GenologicsAPI
 
     /**
      * This method was used to overrides the cache behaviour for the next call on the
-     * same thread. It has been replaced by {@link #fetchLatestVersions()} which does
-     * the correct thing. Momentarily changing how the cache worked didn't solve the
-     * problem this was intended for (up to date QC flags on Artifacts).
+     * same thread. It has been replaced by {@link #overrideStateful(StatefulOverride)}
+     * which does the correct thing. Momentarily changing how the cache worked didn't solve the
+     * problem this was intended for (up to date QC flags on artifacts).
      *
      * @param behaviour The cache behaviour for the next call from the current
      * thread. Can be null to indicate that the call should be the same as the
@@ -381,17 +381,16 @@ public interface GenologicsAPI
      *
      * @since 2.24.3
      *
-     * @deprecated This is the wrong approach, as as of version 2.24.8 is deprecated
-     * and will throw a {@code UnsupportedOperationException}. Replaced by
-     * {@link #fetchLatestVersions()}.
+     * @deprecated Calls through to {@link #overrideStateful(StatefulOverride)} with a
+     * conversion of the {@code behaviour} value to {@code StatefulOverride},
+     * so behaviour is maintained but one should update code to use {@code overrideStateful}.
      */
     @Deprecated
     void nextCallCacheOverride(CacheStatefulBehaviour behaviour);
 
     /**
-     * Forces the API to fetch the latest versions of stateful entities on the next
-     * call by removing the "state" parameter from the URIs before making the call
-     * to Clarity.
+     * Forces the API to fetch stateful entities according to the rule given for
+     * the next API call only.
      *
      * <p>
      * Calling this method only applies the change to the next call to the API on
@@ -404,32 +403,45 @@ public interface GenologicsAPI
      * </p>
      *
      * <p>
-     * In practice, this is useful only to get the up to date QC flags from Artifacts.
+     * In practice, this is useful only for the QC flags from artifacts. One would
+     * either need the flag as specified by the URI exactly, or would want the
+     * flag in its current state rather than the state given in the URI.
      * </p>
+     *
+     * @param override The behaviour to use in the next call. If null, it will
+     * cancel a previously set override.
+     *
+     * @since 2.24.8
      */
-    void fetchLatestVersions();
+    void overrideStateful(StatefulOverride override);
 
     /**
      * Helper method for the cache, this method returns whether the next call
-     * on the current thread will need to fetch the latest versions of stateful
-     * entities or not.
+     * on the current thread will need to fetch stateful entities in a special
+     * way or not.
      *
-     * @return true if the entities to fetch must be the newest, false if not.
+     * @return The rule for the next call to the API for stateful entities.
+     * Will return null if there is no override.
+     *
+     * @since 2.24.8
      */
-    boolean isFetchLatestVersions();
+    StatefulOverride getStatefulOverride();
 
     /**
-     * Undoes the effects of {@link #fetchLatestVersions()} after a call to
+     * Undoes the effects of {@link #overrideStateful(StatefulOverride)} after a call to
      * ensure subsequent calls will respect the state parameter for stateful
      * entities. Called by the wrapping aspect after any public method to make
      * sure the behaviour is reset.
      *
      * @param calledMethod The name of the method that caused this to be called.
-     * This is provided by the surrounding join point.
+     * This is provided by the surrounding join point. It is not important and
+     * only used for debug logging.
      *
-     * @see #fetchLatestVersions()
+     * @see #overrideStateful(StatefulOverride)
+     *
+     * @since 2.24.8
      */
-    void fetchStatefulVersions(String calledMethod);
+    void cancelStatefulOverride(String calledMethod);
 
     // Retrieval methods
 

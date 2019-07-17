@@ -36,6 +36,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.cruk.genologics.api.GenologicsAPI;
+import org.cruk.genologics.api.StatefulOverride;
 import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -503,9 +504,9 @@ public class GenologicsAPICacheTest
 
         EasyMock.replay(pjp3b, pjp3c, jpSig);
 
-        api.fetchLatestVersions();
+        api.overrideStateful(StatefulOverride.LATEST);
         returned = cacheAspect.retrieve(pjp3b);
-        cacheAspect.fetchStatefulVersions(pjp3c);
+        cacheAspect.cancelStatefulOverride(pjp3c);
 
         EasyMock.verify(pjp3b, pjp3c, jpSig);
         assertSame("Did not return a3", a3, returned);

@@ -43,7 +43,7 @@ public class LatestVersionsResetAspect
      * @see #fetchStatefulVersions(JoinPoint)
      */
     private static final Set<String> NO_RESET_METHODS =
-            Collections.unmodifiableSet(new HashSet<String>(Arrays.asList("fetchLatestVersions", "isFetchLatestVersions", "fetchStatefulVersions")));
+            Collections.unmodifiableSet(new HashSet<String>(Arrays.asList("overrideStateful", "getStatefulOverride", "cancelStatefulOverride")));
 
     /**
      * The API this aspect will call through to.
@@ -75,15 +75,15 @@ public class LatestVersionsResetAspect
      *
      * @param jp The join point.
      *
-     * @see GenologicsAPI#fetchStatefulVersions(String)
+     * @see GenologicsAPI#cancelStatefulOverride(String)
      */
-    public void fetchStatefulVersions(JoinPoint jp)
+    public void cancelStatefulOverride(JoinPoint jp)
     {
         String methodName = jp.getSignature().getName();
 
         if (!NO_RESET_METHODS.contains(methodName))
         {
-            api.fetchStatefulVersions(methodName);
+            api.cancelStatefulOverride(methodName);
         }
     }
 }

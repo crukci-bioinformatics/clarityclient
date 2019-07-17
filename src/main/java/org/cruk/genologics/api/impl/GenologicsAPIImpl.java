@@ -63,6 +63,7 @@ import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.GenologicsUpdateException;
 import org.cruk.genologics.api.IllegalSearchTermException;
+import org.cruk.genologics.api.StatefulOverride;
 import org.cruk.genologics.api.cache.CacheStatefulBehaviour;
 import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.slf4j.Logger;
@@ -310,10 +311,9 @@ public class GenologicsAPIImpl implements GenologicsAPI
 
     /**
      * Thread local flag indicating whether the next call on the thread should
-     * fetch stateful entities without the state parameter to get their latest
-     * versions.
+     * fetch stateful entities according to a different rule to the normal.
      */
-    protected ThreadLocal<Boolean> fetchLatestOnNextCall = new ThreadLocal<Boolean>();
+    protected ThreadLocal<StatefulOverride> statefulOverride = new ThreadLocal<StatefulOverride>();
 
 
     /**
@@ -1110,34 +1110,45 @@ public class GenologicsAPIImpl implements GenologicsAPI
      * {@inheritDoc}
      */
     @Override
-    public void fetchLatestVersions()
+    public void overrideStateful(StatefulOverride override)
     {
-        fetchLatestOnNextCall.set(Boolean.TRUE);
+        statefulOverride.set(override);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isFetchLatestVersions()
+    public StatefulOverride getStatefulOverride()
     {
-        Boolean fetchLatest = fetchLatestOnNextCall.get();
-        return fetchLatest == null ? false : fetchLatest.booleanValue();
+        return statefulOverride.get();
+    }
+
+    /**
+     * Convenience method to test whether the latest version of stateful
+     * entities is required.
+     *
+     * @return True if there is an override wanting the latest version,
+     * false if not.
+     */
+    private boolean isFetchLatestVersions()
+    {
+        return statefulOverride.get() == StatefulOverride.LATEST;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void fetchStatefulVersions(String calledMethod)
+    public void cancelStatefulOverride(String calledMethod)
     {
-        boolean wasLatest = isFetchLatestVersions();
+        boolean hadOverride = statefulOverride.get() != null;
 
-        fetchLatestOnNextCall.set(Boolean.FALSE);
+        statefulOverride.set(null);
 
-        if (wasLatest && logger.isDebugEnabled())
+        if (hadOverride && calledMethod != null && logger.isDebugEnabled())
         {
-            logger.debug("Reverted to respecting state versions after call to {}.", calledMethod);
+            logger.debug("Reverted to normal state version behaviour after call to {}.", calledMethod);
         }
     }
 
