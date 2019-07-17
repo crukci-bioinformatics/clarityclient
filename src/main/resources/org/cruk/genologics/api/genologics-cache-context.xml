@@ -77,7 +77,7 @@
             <aop:around method="runSomething" pointcut="execution(public * executeProcess(..)) and bean(genologicsAPI)" />
             <aop:around method="runSomething" pointcut="execution(public * beginProcessStep(..)) and bean(genologicsAPI)" />
 
-            <aop:after method="fetchStatefulVersions" pointcut="execution(public * *(..)) and bean(genologicsAPI)"/>
+            <aop:after method="cancelStatefulOverride" pointcut="execution(public * *(..)) and bean(genologicsAPI)"/>
         </aop:aspect>
     </aop:config>
 

@@ -266,7 +266,7 @@
 
     <aop:config>
         <aop:aspect id="genologicsLatestVersionsResettingAspect" ref="genologicsLatestVersionsResetAspect">
-            <aop:after method="fetchStatefulVersions" pointcut="execution(public * *(..)) and bean(genologicsAPI)"/>
+            <aop:after method="cancelStatefulOverride" pointcut="execution(public * *(..)) and bean(genologicsAPI)"/>
         </aop:aspect>
     </aop:config>
 

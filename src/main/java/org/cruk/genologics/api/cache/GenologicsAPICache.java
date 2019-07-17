@@ -33,6 +33,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.genologics.api.GenologicsAPI;
+import org.cruk.genologics.api.StatefulOverride;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.cruk.genologics.api.impl.LatestVersionsResetAspect;
 import org.slf4j.Logger;
@@ -151,7 +152,7 @@ public class GenologicsAPICache
      * entities.
      *
      * @param latestVersionsResetAspect The version resetting aspect.
-     * @see #fetchStatefulVersions(JoinPoint)
+     * @see #cancelStatefulOverride(JoinPoint)
      */
     @Required
     public void setLatestVersionsResetAspect(LatestVersionsResetAspect latestVersionsResetAspect)
@@ -227,7 +228,7 @@ public class GenologicsAPICache
     }
 
     /**
-     * Makes sure the effects of {@link GenologicsAPI#fetchLatestVersions()}
+     * Makes sure the effects of {@code GenologicsAPI.overrideStateful()}
      * is reset after a call. The API itself has its own wrapper to clear
      * this after a call, but if the cache intercepts the call and doesn't
      * call through to the API (because the objects are already in the cache)
@@ -242,13 +243,12 @@ public class GenologicsAPICache
      *
      * @param jp The join point.
      *
-     * @see GenologicsAPI#fetchLatestVersions()
-     * @see GenologicsAPI#fetchStatefulVersions(String)
-     * @see LatestVersionsResetAspect#fetchStatefulVersions(JoinPoint)
+     * @see GenologicsAPI#cancelStatefulOverride(String)
+     * @see LatestVersionsResetAspect#cancelStatefulOverride(JoinPoint)
      */
-    public void fetchStatefulVersions(JoinPoint jp)
+    public void cancelStatefulOverride(JoinPoint jp)
     {
-        latestVersionsResetAspect.fetchStatefulVersions(jp);
+        latestVersionsResetAspect.cancelStatefulOverride(jp);
     }
 
     /**
@@ -427,11 +427,11 @@ public class GenologicsAPICache
                     {
                         genologicsObject = getFromWrapper(wrapper);
                     }
-                    else if (!api.isFetchLatestVersions())
+                    else if (!isFetchLatestVersions())
                     {
                         version = versionFromUri(uri);
 
-                        switch (behaviour)
+                        switch (getBehaviourForCall())
                         {
                             case ANY:
                                 genologicsObject = getFromWrapper(wrapper);
@@ -559,6 +559,8 @@ public class GenologicsAPICache
             String className = null;
             Boolean stateful = null;
 
+            CacheStatefulBehaviour callBehaviour = getBehaviourForCall();
+
             behaviourLock.lock();
             try
             {
@@ -611,7 +613,7 @@ public class GenologicsAPICache
                         }
                         else
                         {
-                            if (api.isFetchLatestVersions())
+                            if (isFetchLatestVersions())
                             {
                                 toFetch.add(link);
                             }
@@ -619,7 +621,7 @@ public class GenologicsAPICache
                             {
                                 long version = versionFromLocatable(link);
 
-                                switch (behaviour)
+                                switch (callBehaviour)
                                 {
                                     case ANY:
                                         entity = getFromWrapper(wrapper);
@@ -1409,4 +1411,36 @@ public class GenologicsAPICache
         }
         return key;
     }
+
+    /**
+     * Get the type of stateful behaviour to use for the current call.
+     * If there is an override that requires the exact version, behave
+     * on this call as if the cache were in EXACT operation (for the
+     * fetch, not the store). Otherwise return the configured behaviour.
+     *
+     * @return The cache behaviour to use this time.
+     */
+    protected CacheStatefulBehaviour getBehaviourForCall()
+    {
+        StatefulOverride override = api.getStatefulOverride();
+        if (override == StatefulOverride.EXACT)
+        {
+            // Behave as if the whole cache was running in EXACT mode.
+            return CacheStatefulBehaviour.EXACT;
+        }
+        return behaviour;
+    }
+
+    /**
+     * Convenience method to test whether the latest version of stateful
+     * entities is required.
+     *
+     * @return True if there is an override wanting the latest version
+     * set on the API, false if not.
+     */
+    protected boolean isFetchLatestVersions()
+    {
+        return api.getStatefulOverride() == StatefulOverride.LATEST;
+    }
+
 }
