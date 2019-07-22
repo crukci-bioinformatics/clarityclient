@@ -123,7 +123,7 @@ import com.jcraft.jsch.SftpException;
  * @see Jaxb2Marshaller
  * @see HttpClient
  */
-public class GenologicsAPIImpl implements GenologicsAPI
+public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 {
     /**
      * The first part of the path for API calls.
@@ -742,24 +742,10 @@ public class GenologicsAPIImpl implements GenologicsAPI
     // Internal consistency methods.
 
     /**
-     * Get the class that holds a list of links for the given entity when returned
-     * from a list or search operation.
-     *
-     * <p>For example, this is the {@link com.genologics.ri.artifact.Artifacts}
-     * class for the {@link com.genologics.ri.artifact.Artifact} entity.
-     * </p>
-     *
-     * @param entityClass The class of the entity.
-     *
-     * @param <E> The type of the entity.
-     * @param <BH> The type of the object that holds the list of links to these entities.
-     *
-     * @return The list of links class for the given class of entity.
-     *
-     * @throws IllegalArgumentException if {@code entityClass} has no associated
-     * list of links class.
+     * {@inheritDoc}
      */
-    protected <E extends Locatable, BH extends Batch<? extends LimsLink<E>>>
+    @Override
+    public <E extends Locatable, BH extends Batch<? extends LimsLink<E>>>
     Class<BH> getQueryResultsClassForEntity(Class<E> entityClass)
     {
         @SuppressWarnings("unchecked")
@@ -1121,7 +1107,13 @@ public class GenologicsAPIImpl implements GenologicsAPI
     }
 
     /**
-     * {@inheritDoc}
+     * Forces the API to fetch stateful entities according to the rule given for
+     * the next API call only. Full details on the {@code GenologicsAPI} description.
+     *
+     * @param override The behaviour to use in the next call. If null, it will
+     * cancel a previously set override.
+     *
+     * @see GenologicsAPI#overrideStateful(StatefulOverride)
      */
     @Override
     public void overrideStateful(StatefulOverride override)
