@@ -51,16 +51,16 @@ public interface GenologicsAPIInternal
     StatefulOverride getStatefulOverride();
 
     /**
-     * Undoes the effects of {@link #overrideStateful(StatefulOverride)} after a call to
-     * ensure subsequent calls will respect the state parameter for stateful
-     * entities. Called by the wrapping aspect after any public method to make
+     * Undoes the effects of {@link GenologicsAPI#overrideStateful(StatefulOverride)}
+     * after a call to ensure subsequent calls will respect the state parameter for
+     * stateful entities. Called by the wrapping aspect after any public method to make
      * sure the behaviour is reset.
      *
      * @param calledMethod The name of the method that caused this to be called.
      * This is provided by the surrounding join point. It is not important and
      * only used for debug logging.
      *
-     * @see #overrideStateful(StatefulOverride)
+     * @see GenologicsAPI#overrideStateful(StatefulOverride)
      */
     void cancelStatefulOverride(String calledMethod);
 

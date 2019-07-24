@@ -25,7 +25,6 @@ import java.util.Set;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
-import org.cruk.genologics.api.GenologicsAPI;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
@@ -42,7 +41,7 @@ public class LatestVersionsResetAspect
      * These are any methods that appear in the {@link GenologicsAPIInternal} interface
      * plus {@code overrideStateful} from the main interface.
      *
-     * @see #fetchStatefulVersions(JoinPoint)
+     * @see #cancelStatefulOverride(JoinPoint)
      */
     private static final Set<String> NO_RESET_METHODS;
 
@@ -91,7 +90,7 @@ public class LatestVersionsResetAspect
      *
      * @param jp The join point.
      *
-     * @see GenologicsAPI#cancelStatefulOverride(String)
+     * @see GenologicsAPIInternal#cancelStatefulOverride(String)
      */
     public void cancelStatefulOverride(JoinPoint jp)
     {
