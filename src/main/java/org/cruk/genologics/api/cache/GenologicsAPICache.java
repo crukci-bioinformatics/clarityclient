@@ -259,7 +259,7 @@ public class GenologicsAPICache
      *
      * @param jp The join point.
      *
-     * @see GenologicsAPI#cancelStatefulOverride(String)
+     * @see GenologicsAPIInternal#cancelStatefulOverride(String)
      * @see LatestVersionsResetAspect#cancelStatefulOverride(JoinPoint)
      */
     public void cancelStatefulOverride(JoinPoint jp)
