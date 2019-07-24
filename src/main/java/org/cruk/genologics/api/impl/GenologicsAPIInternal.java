@@ -27,7 +27,7 @@ import com.genologics.ri.Locatable;
 
 
 /**
- * Cache controlling interface to the Genologics Clarity API.
+ * Interface to the Genologics Clarity API for internal use, mostly by the cache.
  *
  * <p>
  * This interface provides the methods required for internal control of the API from
