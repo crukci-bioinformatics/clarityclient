@@ -508,6 +508,10 @@ public class GenologicsAPICacheTest
         returned = cacheAspect.retrieve(pjp3b);
         cacheAspect.cancelStatefulOverride(pjp3c);
 
+        // If this fails, it can be because a method that should not cancel the
+        // override is not listed in LatestVersionsResetAspect.NO_RESET_METHODS.
+        // Add manually if it's not in GenologicsAPIInternal.
+
         EasyMock.verify(pjp3b, pjp3c, jpSig);
         assertSame("Did not return a3", a3, returned);
     }
