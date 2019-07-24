@@ -41,22 +41,6 @@ import com.genologics.ri.Locatable;
 public interface GenologicsAPIInternal
 {
     /**
-     * Forces the API to fetch stateful entities according to the rule given for
-     * the next API call only.
-     *
-     * <p>
-     * This method is also provided by the main {@code GenologicsAPI}.
-     * It is on this interface too as it forms part of the internal control of the API.
-     * </p>
-     *
-     * @param override The behaviour to use in the next call. If null, it will
-     * cancel a previously set override.
-     *
-     * @see GenologicsAPI#overrideStateful(StatefulOverride)
-     */
-    void overrideStateful(StatefulOverride override);
-
-    /**
      * Helper method for the cache, this method returns whether the next call
      * on the current thread will need to fetch stateful entities in a special
      * way or not.

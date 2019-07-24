@@ -39,7 +39,8 @@ public class LatestVersionsResetAspect
 {
     /**
      * API method names after whose call the latest versions flag should not be reset.
-     * These are any methods that appear in the {@link GenologicsAPIInternal} interface.
+     * These are any methods that appear in the {@link GenologicsAPIInternal} interface
+     * plus {@code overrideStateful} from the main interface.
      *
      * @see #fetchStatefulVersions(JoinPoint)
      */
@@ -58,6 +59,7 @@ public class LatestVersionsResetAspect
     static
     {
         Set<String> names = new HashSet<String>();
+        names.add("overrideStateful");
         for (Method method : GenologicsAPIInternal.class.getMethods())
         {
             names.add(method.getName());
