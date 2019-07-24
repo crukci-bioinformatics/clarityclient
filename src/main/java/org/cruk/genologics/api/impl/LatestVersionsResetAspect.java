@@ -18,7 +18,7 @@
 
 package org.cruk.genologics.api.impl;
 
-import java.util.Arrays;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -39,17 +39,33 @@ public class LatestVersionsResetAspect
 {
     /**
      * API method names after whose call the latest versions flag should not be reset.
+     * These are any methods that appear in the {@link GenologicsAPIInternal} interface
+     * plus {@code overrideStateful} from the main interface.
      *
      * @see #fetchStatefulVersions(JoinPoint)
      */
-    private static final Set<String> NO_RESET_METHODS =
-            Collections.unmodifiableSet(new HashSet<String>(Arrays.asList("overrideStateful", "getStatefulOverride", "cancelStatefulOverride")));
+    private static final Set<String> NO_RESET_METHODS;
 
     /**
-     * The API this aspect will call through to.
+     * The API instance through its internal access methods.
      */
-    protected GenologicsAPI api;
+    protected GenologicsAPIInternal api;
 
+
+    /**
+     * Static initialiser. Set up the method names to exclude from resetting the override
+     * behaviour (all methods on the GenologicsAPIInternalAccess interface).
+     */
+    static
+    {
+        Set<String> names = new HashSet<String>();
+        names.add("overrideStateful");
+        for (Method method : GenologicsAPIInternal.class.getMethods())
+        {
+            names.add(method.getName());
+        }
+        NO_RESET_METHODS = Collections.unmodifiableSet(names);
+    }
 
     /**
      * Constructor.
@@ -64,7 +80,7 @@ public class LatestVersionsResetAspect
      * @param api The GenologicsAPI bean.
      */
     @Required
-    public void setGenologicsAPI(GenologicsAPI api)
+    public void setGenologicsAPI(GenologicsAPIInternal api)
     {
         this.api = api;
     }

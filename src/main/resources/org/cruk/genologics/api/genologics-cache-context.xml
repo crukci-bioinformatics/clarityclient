@@ -53,6 +53,7 @@
 
     <bean id="genologicsApiCacheAspect" class="org.cruk.genologics.api.cache.GenologicsAPICache">
         <property name="genologicsAPI" ref="genologicsAPI"/>
+        <property name="internalGenologicsAPI" ref="genologicsAPI"/>
         <property name="cacheManager" ref="genologicsCacheManager"/>
         <property name="latestVersionsResetAspect" ref="genologicsLatestVersionsResetAspect"/>
         <property name="statefulBehaviour" value="LATEST"/>

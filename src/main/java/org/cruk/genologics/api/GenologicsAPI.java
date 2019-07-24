@@ -423,34 +423,6 @@ public interface GenologicsAPI
      */
     void overrideStateful(StatefulOverride override);
 
-    /**
-     * Helper method for the cache, this method returns whether the next call
-     * on the current thread will need to fetch stateful entities in a special
-     * way or not.
-     *
-     * @return The rule for the next call to the API for stateful entities.
-     * Will return null if there is no override.
-     *
-     * @since 2.24.8
-     */
-    StatefulOverride getStatefulOverride();
-
-    /**
-     * Undoes the effects of {@link #overrideStateful(StatefulOverride)} after a call to
-     * ensure subsequent calls will respect the state parameter for stateful
-     * entities. Called by the wrapping aspect after any public method to make
-     * sure the behaviour is reset.
-     *
-     * @param calledMethod The name of the method that caused this to be called.
-     * This is provided by the surrounding join point. It is not important and
-     * only used for debug logging.
-     *
-     * @see #overrideStateful(StatefulOverride)
-     *
-     * @since 2.24.8
-     */
-    void cancelStatefulOverride(String calledMethod);
-
     // Retrieval methods
 
     /**

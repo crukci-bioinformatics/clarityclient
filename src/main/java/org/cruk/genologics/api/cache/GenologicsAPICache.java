@@ -35,6 +35,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.StatefulOverride;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
+import org.cruk.genologics.api.impl.GenologicsAPIInternal;
 import org.cruk.genologics.api.impl.LatestVersionsResetAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,6 +99,11 @@ public class GenologicsAPICache
     protected GenologicsAPI api;
 
     /**
+     * The API again, but via its internal interface.
+     */
+    protected GenologicsAPIInternal apiCacheControl;
+
+    /**
      * The Ehcache cache manager.
      */
     protected CacheManager cacheManager;
@@ -134,6 +140,17 @@ public class GenologicsAPICache
     public void setGenologicsAPI(GenologicsAPI api)
     {
         this.api = api;
+    }
+
+    /**
+     * Set the internal interface access to the API.
+     *
+     * @param internalApi The API bean, but through its internal interface.
+     */
+    @Required
+    public void setInternalGenologicsAPI(GenologicsAPIInternal internalApi)
+    {
+        this.apiCacheControl = internalApi;
     }
 
     /**
@@ -1422,7 +1439,7 @@ public class GenologicsAPICache
      */
     protected CacheStatefulBehaviour getBehaviourForCall()
     {
-        StatefulOverride override = api.getStatefulOverride();
+        StatefulOverride override = apiCacheControl.getStatefulOverride();
         if (override == StatefulOverride.EXACT)
         {
             // Behave as if the whole cache was running in EXACT mode.
@@ -1440,7 +1457,7 @@ public class GenologicsAPICache
      */
     protected boolean isFetchLatestVersions()
     {
-        return api.getStatefulOverride() == StatefulOverride.LATEST;
+        return apiCacheControl.getStatefulOverride() == StatefulOverride.LATEST;
     }
 
 }
