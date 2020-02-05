@@ -92,7 +92,12 @@
         <property name="defaultRequestConfig" ref="genologicsRequestConfig" />
     </bean>
 
-    <bean id="genologicsHttpClient" factory-bean="genologicsHttpClientBuilder" factory-method="build" />
+    <bean id="genologicsHttpClient" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean factory-bean="genologicsHttpClientBuilder" factory-method="build" />
+        </property>
+        <property name="proxyInterfaces" value="org.apache.http.client.HttpClient"/>
+    </bean>
 
     <bean id="genologicsCredentialsProvider" class="org.apache.http.impl.client.BasicCredentialsProvider" />
 
