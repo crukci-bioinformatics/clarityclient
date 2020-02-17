@@ -118,8 +118,6 @@
     </aop:config>
 
 
-    <bean id="genologicsNamespaceMatcher" class="org.cruk.genologics.api.jaxb.KnownNamespacePrefixMatcher"/>
-
     <util:list id="genologicsModelPackages">
         <value>com.genologics.ri</value>
         <value>com.genologics.ri.artifact</value>
@@ -162,7 +160,6 @@
             <key><util:constant static-field="javax.xml.bind.Marshaller.JAXB_ENCODING"/></key>
             <value>UTF-8</value>
         </entry>
-        <entry key="com.sun.xml.bind.namespacePrefixMapper" value-ref="genologicsNamespaceMatcher"/>
     </util:map>
 
     <bean id="genologicsJaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
