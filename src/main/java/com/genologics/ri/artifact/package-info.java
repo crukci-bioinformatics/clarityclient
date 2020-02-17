@@ -1,6 +1,13 @@
-@javax.xml.bind.annotation.XmlSchema(
-    namespace = com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE,
-    elementFormDefault = javax.xml.bind.annotation.XmlNsForm.UNQUALIFIED,
-    xmlns = @javax.xml.bind.annotation.XmlNs(prefix = "art", namespaceURI = com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE))
-@javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter(type = java.net.URI.class, value = org.cruk.genologics.api.jaxb.URIAdapter.class)
+@XmlSchema(
+    namespace = ARTIFACT_NAMESPACE,
+    elementFormDefault = XmlNsForm.UNQUALIFIED,
+    xmlns = @XmlNs(prefix = "art", namespaceURI = ARTIFACT_NAMESPACE))
+@XmlJavaTypeAdapter(type = java.net.URI.class, value = org.cruk.genologics.api.jaxb.URIAdapter.class)
 package com.genologics.ri.artifact;
+
+import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
+
+import javax.xml.bind.annotation.XmlNs;
+import javax.xml.bind.annotation.XmlNsForm;
+import javax.xml.bind.annotation.XmlSchema;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;

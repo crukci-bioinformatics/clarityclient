@@ -1,6 +1,13 @@
-@javax.xml.bind.annotation.XmlSchema(
-        namespace = com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE,
-        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.UNQUALIFIED,
-        xmlns = @javax.xml.bind.annotation.XmlNs(prefix = "res", namespaceURI = com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE))
-@javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter(type = java.net.URI.class, value = org.cruk.genologics.api.jaxb.URIAdapter.class)
+@XmlSchema(
+        namespace = RESEARCHER_NAMESPACE,
+        elementFormDefault = XmlNsForm.UNQUALIFIED,
+        xmlns = @XmlNs(prefix = "res", namespaceURI = RESEARCHER_NAMESPACE))
+@XmlJavaTypeAdapter(type = java.net.URI.class, value = org.cruk.genologics.api.jaxb.URIAdapter.class)
 package com.genologics.ri.researcher;
+
+import static com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE;
+
+import javax.xml.bind.annotation.XmlNs;
+import javax.xml.bind.annotation.XmlNsForm;
+import javax.xml.bind.annotation.XmlSchema;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
