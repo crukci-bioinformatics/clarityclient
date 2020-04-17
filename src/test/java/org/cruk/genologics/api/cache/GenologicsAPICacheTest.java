@@ -46,7 +46,6 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -527,7 +526,6 @@ public class GenologicsAPICacheTest
      * against a real installation. It won't work elsewhere.
      */
     @Test
-    @Ignore("This test is breaking talking to the server over HTTPS.")
     public void readonlyTest() throws Exception
     {
         Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
