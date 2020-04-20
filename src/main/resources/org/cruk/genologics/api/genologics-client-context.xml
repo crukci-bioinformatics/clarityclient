@@ -92,7 +92,12 @@
         <property name="defaultRequestConfig" ref="genologicsRequestConfig" />
     </bean>
 
-    <bean id="genologicsHttpClient" factory-bean="genologicsHttpClientBuilder" factory-method="build" />
+    <bean id="genologicsHttpClient" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <bean factory-bean="genologicsHttpClientBuilder" factory-method="build" />
+        </property>
+        <property name="proxyInterfaces" value="org.apache.http.client.HttpClient"/>
+    </bean>
 
     <bean id="genologicsCredentialsProvider" class="org.apache.http.impl.client.BasicCredentialsProvider" />
 
@@ -112,8 +117,6 @@
         </aop:aspect>
     </aop:config>
 
-
-    <bean id="genologicsNamespaceMatcher" class="org.cruk.genologics.api.jaxb.KnownNamespacePrefixMatcher"/>
 
     <util:list id="genologicsModelPackages">
         <value>com.genologics.ri</value>
@@ -158,7 +161,6 @@
             <key><util:constant static-field="javax.xml.bind.Marshaller.JAXB_ENCODING"/></key>
             <value>UTF-8</value>
         </entry>
-        <entry key="com.sun.xml.bind.namespacePrefixMapper" value-ref="genologicsNamespaceMatcher"/>
     </util:map>
 
     <bean id="genologicsJaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">

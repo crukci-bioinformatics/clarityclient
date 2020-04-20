@@ -252,6 +252,8 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
     /**
      * A User-Defined Field that is associated with the Artifact. This element
      * is repeated for each UDF associated with the Artifact.
+     *
+     * @return The list of UDFs on this artifact
      */
     public List<UDF> getUserDefinedFields()
     {
@@ -279,9 +281,10 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
     }
 
     /**
-     *
      * File provides a URI linking to the detailed representation of the File
      * associated with the Artifact.
+     *
+     * @return The file link, if present.
      */
     public GenologicsFile getFile()
     {

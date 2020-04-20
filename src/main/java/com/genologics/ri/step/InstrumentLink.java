@@ -28,7 +28,8 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
-import com.genologics.ri.LimsLink;
+import com.genologics.ri.LimsEntityLink;
+import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.instrument.Instrument;
 
@@ -41,7 +42,7 @@ import com.genologics.ri.instrument.Instrument;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "instrument")
-public class InstrumentLink implements LimsLink<Instrument>, Serializable
+public class InstrumentLink implements LimsEntityLink<Instrument>, Serializable
 {
     private static final long serialVersionUID = -8476139725814009464L;
 
@@ -102,5 +103,17 @@ public class InstrumentLink implements LimsLink<Instrument>, Serializable
     public String toString()
     {
         return name;
+    }
+
+    @Override
+    public String getLimsid()
+    {
+        return Link.limsIdFromUri(uri);
+    }
+
+    @Override
+    public void setLimsid(String id)
+    {
+        // Does nothing.
     }
 }
