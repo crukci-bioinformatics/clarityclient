@@ -42,7 +42,7 @@ import com.genologics.ri.reagentlot.ReagentLot;
  *
  * @since 2.18
  */
-@GenologicsEntity(uriSection = "reagentlots", processStepComponent = true, updateable = true)
+@GenologicsEntity(uriSection = "steps", uriSubsection = "reagentlots", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "reagents-lots", propOrder = { "step", "configuration", "reagentLots" })
 @XmlRootElement(name = "lots")

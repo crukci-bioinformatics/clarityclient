@@ -20,6 +20,7 @@ package com.genologics.ri;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -85,12 +86,17 @@ public @interface GenologicsEntity
     String uriSection();
 
     /**
-     * Whether the class represents parts of the process step information. These
-     * objects have an awkward URI and need to be assembled differently.
+     * Whether the class is a subsection of a base end point. Examples of this
+     * are process step information classes.
      *
-     * @return The process step component flag.
+     * <p>
+     * If this is unset (empty string), then the class is result of the main
+     * API end point, not a subsection.
+     * </p>
+     *
+     * @return The end point URI subsection.
      */
-    boolean processStepComponent() default false;
+    String uriSubsection() default EMPTY;
 
     /**
      * Whether entities of the class can be cached.

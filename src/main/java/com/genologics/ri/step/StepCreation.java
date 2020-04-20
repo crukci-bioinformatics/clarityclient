@@ -42,7 +42,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  *
  * @since 2.18
  */
-@GenologicsEntity(uriSection = "steps", processStepComponent = false, creatable = true)
+@GenologicsEntity(uriSection = "steps", creatable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "step-creation", propOrder = { "configuration", "containerType", "reagentCategory", "inputs" })
 @XmlRootElement(name = "step-creation")
@@ -62,7 +62,6 @@ public class StepCreation implements Serializable
     @XmlElementWrapper(name = "inputs")
     @XmlElement(name = "input")
     protected List<CreationInput> inputs;
-
 
     public StepCreation()
     {

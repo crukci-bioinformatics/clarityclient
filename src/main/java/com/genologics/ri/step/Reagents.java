@@ -40,7 +40,7 @@ import com.genologics.ri.Linkable;
  *
  * The detailed representation of a step's output artifact reagents.
  */
-@GenologicsEntity(uriSection = "reagents", processStepComponent = true, creatable = true)
+@GenologicsEntity(uriSection = "steps", uriSubsection = "reagents", creatable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "reagents", propOrder = { "step", "configuration", "reagentCategory", "outputReagents" })
 @XmlRootElement(name = "reagents")

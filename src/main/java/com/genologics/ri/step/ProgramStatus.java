@@ -38,7 +38,7 @@ import com.genologics.ri.Linkable;
  * The current EPP status for a step (supports automatically triggered programs
  * only).
  */
-@GenologicsEntity(uriSection = "programstatus", processStepComponent = true, updateable = true)
+@GenologicsEntity(uriSection = "steps", uriSubsection = "programstatus", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "program-status", propOrder = { "step", "configuration", "status", "message" })
 @XmlRootElement(name = "program-status")

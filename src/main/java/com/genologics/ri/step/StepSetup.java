@@ -38,7 +38,7 @@ import com.genologics.ri.Linkable;
 /**
  * @since 2.18
  */
-@GenologicsEntity(uriSection = "setup", processStepComponent = true)
+@GenologicsEntity(uriSection = "steps", uriSubsection = "setup")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "setup", propOrder = { "step", "configuration", "files" })
 @XmlRootElement(name = "setup")

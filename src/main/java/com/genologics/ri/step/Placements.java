@@ -41,7 +41,7 @@ import com.genologics.ri.container.Container;
  *
  * The detailed representation of a step's output artifact container placements
  */
-@GenologicsEntity(uriSection = "placements", processStepComponent = true, creatable = true)
+@GenologicsEntity(uriSection = "steps", uriSubsection = "placements", creatable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "placements", propOrder = { "step", "configuration", "selectedContainers", "outputPlacements" })
 @XmlRootElement(name = "placements")

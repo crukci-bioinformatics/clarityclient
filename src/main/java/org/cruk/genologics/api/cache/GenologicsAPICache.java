@@ -18,6 +18,8 @@
 
 package org.cruk.genologics.api.cache;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -1145,13 +1147,10 @@ public class GenologicsAPICache
                         "Use load(String, String, Class) for this type.");
             }
 
-            if (entityAnno.processStepComponent())
+            uri.append(entityAnno.uriSection()).append('/').append(ids[0]);
+            if (isNotEmpty(entityAnno.uriSubsection()))
             {
-                uri.append("steps/").append(ids[0]).append('/').append(entityAnno.uriSection());
-            }
-            else
-            {
-                uri.append(entityAnno.uriSection()).append('/').append(ids[0]);
+                uri.append('/').append(entityAnno.uriSubsection());
             }
         }
 

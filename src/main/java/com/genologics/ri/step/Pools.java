@@ -42,7 +42,7 @@ import com.genologics.ri.artifact.Artifact;
  *
  * The detailed representation of a step's pooled inputs.
  */
-@GenologicsEntity(uriSection = "pools", processStepComponent = true, updateable = true)
+@GenologicsEntity(uriSection = "steps", uriSubsection = "pools", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "pools", propOrder = { "step", "configuration", "pooledInputs", "availableInputs" })
 @XmlRootElement(name = "pools")

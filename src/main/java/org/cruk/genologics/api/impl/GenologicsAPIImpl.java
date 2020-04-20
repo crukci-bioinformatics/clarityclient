@@ -19,6 +19,10 @@
 package org.cruk.genologics.api.impl;
 
 import static org.apache.commons.lang3.ClassUtils.getShortClassName;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.join;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +59,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.HttpClient;
@@ -600,24 +603,24 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                 String revertToSftp = configuration.getProperty("revert.to.sftp.upload");
                 String httpDirect = configuration.getProperty("http.direct.download");
 
-                if (StringUtils.isNotBlank(apiServer))
+                if (isNotBlank(apiServer))
                 {
                     setServer(new URL(apiServer));
                 }
-                if (StringUtils.isNotBlank(apiUser))
+                if (isNotBlank(apiUser))
                 {
                     setCredentials(apiUser, apiPass);
                 }
-                if (StringUtils.isNotBlank(filestoreServer))
+                if (isNotBlank(filestoreServer))
                 {
                     setFilestoreServer(filestoreServer);
                 }
-                if (StringUtils.isNotBlank(filestoreUser))
+                if (isNotBlank(filestoreUser))
                 {
                     setFilestoreCredentials(filestoreUser, filestorePass);
                 }
 
-                if (StringUtils.isNotBlank(batchSize))
+                if (isNotBlank(batchSize))
                 {
                     try
                     {
@@ -628,11 +631,11 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                         logger.warn("Configuration property 'batch.size' is not a number.");
                     }
                 }
-                if (StringUtils.isNotBlank(httpUpload))
+                if (isNotBlank(httpUpload))
                 {
                     setUploadOverHttp(Boolean.parseBoolean(httpUpload));
                 }
-                if (StringUtils.isNotBlank(httpUploadLimit))
+                if (isNotBlank(httpUploadLimit))
                 {
                     try
                     {
@@ -643,11 +646,11 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                         logger.warn("Configuration property 'http.upload.maximum' is not a number.");
                     }
                 }
-                if (StringUtils.isNotBlank(revertToSftp))
+                if (isNotBlank(revertToSftp))
                 {
                     setAutoRevertToSFTPUploads(Boolean.parseBoolean(revertToSftp));
                 }
-                if (StringUtils.isNotBlank(httpDirect))
+                if (isNotBlank(httpDirect))
                 {
                     setDownloadDirectFromHttpStore(Boolean.parseBoolean(httpDirect));
                 }
@@ -998,7 +1001,7 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
     protected <E extends Locatable>
     String makeUri(String limsid, Class<E> entityClass, String method)
     {
-        if (StringUtils.isEmpty(limsid))
+        if (isEmpty(limsid))
         {
             throw new IllegalArgumentException("limsid cannot be null or empty");
         }
@@ -1014,17 +1017,14 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
         checkServerSet();
 
-        String uri;
-        if (entityAnno.processStepComponent())
+        StringBuilder uri = new StringBuilder(apiRoot);
+        uri.append(entityAnno.uriSection()).append('/').append(limsid);
+        if (isNotEmpty(entityAnno.uriSubsection()))
         {
-            uri = apiRoot + "steps/" + limsid + '/' + entityAnno.uriSection();
-        }
-        else
-        {
-            uri = apiRoot + entityAnno.uriSection() + '/' + limsid;
+            uri.append('/').append(entityAnno.uriSubsection());
         }
 
-        return uri;
+        return uri.toString();
     }
 
     @Override
@@ -1055,11 +1055,11 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
     protected <E extends Locatable>
     String makeUri(String outerLimsid, String innerLimsid, Class<E> entityClass, String method)
     {
-        if (StringUtils.isEmpty(outerLimsid))
+        if (isEmpty(outerLimsid))
         {
             throw new IllegalArgumentException("outerLimsid cannot be null or empty");
         }
-        if (StringUtils.isEmpty(innerLimsid))
+        if (isEmpty(innerLimsid))
         {
             throw new IllegalArgumentException("innerLimsid cannot be null or empty");
         }
@@ -1351,7 +1351,7 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
     public <E extends Locatable>
     E retrieve(String uri, Class<E> entityClass)
     {
-        if (StringUtils.isEmpty(uri))
+        if (isEmpty(uri))
         {
             throw new IllegalArgumentException("uri cannot be null or empty");
         }
@@ -1523,8 +1523,10 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
         checkServerSet();
 
-        String uri;
-        if (entityAnno.processStepComponent())
+        boolean processStepComponent = "steps".equals(entityAnno.uriSection()) && isNotEmpty(entityAnno.uriSubsection());
+
+        StringBuilder uri = new StringBuilder(100);
+        if (processStepComponent)
         {
             try
             {
@@ -1534,7 +1536,7 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                     throw new IllegalArgumentException("entity does not have its Step URI set. This is needed to post a new " +
                                                        getShortClassName(entityClass) + ".");
                 }
-                uri = step.getUri().toString() + '/' + entityAnno.uriSection();
+                uri.append(step.getUri()).append('/').append(entityAnno.uriSubsection());
             }
             catch (NoSuchMethodException e)
             {
@@ -1551,10 +1553,10 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         }
         else
         {
-            uri = apiRoot + entityAnno.uriSection();
+            uri.append(apiRoot).append(entityAnno.uriSection());
         }
 
-        doCreateSingle(entity, uri);
+        doCreateSingle(entity, uri.toString());
     }
 
     /**
@@ -1686,8 +1688,6 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
             if (doBatchCreates)
             {
-                assert !entityAnno.processStepComponent() : "Have bulk create for process step component. This is not supported.";
-
                 try
                 {
                     List<E> createdEntities = new ArrayList<E>(entities.size());
@@ -1982,8 +1982,6 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
             if (doBatchUpdates)
             {
-                assert !entityAnno.processStepComponent() : "Have bulk update for process step component. This is not supported.";
-
                 try
                 {
                     List<E> updatedEntities = new ArrayList<E>(entities.size());
@@ -3120,7 +3118,7 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         if (!entityMap.isEmpty())
         {
             throw new AssertionError("Have " + entityMap.size() + " entities left over from request link sorting: " +
-                                     StringUtils.join(entityMap.keySet(), ","));
+                                     join(entityMap.keySet(), ","));
         }
 
         assert sortedList.size() == entities.size() : "Sorted list differs in size from the original entity list";
@@ -3158,14 +3156,14 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
     protected URI removeStateParameter(URI uri)
     {
         String query = uri.getRawQuery();
-        if (StringUtils.isNotEmpty(query))
+        if (isNotEmpty(query))
         {
             StringBuilder newQuery = new StringBuilder(query.length());
 
             boolean hasStateParameter = false;
             for (String term : AMPERSAND_SPLIT.split(query))
             {
-                if (StringUtils.isNotBlank(term))
+                if (isNotBlank(term))
                 {
                     if (term.startsWith(STATE_TERM))
                     {
