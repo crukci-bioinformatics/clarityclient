@@ -20,11 +20,10 @@ package com.genologics.ri;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.sample.SampleCreation;
@@ -97,7 +96,7 @@ public @interface GenologicsEntity
      *
      * @return The end point URI subsection.
      */
-    String uriSubsection() default StringUtils.EMPTY;
+    String uriSubsection() default EMPTY;
 
     /**
      * Whether entities of the class can be cached.
@@ -126,6 +125,8 @@ public @interface GenologicsEntity
      * this mechanism.
      * </p>
      *
+     * @return The alternative class used to create the objects of the normal
+     * type through the API.
      * <p>
      * It is prohibited in Java to assign a null as the default value of an
      * annotation, so here the default is the class of the {@code void} type.

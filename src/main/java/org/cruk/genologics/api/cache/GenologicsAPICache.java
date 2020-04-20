@@ -18,6 +18,8 @@
 
 package org.cruk.genologics.api.cache;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +30,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -1147,7 +1148,7 @@ public class GenologicsAPICache
             }
 
             uri.append(entityAnno.uriSection()).append('/').append(ids[0]);
-            if (StringUtils.isNotEmpty(entityAnno.uriSubsection()))
+            if (isNotEmpty(entityAnno.uriSubsection()))
             {
                 uri.append('/').append(entityAnno.uriSubsection());
             }
