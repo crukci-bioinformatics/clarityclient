@@ -43,8 +43,12 @@ import com.genologics.ri.Linkable;
 /**
  *
  * The detailed representation of a step.
+ * <p>
+ * Since API version 2.24.1, the step can be deleted to cancel a process.
+ * Requires the current status of step to be "in progress".
+ * </p>
  */
-@GenologicsEntity(uriSection = "steps")
+@GenologicsEntity(uriSection = "steps", removable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "step",
          propOrder = { "dateStarted", "dateCompleted",
