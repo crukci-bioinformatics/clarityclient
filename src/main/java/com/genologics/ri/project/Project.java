@@ -169,13 +169,7 @@ public class Project implements LimsEntity<Project>, Serializable
     }
 
     /**
-     * The UDT of the Project. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No, unless the UDT has been configured as required. <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, unless the UDT has been configured as required. If
-     * a current UDT is not provided, existing values are deleted.
+     * The UDT of the Project.
      */
     public UDT getUserDefinedType()
     {
@@ -195,13 +189,7 @@ public class Project implements LimsEntity<Project>, Serializable
     }
 
     /**
-     * The UDFs of the Project. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No, unless the UDF has been configured as required. <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, unless the UDF has been configured as required. If
-     * a current UDF is not provided, existing values are deleted.
+     * The UDFs of the Project.
      */
     public List<UDF> getUserDefinedFields()
     {
@@ -231,12 +219,7 @@ public class Project implements LimsEntity<Project>, Serializable
     /**
      *
      * Each external id is an identifier that allows looking up related
-     * information about the Project from an external system. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No
+     * information about the Project from an external system.
      */
     public List<ExternalId> getExternalIds()
     {
@@ -250,12 +233,7 @@ public class Project implements LimsEntity<Project>, Serializable
     /**
      *
      * Each File provides a URI linking to the detailed representation of a File
-     * associated with the Project. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No
+     * associated with the Project.
      */
     public List<GenologicsFile> getFiles()
     {

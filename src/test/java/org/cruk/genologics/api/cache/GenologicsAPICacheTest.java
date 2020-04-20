@@ -93,6 +93,8 @@ public class GenologicsAPICacheTest
      */
     private static final File KEYSTORE_FILE = new File("java6-cacerts");
 
+    protected final boolean java6;
+
     protected Logger logger = LoggerFactory.getLogger(GenologicsAPICacheTest.class);
 
     protected AbstractApplicationContext context;
@@ -112,6 +114,8 @@ public class GenologicsAPICacheTest
 
     public GenologicsAPICacheTest()
     {
+        int spec = Math.round(Float.parseFloat(System.getProperty("java.vm.specification.version")) * 10f);
+        java6 = spec <= 16;
     }
 
     @Before
@@ -529,7 +533,7 @@ public class GenologicsAPICacheTest
     public void readonlyTest() throws Exception
     {
         Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
-        Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", KEYSTORE_FILE.exists());
+        Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", java6 || KEYSTORE_FILE.exists());
 
         checkCredentialsSet();
 
@@ -573,7 +577,7 @@ public class GenologicsAPICacheTest
     public void fullTest() throws Exception
     {
         Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
-        Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", KEYSTORE_FILE.exists());
+        Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", java6 || KEYSTORE_FILE.exists());
 
         checkCredentialsSet();
 

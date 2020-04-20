@@ -119,6 +119,8 @@ public @interface GenologicsEntity
      * this mechanism.
      * </p>
      *
+     * @return The alternative class used to create the objects of the normal
+     * type through the API.
      * <p>
      * It is prohibited in Java to assign a null as the default value of an
      * annotation, so here the default is the class of the {@code void} type.

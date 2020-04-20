@@ -80,13 +80,7 @@ public class Credentials implements Serializable
     }
 
     /**
-     * The type of system access assigned to the researcher's user account. <br/>
-     * Always returns with GET: Yes <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: Yes <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, but existing roles must be included or the system
-     * will remove the roles not present
+     * The type of system access assigned to the researcher's user account.
      */
     public List<Role> getRoles()
     {

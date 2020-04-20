@@ -127,13 +127,7 @@ public class Lab implements LimsEntity<Lab>, Serializable
 
     /**
      *
-     * The User-Defined Type that is associated with the lab. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No, unless the UDT has been configured as required. <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, unless the UDT has been configured as required. If
-     * a current UDT is not provided, existing values are deleted.
+     * The User-Defined Type that is associated with the lab.
      */
     public UDT getUserDefinedType()
     {
@@ -154,13 +148,7 @@ public class Lab implements LimsEntity<Lab>, Serializable
 
     /**
      * A User-Defined Field that is associated with the lab. This element is
-     * repeated for each UDF associated with the lab. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No, unless the UDF has been configured as required. <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, unless the UDF has been configured as required. If
-     * a current UDF is not provided, existing values are deleted.
+     * repeated for each UDF associated with the lab.
      */
     public List<UDF> getUserDefinedFields()
     {
@@ -190,12 +178,7 @@ public class Lab implements LimsEntity<Lab>, Serializable
     /**
      *
      * An identifier that allows an external system to retrieve information
-     * about the lab <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No
+     * about the lab.
      */
     public List<ExternalId> getExternalid()
     {

@@ -103,12 +103,7 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
      * The name of the security role assigned to the researcher.
      * Only used by built-in roles.
      * Acceptable  values are: "systemadministrator", "administrator", "labtech",
-     * and "webclient". <br/>
-     * Always returns with GET: Yes <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: Yes <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: Yes
+     * and "webclient".
      *
      * @deprecated Deprecated from version 2.19.
      */
@@ -129,11 +124,6 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
 
     /**
      * The user-facing name of the security role assigned to the researcher. Must be unique.
-     * <br/>Always returns with GET: Yes
-     * <br/>Creatable with POST: Yes
-     * <br/>Required for POST: Yes
-     * <br/>Updatable with PUT: Yes
-     * <br/>Required for PUT: Yes
      *
      * @return The role name.
      *

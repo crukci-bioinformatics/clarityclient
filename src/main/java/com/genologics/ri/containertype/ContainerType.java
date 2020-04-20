@@ -53,10 +53,10 @@ import com.genologics.ri.Linkable;
  * Additionally an offset can be specified which shifts the value of the first
  * element by a fixed amount. When a well location is represented using the
  * coordinate system, it is shown as Y-Value:X-Value (for example A:1).
- * <p>
+ *
  * <p>
  * The following are examples of the coordinate system:
- * <p>
+ * </p>
  * <ul>
  * <li>Y-Dimension: alphabetic, size 1, offset 0. X-Dimension: numeric, size 1,
  * offset 0. Size: 1. Valid value: A:0</li>
@@ -123,6 +123,8 @@ public class ContainerType implements Linkable<ContainerType>, Serializable
      * Each calibrant well identifies a well location that is reserved for calibrants in containers of the container type.
      *
      * @deprecated This property is no longer supported and will be ignored if provided.
+     *
+     * @return A list of calibrant wells.
      */
     @Deprecated
     public List<CalibrantWell> getCalibrantWells()

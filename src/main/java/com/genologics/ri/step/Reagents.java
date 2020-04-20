@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -106,10 +106,6 @@ public class Reagents implements Linkable<Reagents>, Serializable
 
     /**
      * The permitted reagent category of the step. Reagent labels used in the POST must be from this reagent category.
-     *
-     * <br/>Always returns with GET: Yes
-     * <br/>Creatable with POST: No
-     * <br/>Required for POST: No
      *
      * @return The reagent category.
      */

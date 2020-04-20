@@ -64,45 +64,21 @@ public class ProtocolLink implements LimsLink<Protocol>, Serializable
         this.uri = link.getUri();
     }
 
-    /**
-     * Gets the value of the name property.
-     *
-     * @return possible object is {@link String }
-     *
-     */
     public String getName()
     {
         return name;
     }
 
-    /**
-     * Sets the value of the name property.
-     *
-     * @param value allowed object is {@link String }
-     *
-     */
     public void setName(String value)
     {
         this.name = value;
     }
 
-    /**
-     * Gets the value of the uri property.
-     *
-     * @return possible object is {@link String }
-     *
-     */
     public URI getUri()
     {
         return uri;
     }
 
-    /**
-     * Sets the value of the uri property.
-     *
-     * @param value allowed object is {@link String }
-     *
-     */
     public void setUri(URI value)
     {
         this.uri = value;
@@ -117,6 +93,6 @@ public class ProtocolLink implements LimsLink<Protocol>, Serializable
     @Override
     public String toString()
     {
-        return name;
+        return name == null ? "null" : name;
     }
 }

@@ -140,12 +140,6 @@ public class Researcher implements LimsEntity<Researcher>, Serializable
     /**
      * The researcher's e-mail address.
      *
-     * <br/>Always returns with GET: Yes
-     * <br/>Creatable with POST: Yes
-     * <br/>Required for POST: Yes
-     * <br/>Updatable with PUT: Yes
-     * <br/>Required for PUT: Yes
-     *
      * @return The researcher's e-mail address.
      */
     public String getEmail()
@@ -188,14 +182,7 @@ public class Researcher implements LimsEntity<Researcher>, Serializable
     /**
      *
      * A User-Defined Field that is associated with the researcher. This element
-     * is repeated for each UDF associated with the researcher. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No, unless the UDF has been configured as required. <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No, unless the UDF has been configured as required. If
-     * a current UDF is not provided, existing values are deleted. Gets the
-     * value of the field property.
+     * is repeated for each UDF associated with the researcher.
      */
     public List<UDF> getUserDefinedFields()
     {
@@ -225,12 +212,7 @@ public class Researcher implements LimsEntity<Researcher>, Serializable
     /**
      *
      * An identifier that allows an external system to retrieve information
-     * about the researcher. <br/>
-     * Always returns with GET: No <br/>
-     * Creatable with POST: Yes <br/>
-     * Required for POST: No <br/>
-     * Updatable with PUT: Yes <br/>
-     * Required for PUT: No Gets the value of the externalid property.
+     * about the researcher.
      */
     public List<ExternalId> getExternalIds()
     {
