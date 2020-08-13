@@ -2080,12 +2080,13 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         if (entities != null && !entities.isEmpty())
         {
             checkCollectionHomogeneousAndUnique(entities, true);
+            Class<? extends Locatable> entityClass = classOfEntity(entities.iterator().next());
 
             // There is no batch delete.
             for (E entity : entities)
             {
                 assert entity != null : "Have null entity after check";
-                doDelete(entity.getUri(), classOfEntity(entity));
+                doDelete(entity.getUri(), entityClass);
             }
         }
     }
