@@ -2070,7 +2070,7 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
             throw new IllegalArgumentException("entity has no URI set.");
         }
 
-        doDelete(entity.getUri(), entity.getClass());
+        doDelete(entity.getUri(), classOfEntity(entity));
     }
 
     @Override
@@ -2085,9 +2085,41 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
             for (E entity : entities)
             {
                 assert entity != null : "Have null entity after check";
-                doDelete(entity.getUri(), entity.getClass());
+                doDelete(entity.getUri(), classOfEntity(entity));
             }
         }
+    }
+
+    /**
+     * Check if the given Locatable object is a LimsLink and, if so, use the class given
+     * by the {@code getEntityClass()} method as the type of the entity, not the class of
+     * the link itself.
+     *
+     * <p>
+     * This method supports the delete methods to delete entities through links rather than
+     * having to load the entity just to delete it.
+     * </p>
+     *
+     * @param <E> The type of LIMS entity.
+     * @param entity The entity to delete (might be a link).
+     *
+     * @return The correct class for the entity for further checks.
+     *
+     * @see LimsLink#getEntityClass()
+     * @see <a href="https://github.com/crukci-bioinformatics/clarityclient/issues/8">Issue 8 on Github</a>
+     */
+    private <E extends Locatable>
+    Class<? extends Locatable> classOfEntity(E entity)
+    {
+        assert entity != null : "entity cannot be null";
+
+        Class<? extends Locatable> eClass = entity.getClass();
+        if (LimsLink.class.isAssignableFrom(eClass))
+        {
+            eClass = ((LimsLink<?>)entity).getEntityClass();
+        }
+
+        return eClass;
     }
 
     /**
