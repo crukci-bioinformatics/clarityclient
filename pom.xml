@@ -236,7 +236,7 @@
                 </plugin>
                 <plugin>
                     <!-- Note: the newest versions (3.0.x) do not work with JDK6. -->
-		    <!-- Go back to 2.20.0 if building with a real Java 6 JDK. -->
+                    <!-- Go back to 2.20.0 if building with a real Java 6 JDK. -->
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M4</version>
