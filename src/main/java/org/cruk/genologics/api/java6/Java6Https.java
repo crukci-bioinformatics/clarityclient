@@ -18,6 +18,7 @@
 
 package org.cruk.genologics.api.java6;
 
+import java.lang.reflect.Constructor;
 import java.security.Provider;
 import java.security.Security;
 
@@ -71,7 +72,8 @@ public final class Java6Https
                         if (!haveBC)
                         {
                             Class<?> bc = Class.forName(bcClass);
-                            Provider p = (Provider)bc.newInstance();
+                            Constructor<?> bcons = bc.getConstructor();
+                            Provider p = (Provider)bcons.newInstance();
 
                             Security.addProvider(p);
                         }

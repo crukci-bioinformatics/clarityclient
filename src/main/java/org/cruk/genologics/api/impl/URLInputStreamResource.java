@@ -159,6 +159,7 @@ public class URLInputStreamResource extends AbstractResource
      * Make sure things are closed.
      */
     @Override
+    @SuppressWarnings("deprecation")
     protected void finalize()
     {
         close();

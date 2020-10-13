@@ -54,6 +54,8 @@ import org.cruk.genologics.api.debugging.RestClientSnoopingAspect;
 import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.easymock.EasyMock;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,23 +77,28 @@ import com.genologics.ri.sample.Samples;
 
 public class GenologicsAPIPaginatedBatchTest
 {
-    ConfigurableApplicationContext context;
-    Jaxb2Marshaller marshaller;
-    File[] pageFiles;
-    ResponseEntity<Samples> response1, response2, response3;
+    static ConfigurableApplicationContext context;
+    static Jaxb2Marshaller marshaller;
 
-    public GenologicsAPIPaginatedBatchTest() throws MalformedURLException
+    static File[] pageFiles;
+    static ResponseEntity<Samples> response1, response2, response3;
+
+    public GenologicsAPIPaginatedBatchTest()
     {
+    }
+
+    @BeforeClass
+    public static void setup()
+    {
+        context = new ClassPathXmlApplicationContext("/org/cruk/genologics/api/genologics-client-context.xml");
+
+        marshaller = context.getBean("genologicsJaxbMarshaller", Jaxb2Marshaller.class);
+
         pageFiles = new File[] {
                 new File("src/test/xml/multipagefetch-1.xml"),
                 new File("src/test/xml/multipagefetch-2.xml"),
                 new File("src/test/xml/multipagefetch-3.xml")
         };
-
-        context = new ClassPathXmlApplicationContext("/org/cruk/genologics/api/genologics-client-context.xml");
-
-        marshaller = context.getBean("genologicsJaxbMarshaller", Jaxb2Marshaller.class);
-
 
         Samples page1 = (Samples)marshaller.unmarshal(new StreamSource(pageFiles[0]));
         response1 = new ResponseEntity<Samples>(page1, HttpStatus.OK);
@@ -101,8 +108,8 @@ public class GenologicsAPIPaginatedBatchTest
         response3 = new ResponseEntity<Samples>(page3, HttpStatus.OK);
     }
 
-    @Override
-    protected void finalize()
+    @AfterClass
+    public static void finish()
     {
         context.close();
     }

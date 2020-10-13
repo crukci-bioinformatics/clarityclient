@@ -1707,7 +1707,8 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                             batch.add(entityIter.next());
                         }
 
-                        BH details = batchRetrieveClass.newInstance();
+                        Constructor<BH> batchRetrieveConstructor = batchRetrieveClass.getConstructor();
+                        BH details = batchRetrieveConstructor.newInstance();
 
                         details.addForCreate(batch);
 
@@ -1764,6 +1765,10 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                         reflectiveCollectionUpdate(entities, createdEntities);
                     }
                 }
+                catch (NoSuchMethodException e)
+                {
+                    logger.error("There is no default constructor on {}", batchRetrieveClass.getName());
+                }
                 catch (IllegalAccessException e)
                 {
                     logger.error("Cannot access the default constructor on {}", batchRetrieveClass.getName());
@@ -1771,6 +1776,11 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                 catch (InstantiationException e)
                 {
                     logger.error("Cannot create a new {}: {}", batchRetrieveClass.getName(), e.getMessage());
+                }
+                catch (InvocationTargetException e)
+                {
+                    Throwable cause = e.getTargetException();
+                    logger.error("{} creating a new {}: {}", ClassUtils.getShortClassName(cause.getClass()), batchRetrieveClass.getName(), cause.getMessage());
                 }
             }
             else
@@ -2000,7 +2010,8 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                             batch.add(entityIter.next());
                         }
 
-                        BH details = batchUpdateClass.newInstance();
+                        Constructor<BH> batchUpdateConstructor = batchUpdateClass.getConstructor();
+                        BH details = batchUpdateConstructor.newInstance();
                         details.addForUpdate(batch);
 
                         String url = apiRoot + entityAnno.uriSection() + "/batch/update";
@@ -2032,6 +2043,10 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
                     reflectiveCollectionUpdate(entities, updatedEntities);
                 }
+                catch (NoSuchMethodException e)
+                {
+                    logger.error("There is no default constructor on {}", batchUpdateClass.getName());
+                }
                 catch (IllegalAccessException e)
                 {
                     logger.error("Cannot access the default constructor on {}", batchUpdateClass.getName());
@@ -2039,6 +2054,11 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                 catch (InstantiationException e)
                 {
                     logger.error("Cannot create a new {}: {}", batchUpdateClass.getName(), e.getMessage());
+                }
+                catch (InvocationTargetException e)
+                {
+                    Throwable cause = e.getTargetException();
+                    logger.error("{} creating a new {}: {}", ClassUtils.getShortClassName(cause.getClass()), batchUpdateClass.getName(), cause.getMessage());
                 }
             }
             else
