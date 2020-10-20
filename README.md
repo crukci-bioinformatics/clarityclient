@@ -32,11 +32,11 @@ and server.
 ## Building
 
 Having got this check out of the code, run:
-  
+
     mvn install
 
 This will build and install the project into your local Maven cache.
-You'll need Maven 2.2 or newer.
+You'll need Maven 3.5 or newer.
 
 Alternatively, you can add our Maven repository to your POM and let
 Maven do the work. Add a <repositories> section containing:
@@ -70,3 +70,48 @@ Add the JAR file to your POM (I'm assuming you're using Maven now):
 
 For details of using the API, please refer to the documentation at
 <http://crukci-bioinformatics.github.io/clarityclient>
+
+## Java Version
+
+The Clarity client is built with a target of Java 1.6 bytecode. It
+_should_ work when run with a Java 6 or 7 JRE, but those are now so old
+that it is tricky to get the HTTP communication working over HTTPS with
+those JREs. Since Illumina insist Clarity is run over HTTPS, this will
+always be the case. It is recommended to use Java 8 as a minimum. From
+release 2.24.12 the code has been tested with Java 11.
+
+## JAXB Implementation
+
+Since version 2.24.12, the JAXB implementation is included as an optional
+dependency. For code running on a 1.8 or earlier JRE, this is of little
+note as there is a JAXB implementation built in. From Java 9 those
+JEE modules were removed into separate dependencies, and there is no
+default implementation in the JDK. The 2.24.12 release marked a change in
+the build, so this module will build on a JDK newer that Java 8 (currently
+Java 11) that requires the JAXB API and implementation to be included as
+Maven dependencies.
+
+The POM will pull in the JAXB API (version 2.3) that the code needs to
+compile. It marks the actual implementation of JAXB as an optional
+dependency, so other code that uses this client will not automatically
+have a JAXB implementation when the JRE is Java 9 or newer. One should
+add the JAXB implementation to the final POM:
+
+```XML
+    <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>2.3.3</version>
+        <scope>runtime</scope>
+    </dependency>
+```
+
+The scope should be `runtime` for building stand alone applications
+using the client. Where one has created another tool that uses the API
+but isn't itself a final application, the scope should be `test` if
+unit tests need to use the client (if not, this dependency isn't needed).
+Where the client is part of a JEE container, the container will supply
+the JAXB implementation.
+
+There is no harm in adding this dependency when running on a Java 8 JRE
+but it is not necessary.
