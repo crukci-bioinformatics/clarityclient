@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.GenologicsEntity;
-import com.genologics.ri.Locatable;
+import com.genologics.ri.LimsEntity;
+import com.genologics.ri.Link;
 
 /**
  *
@@ -40,7 +41,7 @@ import com.genologics.ri.Locatable;
 @XmlRootElement(name = "reagent-type")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "reagent-type", propOrder = { "specialType", "reagentCategory" })
-public class ReagentType implements Locatable, Serializable
+public class ReagentType implements LimsEntity<ReagentType>, Serializable
 {
     private static final long serialVersionUID = -7390347729777321516L;
 
@@ -113,4 +114,15 @@ public class ReagentType implements Locatable, Serializable
         this.uri = uri;
     }
 
+    @Override
+    public String getLimsid()
+    {
+        return Link.limsIdFromUri(uri);
+    }
+
+    @Override
+    public void setLimsid(String id)
+    {
+        // Does nothing.
+    }
 }
