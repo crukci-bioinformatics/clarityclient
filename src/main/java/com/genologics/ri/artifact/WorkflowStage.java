@@ -163,4 +163,10 @@ public class WorkflowStage implements LimsLink<Stage>, Serializable
     {
         return Stage.class;
     }
+
+    @Override
+    public String toString()
+    {
+        return name + " " + status + " " + uri;
+    }
 }

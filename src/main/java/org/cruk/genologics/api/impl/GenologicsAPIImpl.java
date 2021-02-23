@@ -2077,6 +2077,8 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         }
     }
 
+    // Delete methods.
+
     @Override
     public <E extends Locatable>
     void delete(E entity)
