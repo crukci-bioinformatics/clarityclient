@@ -108,9 +108,8 @@ import com.genologics.ri.workflowconfiguration.Workflows;
 
 /**
  * This set of tests fetches one of each of the GenologicsEntity classes, unmarshalls
- * marshalls it back to XML and compares the original XML with that produced by JAXB.
- * They should be equivalent (except for the namespace attributes): if they are not,
- * then something isn't annotated correctly.
+ * it into objects, serializes it and reads the serialized object back.
+ * They should be equivalent.
  */
 public class SerializationTest
 {
