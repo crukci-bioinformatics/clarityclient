@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -120,6 +121,8 @@ import com.genologics.ri.workflowconfiguration.Workflows;
 @ContextConfiguration(classes = ClarityClientTestConfiguration.class)
 public class JaxbAnnotationTest
 {
+    protected static final Charset UTF_8 = Charset.forName("UTF-8");
+
     @Autowired
     protected Jaxb2Marshaller marshaller;
 
@@ -481,6 +484,7 @@ public class JaxbAnnotationTest
         fetchMarshalAndCompare(Role.class);
     }
 
+
     private void fetchMarshalAndCompare(Class<?> entityClass) throws Throwable
     {
         final String className = ClassUtils.getShortClassName(entityClass);
@@ -493,7 +497,7 @@ public class JaxbAnnotationTest
 
         File exampleFile = new File(exampleDirectory, className.toLowerCase() + ".xml");
 
-        final String originalXml = FileUtils.readFileToString(exampleFile);
+        final String originalXml = FileUtils.readFileToString(exampleFile, UTF_8);
 
         Object unmarshalled = marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
 
@@ -513,8 +517,8 @@ public class JaxbAnnotationTest
         {
             try
             {
-                FileUtils.write(new File("target/" + className + "-original.xml"), originalXml);
-                FileUtils.write(new File("target/" + className + "-marshalled.xml"), marshalledXml);
+                FileUtils.write(new File("target/" + className + "-original.xml"), originalXml, UTF_8);
+                FileUtils.write(new File("target/" + className + "-marshalled.xml"), marshalledXml, UTF_8);
             }
             catch (IOException io)
             {

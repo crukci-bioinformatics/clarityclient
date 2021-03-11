@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -17,6 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.genologics.api.jaxb.JaxbAnnotationTest.XmlDiffIgnoreNamespaces;
+import org.cruk.genologics.api.jaxb.UnicodeTest.UnicodeTestConfiguration;
 import org.cruk.genologics.api.unittests.CRUKCICheck;
 import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.custommonkey.xmlunit.Diff;
@@ -26,6 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,9 +38,20 @@ import com.genologics.ri.container.Container;
 import com.genologics.ri.containertype.ContainerType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
+@ContextConfiguration(classes = UnicodeTestConfiguration.class)
 public class UnicodeTest
 {
+    /**
+     * This test needs to ensure it has a "pure" configuration, where it
+     * can actually talk to the server.
+     */
+    @Configuration
+    public static class UnicodeTestConfiguration extends ClarityClientTestConfiguration
+    {
+    }
+
+    protected static final Charset UTF_8 = Charset.forName("UTF-8");
+
     @Autowired
     @Qualifier("genologicsClientHttpRequestFactory")
     protected AuthenticatingClientHttpRequestFactory httpRequestFactory;
@@ -58,7 +72,7 @@ public class UnicodeTest
     @Test
     public void testRemarshallUnicode() throws Throwable
     {
-        final String originalXml = FileUtils.readFileToString(unicodeEntityFile);
+        final String originalXml = FileUtils.readFileToString(unicodeEntityFile, UTF_8);
 
         Object unmarshalled = marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
 
@@ -78,8 +92,8 @@ public class UnicodeTest
         {
             try
             {
-                FileUtils.write(new File("target/unicode-original.xml"), originalXml);
-                FileUtils.write(new File("target/unicode-marshalled.xml"), marshalledXml);
+                FileUtils.write(new File("target/unicode-original.xml"), originalXml, UTF_8);
+                FileUtils.write(new File("target/unicode-marshalled.xml"), marshalledXml, UTF_8);
             }
             catch (IOException io)
             {
