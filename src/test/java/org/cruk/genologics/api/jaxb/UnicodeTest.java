@@ -2,6 +2,7 @@ package org.cruk.genologics.api.jaxb;
 
 import static com.genologics.ri.userdefined.UDF.getUDFValue;
 import static com.genologics.ri.userdefined.UDF.setUDF;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -9,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -70,7 +70,7 @@ public class UnicodeTest
     @Test
     public void testRemarshallUnicode() throws Throwable
     {
-        final String originalXml = FileUtils.readFileToString(unicodeEntityFile, StandardCharsets.UTF_8);
+        final String originalXml = FileUtils.readFileToString(unicodeEntityFile, UTF_8);
 
         Object unmarshalled = marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
 
@@ -90,8 +90,8 @@ public class UnicodeTest
         {
             try
             {
-                FileUtils.write(new File("target/unicode-original.xml"), originalXml, StandardCharsets.UTF_8);
-                FileUtils.write(new File("target/unicode-marshalled.xml"), marshalledXml, StandardCharsets.UTF_8);
+                FileUtils.write(new File("target/unicode-original.xml"), originalXml, UTF_8);
+                FileUtils.write(new File("target/unicode-marshalled.xml"), marshalledXml, UTF_8);
             }
             catch (IOException io)
             {
