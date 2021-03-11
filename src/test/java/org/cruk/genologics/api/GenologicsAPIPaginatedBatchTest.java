@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
@@ -52,14 +53,14 @@ import org.apache.http.protocol.HttpContext;
 import org.cruk.genologics.api.debugging.RestClientSnoopingAspect;
 import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
+import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.easymock.EasyMock;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,6 +68,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -74,25 +77,31 @@ import com.genologics.ri.LimsLink;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.sample.Samples;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
 public class GenologicsAPIPaginatedBatchTest
 {
-    static ConfigurableApplicationContext context;
-    static Jaxb2Marshaller marshaller;
+    @Autowired
+    GenologicsAPIImpl localApi;
 
-    static File[] pageFiles;
-    static ResponseEntity<Samples> response1, response2, response3;
+    @Autowired
+    Jaxb2Marshaller marshaller;
+
+    @Autowired
+    @Qualifier("genologicsRestTemplate")
+    RestTemplate restTemplate;
+
+
+    File[] pageFiles;
+    ResponseEntity<Samples> response1, response2, response3;
 
     public GenologicsAPIPaginatedBatchTest()
     {
     }
 
-    @BeforeClass
-    public static void setup()
+    @PostConstruct
+    public void setup()
     {
-        context = new ClassPathXmlApplicationContext("/org/cruk/genologics/api/genologics-client-context.xml");
-
-        marshaller = context.getBean("genologicsJaxbMarshaller", Jaxb2Marshaller.class);
-
         pageFiles = new File[] {
                 new File("src/test/xml/multipagefetch-1.xml"),
                 new File("src/test/xml/multipagefetch-2.xml"),
@@ -105,12 +114,6 @@ public class GenologicsAPIPaginatedBatchTest
         response2 = new ResponseEntity<Samples>(page2, HttpStatus.OK);
         Samples page3 = (Samples)marshaller.unmarshal(new StreamSource(pageFiles[2]));
         response3 = new ResponseEntity<Samples>(page3, HttpStatus.OK);
-    }
-
-    @AfterClass
-    public static void finish()
-    {
-        context.close();
     }
 
     @Test
@@ -128,7 +131,6 @@ public class GenologicsAPIPaginatedBatchTest
                  .andReturn(response3).once();
 
 
-        GenologicsAPIImpl localApi = context.getBean("genologicsAPI", GenologicsAPIImpl.class);
         localApi.setRestClient(restMock);
         localApi.setServer(new URL("http://lims.cri.camres.org:8080"));
 
@@ -152,7 +154,6 @@ public class GenologicsAPIPaginatedBatchTest
         HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
         AuthenticatingClientHttpRequestFactory mockRequestFactory = EasyMock.createMock(AuthenticatingClientHttpRequestFactory.class);
 
-        RestTemplate restTemplate = context.getBean("genologicsRestTemplate", RestTemplate.class);
         restTemplate.setRequestFactory(mockRequestFactory);
 
         localApi.setHttpClient(mockHttpClient);
@@ -212,7 +213,6 @@ public class GenologicsAPIPaginatedBatchTest
                 .andReturn(response2).once();
         // Should get as far as response 3 in this test.
 
-        GenologicsAPIImpl localApi = context.getBean("genologicsAPI", GenologicsAPIImpl.class);
         localApi.setRestClient(restMock);
         localApi.setServer(new URL("http://lims.cri.camres.org:8080"));
 
@@ -233,7 +233,6 @@ public class GenologicsAPIPaginatedBatchTest
         HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
         ClientHttpRequestFactory mockRequestFactory = EasyMock.createMock(ClientHttpRequestFactory.class);
 
-        RestTemplate restTemplate = context.getBean("genologicsRestTemplate", RestTemplate.class);
         restTemplate.setRequestFactory(mockRequestFactory);
 
         localApi.setHttpClient(mockHttpClient);

@@ -41,16 +41,20 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.StatefulOverride;
-import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
+import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
+import org.cruk.genologics.api.unittests.CRUKCICheck;
+import org.cruk.genologics.api.unittests.ClarityClientCacheTestConfiguration;
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Assume;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.genologics.ri.LimsEntity;
 import com.genologics.ri.LimsLink;
@@ -76,6 +80,9 @@ import com.genologics.ri.userdefined.UDF;
 
 import net.sf.ehcache.Element;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ClarityClientCacheTestConfiguration.class)
 public class GenologicsAPICacheTest
 {
     /**
@@ -97,10 +104,17 @@ public class GenologicsAPICacheTest
 
     protected Logger logger = LoggerFactory.getLogger(GenologicsAPICacheTest.class);
 
-    protected AbstractApplicationContext context;
-    private boolean credentialsSet;
+    @Autowired
+    @Qualifier("genologicsClientHttpRequestFactory")
+    protected AuthenticatingClientHttpRequestFactory httpRequestFactory;
+
+    @Autowired
     protected GenologicsAPI api;
+
+    @Autowired
     protected GenologicsAPICache cacheAspect;
+
+    @Autowired
     protected RestCallTrackingAspect testAspect;
 
     private Researcher apiUser;
@@ -118,24 +132,6 @@ public class GenologicsAPICacheTest
         newerThanJDK6 = spec > 16;
     }
 
-    @Before
-    public void setup() throws Exception
-    {
-        // Note - because of the Ehcache manager singleton in the context,
-        // we need a new ApplicationContext for each test in this class.
-
-        context = new ClassPathXmlApplicationContext(
-                "/org/cruk/genologics/api/genologics-client-context.xml",
-                "/org/cruk/genologics/api/genologics-cache-context.xml",
-                "unittest-cache-context.xml");
-
-        api = context.getBean("genologicsAPI", GenologicsAPI.class);
-        cacheAspect = context.getBean(GenologicsAPICache.class);
-        testAspect = context.getBean(RestCallTrackingAspect.class);
-
-        credentialsSet = UnitTestApplicationContextFactory.setCredentialsOnApi(api);
-    }
-
     @After
     public void cleanup()
     {
@@ -147,8 +143,6 @@ public class GenologicsAPICacheTest
         {
             logger.error("Need to delete {} through operations.", project.getUri());
         }
-
-        context.close();
     }
 
     @Test
@@ -181,7 +175,7 @@ public class GenologicsAPICacheTest
     {
         Assume.assumeTrue("Could not set credentials for the API, which is needed for this test. " +
                           "Put a \"testcredentials.properties\" file on the class path.",
-                          credentialsSet);
+                          httpRequestFactory.getCredentials() != null);
     }
 
     /**
@@ -532,7 +526,7 @@ public class GenologicsAPICacheTest
     @Test
     public void readonlyTest() throws Exception
     {
-        Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
+        Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", CRUKCICheck.inCrukCI());
         Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", newerThanJDK6 || KEYSTORE_FILE.exists());
 
         checkCredentialsSet();
@@ -576,7 +570,7 @@ public class GenologicsAPICacheTest
     @Test
     public void fullTest() throws Exception
     {
-        Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", UnitTestApplicationContextFactory.inCrukCI());
+        Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", CRUKCICheck.inCrukCI());
         Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", newerThanJDK6 || KEYSTORE_FILE.exists());
 
         checkCredentialsSet();

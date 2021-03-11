@@ -40,10 +40,12 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.output.NullOutputStream;
+import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.easymock.EasyMock;
 import org.junit.Test;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -51,6 +53,8 @@ import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
 import com.genologics.ri.LimsLink;
@@ -61,33 +65,28 @@ import com.genologics.ri.artifact.ArtifactBatchFetchResult;
 import com.genologics.ri.artifact.ArtifactLink;
 
 @SuppressWarnings("deprecation")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
 public class GenologicsAPIBatchOperationTest
 {
-    private ConfigurableApplicationContext appContext;
-
     private GenologicsAPI api;
+
+    @Autowired
+    @Qualifier("genologicsRestTemplate")
     private RestTemplate restTemplate;
+
+    @Autowired
     private Jaxb2Marshaller marshaller;
 
     public GenologicsAPIBatchOperationTest() throws MalformedURLException
     {
-        // Need a separate application context because of the mock HttpClients
-
-        appContext =
-            new ClassPathXmlApplicationContext("/org/cruk/genologics/api/genologics-client-context.xml");
-
-        api = appContext.getBean("genologicsAPI", GenologicsAPI.class);
-        restTemplate = appContext.getBean("genologicsRestTemplate", RestTemplate.class);
-        marshaller = appContext.getBean("genologicsJaxbMarshaller", Jaxb2Marshaller.class);
-
-        // Only needed as a mock.
-        api.setServer(new URL("http://limsdev.cri.camres.org:8080"));
     }
 
-    @Override
-    protected void finalize()
+    @Autowired
+    public void setGenologicsAPI(GenologicsAPI api) throws MalformedURLException
     {
-        appContext.close();
+        this.api = api;
+        api.setServer(new URL("http://limsdev.cri.camres.org:8080"));
     }
 
     @Test

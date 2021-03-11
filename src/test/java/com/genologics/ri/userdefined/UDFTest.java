@@ -18,7 +18,10 @@
 
 package com.genologics.ri.userdefined;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,24 +30,27 @@ import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
-import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
+import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.genologics.ri.artifact.Artifact;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
 public class UDFTest
 {
-    protected ApplicationContext context;
+    @Autowired
     protected Jaxb2Marshaller marshaller;
 
     protected File exampleDirectory = new File("src/test/jaxb");
 
     public UDFTest() throws Exception
     {
-        context = UnitTestApplicationContextFactory.getApplicationContext();
-        marshaller = context.getBean("genologicsJaxbMarshaller", Jaxb2Marshaller.class);
     }
 
     @Test
