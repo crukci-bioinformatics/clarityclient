@@ -71,7 +71,8 @@ import org.cruk.genologics.api.cache.CacheStatefulBehaviour;
 import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.NestedIOException;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -353,10 +354,11 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     /**
      * Set the file store session factory for SFTP connections.
-     * This bean in optional if no additional configuration of the factory is required.
      *
      * @param filestoreSessionFactory The SFTP session factory.
      */
+    @Autowired
+    @Qualifier("filestoreSessionFactory")
     public void setFilestoreSessionFactory(DefaultSftpSessionFactory filestoreSessionFactory)
     {
         this.filestoreSessionFactory = filestoreSessionFactory;
@@ -372,7 +374,8 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
      *
      * @param jaxbMarshaller The Jaxb marshaller.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsJaxbMarshaller")
     public void setJaxbMarshaller(Jaxb2Marshaller jaxbMarshaller)
     {
         entityToListClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
@@ -422,7 +425,8 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
      *
      * @param restClient The REST client.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsRestTemplate")
     public void setRestClient(RestOperations restClient)
     {
         this.restClient = restClient;
@@ -433,7 +437,8 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
      *
      * @param fileUploadClient The REST client configured for file upload.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsFileUploadTemplate")
     public void setFileUploadClient(RestOperations fileUploadClient)
     {
         this.fileUploadClient = fileUploadClient;
@@ -445,7 +450,8 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
      *
      * @param httpClient The HTTP client.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsHttpClient")
     public void setHttpClient(HttpClient httpClient)
     {
         this.httpClient = httpClient;
@@ -460,7 +466,8 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
      *
      * @param httpRequestFactory The HTTP request factory supporting basic authentication.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsClientHttpRequestFactory")
     public void setHttpRequestFactory(AuthenticatingClientHttpRequestFactory httpRequestFactory)
     {
         this.httpRequestFactory = httpRequestFactory;

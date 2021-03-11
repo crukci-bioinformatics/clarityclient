@@ -34,7 +34,8 @@ import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.protocol.HttpContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
@@ -131,7 +132,8 @@ implements AuthenticatingClientHttpRequestFactory
      *
      * @param credentialsProvider The authentication credentials provider.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsCredentialsProvider")
     public void setCredentialsProvider(CredentialsProvider credentialsProvider)
     {
         context.setCredentialsProvider(credentialsProvider);

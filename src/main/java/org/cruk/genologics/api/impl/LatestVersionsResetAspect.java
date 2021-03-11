@@ -25,7 +25,8 @@ import java.util.Set;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Aspect to ensure that the API will not fetch the latest versions of stateful entities
@@ -78,7 +79,8 @@ public class LatestVersionsResetAspect
      *
      * @param api The GenologicsAPI bean.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsAPI")
     public void setGenologicsAPI(GenologicsAPIInternal api)
     {
         this.api = api;

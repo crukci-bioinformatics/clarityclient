@@ -18,13 +18,13 @@
 
 package org.cruk.genologics.api.jaxb;
 
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-
-import org.springframework.util.StringUtils;
 
 /**
  * Base for date adapters. Uses a thread local to keep thread safe with the
@@ -80,7 +80,7 @@ public abstract class AbstractDateAdapter extends XmlAdapter<String, Date>
     @Override
     public Date unmarshal(String v) throws ParseException
     {
-        return StringUtils.isEmpty(v) ? null : get().parse(v);
+        return isEmpty(v) ? null : get().parse(v);
     }
 
     /**

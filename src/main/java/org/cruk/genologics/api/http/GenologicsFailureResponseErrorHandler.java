@@ -25,7 +25,8 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.jaxb.JaxbUnmarshallingAspect;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -59,7 +60,8 @@ public class GenologicsFailureResponseErrorHandler extends DefaultResponseErrorH
      *
      * @param marshaller The Jaxb2Marshaller.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsJaxbMarshaller")
     public void setMarshaller(Jaxb2Marshaller marshaller)
     {
         this.marshaller = marshaller;

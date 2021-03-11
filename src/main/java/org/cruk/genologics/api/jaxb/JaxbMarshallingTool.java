@@ -22,7 +22,8 @@ import java.io.StringWriter;
 
 import javax.xml.transform.stream.StreamResult;
 
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 
@@ -44,7 +45,8 @@ public class JaxbMarshallingTool
      *
      * @param marshaller The Jaxb2Marshaller.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsJaxbMarshaller")
     public void setMarshaller(Jaxb2Marshaller marshaller)
     {
         this.marshaller = marshaller;
