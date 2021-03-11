@@ -21,8 +21,15 @@ package org.cruk.genologics.api.unittests;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import org.junit.Assume;
+
 public final class CRUKCICheck
 {
+    public static void assumeInCrukCI()
+    {
+        Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", CRUKCICheck.inCrukCI());
+    }
+
     public static boolean inCrukCI()
     {
         try

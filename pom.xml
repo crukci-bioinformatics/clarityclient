@@ -340,6 +340,7 @@
                         <javax.net.ssl.trustStore>${basedir}/java6-cacerts</javax.net.ssl.trustStore>
                         <javax.net.ssl.trustStorePassword>changeit</javax.net.ssl.trustStorePassword>
                     </systemPropertyVariables>
+                    <trimStackTrace>true</trimStackTrace>
                 </configuration>
             </plugin>
             <plugin>

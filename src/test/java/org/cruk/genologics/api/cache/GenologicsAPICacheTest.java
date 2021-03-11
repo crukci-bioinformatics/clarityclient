@@ -526,7 +526,7 @@ public class GenologicsAPICacheTest
     @Test
     public void readonlyTest() throws Exception
     {
-        Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", CRUKCICheck.inCrukCI());
+        CRUKCICheck.assumeInCrukCI();
         Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", newerThanJDK6 || KEYSTORE_FILE.exists());
 
         checkCredentialsSet();
@@ -570,7 +570,7 @@ public class GenologicsAPICacheTest
     @Test
     public void fullTest() throws Exception
     {
-        Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", CRUKCICheck.inCrukCI());
+        CRUKCICheck.assumeInCrukCI();
         Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", newerThanJDK6 || KEYSTORE_FILE.exists());
 
         checkCredentialsSet();

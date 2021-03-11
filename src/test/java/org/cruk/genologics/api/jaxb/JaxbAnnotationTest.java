@@ -481,7 +481,6 @@ public class JaxbAnnotationTest
         fetchMarshalAndCompare(Role.class);
     }
 
-
     private void fetchMarshalAndCompare(Class<?> entityClass) throws Throwable
     {
         final String className = ClassUtils.getShortClassName(entityClass);
@@ -546,7 +545,7 @@ public class JaxbAnnotationTest
         return writer.toString();
     }
 
-    private static class XmlDiffIgnoreNamespaces extends DetailedDiff
+    public static class XmlDiffIgnoreNamespaces extends DetailedDiff
     {
         public XmlDiffIgnoreNamespaces(Diff prototype)
         {
