@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prc:process limsid="24-1648656" uri="http://localhost:9080/api/v2/processes/24-1648656" xmlns:que="http://genologics.com/ri/queue" xmlns:protcnf="http://genologics.com/ri/protocolconfiguration" xmlns:rt="http://genologics.com/ri/routing" xmlns:artgr="http://genologics.com/ri/artifactgroup" xmlns:role="http://genologics.com/ri/role" xmlns:con="http://genologics.com/ri/container" xmlns:perm="http://genologics.com/ri/permission" xmlns:lab="http://genologics.com/ri/lab" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lot="http://genologics.com/ri/reagentlot" xmlns:exc="http://genologics.com/ri/exception" xmlns:protstepcnf="http://genologics.com/ri/stepconfiguration" xmlns:file="http://genologics.com/ri/file" xmlns:prop="http://genologics.com/ri/property" xmlns:kit="http://genologics.com/ri/reagentkit" xmlns:smp="http://genologics.com/ri/sample" xmlns:ns39="SAMPLE_NAMESPACE" xmlns:cnf="http://genologics.com/ri/configuration" xmlns:ctp="http://genologics.com/ri/containertype" xmlns:ctrltp="http://genologics.com/ri/controltype" xmlns:prc="http://genologics.com/ri/process" xmlns:res="http://genologics.com/ri/researcher" xmlns:art="http://genologics.com/ri/artifact" xmlns:ver="http://genologics.com/ri/version" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:itp="http://genologics.com/ri/instrumenttype" xmlns:stg="http://genologics.com/ri/stage" xmlns:ptm="http://genologics.com/ri/processtemplate" xmlns:prj="http://genologics.com/ri/project" xmlns:wkfcnf="http://genologics.com/ri/workflowconfiguration" xmlns:ptp="http://genologics.com/ri/processtype" xmlns:stp="http://genologics.com/ri/step" xmlns:rtp="http://genologics.com/ri/reagenttype" xmlns:udf="http://genologics.com/ri/userdefined" xmlns:prx="http://genologics.com/ri/processexecution" xmlns:ri="http://genologics.com/ri" xmlns:inst="http://genologics.com/ri/instrument" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <type uri="http://localhost:9080/api/v2/processtypes/56">Publishing</type>
+    <date-run>2021-02-12</date-run>
+    <technician uri="http://localhost:9080/api/v2/researchers/7760">
+        <first-name>K</first-name>
+        <last-name>K</last-name>
+    </technician>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161031" limsid="2-7366989" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161054">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368882?state=6161051" limsid="92-7368882" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161031" limsid="2-7366989" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161054">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368881?state=6160950" limsid="92-7368881" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161031" limsid="2-7366989" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161054">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368878?state=6160947" limsid="92-7368878" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161031" limsid="2-7366989" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161054">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368883?state=6161052" limsid="92-7368883" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161031" limsid="2-7366989" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161054">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368880?state=6160949" limsid="92-7368880" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161031" limsid="2-7366989" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366989?state=6161054">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368879?state=6160948" limsid="92-7368879" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161033" limsid="2-7366988" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161053">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368881?state=6160950" limsid="92-7368881" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161033" limsid="2-7366988" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161053">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368882?state=6161051" limsid="92-7368882" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161033" limsid="2-7366988" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161053">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368883?state=6161052" limsid="92-7368883" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161033" limsid="2-7366988" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161053">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368880?state=6160949" limsid="92-7368880" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161033" limsid="2-7366988" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161053">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368878?state=6160947" limsid="92-7368878" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <input-output-map>
+        <input uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161033" limsid="2-7366988" post-process-uri="http://localhost:9080/api/v2/artifacts/2-7366988?state=6161053">
+            <parent-process uri="http://localhost:9080/api/v2/processes/24-1647067" limsid="24-1647067"/>
+        </input>
+        <output uri="http://localhost:9080/api/v2/artifacts/92-7368879?state=6160948" limsid="92-7368879" output-type="ResultFile" output-generation-type="PerAllInputs"/>
+    </input-output-map>
+    <udf:field name="Comments" type="Text">Looks like another vaccum issue - lower yields and drop on Q30. Data should be ok but I guess if Illumina promises '≥ 90% of bases higher than Q30 at 2 × 50 bp' then that's slightly under the spec?</udf:field>
+</prc:process>

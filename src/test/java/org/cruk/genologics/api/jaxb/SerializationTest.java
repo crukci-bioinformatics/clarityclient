@@ -45,10 +45,14 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.cruk.genologics.api.GenologicsException;
-import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
+import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
@@ -111,21 +115,25 @@ import com.genologics.ri.workflowconfiguration.Workflows;
  * it into objects, serializes it and reads the serialized object back.
  * They should be equivalent.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
 public class SerializationTest
 {
     static final int modifierMask = Modifier.TRANSIENT | Modifier.STATIC | Modifier.FINAL;
 
-    protected ApplicationContext context;
+    @Autowired
     protected Jaxb2Marshaller marshaller;
+
+    @Autowired
+    @Qualifier("genologicsJaxbMarshallerProperties")
+    protected Map<String, Object> marshallerProperties;
+
     protected DocumentBuilder docBuilder;
 
     protected File exampleDirectory = new File("src/test/jaxb");
 
     public SerializationTest() throws Exception
     {
-        context = UnitTestApplicationContextFactory.getApplicationContext();
-        marshaller = context.getBean("genologicsJaxbMarshaller", Jaxb2Marshaller.class);
-
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         docBuilder = factory.newDocumentBuilder();
     }
@@ -203,7 +211,7 @@ public class SerializationTest
         // Cannot use configured because of aspects.
         Jaxb2Marshaller exceptionMarshaller = new Jaxb2Marshaller();
         exceptionMarshaller.setPackagesToScan(new String[] { "com.genologics.ri.exception" });
-        exceptionMarshaller.setMarshallerProperties(context.getBean("genologicsJaxbMarshallerProperties", Map.class));
+        exceptionMarshaller.setMarshallerProperties(marshallerProperties);
 
         Jaxb2Marshaller original = marshaller;
         try

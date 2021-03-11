@@ -43,14 +43,18 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.cruk.genologics.api.GenologicsException;
-import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
+import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -116,19 +120,23 @@ import com.genologics.ri.workflowconfiguration.Workflows;
  * They should be equivalent (except for the namespace attributes): if they are not,
  * then something isn't annotated correctly.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
 public class JaxbAnnotationTest
 {
-    protected ApplicationContext context;
+    @Autowired
     protected Jaxb2Marshaller marshaller;
+
+    @Autowired
+    @Qualifier("genologicsJaxbMarshallerProperties")
+    protected Map<String, Object> marshallerProperties;
+
     protected DocumentBuilder docBuilder;
 
     protected File exampleDirectory = new File("src/test/jaxb");
 
     public JaxbAnnotationTest() throws Exception
     {
-        context = UnitTestApplicationContextFactory.getApplicationContext();
-        marshaller = context.getBean("genologicsJaxbMarshaller", Jaxb2Marshaller.class);
-
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         docBuilder = factory.newDocumentBuilder();
     }
@@ -200,13 +208,12 @@ public class JaxbAnnotationTest
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testExceptionSimple() throws Throwable
     {
         // Cannot use configured because of aspects.
         Jaxb2Marshaller exceptionMarshaller = new Jaxb2Marshaller();
         exceptionMarshaller.setPackagesToScan(new String[] { "com.genologics.ri.exception" });
-        exceptionMarshaller.setMarshallerProperties(context.getBean("genologicsJaxbMarshallerProperties", Map.class));
+        exceptionMarshaller.setMarshallerProperties(marshallerProperties);
 
         Jaxb2Marshaller original = marshaller;
         try
@@ -561,7 +568,7 @@ public class JaxbAnnotationTest
         return writer.toString();
     }
 
-    private static class XmlDiffIgnoreNamespaces extends DetailedDiff
+    public static class XmlDiffIgnoreNamespaces extends DetailedDiff
     {
         public XmlDiffIgnoreNamespaces(Diff prototype)
         {

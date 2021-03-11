@@ -20,63 +20,44 @@ package org.cruk.genologics.api.unittests;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Properties;
+
+import javax.annotation.PostConstruct;
 
 import org.cruk.genologics.api.GenologicsAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 
-public final class UnitTestApplicationContextFactory
+@Configuration
+@ImportResource("classpath:/org/cruk/genologics/api/genologics-client-context.xml")
+public class ClarityClientTestConfiguration
 {
-    private static ConfigurableApplicationContext context;
+    @Autowired
+    protected GenologicsAPI api;
 
-    public static ConfigurableApplicationContext getApplicationContext()
+    public ClarityClientTestConfiguration()
     {
-        if (context == null)
-        {
-            context = new ClassPathXmlApplicationContext("/org/cruk/genologics/api/genologics-client-context.xml");
-
-            GenologicsAPI api = context.getBean("genologicsAPI", GenologicsAPI.class);
-            setCredentialsOnApi(api);
-        }
-        return context;
     }
 
-    public static boolean setCredentialsOnApi(GenologicsAPI api)
+    @PostConstruct
+    public void setCredentialsOnApi()
     {
-        try (InputStream propsIn = UnitTestApplicationContextFactory.class.getResourceAsStream("/testcredentials.properties"))
+        try (InputStream propsIn = getClass().getResourceAsStream("/testcredentials.properties"))
         {
             if (propsIn != null)
             {
                 Properties credentials = new Properties();
                 credentials.load(propsIn);
                 api.setConfiguration(credentials);
-                return true;
             }
         }
         catch (IOException e)
         {
-            Logger logger = LoggerFactory.getLogger(UnitTestApplicationContextFactory.class);
+            Logger logger = LoggerFactory.getLogger(getClass());
             logger.error("Could not read from credentials file: ", e);
-        }
-        return false;
-    }
-
-    public static boolean inCrukCI()
-    {
-        try
-        {
-            String hostname = InetAddress.getLocalHost().getHostName();
-            return hostname.endsWith(".cri.camres.org");
-        }
-        catch (UnknownHostException e)
-        {
-            // Should never happen.
-            return false;
         }
     }
 }

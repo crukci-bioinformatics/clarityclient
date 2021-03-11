@@ -52,7 +52,7 @@ public class GenologicsAPITest
     public void testLimsIdToUri1() throws Exception
     {
         GenologicsAPIImpl api = new GenologicsAPIImpl();
-        api.setHttpRequestFactory(EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
+        api.setHttpRequestFactory((AuthenticatingClientHttpRequestFactory)EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
 
         try
         {
@@ -134,7 +134,7 @@ public class GenologicsAPITest
     public void testLimsIdToUri2() throws Exception
     {
         GenologicsAPIImpl api = new GenologicsAPIImpl();
-        api.setHttpRequestFactory(EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
+        api.setHttpRequestFactory((AuthenticatingClientHttpRequestFactory)EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
 
         try
         {
@@ -222,7 +222,7 @@ public class GenologicsAPITest
     public void testIllegalSearchTerms() throws Exception
     {
         GenologicsAPIImpl api = new GenologicsAPIImpl();
-        api.setHttpRequestFactory(EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
+        api.setHttpRequestFactory((AuthenticatingClientHttpRequestFactory)EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
 
         Map<String, Object> searchTerms = new HashMap<String, Object>();
 

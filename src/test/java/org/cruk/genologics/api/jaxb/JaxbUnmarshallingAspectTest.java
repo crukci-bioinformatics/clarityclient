@@ -26,19 +26,23 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.cruk.genologics.api.GenologicsException;
-import org.cruk.genologics.api.unittests.UnitTestApplicationContextFactory;
+import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
 public class JaxbUnmarshallingAspectTest
 {
+    @Autowired
     protected Jaxb2Marshaller marshaller;
 
     public JaxbUnmarshallingAspectTest()
     {
-        ApplicationContext context = UnitTestApplicationContextFactory.getApplicationContext();
-        marshaller = context.getBean("genologicsJaxbMarshaller", Jaxb2Marshaller.class);
     }
 
     @Test
