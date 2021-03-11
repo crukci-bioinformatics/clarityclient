@@ -19,12 +19,13 @@
 package org.cruk.genologics.api.debugging;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.genologics.api.jaxb.JaxbMarshallingTool;
-import org.springframework.beans.factory.annotation.Required;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,8 @@ public class RestClientSnoopingAspect
      *
      * @param marshaller The marshalling tool.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsMarshallingTool")
     public void setMarshaller(JaxbMarshallingTool marshaller)
     {
         this.marshaller = marshaller;

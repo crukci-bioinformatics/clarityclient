@@ -40,7 +40,8 @@ import org.cruk.genologics.api.impl.GenologicsAPIInternal;
 import org.cruk.genologics.api.impl.LatestVersionsResetAspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.LimsEntity;
@@ -137,7 +138,8 @@ public class GenologicsAPICache
      *
      * @param api The GenologicsAPI bean.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsAPI")
     public void setGenologicsAPI(GenologicsAPI api)
     {
         this.api = api;
@@ -148,7 +150,8 @@ public class GenologicsAPICache
      *
      * @param internalApi The API bean, but through its internal interface.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsAPI")
     public void setInternalGenologicsAPI(GenologicsAPIInternal internalApi)
     {
         this.apiCacheControl = internalApi;
@@ -159,7 +162,8 @@ public class GenologicsAPICache
      *
      * @param cacheManager The cache manager.
      */
-    @Required
+    @Autowired
+    @Qualifier("genologicsCacheManager")
     public void setCacheManager(CacheManager cacheManager)
     {
         this.cacheManager = cacheManager;
@@ -172,7 +176,7 @@ public class GenologicsAPICache
      * @param latestVersionsResetAspect The version resetting aspect.
      * @see #cancelStatefulOverride(JoinPoint)
      */
-    @Required
+    @Autowired
     public void setLatestVersionsResetAspect(LatestVersionsResetAspect latestVersionsResetAspect)
     {
         this.latestVersionsResetAspect = latestVersionsResetAspect;
