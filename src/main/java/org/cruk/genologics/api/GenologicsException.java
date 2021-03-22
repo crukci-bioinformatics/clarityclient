@@ -137,7 +137,7 @@ public class GenologicsException extends RuntimeException
      * inside catch blocks where it is possible to ask for an entity by id
      * and handle it not being there (so a speculative GET).
      *
-     * @throws FileTrackingException (this) if the reason for this exception
+     * @throws GenologicsException (this) if the reason for this exception
      * is for any reason other than something not being found.
      *
      * @since 2.24.14
