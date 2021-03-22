@@ -119,6 +119,38 @@ public class GenologicsException extends RuntimeException
     }
 
     /**
+     * Convenience method to test whether this exception is because something
+     * is not found.
+     *
+     * @return true if the status is not found (HTTP 404), false otherwise.
+     *
+     * @since 2.27.4
+     */
+    public boolean isNotFound()
+    {
+        return httpStatus == HttpStatus.NOT_FOUND;
+    }
+
+    /**
+     * Convenience method absorb this exception if it is because something
+     * is not found, otherwise rethrow itself. This is designed to be used
+     * inside catch blocks where it is possible to ask for an entity by id
+     * and handle it not being there (so a speculative GET).
+     *
+     * @throws GenologicsException (this) if the reason for this exception
+     * is for any reason other than something not being found.
+     *
+     * @since 2.27.4
+     */
+    public void throwUnlessNotFound()
+    {
+        if (!isNotFound())
+        {
+            throw this;
+        }
+    }
+
+    /**
      * Provide a printable representation of this exception. Prints the
      * main error message and, if present, the HTTP status code and the
      * suggested actions.
