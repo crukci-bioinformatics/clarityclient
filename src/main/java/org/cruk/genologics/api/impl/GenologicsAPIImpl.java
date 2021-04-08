@@ -358,7 +358,7 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
      * @param filestoreSessionFactory The SFTP session factory.
      */
     @Autowired
-    @Qualifier("filestoreSessionFactory")
+    @Qualifier("filestoreSFTPSessionFactory")
     public void setFilestoreSessionFactory(DefaultSftpSessionFactory filestoreSessionFactory)
     {
         this.filestoreSessionFactory = filestoreSessionFactory;

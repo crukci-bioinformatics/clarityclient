@@ -22,13 +22,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.io.IOUtils;
 import org.cruk.genologics.api.GenologicsAPI;
+import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
@@ -36,16 +35,15 @@ import org.springframework.context.annotation.ImportResource;
 @ImportResource("classpath:/org/cruk/genologics/api/genologics-client-context.xml")
 public class ClarityClientTestConfiguration
 {
-    @Autowired
-    protected GenologicsAPI api;
-
     public ClarityClientTestConfiguration()
     {
     }
 
-    @PostConstruct
-    public void setCredentialsOnApi()
+    @Bean
+    public GenologicsAPI genologicsAPI()
     {
+        GenologicsAPIImpl api = new GenologicsAPIImpl();
+
         InputStream propsIn = getClass().getResourceAsStream("/testcredentials.properties");
         if (propsIn != null)
         {
@@ -65,5 +63,7 @@ public class ClarityClientTestConfiguration
                 IOUtils.closeQuietly(propsIn);
             }
         }
+
+        return api;
     }
 }
