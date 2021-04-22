@@ -133,15 +133,18 @@
         <value>com.genologics.ri.instrumenttype</value>
         <value>com.genologics.ri.lab</value>
         <value>com.genologics.ri.process</value>
+        <value>com.genologics.ri.processexecution</value>
         <value>com.genologics.ri.processtemplate</value>
         <value>com.genologics.ri.processtype</value>
         <value>com.genologics.ri.project</value>
         <value>com.genologics.ri.property</value>
         <value>com.genologics.ri.protocolconfiguration</value>
+        <value>com.genologics.ri.queue</value>
         <value>com.genologics.ri.reagentkit</value>
         <value>com.genologics.ri.reagentlot</value>
         <value>com.genologics.ri.reagenttype</value>
         <value>com.genologics.ri.researcher</value>
+        <value>com.genologics.ri.role</value>
         <value>com.genologics.ri.routing</value>
         <value>com.genologics.ri.sample</value>
         <value>com.genologics.ri.stage</value>
