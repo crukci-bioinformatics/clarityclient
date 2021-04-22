@@ -19,17 +19,40 @@ the cache.
   <<<genologics-client-context.xml>>> and
 <<<genologics-cache-context.xml>>> are provided in the client's JAR file.
 
-  An example of obtaining the API using Spring from an application's <main>
-method:
+  One <<must>> define the bean <<<genologicsAPI>>> in the client program's XML
+configuration files or a Spring <<<@Configuration>>> annotated class from
+release 2.24.14 of the client. It has been found that overriding the default
+definition in <<<genologics-client-context.xml>>> causes problems with Spring
+Boot when the bean is overridden to initialise with properties and so forth.
+
+  In XML configuration, the line to add is (with optional initialisation
+properties in <apiCredentials>):
 
 +---
-ApplicationContext appContext =
-    new ClassPathXmlApplicationContext(
-        "/org/cruk/genologics/api/genologics-client-context.xml",
-        "/org/cruk/genologics/api/genologics-cache-context.xml");
+<bean id="genologicsAPI" parent="genologicsAPIBase">
+    <constructor-arg ref="apiCredentials"/>
+</bean>
++--- 
 
-GenologicsAPI api = appContext.getBean("genologicsAPI", GenologicsAPI.class);
+  In Spring annotation configuration, autowiring is correct for the normal
+bean initialisation. As such, one needs to add the bean as:
+
++---
+@Configuration
+@ImportResource({
+    "classpath:/org/cruk/genologics/api/genologics-client-context.xml",
+    "classpath:/org/cruk/genologics/api/genologics-cache-context.xml"
+})
+public class MyClarityProgramConfiguration
+{
+    @Bean
+    public GenologicsAPI genologicsAPI()
+    {
+        return new GenologicsAPIImpl();
+    }
+}
 +---
 
-  Of course, if you're using Spring properly you'll be using dependency
-injection to insert the API into the classes that need it...
+  Initialisation of the bean using properties or the setter methods can be
+done in this method too before the object is returned, or done with a
+<<<@PostConstruct>>> annotated method.

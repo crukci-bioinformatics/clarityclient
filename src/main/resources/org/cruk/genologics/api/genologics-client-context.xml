@@ -257,10 +257,10 @@
     </bean>
 
     <!--
-        Concrete API bean. This definition can be overwritten if necessary, for example
-        to provide a configuration at construction.
+        Defining the concrete "genologicsAPI" here as a default causes problems with Spring Boot.
+        See https://brudenko.com/spring-bean-override
+        As such, it is removed. Client programs must provide an implementation.
     -->
-    <bean id="genologicsAPI" parent="genologicsAPIBase"/>
 
     <bean id="genologicsLatestVersionsResetAspect" class="org.cruk.genologics.api.impl.LatestVersionsResetAspect">
         <property name="genologicsAPI" ref="genologicsAPI"/>
