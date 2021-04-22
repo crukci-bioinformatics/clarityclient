@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.commons.io.IOUtils;
 import org.cruk.genologics.api.GenologicsAPI;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.slf4j.Logger;
@@ -44,24 +43,19 @@ public class ClarityClientTestConfiguration
     {
         GenologicsAPIImpl api = new GenologicsAPIImpl();
 
-        InputStream propsIn = getClass().getResourceAsStream("/testcredentials.properties");
-        if (propsIn != null)
+        try (InputStream propsIn = getClass().getResourceAsStream("/testcredentials.properties"))
         {
-            try
+            if (propsIn != null)
             {
                 Properties credentials = new Properties();
                 credentials.load(propsIn);
                 api.setConfiguration(credentials);
             }
-            catch (IOException e)
-            {
-                Logger logger = LoggerFactory.getLogger(getClass());
-                logger.error("Could not read from credentials file: ", e);
-            }
-            finally
-            {
-                IOUtils.closeQuietly(propsIn);
-            }
+        }
+        catch (IOException e)
+        {
+            Logger logger = LoggerFactory.getLogger(getClass());
+            logger.error("Could not read from credentials file: ", e);
         }
 
         return api;
