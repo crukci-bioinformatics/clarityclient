@@ -110,7 +110,9 @@ import com.genologics.ri.processexecution.ExecutableProcess;
 import com.genologics.ri.queue.Queue;
 import com.genologics.ri.routing.Routing;
 import com.genologics.ri.sample.Sample;
+import com.genologics.ri.step.AvailableProgram;
 import com.genologics.ri.step.ProcessStep;
+import com.genologics.ri.step.ProgramStatus;
 import com.genologics.ri.step.StepCreation;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
 import com.jcraft.jsch.ChannelSftp.LsEntry;
@@ -2235,6 +2237,40 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                 restClient.exchange(uri, HttpMethod.POST, new HttpEntity<ProcessStep>(step), step.getClass());
 
         reflectiveUpdate(step, response.getBody());
+    }
+
+    @Override
+    public ProgramStatus startProgram(AvailableProgram program)
+    {
+        if (program == null)
+        {
+            throw new IllegalArgumentException("program cannot be null");
+        }
+        if (program.getUri() == null)
+        {
+            throw new IllegalArgumentException("program has no URI set.");
+        }
+
+        ResponseEntity<ProgramStatus> response = restClient.postForEntity(program.getUri(), null, ProgramStatus.class);
+
+        return response.getBody();
+    }
+
+    @Override
+    public void currentStatus(ProgramStatus status)
+    {
+        if (status == null)
+        {
+            throw new IllegalArgumentException("status cannot be null");
+        }
+        if (status.getUri() == null)
+        {
+            throw new IllegalArgumentException("status has no URI set.");
+        }
+
+        ResponseEntity<ProgramStatus> response = restClient.getForEntity(status.getUri(), ProgramStatus.class);
+
+        reflectiveUpdate(status, response.getBody());
     }
 
 

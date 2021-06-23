@@ -46,7 +46,9 @@ import com.genologics.ri.processexecution.ExecutableProcess;
 import com.genologics.ri.routing.Routing;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.step.Actions;
+import com.genologics.ri.step.AvailableProgram;
 import com.genologics.ri.step.ProcessStep;
+import com.genologics.ri.step.ProgramStatus;
 import com.genologics.ri.step.StepCreation;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
 
@@ -734,7 +736,7 @@ public interface GenologicsAPI
      *
      * @throws IllegalArgumentException if {@code stepCreation} is null.
      *
-     * @see <a href="http://www.genologics.com/files/permanent/API/latest/rest.version.steps.html#POST">Clarity API documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/4.3/rest.version.steps.html#POST">Clarity API documentation</a>
      *
      * @see <a href="https://genologics.zendesk.com/entries/68573603-Starting-a-Protocol-Step-via-the-API">Starting
      * a Protocol Step via the API</a>
@@ -752,14 +754,37 @@ public interface GenologicsAPI
      *
      * @param step The step to advance. The state of this object is updated in place.
      *
-     * @see <a href="http://www.genologics.com/files/permanent/API/latest/rest.version.steps.limsid.advance.html">Clarity API documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/4.3/rest.version.steps.limsid.advance.html">Clarity API documentation</a>
      *
-     * @see <a href="http://www.genologics.com/files/permanent/API/latest/rest.version.steps.limsid.actions.html">Actions documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/4.3/rest.version.steps.limsid.actions.html">Actions documentation</a>
      *
      * @see <a href="https://genologics.zendesk.com/entries/69596247-Advancing-Completing-a-Protocol-Step-via-the-API">Advancing
      * and Completing a Step via the API</a>
      */
     void advanceProcessStep(ProcessStep step);
+
+    /**
+     * Start execution of an EPP as part of a process step moving through Clarity.
+     *
+     * @param program The program, as listed in the {@code ProcessStep} object.
+     *
+     * @return An updated program status structure.
+     *
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/4.3/rest.version.steps.limsid.trigger.programid.html">Clarity API Documentation</a>
+     *
+     * @since 2.24.15
+     */
+    ProgramStatus startProgram(AvailableProgram program);
+
+    /**
+     * Get an updated program status from Clarity.
+     *
+     * @param status The program status to update. The object is updated in place
+     * with the latest values.
+     *
+     * @since 2.24.15
+     */
+    void currentStatus(ProgramStatus status);
 
 
     // File upload methods.
@@ -863,7 +888,7 @@ public interface GenologicsAPI
      *
      * <p>
      * Search terms work the same as for the {@link #find(Map, Class)} method. Also see
-     * <a href="http://www.genologics.com/files/permanent/API/latest/rest.version.queues.protocolStepId.html">Genologics'
+     * <a href="https://d10e8rzir0haj8.cloudfront.net/4.3/rest.version.queues.protocolStepId.html">Genologics'
      * documentation of this end point</a> for the options available.
      * </p>
      *
