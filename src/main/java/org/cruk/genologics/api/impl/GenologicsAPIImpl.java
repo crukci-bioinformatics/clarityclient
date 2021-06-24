@@ -475,12 +475,18 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         this.httpRequestFactory = httpRequestFactory;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public URL getServer()
     {
         return serverAddress;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setServer(URL serverAddress)
     {
@@ -512,18 +518,27 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getServerApiAddress()
     {
         return apiRoot;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getUsername()
     {
         return apiCredentials.getUserName();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setCredentials(String username, String password)
     {
@@ -534,6 +549,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setCredentials(Credentials httpCredentials)
     {
@@ -548,6 +566,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setFilestoreServer(String host)
     {
@@ -558,6 +579,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         filestoreSessionFactory.setHost(host);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setFilestoreCredentials(String username, String password)
     {
@@ -592,6 +616,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return filestoreHostAddress;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setConfiguration(Properties configuration) throws MalformedURLException
     {
@@ -684,6 +711,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return bulkOperationBatchSize;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setBulkOperationBatchSize(int batchSize)
     {
@@ -693,6 +723,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
                     : Math.min(batchSize, BULK_OPERATION_BATCH_SIZE_HARD_LIMIT);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setUploadOverHttp(boolean uploadOverHttp)
     {
@@ -713,6 +746,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return httpUploadSizeLimit;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setHttpUploadSizeLimit(long limit)
     {
@@ -723,12 +759,18 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         httpUploadSizeLimit = limit;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setAutoRevertToSFTPUploads(boolean autoRevertToSFTP)
     {
         this.autoRevertToSFTP = autoRevertToSFTP;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setDownloadDirectFromHttpStore(boolean downloadDirect)
     {
@@ -983,6 +1025,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // Public helper methods.
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     URI limsIdToUri(String limsid, Class<E> entityClass)
@@ -1036,6 +1081,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return uri.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass)
@@ -1176,6 +1224,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // General fetch methods.
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     List<LimsLink<E>> listAll(Class<E> entityClass)
@@ -1189,6 +1240,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return doList(startUri, entityClass, Integer.MAX_VALUE);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     List<LimsLink<E>> listSome(Class<E> entityClass, int startIndex, int number)
@@ -1202,6 +1256,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return doList(startUri, entityClass, number);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     List<LimsLink<E>> find(Map<String, ?> searchTerms, Class<E> entityClass)
@@ -1356,6 +1413,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return allLinks;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     E retrieve(String uri, Class<E> entityClass)
@@ -1382,6 +1442,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return response.getBody();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     E retrieve(URI uri, Class<E> entityClass)
@@ -1401,6 +1464,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return response.getBody();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     E load(String limsid, Class<E> entityClass)
@@ -1408,6 +1474,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return retrieve(makeUri(limsid, entityClass, "load"), entityClass);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     E load(String outerLimsid, String innerLimsid, Class<E> entityClass)
@@ -1415,6 +1484,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return retrieve(makeUri(outerLimsid, innerLimsid, entityClass, "load"), entityClass);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     E load(LimsLink<E> link)
@@ -1426,6 +1498,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return retrieve(link.getUri(), link.getEntityClass());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     List<E> loadAll(Collection<? extends LimsLink<E>> links)
@@ -1488,6 +1563,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return entities;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends LimsEntity<E>>
     void reload(E entity)
@@ -1509,6 +1587,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // Create methods.
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     void create(E entity)
@@ -1633,6 +1714,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         reflectiveUpdate(entity, response.getBody());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     void createAll(Collection<E> entities)
@@ -1912,6 +1996,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // Update methods.
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     void update(E entity)
@@ -1942,6 +2029,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         reflectiveUpdate(entity, response.getBody());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     void updateAll(Collection<E> entities)
@@ -2088,6 +2178,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // Delete methods.
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     void delete(E entity)
@@ -2104,6 +2197,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         doDelete(entity.getUri(), classOfEntity(entity));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends Locatable>
     void deleteAll(Collection<E> entities)
@@ -2184,6 +2280,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // Process execution
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public GenologicsProcess executeProcess(ExecutableProcess toExecute)
     {
@@ -2200,6 +2299,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return response.getBody();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProcessStep beginProcessStep(StepCreation stepCreation)
     {
@@ -2216,6 +2318,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return response.getBody();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void advanceProcessStep(ProcessStep step)
     {
@@ -2239,6 +2344,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         reflectiveUpdate(step, response.getBody());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProgramStatus startProgram(AvailableProgram program)
     {
@@ -2256,6 +2364,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         return response.getBody();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void currentStatus(ProgramStatus status)
     {
@@ -2276,6 +2387,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // File upload
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <E extends LimsEntity<E>>
     GenologicsFile uploadFile(LimsEntityLinkable<E> entity, URL fileURL, boolean publishInLablink)
@@ -2572,6 +2686,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         reflectiveUpdate(targetFile, response.getBody());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void downloadFile(Linkable<GenologicsFile> file, OutputStream resultStream) throws IOException
     {
@@ -2648,6 +2765,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteAndRemoveFile(Linkable<GenologicsFile> file) throws IOException
     {
@@ -2742,6 +2862,9 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // Routing artifacts
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void routeArtifacts(Routing routing)
     {
@@ -2762,12 +2885,18 @@ public class GenologicsAPIImpl implements GenologicsAPI, GenologicsAPIInternal
 
     // Retrieving artifacts from queues.
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<LimsEntityLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep)
     {
         return listQueue(protocolStep, null);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<LimsEntityLink<Artifact>> listQueue(Linkable<ProtocolStep> protocolStep, Map<String, ?> searchTerms)
     {
