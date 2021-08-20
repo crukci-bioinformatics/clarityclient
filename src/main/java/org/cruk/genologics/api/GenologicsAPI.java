@@ -98,7 +98,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  * Components client rather than the old Commons HTTP Client v3.
  * </p>
  *
- * @see <a href="http://genologics.com/developer">Genologic's REST documentation</a>
+ * @see <a href="https://d10e8rzir0haj8.cloudfront.net/4.3/REST.html">Genologic's REST documentation</a>
  * @see <a href="https://hc.apache.org/httpcomponents-client-4.5.x/index.html">Apache HTTP
  * Components client</a>
  */
