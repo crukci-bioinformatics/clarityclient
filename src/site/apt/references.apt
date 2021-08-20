@@ -6,7 +6,7 @@ Reference Documentation
 own documentation for their API. This may not be publicly available, but
 fellow Genologics' customers should have access to this.
 
-    * {{{http://genologics.com/developer}Genologics Developer Site}}
+    * {{{https://d10e8rzir0haj8.cloudfront.net/4.3/REST.html}Genologics Developer Site}}
 
   The XSD files available from this site are the basis of the objects in
 this client.
