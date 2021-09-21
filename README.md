@@ -92,21 +92,20 @@ premise installation, going cloud only. That has scuppered the CRUK-CI upgrade p
 
 ## Java Version
 
-The Clarity client is built with a target of Java 1.8 bytecode.
-From release 2.27.2 the code has been tested with Java 11.
+The Clarity client is built with Java 8 source and bytecode.
+From release 2.27.2 the code has been tested with Java 11. It does not include
+Java 9+ module information.
 
 ## JAXB Implementation
 
-Since version 2.27.2, the JAXB implementation is included as an optional
-dependency. For code running on a 1.8 JRE, this is of little
-note as there is a JAXB implementation built in. From Java 9 those
-JEE modules were removed into separate dependencies, and there is no
-default implementation in the JDK. The 2.27.2 release marked a change in
-the build, so this module will build on a JDK newer that Java 8 (currently
-Java 11) that requires the JAXB API and implementation to be included as
-Maven dependencies.
+The Java EE modules used by the client, specifically JAXB, have been
+move to **Jakarta EE** specifications from version the 2.24.16, complying
+with [Jakarta EE 8](https://jakarta.ee/release/8). The traditional
+`javax.xml.bind` packages produce issues with class module clashes
+when building under newer JDKs. The move should not have any noticeable
+side effects.
 
-The POM will pull in the JAXB API (version 2.3) that the code needs to
+The POM will pull in the Jakarta JAXB API (version 2.3) that the code needs to
 compile. It marks the actual implementation of JAXB as an optional
 dependency, so other code that uses this client will not automatically
 have a JAXB implementation when the JRE is Java 9 or newer. One should
