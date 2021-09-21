@@ -91,13 +91,6 @@ public class GenologicsAPICacheTest
      */
     public static final String FULL_TEST_SYSTEM_PROPERTY = "live.cache.test";
 
-    /**
-     * Need an update key store (trust store) for the tests to work under Java 6.
-     */
-    private static final File KEYSTORE_FILE = new File("java6-cacerts");
-
-    protected final boolean newerThanJDK6;
-
     protected Logger logger = LoggerFactory.getLogger(GenologicsAPICacheTest.class);
 
     @Autowired
@@ -124,8 +117,6 @@ public class GenologicsAPICacheTest
 
     public GenologicsAPICacheTest()
     {
-        int spec = Math.round(Float.parseFloat(System.getProperty("java.vm.specification.version")) * 10f);
-        newerThanJDK6 = spec > 16;
     }
 
     @After
@@ -523,7 +514,6 @@ public class GenologicsAPICacheTest
     public void readonlyTest() throws Exception
     {
         CRUKCICheck.assumeInCrukCI();
-        Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", newerThanJDK6 || KEYSTORE_FILE.exists());
 
         checkCredentialsSet();
 
@@ -567,7 +557,6 @@ public class GenologicsAPICacheTest
     public void fullTest() throws Exception
     {
         CRUKCICheck.assumeInCrukCI();
-        Assume.assumeTrue("No updated key store available. HTTPS connections will not work, so neither will this test.", newerThanJDK6 || KEYSTORE_FILE.exists());
 
         checkCredentialsSet();
 

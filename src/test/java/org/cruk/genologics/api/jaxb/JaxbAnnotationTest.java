@@ -18,6 +18,7 @@
 
 package org.cruk.genologics.api.jaxb;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -26,7 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.nio.charset.Charset;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -121,8 +121,6 @@ import com.genologics.ri.workflowconfiguration.Workflows;
 @ContextConfiguration(classes = ClarityClientTestConfiguration.class)
 public class JaxbAnnotationTest
 {
-    protected static final Charset UTF_8 = Charset.forName("UTF-8");
-
     @Autowired
     protected Jaxb2Marshaller marshaller;
 

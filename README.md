@@ -73,25 +73,28 @@ For details of using the API, please refer to the documentation at
 
 ## Java Version
 
-The Clarity client is built with a target of Java 1.6 bytecode. It
-_should_ work when run with a Java 6 or 7 JRE, but those are now so old
-that it is tricky to get the HTTP communication working over HTTPS with
-those JREs. Since Illumina insist Clarity is run over HTTPS, this will
-always be the case. It is recommended to use Java 8 as a minimum. From
-release 2.24.12 the code has been tested with Java 11.
+From version 2.24.16 of the client, the build has been changed to build
+using Java 8 source and bytecode. It's no longer realistic to keep the
+code stuck on Java 6: the true Java 6 JVM is not maintained, and there
+are problems with its SSL certificates no longer being valid. From
+release 2.24.12 the code has been tested with Java 11. It does not include
+Java 9+ module information.
+
+The code was set at Java 6 for what now seems like the foolish idea of
+deploying in-house server code in the JBoss 4.2.3 that is installed
+with Clarity 4. That approach has been abandoned here at CRUK-CI and is
+not recommended.
 
 ## JAXB Implementation
 
-Since version 2.24.12, the JAXB implementation is included as an optional
-dependency. For code running on a 1.8 or earlier JRE, this is of little
-note as there is a JAXB implementation built in. From Java 9 those
-JEE modules were removed into separate dependencies, and there is no
-default implementation in the JDK. The 2.24.12 release marked a change in
-the build, so this module will build on a JDK newer that Java 8 (currently
-Java 11) that requires the JAXB API and implementation to be included as
-Maven dependencies.
+The Java EE modules used by the client, specifically JAXB, have been
+move to **Jakarta EE** specifications from version the 2.24.16, complying
+with [Jakarta EE 8](https://jakarta.ee/release/8). The traditional
+`javax.xml.bind` packages produce issues with class module clashes
+when building under newer JDKs. The move should not have any noticeable
+side effects.
 
-The POM will pull in the JAXB API (version 2.3) that the code needs to
+The POM will pull in the Jakarta JAXB API (version 2.3) that the code needs to
 compile. It marks the actual implementation of JAXB as an optional
 dependency, so other code that uses this client will not automatically
 have a JAXB implementation when the JRE is Java 9 or newer. One should

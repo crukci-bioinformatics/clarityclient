@@ -2,6 +2,7 @@ package org.cruk.genologics.api.jaxb;
 
 import static com.genologics.ri.userdefined.UDF.getUDFValue;
 import static com.genologics.ri.userdefined.UDF.setUDF;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -9,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.nio.charset.Charset;
 
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
@@ -49,8 +49,6 @@ public class UnicodeTest
     public static class UnicodeTestConfiguration extends ClarityClientTestConfiguration
     {
     }
-
-    protected static final Charset UTF_8 = Charset.forName("UTF-8");
 
     @Autowired
     @Qualifier("genologicsClientHttpRequestFactory")
