@@ -1,43 +1,4 @@
-Using The CRUK-CI Client Within A J2EE Application Server
-
-  We have some services and utilities that we have deployed as WAR files
-within the Genologics JBoss installation (probably against Genologics'
-guidance). This has been successful, and it helps to keep everything in
-one place.
-
-  Remember if you do deploy into the same JBoss instance as is running
-Clarity, it won't hot-deploy your code, so you'll need a server restart
-if you change anything. You certainly won't want it to hot deploy on
-your production system.
-
-* Excluding provided dependencies
-
-  Some of the third party libraries that the client needs are provided
-in the shared library areas of JBoss 4.2.3 GA that is deployed with Clarity.
-You won't want to include these in your WAR file, so they need to be
-excluded from the dependency on the CRUK-CI client and  any that you
-need to use in your code added to the POM as "<provided>" libraries.
-
-  So, when you add the dependency on the client to your POM, it should
-look like this:
-
-+---
-<dependency>
-    <groupId>org.cruk.genologics</groupId>
-    <artifactId>clarity-client</artifactId>
-    <version>...</version>
-    <exclusions>
-        <exclusion>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </exclusion>
-        <exclusion>
-            <groupId>cglib</groupId>
-            <artifactId>cglib-nodep</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-+---
+Using The CRUK-CI Client Within A Jakarta EE 8 Application Server
 
 * Using the cache in an application server
 
