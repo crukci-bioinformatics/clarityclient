@@ -722,7 +722,7 @@ public interface GenologicsAPI
      *
      * @return The GenologicsProcess object reflecting the process record in the LIMS.
      *
-     * @see <a href="http://developer.genologics.com/display/CBOOK1/Running+a+process">Genologics
+     * @see <a href="https://genologics.zendesk.com/hc/en-us/articles/213976863-Running-a-Process-Step">Genologics
      * guide to running a process through the API</a>
      */
     GenologicsProcess executeProcess(ExecutableProcess toExecute);
