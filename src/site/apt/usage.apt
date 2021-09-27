@@ -3,7 +3,7 @@ Using The Client In Your Code
   All the work of the client goes through the <<<GenologicsAPI>>> interface.
 {{{./apidocs/org/cruk/genologics/api/GenologicsAPI.html}Take a look at its Javadoc
 for details of the operations it offers.}} You should also consult the
-{{{http://genologics.com/developer}Genologics Developer documentation}}
+{{{https://d10e8rzir0haj8.cloudfront.net/5.2/REST.html}Genologics Developer documentation}}
 for what operations are supported by the API and what they do.
 
   Before you can start making calls to the API, you need to set the client
