@@ -29,8 +29,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.Batch;
 import com.genologics.ri.GenologicsQueryResult;
+import com.genologics.ri.Page;
+import com.genologics.ri.PaginatedBatch;
 
 /**
  * @since 2.24
@@ -38,13 +39,26 @@ import com.genologics.ri.GenologicsQueryResult;
 @GenologicsQueryResult(entityClass = InstrumentType.class)
 @XmlRootElement(name = "instrument-types")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "instrument-types")
-public class InstrumentTypes implements Batch<InstrumentTypeLink>, Serializable
+@XmlType(name = "instrument-types", propOrder = { "instrumentTypes", "previousPage", "nextPage" })
+public class InstrumentTypes implements PaginatedBatch<InstrumentTypeLink>, Serializable
 {
-    private static final long serialVersionUID = 7737316665060724718L;
+    private static final long serialVersionUID = 1268811869773163450L;
 
     @XmlElement(name = "instrument-type")
     protected List<InstrumentTypeLink> instrumentTypes;
+
+    /**
+     * @since 2.31
+     */
+    @XmlElement(name = "previous-page")
+    protected Page previousPage;
+
+    /**
+     * @since 2.31
+     */
+    @XmlElement(name = "next-page")
+    protected Page nextPage;
+
 
     public InstrumentTypes()
     {
@@ -70,5 +84,29 @@ public class InstrumentTypes implements Batch<InstrumentTypeLink>, Serializable
     public int getSize()
     {
         return instrumentTypes == null ? 0 : instrumentTypes.size();
+    }
+
+    @Override
+    public Page getPreviousPage()
+    {
+        return previousPage;
+    }
+
+    @Override
+    public void setPreviousPage(Page previousPage)
+    {
+        this.previousPage = previousPage;
+    }
+
+    @Override
+    public Page getNextPage()
+    {
+        return nextPage;
+    }
+
+    @Override
+    public void setNextPage(Page nextPage)
+    {
+        this.nextPage = nextPage;
     }
 }

@@ -48,18 +48,38 @@ public class GenologicsFile implements LimsEntity<GenologicsFile>, LimsEntityLin
 {
     private static final long serialVersionUID = -6683975101172687186L;
 
+    /**
+     * This element contains a URI that identifies and links to further information about the resource that
+     * the file is attached to, such as a project, sample, process, or file-based artifact.
+     */
     @XmlElement(name = "attached-to")
     @XmlSchemaType(name = "anyURI")
     protected URI attachedTo;
 
+    /**
+     * This element contains a URI that identifies and links to the network location of the file,
+     * which can be used to retrieve the file and process its contents.
+     * It must be either within the content root path or the allowed list of directories that
+     * are configured under the api.files.allowlist.dirs property.
+     */
     @XmlElement(name = "content-location")
     @XmlSchemaType(name = "anyURI")
     protected URI contentLocation;
 
+    /**
+     * This element provides the original name and location of the file before it was imported into the system.
+     * <p>
+     * Note: If the file was uploaded from the Clarity web interface, the original-location element will not contain
+     * the full file path due to browser security limitations. Only the original file name will be available.
+     * </p>
+     */
     @XmlElement(name = "original-location")
     protected String originalLocation;
 
     /**
+     * This element provides the original name of the file before it was imported into the system.
+     * This is calculated from the original-location
+     *
      * @since 2.26
      */
     @XmlElement(name = "original-name")
