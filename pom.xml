@@ -34,7 +34,7 @@
         A Java client for working with Genologics' REST API.
     </description>
 
-    <url>http://crukci-bioinformatics.github.io/clarityclient</url>
+    <url>https://crukci-bioinformatics.github.io/clarityclient</url>
 
     <inceptionYear>2013</inceptionYear>
 
