@@ -18,7 +18,7 @@
 
 package com.genologics.ri;
 
-import javax.xml.bind.annotation.XmlSchema;
+import jakarta.xml.bind.annotation.XmlSchema;
 
 /**
  * Static list of all the namespaces in the Genologics API.

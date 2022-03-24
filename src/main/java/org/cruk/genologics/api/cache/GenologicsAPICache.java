@@ -38,6 +38,7 @@ import org.cruk.genologics.api.StatefulOverride;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.cruk.genologics.api.impl.GenologicsAPIInternal;
 import org.cruk.genologics.api.impl.LatestVersionsResetAspect;
+import org.ehcache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +51,6 @@ import com.genologics.ri.Linkable;
 import com.genologics.ri.Locatable;
 import com.genologics.ri.file.GenologicsFile;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 
 /**
  * A cache optionally deployed around a {@code GenologicsAPI} bean as an aspect.

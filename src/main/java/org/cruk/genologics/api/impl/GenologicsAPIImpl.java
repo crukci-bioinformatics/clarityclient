@@ -50,8 +50,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.PostConstruct;
-import javax.xml.bind.annotation.XmlTransient;
+import jakarta.annotation.PostConstruct;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.ConvertUtilsBean;

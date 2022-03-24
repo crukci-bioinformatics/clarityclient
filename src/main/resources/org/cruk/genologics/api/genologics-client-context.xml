@@ -158,11 +158,11 @@
 
     <util:map id="genologicsJaxbMarshallerProperties">
         <entry>
-            <key><util:constant static-field="javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/></key>
+            <key><util:constant static-field="jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/></key>
             <value type="java.lang.Boolean">true</value>
         </entry>
         <entry>
-            <key><util:constant static-field="javax.xml.bind.Marshaller.JAXB_ENCODING"/></key>
+            <key><util:constant static-field="jakarta.xml.bind.Marshaller.JAXB_ENCODING"/></key>
             <value>UTF-8</value>
         </entry>
     </util:map>
