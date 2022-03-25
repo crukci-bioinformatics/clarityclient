@@ -19,17 +19,13 @@
 package org.cruk.genologics.api.cache;
 
 import java.net.URI;
-import java.text.Collator;
-import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.ehcache.CacheManager;
 import org.junit.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +34,6 @@ import com.genologics.ri.GenologicsBatchRetrieveResult;
 import com.genologics.ri.Links;
 import com.genologics.ri.Locatable;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
 
 @Aspect
 public class RestCallTrackingAspect
@@ -161,28 +155,28 @@ public class RestCallTrackingAspect
 
     void listCache()
     {
+        // Can't list the cache names or anything from Eh CacheManager.
+        /*
         Logger logger = LoggerFactory.getLogger(GenologicsAPICacheTest.class);
 
         if (logger.isDebugEnabled())
         {
-            String[] cacheNames = cacheManager.getCacheNames();
-            Arrays.sort(cacheNames, Collator.getInstance());
+            List<String> cacheNames =
+                    StreamSupport.stream(cacheManager.getCacheNames().spliterator(), false).sorted().collect(Collectors.toList());
 
             logger.debug("Cache dump");
 
             for (String cacheName : cacheNames)
             {
-                Ehcache cache = cacheManager.getEhcache(cacheName);
-                List<?> keys = cache.getKeys();
+                Cache<String, ?> cache = cacheManager.getCache(cacheName);
 
-                logger.debug("Have " + keys.size() + " things in the " + cacheName + " cache.");
-
-                for (Object key : keys)
+                for (var e : cache)
                 {
-                    logger.debug(cache.get(key).toString());
+                    logger.debug(e.getValue().toString());
                 }
             }
         }
+        */
     }
 
     boolean isSearch(String uri)

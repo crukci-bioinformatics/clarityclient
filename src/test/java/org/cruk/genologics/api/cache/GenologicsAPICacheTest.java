@@ -74,8 +74,6 @@ import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.userdefined.UDF;
 
-import net.sf.ehcache.Element;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ClarityClientCacheTestConfiguration.class)
@@ -141,7 +139,7 @@ public class GenologicsAPICacheTest
 
         l.setUri(new URI(base + "artifacts/234"));
 
-        Element e = cacheAspect.createCacheElement(l);
+        CacheElementWrapper e = cacheAspect.createCacheElement(l);
 
         assertEquals("Version wrong without state", NO_STATE_VALUE, e.getVersion());
 
@@ -190,7 +188,7 @@ public class GenologicsAPICacheTest
         //CacheManager mockCacheManager = EasyMock.createMock(CacheManager.class);
         //EasyMock.expect(mockCacheManager.getCache(Artifact.class.getName())).andReturn(value);
 
-        cacheAspect.getCache(Artifact.class).removeAll();
+        cacheAspect.getCache(Artifact.class).clear();
 
         String base = api.getServerApiAddress();
 
@@ -270,7 +268,7 @@ public class GenologicsAPICacheTest
         checkCredentialsSet();
 
         cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.EXACT);
-        cacheAspect.getCache(Artifact.class).removeAll();
+        cacheAspect.getCache(Artifact.class).clear();
 
         String base = api.getServerApiAddress();
 
@@ -356,7 +354,7 @@ public class GenologicsAPICacheTest
         checkCredentialsSet();
 
         cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.ANY);
-        cacheAspect.getCache(Artifact.class).removeAll();
+        cacheAspect.getCache(Artifact.class).clear();
 
         String base = api.getServerApiAddress();
 
@@ -432,7 +430,7 @@ public class GenologicsAPICacheTest
         checkCredentialsSet();
 
         cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.LATEST);
-        cacheAspect.getCache(Artifact.class).removeAll();
+        cacheAspect.getCache(Artifact.class).clear();
 
         String base = api.getServerApiAddress();
 
@@ -657,7 +655,7 @@ public class GenologicsAPICacheTest
             UDF.setUDF(s, "Sequencing Type", "Paired End");
             UDF.setUDF(s, "Index Type", "Unspecified (Other)");
             UDF.setUDF(s, "Average Library Length", 10);
-            UDF.setUDF(s, "Workflow", "MiSeq Express");
+            UDF.setUDF(s, "Submission Workflow", "MiSeq Express");
             UDF.setUDF(s, "Billing Information", "SWAG/000");
 
             s.setCreationLocation(container, (char)('A' + i) + ":" + Integer.valueOf(i + 1));
@@ -749,7 +747,7 @@ public class GenologicsAPICacheTest
             {
                 api.deleteAndRemoveFile(uploadedFile);
 
-                Object fetched = cacheAspect.getCache(GenologicsFile.class).getQuiet(cacheAspect.keyFromLocatable(uploadedFile));
+                Object fetched = cacheAspect.getCache(GenologicsFile.class).get(cacheAspect.keyFromLocatable(uploadedFile));
                 assertNull("Deleted file is still in the cache", fetched);
             }
             catch (IOException e)
