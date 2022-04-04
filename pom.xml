@@ -260,6 +260,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.0.0-M5</version>
                     <configuration>
+                        <!-- See https://stackoverflow.com/a/53176428 -->
                         <forkCount>0</forkCount>
                     </configuration>
                 </plugin>
