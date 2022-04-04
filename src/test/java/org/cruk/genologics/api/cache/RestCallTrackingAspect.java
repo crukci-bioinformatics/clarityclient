@@ -18,7 +18,7 @@
 
 package org.cruk.genologics.api.cache;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.URI;
 import java.util.regex.Pattern;

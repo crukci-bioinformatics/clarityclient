@@ -232,7 +232,7 @@ public class GenologicsAPICache
      *
      * @see #loadOrRetrieve(ProceedingJoinPoint, String, Class)
      */
-    public Cache<String, CacheElementWrapper> getCache(Class<?> type)
+    Cache<String, CacheElementWrapper> getCache(Class<?> type)
     {
         if (type == null)
         {
@@ -1320,7 +1320,7 @@ public class GenologicsAPICache
      *
      * @return A Ehcache Element with the key, state (version) and entity set.
      */
-    public CacheElementWrapper createCacheElement(Locatable entity)
+    CacheElementWrapper createCacheElement(Locatable entity)
     {
         long version = versionFromLocatable(entity);
 

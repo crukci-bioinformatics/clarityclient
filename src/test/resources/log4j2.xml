@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration
+    xmlns="http://logging.apache.org/log4j/2.0/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/log4j-2.11.1/log4j-core/src/main/resources/Log4j-config.xsd">
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d %-5p ${chunk}{1} [%t] - %m%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.cruk" level="ERROR"/>
+    
+        <Logger name="org.cruk.genologics.api" level="ERROR"/>
+    
+        <Logger name="org.cruk.genologics.api.GenologicsAPI" level="ERROR"/>
+    
+        <Logger name="org.cruk.genologics.api.debugging.HttpClientTimingAspect" level="OFF"/>
+    
+        <Logger name="org.cruk.genologics.api.debugging.RestClientSnoopingAspect" level="OFF"/>
+    
+        <Logger name="org.cruk.genologics.api.cache.GenologicsAPICache" level="WARN"/>
+        
+        <Logger name="org.cruk.genologics.api.cache.GenologicsAPICacheTest" level="OFF"/>
+    
+        <Logger name="org.springframework.web.client.RestTemplate" level="OFF"/>
+        
+        <Root level="ERROR">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
