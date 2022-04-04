@@ -18,7 +18,8 @@
 
 package org.cruk.genologics.api.jaxb;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 
@@ -27,15 +28,12 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class JaxbUnmarshallingAspectTest
 {
     @Autowired
@@ -57,12 +55,12 @@ public class JaxbUnmarshallingAspectTest
         }
         catch (GenologicsException e)
         {
-            assertEquals("Exception message wrong",
-                         "Could not find resource for relative : /v2/process-executions of full path: http://limsdev.cri.camres.org:8080/api/v2/process-executions",
-                         e.getMessage());
-            assertEquals("Exception category wrong", "Highest", e.getCategory());
-            assertEquals("Exception suggested actions wrong", "Check URL", e.getSuggestedActions());
-            assertEquals("Exception code wrong", "ACODE", e.getCode());
+            assertEquals("Could not find resource for relative : /v2/process-executions of full path: http://limsdev.cri.camres.org:8080/api/v2/process-executions",
+                         e.getMessage(),
+                         "Exception message wrong");
+            assertEquals("Highest", e.getCategory(), "Exception category wrong");
+            assertEquals("Check URL", e.getSuggestedActions(), "Exception suggested actions wrong");
+            assertEquals("ACODE", e.getCode(), "Exception code wrong");
         }
     }
 }

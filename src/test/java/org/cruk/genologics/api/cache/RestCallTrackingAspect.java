@@ -18,6 +18,8 @@
 
 package org.cruk.genologics.api.cache;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.net.URI;
 import java.util.regex.Pattern;
 
@@ -25,7 +27,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.ehcache.CacheManager;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -121,7 +122,7 @@ public class RestCallTrackingAspect
         if (!isBatch && !links && !isSearch(key) && !ArrayUtils.contains(allowedUris, key))
         {
             listCache();
-            Assert.fail("Not allowed to fetch " + key + ". Should already be in the cache.");
+            fail("Not allowed to fetch " + key + ". Should already be in the cache.");
         }
 
         return returned;
@@ -147,7 +148,7 @@ public class RestCallTrackingAspect
         if (!isBatch && !links && !isSearch(key) && !ArrayUtils.contains(allowedUris, key))
         {
             listCache();
-            Assert.fail("Not allowed to fetch " + key + ". Should already be in the cache.");
+            fail("Not allowed to fetch " + key + ". Should already be in the cache.");
         }
 
         return response;

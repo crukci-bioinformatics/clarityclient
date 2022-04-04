@@ -18,9 +18,9 @@
 
 package org.cruk.genologics.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -42,8 +42,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.output.NullOutputStream;
 import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.easymock.EasyMock;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
@@ -53,8 +52,7 @@ import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestTemplate;
 
 import com.genologics.ri.LimsLink;
@@ -65,8 +63,7 @@ import com.genologics.ri.artifact.ArtifactBatchFetchResult;
 import com.genologics.ri.artifact.ArtifactLink;
 
 @SuppressWarnings("deprecation")
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class GenologicsAPIBatchOperationTest
 {
     private GenologicsAPI api;
@@ -165,12 +162,12 @@ public class GenologicsAPIBatchOperationTest
 
         List<Artifact> artifacts = api.loadAll(links);
 
-        assertEquals("Wrong number of artifacts", links.size(), artifacts.size());
+        assertEquals(links.size(), artifacts.size(), "Wrong number of artifacts");
 
         for (int i = 0; i < links.size(); i++)
         {
-            assertTrue("Artifact " + i + " wrong: " + artifacts.get(i).getUri(),
-                       artifacts.get(i).getUri().toString().startsWith(links.get(i).getUri().toString()));
+            assertTrue(artifacts.get(i).getUri().toString().startsWith(links.get(i).getUri().toString()),
+                       "Artifact " + i + " wrong: " + artifacts.get(i).getUri());
         }
 
         EasyMock.verify(httpResponse, httpRequest, mockFactory);
@@ -180,7 +177,7 @@ public class GenologicsAPIBatchOperationTest
     public void testArtifactBatchUpdate() throws Exception
     {
         File expectedResultFile = new File("src/test/xml/batchtestreordering-artifacts.xml");
-        String expectedReply = FileUtils.readFileToString(expectedResultFile);
+        String expectedReply = FileUtils.readFileToString(expectedResultFile, UTF_8);
 
         ArtifactBatchFetchResult updateArtifactsFetch =
                 (ArtifactBatchFetchResult)marshaller.unmarshal(new StreamSource(expectedResultFile));
@@ -233,7 +230,7 @@ public class GenologicsAPIBatchOperationTest
 
         ClientHttpRequest httpRequest1 = EasyMock.createMock(ClientHttpRequest.class);
         EasyMock.expect(httpRequest1.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpRequest1.getBody()).andReturn(new NullOutputStream()).times(0, 2);
+        EasyMock.expect(httpRequest1.getBody()).andReturn(NULL_OUTPUT_STREAM).times(0, 2);
         EasyMock.expect(httpRequest1.execute()).andReturn(httpResponse1).once();
 
         ClientHttpResponse httpResponse2 = EasyMock.createMock(ClientHttpResponse.class);
@@ -246,7 +243,7 @@ public class GenologicsAPIBatchOperationTest
 
         ClientHttpRequest httpRequest2 = EasyMock.createMock(ClientHttpRequest.class);
         EasyMock.expect(httpRequest2.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpRequest2.getBody()).andReturn(new NullOutputStream()).times(0, 2);
+        EasyMock.expect(httpRequest2.getBody()).andReturn(NULL_OUTPUT_STREAM).times(0, 2);
         EasyMock.expect(httpRequest2.execute()).andReturn(httpResponse2).once();
 
         ClientHttpRequestFactory mockFactory = EasyMock.createStrictMock(ClientHttpRequestFactory.class);
@@ -259,11 +256,11 @@ public class GenologicsAPIBatchOperationTest
 
         api.updateAll(artifacts);
 
-        assertEquals("Wrong number of artifacts", uriOrder.size(), artifacts.size());
+        assertEquals(uriOrder.size(), artifacts.size(), "Wrong number of artifacts");
 
         for (int i = 0; i < uriOrder.size(); i++)
         {
-            assertEquals("Artifact " + i + " wrong:", uriOrder.get(i), artifacts.get(i).getUri());
+            assertEquals(uriOrder.get(i), artifacts.get(i).getUri(), "Artifact " + i + " wrong:");
         }
 
         EasyMock.verify(httpResponse2, httpRequest2, mockFactory);

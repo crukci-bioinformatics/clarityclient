@@ -18,9 +18,10 @@
 
 package org.cruk.genologics.api.cache;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class RestCallTrackingAspectTest
 {
@@ -32,19 +33,19 @@ public class RestCallTrackingAspectTest
 
         String base = "http://limsdev.cri.camres.org:8080/api/v2/projects/";
 
-        assertFalse("Search test failed", aspect.isSearch(base + "3"));
-        assertFalse("Search test failed", aspect.isSearch(base + "3?state=1234"));
-        assertTrue("Search test failed", aspect.isSearch(base + "3?name=hello"));
-        assertTrue("Search test failed", aspect.isSearch(base + "3?name=hello&state=1234"));
-        assertTrue("Search test failed", aspect.isSearch(base + "3?state=1234&name=hello"));
+        assertFalse(aspect.isSearch(base + "3"), "Search test failed");
+        assertFalse(aspect.isSearch(base + "3?state=1234"), "Search test failed");
+        assertTrue(aspect.isSearch(base + "3?name=hello"), "Search test failed");
+        assertTrue(aspect.isSearch(base + "3?name=hello&state=1234"), "Search test failed");
+        assertTrue(aspect.isSearch(base + "3?state=1234&name=hello"), "Search test failed");
 
         base = "http://limsdev.cri.camres.org:8080/api/v2/artifacts/";
 
-        assertFalse("Search test failed", aspect.isSearch(base + "MOH1A14SAM1"));
-        assertFalse("Search test failed", aspect.isSearch(base + "MOH1A14SAM1?state=1234"));
-        assertTrue("Search test failed", aspect.isSearch(base + "MOH1A14SAM1?name=hello"));
-        assertTrue("Search test failed", aspect.isSearch(base + "MOH1A14SAM1?name=hello&state=1234"));
-        assertTrue("Search test failed", aspect.isSearch(base + "MOH1A14SAM1?state=1234&name=hello"));
+        assertFalse(aspect.isSearch(base + "MOH1A14SAM1"), "Search test failed");
+        assertFalse(aspect.isSearch(base + "MOH1A14SAM1?state=1234"), "Search test failed");
+        assertTrue(aspect.isSearch(base + "MOH1A14SAM1?name=hello"), "Search test failed");
+        assertTrue(aspect.isSearch(base + "MOH1A14SAM1?name=hello&state=1234"), "Search test failed");
+        assertTrue(aspect.isSearch(base + "MOH1A14SAM1?state=1234&name=hello"), "Search test failed");
     }
 
 }

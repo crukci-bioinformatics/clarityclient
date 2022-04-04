@@ -18,16 +18,17 @@
 
 package org.cruk.genologics.api.unittests;
 
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.junit.Assume;
 
 public final class CRUKCICheck
 {
     public static void assumeInCrukCI()
     {
-        Assume.assumeTrue("Not in the CRUK-CI institute. This test will not work.", CRUKCICheck.inCrukCI());
+        assumeTrue(CRUKCICheck.inCrukCI(), "Not in the CRUK-CI institute. This test will not work.");
     }
 
     public static boolean inCrukCI()
