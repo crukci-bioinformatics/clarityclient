@@ -116,10 +116,10 @@
     </pluginRepositories>
 
     <repositories>
-        <repository> 
-            <id>repository.spring.release</id> 
-            <name>Spring GA Repository</name> 
-            <url>https://repo.spring.io/release</url> 
+        <repository>
+            <id>repository.spring.release</id>
+            <name>Spring GA Repository</name>
+            <url>https://repo.spring.io/release</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -127,10 +127,10 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-        <repository> 
-            <id>repository.spring.milestone</id> 
-            <name>Spring Milestone Repository</name> 
-            <url>https://repo.spring.io/milestone</url> 
+        <repository>
+            <id>repository.spring.milestone</id>
+            <name>Spring Milestone Repository</name>
+            <url>https://repo.spring.io/milestone</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
