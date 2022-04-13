@@ -14,7 +14,7 @@ module org.cruk.genologics.api
     requires transitive ehcache;
     requires jsch;
     requires org.apache.commons.io;
-    requires transitive org.apache.commons.lang3;
+    requires org.apache.commons.lang3;
     requires transitive org.apache.httpcomponents.httpclient;
     requires transitive org.apache.httpcomponents.httpcore;
     requires transitive org.aspectj.runtime;
@@ -70,6 +70,4 @@ module org.cruk.genologics.api
     exports org.cruk.genologics.api.http;
     exports org.cruk.genologics.api.impl;
     exports org.cruk.genologics.api.jaxb;
-
-    // opens org.cruk.genologics.api.unittests to spring.core, spring.test;
 }

@@ -113,7 +113,7 @@ public class UnicodeTest
 
         Object unmarshalled = marshaller.unmarshal(new StreamSource(unicodeEntityFile));
         String unicodeComment = getUDFValue(unmarshalled, "Comments");
-        assertNotNull("Cannot find comment", unicodeComment);
+        assertNotNull(unicodeComment, "Cannot find comment");
 
         try
         {
