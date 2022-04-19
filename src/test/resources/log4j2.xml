@@ -6,7 +6,7 @@
 
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %-5p ${chunk}{1} - %m%n"/>
+            <PatternLayout pattern="%date %level %logger{1} - %message%n%throwable"/>
         </Console>
     </Appenders>
 
