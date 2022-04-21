@@ -66,7 +66,8 @@ Add the JAR file to your POM (I'm assuming you're using Maven now):
     </dependency>
 ```
 
-(Fill in the <version> tag with the version of the API.)
+_Fill in the <version> tag with the version of the API._
+_For this branch, and code using EE8, the version should start "2.31.ee8"._
 
 For details of using the API, please refer to the documentation at
 <http://crukci-bioinformatics.github.io/clarityclient>
@@ -107,3 +108,15 @@ but isn't itself a final application, the scope should be `test` if
 unit tests need to use the client (if not, this dependency isn't needed).
 Where the client is part of an EE container, the container will supply
 the JAXB implementation.
+
+## Other Branches
+
+The `master` branch is the same as this branch but it set up for Jakarta
+EE 9. At the time of writing (April 2022) there isn't a complete version of
+Wildfly that implements EE 9, only a preview. The preview is missing
+the JMS system and so isn't quite ready for full deployment. Wildfly 27 is
+due to deliver this, so once that is out code can be moved to EE9. In the
+mean time, use this branch until the newer application server is released.
+
+Illumina is due to stop support for Clarity versions 4 and 5 in June 2022,
+so one would expect no more changes on those branches.
