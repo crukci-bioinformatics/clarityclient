@@ -18,12 +18,12 @@
 
 package org.cruk.genologics.api.impl;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.lang.reflect.Method;
 import java.net.URI;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.genologics.ri.Locatable;
 import com.genologics.ri.artifact.Artifact;
@@ -40,27 +40,27 @@ public class GenologicsAPIImplTest
 
         URI original = new URI(base);
         URI stripped = api.removeStateParameter(original);
-        assertEquals("URI without state changed", original.toString(), stripped.toString());
+        assertEquals(original.toString(), stripped.toString(), "URI without state changed");
 
         original = new URI(base + "?state=1234");
         stripped = api.removeStateParameter(original);
-        assertEquals("State not removed", base, stripped.toString());
+        assertEquals(base, stripped.toString(), "State not removed");
 
         original = new URI(base + "?state=1234&type=Hello");
         stripped = api.removeStateParameter(original);
-        assertEquals("State not removed", base + "?type=Hello", stripped.toString());
+        assertEquals(base + "?type=Hello", stripped.toString(), "State not removed");
 
         original = new URI(base + "?type=Hello&state=1234");
         stripped = api.removeStateParameter(original);
-        assertEquals("State not removed", base + "?type=Hello", stripped.toString());
+        assertEquals(base + "?type=Hello", stripped.toString(), "State not removed");
 
         original = new URI(base + "?type=Hello&state=1234&name=What");
         stripped = api.removeStateParameter(original);
-        assertEquals("State not removed", base + "?type=Hello&name=What", stripped.toString());
+        assertEquals(base + "?type=Hello&name=What", stripped.toString(), "State not removed");
 
         original = new URI(base + "?type=Hello&state=1234&&name=What");
         stripped = api.removeStateParameter(original);
-        assertEquals("State not removed", base + "?type=Hello&name=What", stripped.toString());
+        assertEquals(base + "?type=Hello&name=What", stripped.toString(), "State not removed");
     }
 
     @Test
@@ -73,10 +73,10 @@ public class GenologicsAPIImplTest
 
         Artifact a = new Artifact();
 
-        assertEquals("Class of entity for " + a.getClass().getName() + " is wrong.", Artifact.class, classOfEntity.invoke(api, a));
+        assertEquals(Artifact.class, classOfEntity.invoke(api, a), "Class of entity for " + a.getClass().getName() + " is wrong.");
 
         ArtifactLink link = new ArtifactLink(a);
 
-        assertEquals("Class of entity for " + link.getClass().getName() + " is wrong.", Artifact.class, classOfEntity.invoke(api, link));
+        assertEquals(Artifact.class, classOfEntity.invoke(api, link), "Class of entity for " + link.getClass().getName() + " is wrong.");
     }
 }

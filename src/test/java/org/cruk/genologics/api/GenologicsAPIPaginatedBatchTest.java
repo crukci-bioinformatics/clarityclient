@@ -18,7 +18,7 @@
 
 package org.cruk.genologics.api;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -55,8 +55,7 @@ import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.easymock.EasyMock;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +67,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -77,8 +75,7 @@ import com.genologics.ri.LimsLink;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.sample.Samples;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class GenologicsAPIPaginatedBatchTest
 {
     @Autowired
@@ -143,7 +140,7 @@ public class GenologicsAPIPaginatedBatchTest
 
         EasyMock.verify(restMock);
 
-        assertEquals("Expected 1150 sample links returned", 1150, links.size());
+        assertEquals(1150, links.size(), "Expected 1150 sample links returned");
 
 
         // Part two - mock the HTTP client and request factory to ensure that the URIs are
@@ -193,7 +190,7 @@ public class GenologicsAPIPaginatedBatchTest
 
         EasyMock.verify(mockHttpClient, mockRequestFactory);
 
-        assertEquals("Expected 1150 sample links returned", 1150, links.size());
+        assertEquals(1150, links.size(), "Expected 1150 sample links returned");
     }
 
     @Test
@@ -222,7 +219,7 @@ public class GenologicsAPIPaginatedBatchTest
 
         EasyMock.verify(restMock);
 
-        assertEquals("Expected 750 sample links returned", 750, links.size());
+        assertEquals(750, links.size(), "Expected 750 sample links returned");
 
 
         // Part two - mock the HTTP client and request factory to ensure that the URIs are
@@ -266,7 +263,7 @@ public class GenologicsAPIPaginatedBatchTest
 
         EasyMock.verify(mockHttpClient, mockRequestFactory);
 
-        assertEquals("Expected 750 sample links returned", 750, links.size());
+        assertEquals(750, links.size(), "Expected 750 sample links returned");
     }
 
 

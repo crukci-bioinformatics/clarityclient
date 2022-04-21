@@ -19,7 +19,8 @@
 package org.cruk.genologics.api.cache;
 
 import static org.cruk.genologics.api.cache.GenologicsAPICache.NO_STATE_VALUE;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,16 +42,13 @@ import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.genologics.api.unittests.CRUKCICheck;
 import org.cruk.genologics.api.unittests.ClarityClientCacheTestConfiguration;
 import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.genologics.ri.LimsEntity;
 import com.genologics.ri.LimsLink;
@@ -74,11 +72,8 @@ import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.userdefined.UDF;
 
-import net.sf.ehcache.Element;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientCacheTestConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientCacheTestConfiguration.class)
 public class GenologicsAPICacheTest
 {
     /**
@@ -119,7 +114,7 @@ public class GenologicsAPICacheTest
     {
     }
 
-    @After
+    @AfterEach
     public void cleanup()
     {
         testAspect.setEnabled(false);
@@ -141,28 +136,28 @@ public class GenologicsAPICacheTest
 
         l.setUri(new URI(base + "artifacts/234"));
 
-        Element e = cacheAspect.createCacheElement(l);
+        CacheElementWrapper e = cacheAspect.createCacheElement(l);
 
-        assertEquals("Version wrong without state", NO_STATE_VALUE, e.getVersion());
+        assertEquals(NO_STATE_VALUE, e.getVersion(), "Version wrong without state");
 
         l.setUri(new URI(base + "artifacts/56-362?name=thing"));
 
         e = cacheAspect.createCacheElement(l);
 
-        assertEquals("Version wrong with query without state", NO_STATE_VALUE, e.getVersion());
+        assertEquals(NO_STATE_VALUE, e.getVersion(), "Version wrong with query without state");
 
         l.setUri(new URI(base + "artifacts/56-362?state=5432"));
 
         e = cacheAspect.createCacheElement(l);
 
-        assertEquals("Version wrong with state", 5432L, e.getVersion());
+        assertEquals(5432L, e.getVersion(), "Version wrong with state");
     }
 
     private void checkCredentialsSet()
     {
-        Assume.assumeTrue("Could not set credentials for the API, which is needed for this test. " +
-                          "Put a \"testcredentials.properties\" file on the class path.",
-                          httpRequestFactory.getCredentials() != null);
+        assumeTrue(httpRequestFactory.getCredentials() != null,
+                "Could not set credentials for the API, which is needed for this test. " +
+                "Put a \"testcredentials.properties\" file on the class path.");
     }
 
     /**
@@ -190,7 +185,7 @@ public class GenologicsAPICacheTest
         //CacheManager mockCacheManager = EasyMock.createMock(CacheManager.class);
         //EasyMock.expect(mockCacheManager.getCache(Artifact.class.getName())).andReturn(value);
 
-        cacheAspect.getCache(Artifact.class).removeAll();
+        cacheAspect.getCache(Artifact.class).clear();
 
         String base = api.getServerApiAddress();
 
@@ -212,7 +207,7 @@ public class GenologicsAPICacheTest
         Object returned = cacheAspect.retrieve(pjp1);
 
         EasyMock.verify(pjp1, jpSig);
-        assertSame("Did not return a1", a1, returned);
+        assertSame(a1, returned, "Did not return a1");
 
         Artifact a2 = new Artifact();
         a2.setUri(new URI(base + "/artifacts/2-1771911?state=1500000"));
@@ -229,7 +224,7 @@ public class GenologicsAPICacheTest
         EasyMock.replay(pjp2, jpSig);
 
         returned = cacheAspect.retrieve(pjp2);
-        assertSame("Did not return a2", a2, returned);
+        assertSame(a2, returned, "Did not return a2");
 
         EasyMock.verify(pjp2, jpSig);
 
@@ -246,7 +241,7 @@ public class GenologicsAPICacheTest
         returned = cacheAspect.retrieve(pjp3);
 
         EasyMock.verify(pjp3, jpSig);
-        assertSame("Did not return a2", a2, returned);
+        assertSame(a2, returned, "Did not return a2");
 
         // With no state, expect whichever version is in the cache.
 
@@ -261,7 +256,7 @@ public class GenologicsAPICacheTest
         returned = cacheAspect.retrieve(pjp4);
 
         EasyMock.verify(pjp4, jpSig);
-        assertSame("Did not return a2", a2, returned);
+        assertSame(a2, returned, "Did not return a2");
     }
 
     @Test
@@ -270,7 +265,7 @@ public class GenologicsAPICacheTest
         checkCredentialsSet();
 
         cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.EXACT);
-        cacheAspect.getCache(Artifact.class).removeAll();
+        cacheAspect.getCache(Artifact.class).clear();
 
         String base = api.getServerApiAddress();
 
@@ -292,7 +287,7 @@ public class GenologicsAPICacheTest
         Object returned = cacheAspect.retrieve(pjp1);
 
         EasyMock.verify(pjp1, jpSig);
-        assertSame("Did not return a1", a1, returned);
+        assertSame(a1, returned, "Did not return a1");
 
         Artifact a2 = new Artifact();
         a2.setUri(new URI(base + "/artifacts/2-1771911?state=1500000"));
@@ -309,7 +304,7 @@ public class GenologicsAPICacheTest
         EasyMock.replay(pjp2, jpSig);
 
         returned = cacheAspect.retrieve(pjp2);
-        assertSame("Did not return a2", a2, returned);
+        assertSame(a2, returned, "Did not return a2");
 
         EasyMock.verify(pjp2, jpSig);
 
@@ -332,7 +327,7 @@ public class GenologicsAPICacheTest
         returned = cacheAspect.retrieve(pjp3);
 
         EasyMock.verify(pjp3, jpSig);
-        assertSame("Did not return a3", a3, returned);
+        assertSame(a3, returned, "Did not return a3");
 
         // With no state, expect whichever version is in the cache.
 
@@ -347,7 +342,7 @@ public class GenologicsAPICacheTest
         returned = cacheAspect.retrieve(pjp4);
 
         EasyMock.verify(pjp4, jpSig);
-        assertSame("Did not return a3", a3, returned);
+        assertSame(a3, returned, "Did not return a3");
     }
 
     @Test
@@ -356,7 +351,7 @@ public class GenologicsAPICacheTest
         checkCredentialsSet();
 
         cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.ANY);
-        cacheAspect.getCache(Artifact.class).removeAll();
+        cacheAspect.getCache(Artifact.class).clear();
 
         String base = api.getServerApiAddress();
 
@@ -378,7 +373,7 @@ public class GenologicsAPICacheTest
         Object returned = cacheAspect.retrieve(pjp1);
 
         EasyMock.verify(pjp1, jpSig);
-        assertSame("Did not return a1", a1, returned);
+        assertSame(a1, returned, "Did not return a1");
 
         // Asking for a later state in ANY mode will just return what it has.
 
@@ -391,7 +386,7 @@ public class GenologicsAPICacheTest
         EasyMock.replay(pjp2, jpSig);
 
         returned = cacheAspect.retrieve(pjp2);
-        assertSame("Did not return a1", a1, returned);
+        assertSame(a1, returned, "Did not return a1");
 
         EasyMock.verify(pjp2, jpSig);
 
@@ -408,7 +403,7 @@ public class GenologicsAPICacheTest
         returned = cacheAspect.retrieve(pjp3);
 
         EasyMock.verify(pjp3, jpSig);
-        assertSame("Did not return a1", a1, returned);
+        assertSame(a1, returned, "Did not return a1");
 
         // With no state, expect whichever version is in the cache.
 
@@ -423,7 +418,7 @@ public class GenologicsAPICacheTest
         returned = cacheAspect.retrieve(pjp4);
 
         EasyMock.verify(pjp4, jpSig);
-        assertSame("Did not return a1", a1, returned);
+        assertSame(a1, returned, "Did not return a1");
     }
 
     @Test
@@ -432,7 +427,7 @@ public class GenologicsAPICacheTest
         checkCredentialsSet();
 
         cacheAspect.setStatefulBehaviour(CacheStatefulBehaviour.LATEST);
-        cacheAspect.getCache(Artifact.class).removeAll();
+        cacheAspect.getCache(Artifact.class).clear();
 
         String base = api.getServerApiAddress();
 
@@ -455,7 +450,7 @@ public class GenologicsAPICacheTest
         Object returned = cacheAspect.retrieve(pjp1);
 
         EasyMock.verify(pjp1, jpSig);
-        assertSame("Did not return a1", a1, returned);
+        assertSame(a1, returned, "Did not return a1");
 
         // With an earlier state, it would normally return the same object.
 
@@ -470,7 +465,7 @@ public class GenologicsAPICacheTest
         returned = cacheAspect.retrieve(pjp2);
 
         EasyMock.verify(pjp2, jpSig);
-        assertSame("Did not return a1", a1, returned);
+        assertSame(a1, returned, "Did not return a1");
 
         // With an override, we should get an equivalent object back but with a different state.
 
@@ -502,7 +497,7 @@ public class GenologicsAPICacheTest
         // Add manually if it's not in GenologicsAPIInternal.
 
         EasyMock.verify(pjp3b, pjp3c, jpSig);
-        assertSame("Did not return a3", a3, returned);
+        assertSame(a3, returned, "Did not return a3");
     }
 
 
@@ -530,15 +525,15 @@ public class GenologicsAPICacheTest
         ResearcherLink researcherLink = new ResearcherLink(new URI(researcherURI));
         apiUser = api.load(researcherLink);
 
-        assertEquals("API user wrong", "apiuser", apiUser.getCredentials().getUsername());
+        assertEquals("apiuser", apiUser.getCredentials().getUsername(), "API user wrong");
 
         plateType = api.load(new ContainerTypeLink(new URI(plateURI)));
 
-        assertEquals("Plate type wrong", "96 well plate", plateType.getName());
+        assertEquals("96 well plate", plateType.getName(), "Plate type wrong");
 
         tubeType = api.load("2", ContainerType.class);
 
-        assertEquals("Tube type wrong", "Tube", tubeType.getName());
+        assertEquals("Tube", tubeType.getName(), "Tube type wrong");
 
         testAspect.clear();
 
@@ -562,9 +557,9 @@ public class GenologicsAPICacheTest
 
         boolean runThisTest = Boolean.parseBoolean(System.getProperty(FULL_TEST_SYSTEM_PROPERTY, Boolean.FALSE.toString()));
 
-        Assume.assumeTrue("Not running the test \"GenologicsAPICachingAspectTest.fullTest\". " +
-                          "Set the property -D" + FULL_TEST_SYSTEM_PROPERTY + "=true to make it run.",
-                          runThisTest);
+        assumeTrue(runThisTest,
+                "Not running the test \"GenologicsAPICachingAspectTest.fullTest\". " +
+                "Set the property -D" + FULL_TEST_SYSTEM_PROPERTY + "=true to make it run.");
 
         ProcessType poolProcessType = null;
         List<LimsLink<ProcessType>> ptLinks = api.listAll(ProcessType.class);
@@ -578,7 +573,7 @@ public class GenologicsAPICacheTest
             }
         }
 
-        assertNotNull("Cannot locate 'Pool Accepted SLX' process type", poolProcessType);
+        assertNotNull(poolProcessType, "Cannot locate 'Pool Accepted SLX' process type");
 
         boolean poolingEnabled = false;
         for (ProcessTypeAttribute pta : poolProcessType.getProcessTypeAttributes())
@@ -589,7 +584,7 @@ public class GenologicsAPICacheTest
                 break;
             }
         }
-        assertTrue("'Pool Accepted SLX' process type is disabled. Turn it on on dev to run this test.", poolingEnabled);
+        assumeTrue(poolingEnabled, "'Pool Accepted SLX' process type is disabled. Turn it on on dev to run this test.");
 
         final String projectName = "Caching Aspect Test";
 
@@ -657,7 +652,7 @@ public class GenologicsAPICacheTest
             UDF.setUDF(s, "Sequencing Type", "Paired End");
             UDF.setUDF(s, "Index Type", "Unspecified (Other)");
             UDF.setUDF(s, "Average Library Length", 10);
-            UDF.setUDF(s, "Workflow", "MiSeq Express");
+            UDF.setUDF(s, "Submission Workflow", "MiSeq Express");
             UDF.setUDF(s, "Billing Information", "SWAG/000");
 
             s.setCreationLocation(container, (char)('A' + i) + ":" + Integer.valueOf(i + 1));
@@ -701,7 +696,7 @@ public class GenologicsAPICacheTest
 
         for (int i = 0; i < samples.length; i++)
         {
-            assertEquals("Sample/artifact " + i + " don't match", samples[i].getArtifact().getLimsid(), artifacts[i].getLimsid());
+            assertEquals(samples[i].getArtifact().getLimsid(), artifacts[i].getLimsid(), "Sample/artifact " + i + " don't match");
         }
 
         // Try pooling the artifacts.
@@ -730,7 +725,7 @@ public class GenologicsAPICacheTest
         iomap.setOutput(OutputType.ANALYTE, poolContainer, "1:1");
 
         GenologicsProcess poolProcess = api.executeProcess(execProcess);
-        assertNotNull("No pool process returned", poolProcess);
+        assertNotNull(poolProcess, "No pool process returned");
 
         testNotReloading(poolProcess);
 
@@ -741,7 +736,7 @@ public class GenologicsAPICacheTest
         try
         {
             GenologicsFile uploadedFile = api.uploadFile(samples[0], toUpload.toURI().toURL(), false);
-            assertNotNull("No file returned", uploadedFile);
+            assertNotNull(uploadedFile, "No file returned");
 
             testNotReloading(uploadedFile);
 
@@ -749,8 +744,8 @@ public class GenologicsAPICacheTest
             {
                 api.deleteAndRemoveFile(uploadedFile);
 
-                Object fetched = cacheAspect.getCache(GenologicsFile.class).getQuiet(cacheAspect.keyFromLocatable(uploadedFile));
-                assertNull("Deleted file is still in the cache", fetched);
+                Object fetched = cacheAspect.getCache(GenologicsFile.class).get(cacheAspect.keyFromLocatable(uploadedFile));
+                assertNull(fetched, "Deleted file is still in the cache");
             }
             catch (IOException e)
             {

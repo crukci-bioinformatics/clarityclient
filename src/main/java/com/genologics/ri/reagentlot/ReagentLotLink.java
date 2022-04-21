@@ -24,6 +24,7 @@ import java.net.URI;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
@@ -38,10 +39,17 @@ import com.genologics.ri.LimsEntityLinkable;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagent-lot-link")
+@XmlType(name = "reagent-lot-link", propOrder = { "name" })
 public class ReagentLotLink implements LimsEntityLink<ReagentLot>, Serializable
 {
-    private static final long serialVersionUID = 2924875143987400794L;
+    private static final long serialVersionUID = -5668438563329514777L;
+
+    /**
+     * The name of the Reagent Lot.
+     * @since 2.31
+     */
+    @XmlElement
+    protected String name;
 
     @XmlAttribute(name = "limsid")
     protected String limsid;
@@ -69,6 +77,16 @@ public class ReagentLotLink implements LimsEntityLink<ReagentLot>, Serializable
     {
         uri = link.getUri();
         limsid = link.getLimsid();
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
     }
 
     @Override

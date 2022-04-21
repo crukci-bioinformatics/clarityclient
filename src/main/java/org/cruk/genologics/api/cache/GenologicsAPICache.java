@@ -23,9 +23,11 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -38,6 +40,8 @@ import org.cruk.genologics.api.StatefulOverride;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.cruk.genologics.api.impl.GenologicsAPIInternal;
 import org.cruk.genologics.api.impl.LatestVersionsResetAspect;
+import org.ehcache.Cache;
+import org.ehcache.CacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +53,6 @@ import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.Locatable;
 import com.genologics.ri.file.GenologicsFile;
-
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 
 /**
  * A cache optionally deployed around a {@code GenologicsAPI} bean as an aspect.
@@ -106,7 +106,7 @@ public class GenologicsAPICache
     protected GenologicsAPIInternal apiCacheControl;
 
     /**
-     * The Ehcache cache manager.
+     * The cache manager.
      */
     protected CacheManager cacheManager;
 
@@ -204,7 +204,7 @@ public class GenologicsAPICache
 
                 if (cacheManager != null)
                 {
-                    cacheManager.clearAll();
+                    clear();
                 }
             }
             finally
@@ -219,31 +219,30 @@ public class GenologicsAPICache
      */
     public void clear()
     {
-        cacheManager.clearAll();
     }
 
     /**
-     * Get an Ehcache for the given class.
+     * Get a cache for the given class.
      *
      * @param type The class for the cache required.
      *
-     * @return The Ehcache for the class given. If there is no specific
+     * @return The Cache for the class given. If there is no specific
      * cache defined for the class, use the general purpose "LimsEntity"
      * cache.
      *
      * @see #loadOrRetrieve(ProceedingJoinPoint, String, Class)
      */
-    public Ehcache getCache(Class<?> type)
+    Cache<String, CacheElementWrapper> getCache(Class<?> type)
     {
         if (type == null)
         {
             throw new IllegalArgumentException("type cannot be null");
         }
 
-        Ehcache cache = cacheManager.getEhcache(type.getName());
+        Cache<String, CacheElementWrapper> cache = cacheManager.getCache(type.getName(), String.class, CacheElementWrapper.class);
         if (cache == null)
         {
-            cache = cacheManager.getEhcache(LimsEntity.class.getName());
+            cache = cacheManager.getCache(LimsEntity.class.getName(), String.class, CacheElementWrapper.class);
         }
 
         return cache;
@@ -397,9 +396,9 @@ public class GenologicsAPICache
      * @return The object in the cache element.
      */
     @SuppressWarnings("unchecked")
-    protected <E extends Locatable> E getFromWrapper(Element wrapper)
+    protected <E extends Locatable> E getFromWrapper(CacheElementWrapper wrapper)
     {
-        return wrapper == null ? null : (E)wrapper.getObjectValue();
+        return wrapper == null ? null : (E)wrapper.getEntity();
     }
 
     /**
@@ -430,7 +429,7 @@ public class GenologicsAPICache
 
         final String className = ClassUtils.getShortClassName(entityClass);
 
-        Ehcache cache = getCache(entityClass);
+        Cache<String, CacheElementWrapper> cache = getCache(entityClass);
 
         Locatable genologicsObject = null;
         String key = keyFromUri(uri);
@@ -439,7 +438,7 @@ public class GenologicsAPICache
         behaviourLock.lock();
         try
         {
-            Element wrapper = null;
+            CacheElementWrapper wrapper = null;
             if (key != null)
             {
                 wrapper = cache.get(key);
@@ -492,11 +491,12 @@ public class GenologicsAPICache
                 }
 
                 genologicsObject = (Locatable)pjp.proceed();
+                key = keyFromLocatable(genologicsObject);
 
                 if (wrapper == null)
                 {
                     // Not already in the cache, so it needs to be stored.
-                    cache.put(createCacheElement(genologicsObject));
+                    cache.put(key, createCacheElement(genologicsObject));
                 }
                 else
                 {
@@ -518,14 +518,14 @@ public class GenologicsAPICache
                             case LATEST:
                                 if (version > wrapper.getVersion())
                                 {
-                                    cache.put(createCacheElement(genologicsObject));
+                                    cache.put(key, createCacheElement(genologicsObject));
                                 }
                                 break;
 
                             case EXACT:
                                 if (version != wrapper.getVersion())
                                 {
-                                    cache.put(createCacheElement(genologicsObject));
+                                    cache.put(key, createCacheElement(genologicsObject));
                                 }
                                 break;
                         }
@@ -572,7 +572,7 @@ public class GenologicsAPICache
 
         if (links != null && !links.isEmpty())
         {
-            Ehcache cache = null;
+            Cache<String, CacheElementWrapper> cache = null;
 
             List<LimsLink<E>> toFetch = new ArrayList<LimsLink<E>>(links.size());
             List<E> alreadyCached = new ArrayList<E>(links.size());
@@ -628,7 +628,7 @@ public class GenologicsAPICache
 
                         String key = keyFromLocatable(link);
 
-                        Element wrapper = cache.get(key);
+                        CacheElementWrapper wrapper = cache.get(key);
                         if (wrapper == null)
                         {
                             toFetch.add(link);
@@ -680,6 +680,7 @@ public class GenologicsAPICache
                     results.add(entity);
                 }
 
+                /*
                 if (logger.isWarnEnabled())
                 {
                     if (cache.getCacheConfiguration().getMaxEntriesLocalHeap() < links.size())
@@ -688,6 +689,7 @@ public class GenologicsAPICache
                                 links.size(), className, cache.getCacheConfiguration().getMaxEntriesLocalHeap());
                     }
                 }
+                */
 
                 if (logger.isDebugEnabled())
                 {
@@ -730,12 +732,14 @@ public class GenologicsAPICache
 
                             if (cacheable)
                             {
+                                String key = keyFromLocatable(entity);
+
                                 if (!stateful)
                                 {
                                     // Entities without state will only have been fetched because they
                                     // were not in the cache. These should just be added.
 
-                                    cache.put(createCacheElement(entity));
+                                    cache.put(key, createCacheElement(entity));
                                 }
                                 else
                                 {
@@ -744,15 +748,14 @@ public class GenologicsAPICache
                                     // state. Some care needs to be taken to update its cached version
                                     // depending on how the cache normally behaves.
 
-                                    String key = keyFromLocatable(entity);
-                                    Element wrapper = cache.get(key);
+                                    CacheElementWrapper wrapper = cache.get(key);
 
                                     if (wrapper == null)
                                     {
                                         // Not already cached, so simply add this entity whatever
                                         // its state.
 
-                                        cache.put(createCacheElement(entity));
+                                        cache.put(key, createCacheElement(entity));
                                     }
                                     else
                                     {
@@ -773,14 +776,14 @@ public class GenologicsAPICache
                                             case LATEST:
                                                 if (version > wrapper.getVersion())
                                                 {
-                                                    cache.put(createCacheElement(entity));
+                                                    cache.put(key, createCacheElement(entity));
                                                 }
                                                 break;
 
                                             case EXACT:
                                                 if (version != wrapper.getVersion())
                                                 {
-                                                    cache.put(createCacheElement(entity));
+                                                    cache.put(key, createCacheElement(entity));
                                                 }
                                                 break;
                                         }
@@ -820,8 +823,8 @@ public class GenologicsAPICache
 
         if (isCacheable(entity))
         {
-            Ehcache cache = getCache(entity.getClass());
-            cache.put(createCacheElement(entity));
+            Cache<String, CacheElementWrapper> cache = getCache(entity.getClass());
+            cache.put(keyFromLocatable(entity), createCacheElement(entity));
         }
     }
 
@@ -844,9 +847,8 @@ public class GenologicsAPICache
 
         if (isCacheable(entity))
         {
-            Ehcache cache = getCache(entity.getClass());
-
-            cache.put(createCacheElement(entity));
+            Cache<String, CacheElementWrapper> cache = getCache(entity.getClass());
+            cache.put(keyFromLocatable(entity), createCacheElement(entity));
         }
     }
 
@@ -870,7 +872,7 @@ public class GenologicsAPICache
 
         if (isCacheable(entities))
         {
-            Ehcache cache = null;
+            Cache<String, CacheElementWrapper> cache = null;
 
             for (Locatable entity : entities)
             {
@@ -878,7 +880,7 @@ public class GenologicsAPICache
                 {
                     cache = getCache(entity.getClass());
                 }
-                cache.put(createCacheElement(entity));
+                cache.put(keyFromLocatable(entity), createCacheElement(entity));
             }
         }
     }
@@ -902,8 +904,8 @@ public class GenologicsAPICache
 
         if (isCacheable(entity))
         {
-            Ehcache cache = getCache(entity.getClass());
-            cache.put(createCacheElement(entity));
+            Cache<String, CacheElementWrapper> cache = getCache(entity.getClass());
+            cache.put(keyFromLocatable(entity), createCacheElement(entity));
         }
     }
 
@@ -927,7 +929,7 @@ public class GenologicsAPICache
 
         if (isCacheable(entities))
         {
-            Ehcache cache = null;
+            Cache<String, CacheElementWrapper> cache = null;
 
             for (Locatable entity : entities)
             {
@@ -935,7 +937,7 @@ public class GenologicsAPICache
                 {
                     cache = getCache(entity.getClass());
                 }
-                cache.put(createCacheElement(entity));
+                cache.put(keyFromLocatable(entity), createCacheElement(entity));
             }
         }
     }
@@ -960,7 +962,7 @@ public class GenologicsAPICache
 
         if (isCacheable(entity))
         {
-            Ehcache cache = getCache(entity.getClass());
+            Cache<String, CacheElementWrapper> cache = getCache(entity.getClass());
             cache.remove(key);
         }
     }
@@ -981,12 +983,12 @@ public class GenologicsAPICache
         @SuppressWarnings("unchecked")
         Collection<Locatable> entities = (Collection<Locatable>)pjp.getArgs()[0];
 
-        Ehcache cache = null;
+        Cache<String, CacheElementWrapper> cache = null;
 
-        List<String> keys = null;
+        Set<String> keys = null;
         if (isCacheable(entities))
         {
-            keys = new ArrayList<String>(entities.size());
+            keys = new HashSet<>();
             for (Locatable entity : entities)
             {
                 if (entity != null && entity.getUri() != null)
@@ -1032,8 +1034,8 @@ public class GenologicsAPICache
 
         if (isCacheable(result))
         {
-            Ehcache cache = getCache(result.getClass());
-            cache.put(createCacheElement(result));
+            Cache<String, CacheElementWrapper> cache = getCache(result.getClass());
+            cache.put(keyFromLocatable(result), createCacheElement(result));
         }
 
         return result;
@@ -1058,8 +1060,8 @@ public class GenologicsAPICache
 
         if (isCacheable(file))
         {
-            Ehcache cache = getCache(file.getClass());
-            cache.put(createCacheElement(file));
+            Cache<String, CacheElementWrapper> cache = getCache(file.getClass());
+            cache.put(keyFromLocatable(file), createCacheElement(file));
         }
 
         return file;
@@ -1084,7 +1086,7 @@ public class GenologicsAPICache
 
         if (isCacheable(file))
         {
-            Ehcache cache = getCache(file.getClass());
+            Cache<String, CacheElementWrapper> cache = getCache(file.getClass());
             cache.remove(keyFromLocatable(file));
         }
     }
@@ -1318,12 +1320,11 @@ public class GenologicsAPICache
      *
      * @return A Ehcache Element with the key, state (version) and entity set.
      */
-    public Element createCacheElement(Locatable entity)
+    CacheElementWrapper createCacheElement(Locatable entity)
     {
-        String key = keyFromLocatable(entity);
         long version = versionFromLocatable(entity);
 
-        return new Element(key, entity, version);
+        return new CacheElementWrapper(entity, version);
     }
 
     /**

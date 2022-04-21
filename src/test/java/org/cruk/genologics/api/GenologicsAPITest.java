@@ -18,8 +18,7 @@
 
 package org.cruk.genologics.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
 import java.net.URL;
@@ -33,7 +32,7 @@ import java.util.Set;
 import org.cruk.genologics.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 import org.easymock.EasyMock;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.process.GenologicsProcess;
@@ -101,21 +100,21 @@ public class GenologicsAPITest
         URI expected = new URI(api.getServerApiAddress() + "artifacts/ABC");
         URI result = api.limsIdToUri("ABC", Artifact.class);
 
-        assertEquals("Artifact URI wrong.", expected, result);
+        assertEquals(expected, result, "Artifact URI wrong.");
 
         // Process step component
 
         expected = new URI(api.getServerApiAddress() + "steps/ABC/actions");
         result = api.limsIdToUri("ABC", Actions.class);
 
-        assertEquals("Actions URI wrong.", expected, result);
+        assertEquals(expected, result, "Actions URI wrong.");
 
         // Configuration, but single case.
 
         expected = new URI(api.getServerApiAddress() + "configuration/workflows/123");
         result = api.limsIdToUri("123", Workflow.class);
 
-        assertEquals("Actions URI wrong.", expected, result);
+        assertEquals(expected, result, "Actions URI wrong.");
 
         // Configuration, needing two ids.
 
@@ -203,7 +202,7 @@ public class GenologicsAPITest
         URI expected = new URI(api.getServerApiAddress() + "configuration/protocols/123/steps/456");
         URI result = api.limsIdToUri("123", "456", ProtocolStep.class);
 
-        assertEquals("Protocol step URI wrong.", expected, result);
+        assertEquals(expected, result, "Protocol step URI wrong.");
 
         // An entity needing only one id.
 

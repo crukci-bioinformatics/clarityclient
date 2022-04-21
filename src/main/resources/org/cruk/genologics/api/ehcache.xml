@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
     CRUK-CI Genologics REST API Java Client.
     Copyright (C) 2013 Cancer Research UK Cambridge Institute.
@@ -17,93 +17,104 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://ehcache.org/ehcache.xsd"
-         name="clarityapi" updateCheck="false">
+<config xmlns="http://www.ehcache.org/v3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
 
-    <defaultCache eternal="false" maxElementsInMemory="500"
-                  overflowToDisk="false" diskPersistent="false"
-                  timeToIdleSeconds="0" timeToLiveSeconds="600"
-                  memoryStoreEvictionPolicy="LRU"/>
+    <!-- Templates -->
 
-    <cache name="com.genologics.ri.LimsEntity"
-           maxElementsInMemory="500"
-           timeToLiveSeconds="600" />
+    <cache-template name="smallLong">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.genologics.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">1800</tti>
+        </expiry>
+        <heap>100</heap>
+    </cache-template>
 
-    <cache name="com.genologics.ri.artifact.Artifact"
-           maxElementsInMemory="2000"
-           timeToLiveSeconds="300" />
+    <cache-template name="smallMedium">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.genologics.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">600</tti>
+        </expiry>
+        <heap>100</heap>
+    </cache-template>
 
-    <cache name="com.genologics.ri.artifact.Demux"
-           maxElementsInMemory="1000"
-           timeToLiveSeconds="300" />
+    <cache-template name="mediumShort">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.genologics.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">300</tti>
+        </expiry>
+        <heap>250</heap>
+    </cache-template>
 
-    <cache name="com.genologics.ri.automation.Automation"
-           maxElementsInMemory="100"
-           timeToLiveSeconds="1800" />
+    <cache-template name="mediumMedium">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.genologics.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">600</tti>
+        </expiry>
+        <heap>250</heap>
+    </cache-template>
 
-    <cache name="com.genologics.ri.sample.Sample"
-           maxElementsInMemory="1000"
-           timeToLiveSeconds="300" />
+    <cache-template name="largeShort">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.genologics.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">300</tti>
+        </expiry>
+        <heap>1800</heap>
+    </cache-template>
 
-    <cache name="com.genologics.ri.project.Project"
-           maxElementsInMemory="50"
-           timeToLiveSeconds="600" />
+    <!-- The caches themselves -->
 
-    <cache name="com.genologics.ri.container.Container"
-           maxElementsInMemory="500"
-           timeToLiveSeconds="300" />
+    <cache alias="com.genologics.ri.LimsEntity">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.genologics.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">600</tti>
+        </expiry>
+        <heap>500</heap>
+    </cache>
 
-    <cache name="com.genologics.ri.containertype.ContainerType"
-           maxElementsInMemory="50"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.artifact.Artifact" uses-template="smallLong"/>
 
-    <cache name="com.genologics.ri.controltype.ControlType"
-           maxElementsInMemory="50"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.artifact.Demux" uses-template="mediumShort"/>
 
-    <cache name="com.genologics.ri.process.GenologicsProcess"
-           maxElementsInMemory="200"
-           timeToLiveSeconds="300" />
+    <cache alias="com.genologics.ri.automation.Automation" uses-template="smallLong"/>
 
-    <cache name="com.genologics.ri.file.GenologicsFile"
-           maxElementsInMemory="2000"
-           timeToLiveSeconds="300" />
+    <cache alias="com.genologics.ri.sample.Sample" uses-template="largeShort"/>
 
-    <cache name="com.genologics.ri.processtype.ProcessType"
-           maxElementsInMemory="100"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.project.Project" uses-template="mediumShort"/>
 
-    <cache name="com.genologics.ri.instrument.Instrument"
-           maxElementsInMemory="50"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.container.Container" uses-template="mediumShort"/>
 
-    <cache name="com.genologics.ri.lab.Lab"
-           maxElementsInMemory="100"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.containertype.ContainerType" uses-template="smallLong"/>
 
-    <cache name="com.genologics.ri.researcher.Researcher"
-           maxElementsInMemory="500"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.controltype.ControlType" uses-template="smallLong"/>
 
-    <cache name="com.genologics.ri.reagenttype.ReagentType"
-           maxElementsInMemory="5000"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.process.GenologicsProcess" uses-template="mediumShort"/>
 
-    <cache name="com.genologics.ri.workflowconfiguration.Workflow"
-           maxElementsInMemory="100"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.file.GenologicsFile" uses-template="largeShort"/>
 
-    <cache name="com.genologics.ri.stage.Stage"
-           maxElementsInMemory="300"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.processtype.ProcessType" uses-template="smallLong"/>
 
-    <cache name="com.genologics.ri.protocolconfiguration.Protocol"
-           maxElementsInMemory="100"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.instrument.Instrument" uses-template="smallLong"/>
 
-    <cache name="com.genologics.ri.protocolconfiguration.ProtocolStep"
-           maxElementsInMemory="300"
-           timeToLiveSeconds="1800" />
+    <cache alias="com.genologics.ri.lab.Lab" uses-template="mediumMedium"/>
 
-</ehcache>
+    <cache alias="com.genologics.ri.researcher.Researcher" uses-template="mediumMedium"/>
+
+    <cache alias="com.genologics.ri.reagenttype.ReagentType" uses-template="largeShort"/>
+
+    <cache alias="com.genologics.ri.workflowconfiguration.Workflow" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.stage.Stage" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.protocolconfiguration.Protocol" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.protocolconfiguration.ProtocolStep" uses-template="smallLong"/>
+
+</config>

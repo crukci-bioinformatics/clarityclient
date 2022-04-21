@@ -18,27 +18,24 @@
 
 package org.cruk.genologics.api.jaxb;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
 import com.genologics.ri.container.ContainerBatchFetchResult;
 import com.genologics.ri.file.GenologicsFileBatchFetchResult;
 import com.genologics.ri.sample.SampleBatchFetchResult;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class BatchFetchDecodingTest
 {
     @Autowired
@@ -55,11 +52,11 @@ public class BatchFetchDecodingTest
 
         Object result = marshaller.unmarshal(new StreamSource(resultFile));
 
-        assertEquals("Decoded result is unexpected", ArtifactBatchFetchResult.class, result.getClass());
+        assertEquals(ArtifactBatchFetchResult.class, result.getClass(), "Decoded result is unexpected");
 
         ArtifactBatchFetchResult fetch = (ArtifactBatchFetchResult)result;
 
-        assertEquals("Wrong number of artifacts decoded", 5, fetch.getSize());
+        assertEquals(5, fetch.getSize(), "Wrong number of artifacts decoded");
     }
 
     @Test
@@ -69,11 +66,11 @@ public class BatchFetchDecodingTest
 
         Object result = marshaller.unmarshal(new StreamSource(resultFile));
 
-        assertEquals("Decoded result is unexpected", ContainerBatchFetchResult.class, result.getClass());
+        assertEquals(ContainerBatchFetchResult.class, result.getClass(), "Decoded result is unexpected");
 
         ContainerBatchFetchResult fetch = (ContainerBatchFetchResult)result;
 
-        assertEquals("Wrong number of containers decoded", 5, fetch.getSize());
+        assertEquals(5, fetch.getSize(), "Wrong number of containers decoded");
     }
 
     @Test
@@ -83,11 +80,11 @@ public class BatchFetchDecodingTest
 
         Object result = marshaller.unmarshal(new StreamSource(resultFile));
 
-        assertEquals("Decoded result is unexpected", SampleBatchFetchResult.class, result.getClass());
+        assertEquals(SampleBatchFetchResult.class, result.getClass(), "Decoded result is unexpected");
 
         SampleBatchFetchResult fetch = (SampleBatchFetchResult)result;
 
-        assertEquals("Wrong number of samples decoded", 4, fetch.getSize());
+        assertEquals(4, fetch.getSize(), "Wrong number of samples decoded");
     }
 
     @Test
@@ -97,11 +94,11 @@ public class BatchFetchDecodingTest
 
         Object result = marshaller.unmarshal(new StreamSource(resultFile));
 
-        assertEquals("Decoded result is unexpected", GenologicsFileBatchFetchResult.class, result.getClass());
+        assertEquals(GenologicsFileBatchFetchResult.class, result.getClass(), "Decoded result is unexpected");
 
         GenologicsFileBatchFetchResult fetch = (GenologicsFileBatchFetchResult)result;
 
-        assertEquals("Wrong number of files decoded", 7, fetch.getSize());
+        assertEquals(7, fetch.getSize(), "Wrong number of files decoded");
     }
 
 }

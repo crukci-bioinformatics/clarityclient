@@ -18,10 +18,10 @@
 
 package org.cruk.genologics.api.jaxb;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -46,13 +46,11 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang3.ClassUtils;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
@@ -115,8 +113,7 @@ import com.genologics.ri.workflowconfiguration.Workflows;
  * it into objects, serializes it and reads the serialized object back.
  * They should be equivalent.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class SerializationTest
 {
     static final int modifierMask = Modifier.TRANSIENT | Modifier.STATIC | Modifier.FINAL;
@@ -236,10 +233,10 @@ public class SerializationTest
         catch (GenologicsException e)
         {
             // Correct.
-            assertEquals("Message wrong", "Something has gone very wrong.", e.getMessage());
-            assertEquals("Suggested actions wrong", "Get on the phone to Genologics.", e.getSuggestedActions());
-            assertEquals("Category wrong", "BAD", e.getCategory());
-            assertEquals("Code wrong", "BROKEN", e.getCode());
+            assertEquals("Something has gone very wrong.", e.getMessage(), "Message wrong");
+            assertEquals("Get on the phone to Genologics.", e.getSuggestedActions(), "Suggested actions wrong");
+            assertEquals("BAD", e.getCategory(), "Category wrong");
+            assertEquals("BROKEN", e.getCode(), "Code wrong");
         }
     }
 
@@ -551,10 +548,10 @@ public class SerializationTest
 
     private void compareObjects(Object original, Object serialized) throws Throwable
     {
-        assertNotNull("Original object is null", original);
-        assertNotNull("Serialized object is null", serialized);
+        assertNotNull(original, "Original object is null");
+        assertNotNull(serialized, "Serialized object is null");
 
-        assertEquals("Object classes are not the same class", original.getClass(), serialized.getClass());
+        assertEquals(original.getClass(), serialized.getClass(), "Object classes are not the same class");
 
         Class<?> objClass = original.getClass();
 
@@ -582,15 +579,15 @@ public class SerializationTest
 
             if (ovalue == null)
             {
-                assertNull("Field " + f.getName() + " in " + className +
-                           " is null in the original but is not null in the deserialised.",
-                           svalue);
+                assertNull(svalue,
+                        "Field " + f.getName() + " in " + className +
+                        " is null in the original but is not null in the deserialised.");
             }
             else
             {
-                assertNotNull("Field " + f.getName() + " in " + className +
-                              " is not null in the original but is null in the deserialised.",
-                              svalue);
+                assertNotNull(svalue,
+                        "Field " + f.getName() + " in " + className +
+                        " is not null in the original but is null in the deserialised.");
             }
 
             if (Collection.class.isAssignableFrom(f.getType()))
@@ -600,8 +597,8 @@ public class SerializationTest
                     Collection<?> ocoll = (Collection<?>)ovalue;
                     Collection<?> scoll = (Collection<?>)svalue;
 
-                    assertEquals("Collection field " + f.getName() + " has different content size",
-                                 ocoll.size(), scoll.size());
+                    assertEquals(ocoll.size(), scoll.size(),
+                            "Collection field " + f.getName() + " has different content size");
 
                     Iterator<?> oiter = ocoll.iterator();
                     Iterator<?> siter = scoll.iterator();
@@ -617,8 +614,8 @@ public class SerializationTest
                         }
                         else
                         {
-                            assertEquals("Object[" + index + "] in collection " + f.getName() + " in " + className +
-                                         " are not the same", o, s);
+                            assertEquals(o, s,
+                                    "Object[" + index + "] in collection " + f.getName() + " in " + className + " are not the same");
                         }
 
                         ++index;
@@ -636,8 +633,8 @@ public class SerializationTest
                     }
                     else
                     {
-                        assertEquals("Objects in field " + f.getName() + " in " + className +
-                                     " are not the same", ovalue, svalue);
+                        assertEquals(ovalue, svalue,
+                                "Objects in field " + f.getName() + " in " + className + " are not the same");
                     }
                 }
             }

@@ -18,12 +18,12 @@
 
 package com.genologics.ri.stage;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StageIdExtractionTest
 {
@@ -32,17 +32,17 @@ public class StageIdExtractionTest
     {
         Stage stage = new Stage();
 
-        assertNull("Got id without URI.", stage.getId());
-        assertNull("Got workflow id without URI.", stage.getWorkflowId());
+        assertNull(stage.getId(), "Got id without URI.");
+        assertNull(stage.getWorkflowId(), "Got workflow id without URI.");
 
         stage.setUri(new URI("http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17/steps/49"));
 
-        assertNull("Got id with incorrect URI.", stage.getId());
-        assertNull("Got workflow id with incorrect URI.", stage.getWorkflowId());
+        assertNull(stage.getId(), "Got id with incorrect URI.");
+        assertNull(stage.getWorkflowId(), "Got workflow id with incorrect URI.");
 
         stage.setUri(new URI("http://limsdev.cri.camres.org:8080/api/v2/configuration/workflows/7/stages/86"));
 
-        assertEquals("Stage id not extracted properly", Integer.valueOf(86), stage.getId());
-        assertEquals("Workflow id not extracted properly", Integer.valueOf(7), stage.getWorkflowId());
+        assertEquals(Integer.valueOf(86), stage.getId(), "Stage id not extracted properly");
+        assertEquals(Integer.valueOf(7), stage.getWorkflowId(), "Workflow id not extracted properly");
     }
 }

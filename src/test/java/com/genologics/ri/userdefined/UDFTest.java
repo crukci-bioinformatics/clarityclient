@@ -18,10 +18,10 @@
 
 package com.genologics.ri.userdefined;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,17 +31,14 @@ import java.util.List;
 import javax.xml.transform.stream.StreamSource;
 
 import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.genologics.ri.artifact.Artifact;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class UDFTest
 {
     @Autowired
@@ -69,18 +66,18 @@ public class UDFTest
         }
 
         UDF udf = UDF.getUDF(a.getUserDefinedFields(), "User Comments");
-        assertNotNull("No UDF found", udf);
+        assertNotNull(udf, "No UDF found");
 
         udf = UDF.getUDF(null, "User Comments");
-        assertNull("UDF found in null collection", udf);
+        assertNull(udf, "UDF found in null collection");
 
         udf = UDF.getUDF(a.getUserDefinedFields(), "No Field");
-        assertNull("UDF found", udf);
+        assertNull(udf, "UDF found");
 
         try
         {
             udf = UDF.getUDF(a.getUserDefinedFields(), "User Comments", true);
-            assertNotNull("No UDF found", udf);
+            assertNotNull(udf,"No UDF found");
         }
         catch (MissingUDFException e)
         {
@@ -94,7 +91,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "UDF \"User Comments\" does not exist.", e.getMessage());
+            assertEquals("UDF \"User Comments\" does not exist.", e.getMessage(), "Exception message wrong");
         }
 
         try
@@ -104,7 +101,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "UDF \"No Field\" does not exist.", e.getMessage());
+            assertEquals("UDF \"No Field\" does not exist.", e.getMessage(), "Exception message wrong");
         }
 
         try
@@ -114,7 +111,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "Missing the field No Field", e.getMessage());
+            assertEquals("Missing the field No Field", e.getMessage(), "Exception message wrong");
         }
     }
 
@@ -134,21 +131,21 @@ public class UDFTest
         }
 
         String value = UDF.getUDFValue(a.getUserDefinedFields(), "User Comments");
-        assertNotNull("No UDF found", value);
+        assertNotNull(value, "No UDF found");
 
         value = UDF.getUDFValue((Collection<?>)null, "User Comments");
-        assertNull("UDF found in null collection", value);
+        assertNull(value, "UDF found in null collection");
 
         value = UDF.getUDFValue(a.getUserDefinedFields(), "No Field");
-        assertNull("UDF found", value);
+        assertNull(value, "UDF found");
 
         value = UDF.getUDFValue(a.getUserDefinedFields(), "No Field", "The default");
-        assertEquals("UDF found and no default value", "The default", value);
+        assertEquals("The default", value, "UDF found and no default value");
 
         try
         {
             value = UDF.getUDFValue(a.getUserDefinedFields(), "User Comments", true);
-            assertNotNull("No UDF found", value);
+            assertNotNull(value, "No UDF found");
         }
         catch (MissingUDFException e)
         {
@@ -162,7 +159,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage());
+            assertEquals("UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage(), "Exception message wrong");
         }
 
         try
@@ -172,7 +169,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "UDF \"No Field\" does not exist.", e.getMessage());
+            assertEquals("UDF \"No Field\" does not exist.", e.getMessage(), "Exception message wrong");
         }
 
         try
@@ -182,7 +179,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "Missing the field No Field", e.getMessage());
+            assertEquals("Missing the field No Field", e.getMessage(), "Exception message wrong");
         }
     }
 
@@ -222,27 +219,27 @@ public class UDFTest
         }
 
         UDF udf = UDF.setUDF(udfs, "Field", null);
-        assertNull("Set UDF to null should return null", udf);
+        assertNull(udf, "Set UDF to null should return null");
 
         udf = UDF.setUDF(udfs, "Field1", "Hello");
-        assertNotNull("Set UDF didn't return a field", udf);
-        assertEquals("Set UDF didn't add to the collection", 1, udfs.size());
-        assertEquals("Field returned name wrong", "Field1", udf.getName());
-        assertEquals("Field returned type wrong", null, udf.getType());
-        assertEquals("Field returned value wrong", "Hello", udf.getValue());
+        assertNotNull(udf, "Set UDF didn't return a field");
+        assertEquals(1, udfs.size(), "Set UDF didn't add to the collection");
+        assertEquals("Field1", udf.getName(), "Field returned name wrong");
+        assertEquals(null, udf.getType(), "Field returned type wrong");
+        assertEquals("Hello", udf.getValue(), "Field returned value wrong");
 
         udf = UDF.setUDF(udfs, "Field2", "2.45");
-        assertNotNull("Set UDF didn't return a field", udf);
-        assertEquals("Set UDF didn't add to the collection", 2, udfs.size());
+        assertNotNull(udf, "Set UDF didn't return a field");
+        assertEquals(2, udfs.size(), "Set UDF didn't add to the collection");
 
         udf = UDF.setUDF(udfs, "Field1", "Moving on");
-        assertNotNull("Set UDF didn't return a field", udf);
-        assertEquals("Set UDF added when it should have just set", 2, udfs.size());
+        assertNotNull(udf, "Set UDF didn't return a field");
+        assertEquals(2, udfs.size(), "Set UDF added when it should have just set");
 
         udf = UDF.setUDF(udfs, "Field1", null);
-        assertNotNull("Set UDF to null didn't return a field", udf);
-        assertEquals("Set UDF to null changed the collection", 2, udfs.size());
-        assertEquals("Set UDF to null should result in an empty value", "", udf.getValue());
+        assertNotNull(udf, "Set UDF to null didn't return a field");
+        assertEquals(2, udfs.size(), "Set UDF to null changed the collection");
+        assertEquals("", udf.getValue(), "Set UDF to null should result in an empty value");
     }
 
     @Test
@@ -251,7 +248,7 @@ public class UDFTest
         Object o1 = new Artifact();
 
         Collection<UDF> udfs = UDF.getUDFCollection(o1);
-        assertNotNull("No UDFs returned", udfs);
+        assertNotNull(udfs, "No UDFs returned");
 
         Object o2 = new Object();
 
@@ -282,18 +279,18 @@ public class UDFTest
         }
 
         UDF udf = UDF.getUDF(a, "User Comments");
-        assertNotNull("No UDF found", udf);
+        assertNotNull(udf, "No UDF found");
 
         udf = UDF.getUDF(null, "User Comments");
-        assertNull("UDF found in null collection", udf);
+        assertNull(udf, "UDF found in null collection");
 
         udf = UDF.getUDF(a, "No Field");
-        assertNull("UDF found", udf);
+        assertNull(udf, "UDF found");
 
         try
         {
             udf = UDF.getUDF(a, "User Comments", true);
-            assertNotNull("No UDF found", udf);
+            assertNotNull(udf, "No UDF found");
         }
         catch (MissingUDFException e)
         {
@@ -307,7 +304,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage());
+            assertEquals("UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage(), "Exception message wrong");
         }
 
         try
@@ -317,7 +314,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "UDF \"No Field\" does not exist on Artifact ADM2A8PA1", e.getMessage());
+            assertEquals("UDF \"No Field\" does not exist on Artifact ADM2A8PA1", e.getMessage(), "Exception message wrong");
         }
 
         try
@@ -327,7 +324,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "Missing the field No Field", e.getMessage());
+            assertEquals("Missing the field No Field", e.getMessage(), "Exception message wrong");
         }
     }
 
@@ -347,21 +344,21 @@ public class UDFTest
         }
 
         String value = UDF.getUDFValue(a, "User Comments");
-        assertNotNull("No UDF found", value);
+        assertNotNull(value, "No UDF found");
 
         value = UDF.getUDFValue(null, "User Comments");
-        assertNull("UDF found in null collection", value);
+        assertNull(value, "UDF found in null collection");
 
         value = UDF.getUDFValue(a, "No Field");
-        assertNull("UDF found", value);
+        assertNull(value, "UDF found");
 
         value = UDF.getUDFValue(a, "No Field", "The default");
-        assertEquals("UDF found and no default value", "The default", value);
+        assertEquals("The default", value, "UDF found and no default value");
 
         try
         {
             value = UDF.getUDFValue(a, "User Comments", true);
-            assertNotNull("No UDF found", value);
+            assertNotNull(value, "No UDF found");
         }
         catch (MissingUDFException e)
         {
@@ -375,7 +372,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage());
+            assertEquals("UDF \"User Comments\" does not exist because 'thing' is null.", e.getMessage(), "Exception message wrong");
         }
 
         try
@@ -385,7 +382,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "UDF \"No Field\" does not exist on Artifact ADM2A8PA1", e.getMessage());
+            assertEquals("UDF \"No Field\" does not exist on Artifact ADM2A8PA1", e.getMessage(), "Exception message wrong");
         }
 
         try
@@ -395,7 +392,7 @@ public class UDFTest
         }
         catch (MissingUDFException e)
         {
-            assertEquals("Exception message wrong", "Missing the field No Field", e.getMessage());
+            assertEquals("Missing the field No Field", e.getMessage(), "Exception message wrong");
         }
     }
 }

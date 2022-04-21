@@ -18,12 +18,13 @@
 
 package com.genologics.ri.workflowconfiguration;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class WorkflowExtractionTest
 {
@@ -33,14 +34,14 @@ public class WorkflowExtractionTest
     {
         Workflow workflow = new Workflow();
 
-        assertNull("Got id without URI.", workflow.getId());
+        assertNull(workflow.getId(), "Got id without URI.");
 
         workflow.setUri(new URI("http://limsdev.cri.camres.org:8080/api/v2/configuration/protocols/17"));
 
-        assertNull("Got id with incorrect URI.", workflow.getId());
+        assertNull(workflow.getId(), "Got id with incorrect URI.");
 
         workflow.setUri(new URI("http://limsdev.cri.camres.org:8080/api/v2/configuration/workflows/7"));
 
-        assertEquals("Workflow id not extracted properly", Integer.valueOf(7), workflow.getId());
+        assertEquals(Integer.valueOf(7), workflow.getId(), "Workflow id not extracted properly");
     }
 }

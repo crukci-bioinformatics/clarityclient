@@ -71,45 +71,26 @@ Add the JAR file to your POM (I'm assuming you're using Maven now):
 For details of using the API, please refer to the documentation at
 <http://crukci-bioinformatics.github.io/clarityclient>
 
-## Clarity 5
+## Clarity 6
 
-The 2.25+ versions of the library has been updated to work with Clarity 5,
-supporting the corresponding versions of the Clarity API. However, here at CRUK-CI
-we will not be upgrading to Clarity 5, and it will be some time before we are ready
-to move to one of its successors.
-
-These versions of the client has been developed only against the XML schemas
-for the corresponding versions of the API. It has not been tested against an actual
-Clarity server. I hope by producing this version of the library those who are using
-it and are on Clarity 5 will be able to benefit. If information is lost or a
-message cannot be unmarshalled, please get in touch so I can fix the problem
-or offer a solution yourself.
-
-[We use both LabLink and Operations a lot, and cannot upgrade until their
-functionality has been replicated in Clarity. Release 5.2 of Clarity gave us a
-new LabLink, but with that same release Illumina decided to not release for on
-premise installation, going cloud only. That has scuppered the CRUK-CI upgrade path.]
+The 2.31+ versions of the library have been updated to work with Clarity 6,
+supporting the corresponding versions of the Clarity API.
 
 ## Java Version
 
-The Clarity client is built with Java 8 source and bytecode.
-From release 2.27.2 the code has been tested with Java 11. It does not include
-Java 9+ module information.
+The Clarity client is built with Java 11 source and bytecode. The release
+of Clarity 6 has provided a good time to move the requirements for this
+library forward in Java terms. It now includes Java module information.
 
 ## JAXB Implementation
 
 The Java EE modules used by the client, specifically JAXB, have been
-move to **Jakarta EE** specifications from version the 2.24.16, complying
-with [Jakarta EE 8](https://jakarta.ee/release/8). The traditional
-`javax.xml.bind` packages produce issues with class module clashes
-when building under newer JDKs. The move should not have any noticeable
-side effects.
+moved to **Jakarta EE** specifications, complying
+with [Jakarta EE 8](https://jakarta.ee/release/8).
+The move should not have any noticeable side effects.
 
 The POM will pull in the Jakarta JAXB API (version 2.3) that the code needs to
-compile. It marks the actual implementation of JAXB as an optional
-dependency, so other code that uses this client will not automatically
-have a JAXB implementation when the JRE is Java 9 or newer. One should
-add the JAXB implementation to the final POM:
+compile. One should add a JAXB implementation to the final POM, such as:
 
 ```XML
     <dependency>
@@ -124,8 +105,5 @@ The scope should be `runtime` for building stand alone applications
 using the client. Where one has created another tool that uses the API
 but isn't itself a final application, the scope should be `test` if
 unit tests need to use the client (if not, this dependency isn't needed).
-Where the client is part of a JEE container, the container will supply
+Where the client is part of an EE container, the container will supply
 the JAXB implementation.
-
-There is no harm in adding this dependency when running on a Java 8 JRE
-but it is not necessary.

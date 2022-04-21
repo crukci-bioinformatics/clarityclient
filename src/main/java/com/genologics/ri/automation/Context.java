@@ -22,13 +22,25 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
 /**
+ * The available options for the automation context.
+ *
  * @since 2.26
  */
 @XmlType(name = "context")
 @XmlEnum
 public enum Context
 {
-    STEP;
+    STEP,
+
+    /**
+     * @since 2.31
+     */
+    DERIVED_SAMPLE,
+
+    /**
+     * @since 2.31
+     */
+    PROJECT;
 
     public String value()
     {

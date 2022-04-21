@@ -3,7 +3,7 @@
                  xmlns:file="http://genologics.com/ri/file"
                  uri="https://limsdev.cruk.cam.ac.uk/api/v2/configuration/automation/1"
                  name="auto1">
-    <context>STEP</context>
+    <context>DERIVED_SAMPLE</context>
     <string>Do the external thing.</string>
     <run-program-per-event>false</run-program-per-event>
     <channel>limsserver</channel>

@@ -19,8 +19,9 @@
 package org.cruk.genologics.api.jaxb;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -41,20 +42,17 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.cruk.genologics.api.GenologicsException;
 import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.Difference;
 import org.custommonkey.xmlunit.XMLAssert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -120,8 +118,7 @@ import com.genologics.ri.workflowconfiguration.Workflows;
  * They should be equivalent (except for the namespace attributes): if they are not,
  * then something isn't annotated correctly.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ClarityClientTestConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class JaxbAnnotationTest
 {
     @Autowired
@@ -238,10 +235,10 @@ public class JaxbAnnotationTest
         catch (GenologicsException e)
         {
             // Correct.
-            assertEquals("Message wrong", "Something has gone very wrong.", e.getMessage());
-            assertEquals("Suggested actions wrong", "Get on the phone to Genologics.", e.getSuggestedActions());
-            assertEquals("Category wrong", "BAD", e.getCategory());
-            assertEquals("Code wrong", "BROKEN", e.getCode());
+            assertEquals("Something has gone very wrong.", e.getMessage(), "Message wrong");
+            assertEquals("Get on the phone to Genologics.", e.getSuggestedActions(), "Suggested actions wrong");
+            assertEquals("BAD", e.getCategory(), "Category wrong");
+            assertEquals("BROKEN", e.getCode(), "Code wrong");
         }
     }
 
@@ -607,8 +604,8 @@ public class JaxbAnnotationTest
             }
             else if ("text value".equals(difference.getDescription()))
             {
-                if (StringUtils.isBlank(difference.getControlNodeDetail().getValue()) &&
-                        StringUtils.isBlank(difference.getTestNodeDetail().getValue()))
+                if (isBlank(difference.getControlNodeDetail().getValue()) &&
+                        isBlank(difference.getTestNodeDetail().getValue()))
                 {
                     // Don't care about white space.
                     return RETURN_IGNORE_DIFFERENCE_NODES_IDENTICAL;
