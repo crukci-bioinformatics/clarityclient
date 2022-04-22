@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
-    CRUK-CI Genologics REST API Java Client.
+    CRUK-CI Clarity REST API Java Client.
     Copyright (C) 2013 Cancer Research UK Cambridge Institute.
 
     This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.cruk.genologics</groupId>
+    <groupId>org.cruk.clarity</groupId>
     <artifactId>clarity-client</artifactId>
     <packaging>jar</packaging>
     <version>2.31.ee8-SNAPSHOT</version>
 
-    <name>CRUK-CI Genologics API Client</name>
+    <name>CRUK-CI Clarity API Client</name>
 
     <description>
         A Java client for working with Clarity's REST API.
