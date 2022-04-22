@@ -4,7 +4,7 @@ import org.cruk.genologics.api.impl.GenologicsAPIImpl;
 /**
  * The Clarity Java client for Clarity 6+.
  */
-module org.cruk.genologics.api
+module org.cruk.clarity.api
 {
     provides GenologicsAPI with GenologicsAPIImpl;
 
