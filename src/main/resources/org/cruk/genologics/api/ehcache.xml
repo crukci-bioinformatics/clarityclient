@@ -79,15 +79,11 @@
         <heap>500</heap>
     </cache>
 
-    <cache alias="com.genologics.ri.artifact.Artifact" uses-template="smallLong"/>
+    <cache alias="com.genologics.ri.artifact.Artifact" uses-template="largeShort"/>
 
     <cache alias="com.genologics.ri.artifact.Demux" uses-template="mediumShort"/>
 
     <cache alias="com.genologics.ri.automation.Automation" uses-template="smallLong"/>
-
-    <cache alias="com.genologics.ri.sample.Sample" uses-template="largeShort"/>
-
-    <cache alias="com.genologics.ri.project.Project" uses-template="mediumShort"/>
 
     <cache alias="com.genologics.ri.container.Container" uses-template="mediumShort"/>
 
@@ -95,26 +91,30 @@
 
     <cache alias="com.genologics.ri.controltype.ControlType" uses-template="smallLong"/>
 
-    <cache alias="com.genologics.ri.process.GenologicsProcess" uses-template="mediumShort"/>
-
     <cache alias="com.genologics.ri.file.GenologicsFile" uses-template="largeShort"/>
-
-    <cache alias="com.genologics.ri.processtype.ProcessType" uses-template="smallLong"/>
 
     <cache alias="com.genologics.ri.instrument.Instrument" uses-template="smallLong"/>
 
     <cache alias="com.genologics.ri.lab.Lab" uses-template="mediumMedium"/>
 
+    <cache alias="com.genologics.ri.process.GenologicsProcess" uses-template="mediumShort"/>
+
+    <cache alias="com.genologics.ri.processtype.ProcessType" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.project.Project" uses-template="mediumShort"/>
+
     <cache alias="com.genologics.ri.researcher.Researcher" uses-template="mediumMedium"/>
 
     <cache alias="com.genologics.ri.reagenttype.ReagentType" uses-template="largeShort"/>
 
-    <cache alias="com.genologics.ri.workflowconfiguration.Workflow" uses-template="smallLong"/>
+    <cache alias="com.genologics.ri.sample.Sample" uses-template="largeShort"/>
 
     <cache alias="com.genologics.ri.stage.Stage" uses-template="smallLong"/>
 
     <cache alias="com.genologics.ri.protocolconfiguration.Protocol" uses-template="smallLong"/>
 
     <cache alias="com.genologics.ri.protocolconfiguration.ProtocolStep" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.workflowconfiguration.Workflow" uses-template="smallLong"/>
 
 </config>
