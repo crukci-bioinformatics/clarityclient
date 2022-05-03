@@ -72,7 +72,7 @@ _Fill in the <version> tag with the version of the API._
 _For this branch, and code using EE8, the version should start "2.31.ee8"._
 
 For details of using the API, please refer to the documentation at
-<http://crukci-bioinformatics.github.io/clarityclient>
+https://crukci-bioinformatics.github.io/clarityclient
 
 ## Clarity 6
 
