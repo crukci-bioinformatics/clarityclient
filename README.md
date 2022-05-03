@@ -96,12 +96,12 @@ The POM will pull in the Jakarta JAXB API (version 2.3) that the code needs to
 compile. One should add a JAXB implementation to the final POM, such as:
 
 ```XML
-    <dependency>
-        <groupId>com.sun.xml.bind</groupId>
-        <artifactId>jaxb-impl</artifactId>
-        <version>2.3.3</version>
-        <scope>runtime</scope>
-    </dependency>
+<dependency>
+    <groupId>org.glassfish.jaxb</groupId>
+    <artifactId>jaxb-runtime</artifactId>
+    <version>2.3.6</version>
+    <scope>runtime</scope>
+</dependency>
 ```
 
 The scope should be `runtime` for building stand alone applications
@@ -110,6 +110,11 @@ but isn't itself a final application, the scope should be `test` if
 unit tests need to use the client (if not, this dependency isn't needed).
 Where the client is part of an EE container, the container will supply
 the JAXB implementation.
+
+JAXB version 3.x.x is for EE9, with its renaming of `javax.xml.bind`
+to `jakarta.xml.bind`, and is not suitable for this build of the
+Clarity client. Also the `com.sun.xml.bind:jaxb-impl` artifacts
+available in Maven won't work well with newer JREs.
 
 ## Other Branches
 
