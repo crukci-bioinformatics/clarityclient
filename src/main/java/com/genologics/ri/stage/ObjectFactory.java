@@ -52,45 +52,24 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ProtocolStepLink }
-     *
-     */
     public ProtocolStepLink createProtocolStepLink() {
         return new ProtocolStepLink();
     }
 
-    /**
-     * Create an instance of {@link WorkflowLink }
-     *
-     */
     public WorkflowLink createWorkflowLink() {
         return new WorkflowLink();
     }
 
-    /**
-     * Create an instance of {@link Stage }
-     *
-     */
     public Stage createStage() {
         return new Stage();
     }
 
-    /**
-     * Create an instance of {@link ProtocolLink }
-     *
-     */
     public ProtocolLink createProtocolLink() {
         return new ProtocolLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Stage }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = STAGE_NAMESPACE, name = "stage")
     public JAXBElement<Stage> createStage(Stage value) {
         return new JAXBElement<Stage>(_Stage_QNAME, Stage.class, null, value);
     }
-
 }

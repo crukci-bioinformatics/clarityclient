@@ -54,63 +54,34 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ClarityFileBatchFetchResult }
-     *
-     */
     public ClarityFileBatchFetchResult createDetails() {
         return new ClarityFileBatchFetchResult();
     }
 
-    /**
-     * Create an instance of {@link ClarityFile }
-     *
-     */
     public ClarityFile createFile() {
         return new ClarityFile();
     }
 
-    /**
-     * Create an instance of {@link ClarityFiles }
-     *
-     */
     public ClarityFiles createFiles() {
         return new ClarityFiles();
     }
 
-    /**
-     * Create an instance of {@link FileLink }
-     *
-     */
     public FileLink createFileLink() {
         return new FileLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ClarityFileBatchFetchResult }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = FILE_NAMESPACE, name = "details")
     public JAXBElement<ClarityFileBatchFetchResult> createDetails(ClarityFileBatchFetchResult value) {
         return new JAXBElement<ClarityFileBatchFetchResult>(_Details_QNAME, ClarityFileBatchFetchResult.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ClarityFile }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = FILE_NAMESPACE, name = "file")
     public JAXBElement<ClarityFile> createFile(ClarityFile value) {
         return new JAXBElement<ClarityFile>(_File_QNAME, ClarityFile.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ClarityFiles }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = FILE_NAMESPACE, name = "files")
     public JAXBElement<ClarityFiles> createFiles(ClarityFiles value) {
         return new JAXBElement<ClarityFiles>(_Files_QNAME, ClarityFiles.class, null, value);
     }
-
 }

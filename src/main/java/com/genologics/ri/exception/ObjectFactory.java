@@ -52,21 +52,12 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Exception }
-     *
-     */
     public Exception createException() {
         return new Exception();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Exception }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = EXCEPTION_NAMESPACE, name = "exception")
     public JAXBElement<Exception> createException(Exception value) {
         return new JAXBElement<Exception>(_Exception_QNAME, Exception.class, null, value);
     }
-
 }

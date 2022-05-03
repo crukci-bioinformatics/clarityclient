@@ -53,46 +53,25 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Lab }
-     *
-     */
     public Lab createLab() {
         return new Lab();
     }
 
-    /**
-     * Create an instance of {@link Labs }
-     *
-     */
     public Labs createLabs() {
         return new Labs();
     }
 
-    /**
-     * Create an instance of {@link LabLink }
-     *
-     */
     public LabLink createLabLink() {
         return new LabLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Labs }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = LAB_NAMESPACE, name = "labs")
     public JAXBElement<Labs> createLabs(Labs value) {
         return new JAXBElement<Labs>(_Labs_QNAME, Labs.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Lab }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = LAB_NAMESPACE, name = "lab")
     public JAXBElement<Lab> createLab(Lab value) {
         return new JAXBElement<Lab>(_Lab_QNAME, Lab.class, null, value);
     }
-
 }

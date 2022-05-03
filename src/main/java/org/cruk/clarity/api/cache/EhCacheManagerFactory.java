@@ -54,9 +54,17 @@ public class EhCacheManagerFactory implements FactoryBean<CacheManager>
     @Nullable
     private CacheManager cacheManager;
 
+    /**
+     * Constructor.
+     */
+    public EhCacheManagerFactory()
+    {
+    }
 
     /**
      * Set the location of the EhCache config file.
+     *
+     * @param configLocation The location of the EhCache XML configuration file.
      */
     public void setConfigLocation(Resource configLocation)
     {

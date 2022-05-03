@@ -125,10 +125,6 @@ public class Lab implements LimsEntity<Lab>, Serializable
         this.shippingAddress = value;
     }
 
-    /**
-     *
-     * The User-Defined Type that is associated with the lab.
-     */
     public UDT getUserDefinedType()
     {
         return type;
@@ -146,10 +142,6 @@ public class Lab implements LimsEntity<Lab>, Serializable
         return this.type;
     }
 
-    /**
-     * A User-Defined Field that is associated with the lab. This element is
-     * repeated for each UDF associated with the lab.
-     */
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -175,11 +167,6 @@ public class Lab implements LimsEntity<Lab>, Serializable
         return addUserDefinedField(new UDF(name, type, value));
     }
 
-    /**
-     *
-     * An identifier that allows an external system to retrieve information
-     * about the lab.
-     */
     public List<ExternalId> getExternalid()
     {
         if (externalIds == null)

@@ -53,54 +53,29 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ProjectLink }
-     *
-     */
     public ProjectLink createProjectLink() {
         return new ProjectLink();
     }
 
-    /**
-     * Create an instance of {@link ResearcherLink }
-     *
-     */
     public ResearcherLink createResearcher() {
         return new ResearcherLink();
     }
 
-    /**
-     * Create an instance of {@link Projects }
-     *
-     */
     public Projects createProjects() {
         return new Projects();
     }
 
-    /**
-     * Create an instance of {@link Project }
-     *
-     */
     public Project createProject() {
         return new Project();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Project }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = PROJECT_NAMESPACE, name = "project")
     public JAXBElement<Project> createProject(Project value) {
         return new JAXBElement<Project>(_Project_QNAME, Project.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Projects }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = PROJECT_NAMESPACE, name = "projects")
     public JAXBElement<Projects> createProjects(Projects value) {
         return new JAXBElement<Projects>(_Projects_QNAME, Projects.class, null, value);
     }
-
 }

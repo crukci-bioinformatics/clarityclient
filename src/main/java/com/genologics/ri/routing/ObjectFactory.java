@@ -53,37 +53,20 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ArtifactLink }
-     *
-     */
     public ArtifactLink createArtifact() {
         return new ArtifactLink();
     }
 
-    /**
-     * Create an instance of {@link ExtArtifactAssignments }
-     *
-     */
     public ExtArtifactAssignments createExternalArtifactAssignments() {
         return new ExtArtifactAssignments();
     }
 
-    /**
-     * Create an instance of {@link Routing }
-     *
-     */
     public Routing createRouting() {
         return new Routing();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Routing }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ROUTING_NAMESPACE, name = "routing")
     public JAXBElement<Routing> createRouting(Routing value) {
         return new JAXBElement<Routing>(_Routing_QNAME, Routing.class, null, value);
     }
-
 }

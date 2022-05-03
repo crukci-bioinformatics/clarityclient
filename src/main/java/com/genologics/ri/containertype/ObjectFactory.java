@@ -53,63 +53,34 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link CalibrantWell }
-     *
-     */
     @Deprecated
     public CalibrantWell createCalibrantWell() {
         return new CalibrantWell();
     }
 
-    /**
-     * Create an instance of {@link ContainerType }
-     *
-     */
     public ContainerType createContainerType() {
         return new ContainerType();
     }
 
-    /**
-     * Create an instance of {@link ContainerTypes }
-     *
-     */
     public ContainerTypes createContainerTypes() {
         return new ContainerTypes();
     }
 
-    /**
-     * Create an instance of {@link ContainerTypeLink }
-     *
-     */
     public ContainerTypeLink createContainerTypeLink() {
         return new ContainerTypeLink();
     }
 
-    /**
-     * Create an instance of {@link Dimension }
-     *
-     */
     public Dimension createDimension() {
         return new Dimension();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ContainerType }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONTAINER_TYPE_NAMESPACE, name = "container-type")
     public JAXBElement<ContainerType> createContainerType(ContainerType value) {
         return new JAXBElement<ContainerType>(_ContainerType_QNAME, ContainerType.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ContainerTypes }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONTAINER_TYPE_NAMESPACE, name = "container-types")
     public JAXBElement<ContainerTypes> createContainerTypes(ContainerTypes value) {
         return new JAXBElement<ContainerTypes>(_ContainerTypes_QNAME, ContainerTypes.class, null, value);
     }
-
 }

@@ -130,9 +130,6 @@ public class StepDetails implements Locatable, Serializable
         return iomap;
     }
 
-    /**
-     * The user-defined fields of this Step.
-     */
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)

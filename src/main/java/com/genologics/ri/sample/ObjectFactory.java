@@ -55,126 +55,66 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link SampleCreation }
-     *
-     */
     public SampleCreation createSamplecreation() {
         return new SampleCreation();
     }
 
-    /**
-     * Create an instance of {@link Sample }
-     *
-     */
     public Sample createSample() {
         return new Sample();
     }
 
-    /**
-     * Create an instance of {@link SampleBatchFetchResult }
-     *
-     */
     public SampleBatchFetchResult createDetails() {
         return new SampleBatchFetchResult();
     }
 
-    /**
-     * Create an instance of {@link ArtifactLink }
-     *
-     */
     public ArtifactLink createArtifact() {
         return new ArtifactLink();
     }
 
-    /**
-     * Create an instance of {@link Samples }
-     *
-     */
     public Samples createSamples() {
         return new Samples();
     }
 
-    /**
-     * Create an instance of {@link SampleBase }
-     *
-     */
     public SampleBase createSamplebase() {
         return new SampleBase();
     }
 
-    /**
-     * Create an instance of {@link BioSource }
-     *
-     */
     @Deprecated
     public BioSource createBiosource() {
         return new BioSource();
     }
 
-    /**
-     * Create an instance of {@link Submitter }
-     *
-     */
     public Submitter createSubmitter() {
         return new Submitter();
     }
 
-    /**
-     * Create an instance of {@link SampleLink }
-     *
-     */
     public SampleLink createSampleLink() {
         return new SampleLink();
     }
 
-    /**
-     * Create an instance of {@link ProjectLink }
-     *
-     */
     public ProjectLink createProject() {
         return new ProjectLink();
     }
 
-    /**
-     * Create an instance of {@link ControlTypeLink }
-     *
-     */
     public ControlTypeLink createControlTypeLink() {
         return new ControlTypeLink();
     }
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Sample }{@code >}}
-     *
-     */
+
     @XmlElementDecl(namespace = SAMPLE_NAMESPACE, name = "sample")
     public JAXBElement<Sample> createSample(Sample value) {
         return new JAXBElement<Sample>(_Sample_QNAME, Sample.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SampleCreation }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = SAMPLE_NAMESPACE, name = "samplecreation")
     public JAXBElement<SampleCreation> createSamplecreation(SampleCreation value) {
         return new JAXBElement<SampleCreation>(_Samplecreation_QNAME, SampleCreation.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Samples }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = SAMPLE_NAMESPACE, name = "samples")
     public JAXBElement<Samples> createSamples(Samples value) {
         return new JAXBElement<Samples>(_Samples_QNAME, Samples.class, null, value);
     }
 
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SampleBatchFetchResult }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = "SAMPLE_NAMESPACE", name = "details")
     public JAXBElement<SampleBatchFetchResult> createDetails(SampleBatchFetchResult value) {
         return new JAXBElement<SampleBatchFetchResult>(_Details_QNAME, SampleBatchFetchResult.class, null, value);

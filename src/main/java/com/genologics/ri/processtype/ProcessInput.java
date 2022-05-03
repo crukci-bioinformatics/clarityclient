@@ -69,6 +69,7 @@ public class ProcessInput implements Serializable
     /**
      * Whether the working flag should be removed from the input when the process runs.
      *
+     * @return true if it should be removed, false if not.
      * @deprecated This property is no longer supported.
      */
     @Deprecated

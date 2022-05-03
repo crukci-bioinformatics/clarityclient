@@ -53,46 +53,25 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ControlType }
-     *
-     */
     public ControlType createControlType() {
         return new ControlType();
     }
 
-    /**
-     * Create an instance of {@link ControlTypeLink }
-     *
-     */
     public ControlTypeLink createControlTypeLink() {
         return new ControlTypeLink();
     }
 
-    /**
-     * Create an instance of {@link ControlTypes }
-     *
-     */
     public ControlTypes createControlTypes() {
         return new ControlTypes();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ControlType }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONTROL_TYPE_NAMESPACE, name = "control-type")
     public JAXBElement<ControlType> createControlType(ControlType value) {
         return new JAXBElement<ControlType>(_ControlType_QNAME, ControlType.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ControlTypes }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONTROL_TYPE_NAMESPACE, name = "control-types")
     public JAXBElement<ControlTypes> createControlTypes(ControlTypes value) {
         return new JAXBElement<ControlTypes>(_ControlTypes_QNAME, ControlTypes.class, null, value);
     }
-
 }

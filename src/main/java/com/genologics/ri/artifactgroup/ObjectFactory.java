@@ -53,54 +53,29 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ArtifactGroup }
-     *
-     */
     public ArtifactGroup createArtifactgroup() {
         return new ArtifactGroup();
     }
 
-    /**
-     * Create an instance of {@link ArtifactGroupLink }
-     *
-     */
     public ArtifactGroupLink createArtifactgroupLink() {
         return new ArtifactGroupLink();
     }
 
-    /**
-     * Create an instance of {@link Artifacts }
-     *
-     */
     public Artifacts createArtifacts() {
         return new Artifacts();
     }
 
-    /**
-     * Create an instance of {@link ArtifactGroups }
-     *
-     */
     public ArtifactGroups createArtifactgroups() {
         return new ArtifactGroups();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArtifactGroup }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ARTIFACT_GROUP_NAMESPACE, name = "artifactgroup")
     public JAXBElement<ArtifactGroup> createArtifactgroup(ArtifactGroup value) {
         return new JAXBElement<ArtifactGroup>(_Artifactgroup_QNAME, ArtifactGroup.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArtifactGroups }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ARTIFACT_GROUP_NAMESPACE, name = "artifactgroups")
     public JAXBElement<ArtifactGroups> createArtifactgroups(ArtifactGroups value) {
         return new JAXBElement<ArtifactGroups>(_Artifactgroups_QNAME, ArtifactGroups.class, null, value);
     }
-
 }

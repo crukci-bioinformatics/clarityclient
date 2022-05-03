@@ -54,62 +54,33 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Role }
-     *
-     */
     public Role createRole() {
         return new Role();
     }
 
-    /**
-     * Create an instance of {@link ResearcherLink }
-     *
-     */
     public ResearcherLink createResearcherLink() {
         return new ResearcherLink();
     }
 
-    /**
-     * Create an instance of {@link RoleLink }
-     *
-     */
     public RoleLink createRoleLink() {
         return new RoleLink();
     }
 
-    /**
-     * Create an instance of {@link PermissionLink }
-     *
-     */
     public PermissionLink createPermissionLink() {
         return new PermissionLink();
     }
 
-    /**
-     * Create an instance of {@link Roles }
-     *
-     */
     public Roles createRoles() {
         return new Roles();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Roles }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ROLE_NAMESPACE, name = "roles")
     public JAXBElement<Roles> createRoles(Roles value) {
         return new JAXBElement<Roles>(_Roles_QNAME, Roles.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Role }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ROLE_NAMESPACE, name = "role")
     public JAXBElement<Role> createRole(Role value) {
         return new JAXBElement<Role>(_Role_QNAME, Role.class, null, value);
     }
-
 }

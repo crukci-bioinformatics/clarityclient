@@ -53,125 +53,64 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ControlTypeLink }
-     *
-     */
     public ControlTypeLink createControlTypeLink() {
         return new ControlTypeLink();
     }
 
-    /**
-     * Create an instance of {@link StepProperty }
-     *
-     */
     public StepProperty createStepProperty() {
         return new StepProperty();
     }
 
-    /**
-     * Create an instance of {@link EppTrigger }
-     *
-     */
     public EppTrigger createEppTrigger() {
         return new EppTrigger();
     }
 
-    /**
-     * Create an instance of {@link LockableSetting }
-     *
-     */
     public LockableSetting createLockableSetting() {
         return new LockableSetting();
     }
 
-    /**
-     * Create an instance of {@link ProtocolStep }
-     *
-     */
     public ProtocolStep createProtocolStep() {
         return new ProtocolStep();
     }
 
-    /**
-     * Create an instance of {@link ProcessTypeLink }
-     *
-     */
     public ProcessTypeLink createProcessTypeLink() {
         return new ProcessTypeLink();
     }
 
-    /**
-     * Create an instance of {@link ReagentKitLink }
-     *
-     */
     public ReagentKitLink createReagentKitLink() {
         return new ReagentKitLink();
     }
 
-    /**
-     * Create an instance of {@link IceBucketField }
-     *
-     */
     public IceBucketField createIceBucketField() {
         return new IceBucketField();
     }
 
-    /**
-     * Create an instance of {@link SharedResultFile }
-     *
-     */
     public SharedResultFile createSharedResultFile() {
         return new SharedResultFile();
     }
 
-    /**
-     * Create an instance of {@link StepSetup }
-     *
-     */
     public StepSetup createStepSetup() {
         return new StepSetup();
     }
 
-    /**
-     * Create an instance of {@link NextStep }
-     *
-     */
     public NextStep createNextStep() {
         return new NextStep();
     }
 
-    /**
-     * Create an instance of {@link GenericTypeLink }
-     *
-     */
     public GenericTypeLink createGenericTypeLink() {
         return new GenericTypeLink();
     }
 
-    /**
-     * Create an instance of {@link Field }
-     *
-     */
     public Field createField() {
         return new Field();
     }
 
-    /**
-     * Create an instance of {@link QueueField }
-     *
-     */
     public QueueField createQueueField() {
         return new QueueField();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ProtocolStep }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = STEP_CONFIGURATION_NAMESPACE, name = "step")
     public JAXBElement<ProtocolStep> createStep(ProtocolStep value) {
         return new JAXBElement<ProtocolStep>(_Step_QNAME, ProtocolStep.class, null, value);
     }
-
 }

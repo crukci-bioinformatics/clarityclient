@@ -125,10 +125,6 @@ public class Automation implements Locatable, Serializable
         this.channel = value;
     }
 
-    /**
-     * Each File provides a URI linking to the detailed representation of a File
-     * associated with the Automation.
-     */
     public List<ClarityFile> getFiles()
     {
         if (files == null)

@@ -79,6 +79,7 @@ public class Parameter implements Serializable
 
     /**
      * The file of the parameter.
+     * @return The file name (presumably).
      * @deprecated This property is no longer supported.
      */
     @Deprecated
@@ -105,6 +106,7 @@ public class Parameter implements Serializable
 
     /**
      * Should the EPP run once for each process related event?
+     * @return true if it should run once per event, false if not.
      * @deprecated This property is no longer supported.
      */
     @Deprecated
@@ -131,6 +133,7 @@ public class Parameter implements Serializable
 
     /**
      * The epp invocation type of this script.
+     * @return The invocation type.
      * @deprecated This property is no longer supported.
      */
     @Deprecated

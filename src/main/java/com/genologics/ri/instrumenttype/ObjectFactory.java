@@ -53,50 +53,32 @@ public class ObjectFactory
     {
     }
 
-    /**
-     * Create an instance of {@link InstrumentTypeLink }
-     */
     public InstrumentTypeLink createInstrumentTypeLink()
     {
         return new InstrumentTypeLink();
     }
 
-    /**
-     * Create an instance of {@link InstrumentTypes }
-     */
     public InstrumentTypes createInstrumentTypes()
     {
         return new InstrumentTypes();
     }
 
-    /**
-     * Create an instance of {@link InstrumentTypeProcessType }
-     */
     public InstrumentTypeProcessType createInstrumentTypeProcessType()
     {
         return new InstrumentTypeProcessType();
     }
 
-    /**
-     * Create an instance of {@link InstrumentType }
-     */
     public InstrumentType createInstrumentType()
     {
         return new InstrumentType();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InstrumentTypes}{@code >}}
-     */
     @XmlElementDecl(namespace = INSTRUMENT_TYPE_NAMESPACE, name = "instrument-types")
     public JAXBElement<InstrumentTypes> createInstrumentTypes(InstrumentTypes value)
     {
         return new JAXBElement<InstrumentTypes>(_InstrumentTypes_QNAME, InstrumentTypes.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link InstrumentType}{@code >}}
-     */
     @XmlElementDecl(namespace = INSTRUMENT_TYPE_NAMESPACE, name = "instrument-type")
     public JAXBElement<InstrumentType> createInstrumentType(InstrumentType value)
     {

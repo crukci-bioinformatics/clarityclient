@@ -78,9 +78,6 @@ public class BioSource implements Serializable
         this.description = value;
     }
 
-    /**
-     * The user-defined fields of the biosource.
-     */
     public List<UDF> getFields()
     {
         if (fields == null)

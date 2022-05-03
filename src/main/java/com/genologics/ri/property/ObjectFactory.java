@@ -52,29 +52,16 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link PropertyLink }
-     *
-     */
     public PropertyLink createPropertyLink() {
         return new PropertyLink();
     }
 
-    /**
-     * Create an instance of {@link Properties }
-     *
-     */
     public Properties createProperties() {
         return new Properties();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Properties }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = Namespaces.PROPERTY_NAMESPACE, name = "properties")
     public JAXBElement<Properties> createProperties(Properties value) {
         return new JAXBElement<Properties>(_Properties_QNAME, Properties.class, null, value);
     }
-
 }

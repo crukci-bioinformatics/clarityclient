@@ -53,29 +53,16 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Queue }
-     *
-     */
     public Queue createQueue() {
         return new Queue();
     }
 
-    /**
-     * Create an instance of {@link ArtifactLink }
-     *
-     */
     public ArtifactLink createArtifactLink() {
         return new ArtifactLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Queue }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = QUEUE_NAMESPACE, name = "queue")
     public JAXBElement<Queue> createQueue(Queue value) {
         return new JAXBElement<Queue>(_Queue_QNAME, Queue.class, null, value);
     }
-
 }

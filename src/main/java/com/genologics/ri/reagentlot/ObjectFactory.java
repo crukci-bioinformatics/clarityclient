@@ -53,62 +53,33 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ReagentLotLink }
-     *
-     */
     public ReagentLotLink createReagentLotLink() {
         return new ReagentLotLink();
     }
 
-    /**
-     * Create an instance of {@link ReagentLot }
-     *
-     */
     public ReagentLot createReagentLot() {
         return new ReagentLot();
     }
 
-    /**
-     * Create an instance of {@link ResearcherLink }
-     *
-     */
     public ResearcherLink createResearcher() {
         return new ResearcherLink();
     }
 
-    /**
-     * Create an instance of {@link ReagentLots }
-     *
-     */
     public ReagentLots createReagentLots() {
         return new ReagentLots();
     }
 
-    /**
-     * Create an instance of {@link ReagentKitLink }
-     *
-     */
     public ReagentKitLink createReagentKitLink() {
         return new ReagentKitLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReagentLots }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = REAGENT_LOT_NAMESPACE, name = "reagent-lots")
     public JAXBElement<ReagentLots> createReagentLots(ReagentLots value) {
         return new JAXBElement<ReagentLots>(_ReagentLots_QNAME, ReagentLots.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReagentLot }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = REAGENT_LOT_NAMESPACE, name = "reagent-lot")
     public JAXBElement<ReagentLot> createReagentLot(ReagentLot value) {
         return new JAXBElement<ReagentLot>(_ReagentLot_QNAME, ReagentLot.class, null, value);
     }
-
 }

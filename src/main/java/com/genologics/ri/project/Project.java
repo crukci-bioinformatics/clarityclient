@@ -168,9 +168,6 @@ public class Project implements LimsEntity<Project>, Serializable
         this.researcher = new ResearcherLink(link);
     }
 
-    /**
-     * The UDT of the Project.
-     */
     public UDT getUserDefinedType()
     {
         return type;
@@ -188,9 +185,6 @@ public class Project implements LimsEntity<Project>, Serializable
         return this.type;
     }
 
-    /**
-     * The UDFs of the Project.
-     */
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -216,11 +210,6 @@ public class Project implements LimsEntity<Project>, Serializable
         return addUserDefinedField(new UDF(name, type, value));
     }
 
-    /**
-     *
-     * Each external id is an identifier that allows looking up related
-     * information about the Project from an external system.
-     */
     public List<ExternalId> getExternalIds()
     {
         if (externalIds == null)
@@ -230,11 +219,6 @@ public class Project implements LimsEntity<Project>, Serializable
         return this.externalIds;
     }
 
-    /**
-     *
-     * Each File provides a URI linking to the detailed representation of a File
-     * associated with the Project.
-     */
     public List<ClarityFile> getFiles()
     {
         if (files == null)

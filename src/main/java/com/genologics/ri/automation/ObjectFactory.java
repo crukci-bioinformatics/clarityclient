@@ -77,5 +77,4 @@ public class ObjectFactory
     {
         return new JAXBElement<Automations>(_Automations_QNAME, Automations.class, null, value);
     }
-
 }

@@ -179,11 +179,6 @@ public class Researcher implements LimsEntity<Researcher>, Serializable
         return this.type;
     }
 
-    /**
-     *
-     * A User-Defined Field that is associated with the researcher. This element
-     * is repeated for each UDF associated with the researcher.
-     */
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -209,11 +204,6 @@ public class Researcher implements LimsEntity<Researcher>, Serializable
         return addUserDefinedField(new UDF(name, type, value));
     }
 
-    /**
-     *
-     * An identifier that allows an external system to retrieve information
-     * about the researcher.
-     */
     public List<ExternalId> getExternalIds()
     {
         if (externalIds == null)

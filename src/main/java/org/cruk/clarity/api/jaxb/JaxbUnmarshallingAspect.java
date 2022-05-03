@@ -62,6 +62,9 @@ public class JaxbUnmarshallingAspect
      * @throws ClarityException if {@code unmarshalled} is an error
      * message. It is created with the fields from the XML error.
      *
+     * @throws Throwable if there is another throwable from continuing
+     * the join point control chain.
+     *
      * @see Jaxb2Marshaller#unmarshal(javax.xml.transform.Source)
      */
     public Object objectUnmarshalled(ProceedingJoinPoint pjp) throws Throwable

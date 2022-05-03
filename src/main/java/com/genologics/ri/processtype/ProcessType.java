@@ -202,6 +202,8 @@ public class ProcessType implements Linkable<ProcessType>, Serializable
     /**
      * Each field definition provides a URI linking to the configuration of a user-defined field for the output type.
      *
+     * @return A list of links to fields.
+     *
      * @deprecated These field definitions are ignored as of Clarity LIMS 5.0.
      */
     @Deprecated

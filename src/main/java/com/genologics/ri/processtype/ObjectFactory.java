@@ -53,166 +53,85 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link SharedResultFile }
-     *
-     */
     public SharedResultFile createSharedResultFile() {
         return new SharedResultFile();
     }
 
-    /**
-     * Create an instance of {@link StepProperty }
-     *
-     */
     public StepProperty createStepProperty() {
         return new StepProperty();
     }
 
-    /**
-     * Create an instance of {@link Parameter }
-     *
-     */
     public Parameter createParameter() {
         return new Parameter();
     }
 
-    /**
-     * Create an instance of {@link ProcessType }
-     *
-     */
     public ProcessType createProcessType() {
         return new ProcessType();
     }
 
-    /**
-     * Create an instance of {@link ControlTypeLink }
-     *
-     */
     public ControlTypeLink createControlTypeLink() {
         return new ControlTypeLink();
     }
 
-    /**
-     * Create an instance of {@link ContainerTypeLink }
-     *
-     */
     public ContainerTypeLink createContainerTypeLink() {
         return new ContainerTypeLink();
     }
 
-    /**
-     * Create an instance of {@link IceBucketField }
-     *
-     */
     public IceBucketField createIceBucketField() {
         return new IceBucketField();
     }
 
-    /**
-     * Create an instance of {@link ProcessTypes }
-     *
-     */
     public ProcessTypes createProcessTypes() {
         return new ProcessTypes();
     }
 
-    /**
-     * Create an instance of {@link EppTrigger }
-     *
-     */
     public EppTrigger createEppTrigger() {
         return new EppTrigger();
     }
 
-    /**
-     * Create an instance of {@link StepSetup }
-     *
-     */
     public StepSetup createStepSetup() {
         return new StepSetup();
     }
 
-    /**
-     * Create an instance of {@link Field }
-     *
-     */
     public Field createField() {
         return new Field();
     }
 
-    /**
-     * Create an instance of {@link TypeDefinition }
-     *
-     */
     public TypeDefinition createTypeDefinition() {
         return new TypeDefinition();
     }
 
-    /**
-     * Create an instance of {@link ProcessTypeLink }
-     *
-     */
     public ProcessTypeLink createProcessTypeLink() {
         return new ProcessTypeLink();
     }
 
-    /**
-     * Create an instance of {@link QueueField }
-     *
-     */
     public QueueField createQueueField() {
         return new QueueField();
     }
 
-    /**
-     * Create an instance of {@link ProcessOutput }
-     *
-     */
     public ProcessOutput createProcessOutput() {
         return new ProcessOutput();
     }
 
-    /**
-     * Create an instance of {@link ReagentKitLink }
-     *
-     */
     public ReagentKitLink createReagentKitLink() {
         return new ReagentKitLink();
     }
 
-    /**
-     * Create an instance of {@link ProcessInput }
-     *
-     */
     public ProcessInput createProcessInput() {
         return new ProcessInput();
     }
 
-    /**
-     * Create an instance of {@link ProcessTypeAttribute }
-     *
-     */
     public ProcessTypeAttribute createProcessTypeAttribute() {
         return new ProcessTypeAttribute();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ProcessTypes }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = PROCESS_TYPE_NAMESPACE, name = "process-types")
     public JAXBElement<ProcessTypes> createProcessTypes(ProcessTypes value) {
         return new JAXBElement<ProcessTypes>(_ProcessTypes_QNAME, ProcessTypes.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ProcessType }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = PROCESS_TYPE_NAMESPACE, name = "process-type")
     public JAXBElement<ProcessType> createProcessType(ProcessType value) {
         return new JAXBElement<ProcessType>(_ProcessType_QNAME, ProcessType.class, null, value);
     }
-
 }

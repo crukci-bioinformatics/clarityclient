@@ -227,9 +227,6 @@ public class SampleBase implements Serializable
         this.bioSource = bioSource;
     }
 
-    /**
-     * The user-defined type of the Sample.
-     */
     public UDT getUserDefinedType()
     {
         return type;
@@ -247,9 +244,6 @@ public class SampleBase implements Serializable
         return this.type;
     }
 
-    /**
-     * The user-defined fields of the Sample.
-     */
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -275,10 +269,6 @@ public class SampleBase implements Serializable
         return addUserDefinedField(new UDF(name, type, value));
     }
 
-    /**
-     * Each external id is an identifier that allows looking up related
-     * information about the Sample from an external system.
-     */
     public List<ExternalId> getExternalIds()
     {
         if (externalIds == null)
@@ -288,10 +278,6 @@ public class SampleBase implements Serializable
         return this.externalIds;
     }
 
-    /**
-     * Each file provides a URI linking to the detailed representation of a file
-     * associated with the Sample.
-     */
     public List<ClarityFile> getFiles()
     {
         if (files == null)

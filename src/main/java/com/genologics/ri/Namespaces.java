@@ -18,6 +18,8 @@
 
 package com.genologics.ri;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
 import javax.xml.bind.annotation.XmlSchema;
 
 /**
@@ -61,6 +63,10 @@ public final class Namespaces
     public static final String VERSION_NAMESPACE = "http://genologics.com/ri/version";
     public static final String WORKFLOW_CONFIGURATION_NAMESPACE = "http://genologics.com/ri/workflowconfiguration";
 
+    /**
+     * The empty namespace. Used for some inner elements.
+     */
+    public static final String EMPTY_NAMESPACE = EMPTY;
 
     /**
      * Extract package level information for the named package.

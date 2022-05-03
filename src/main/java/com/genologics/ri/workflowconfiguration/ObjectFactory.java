@@ -53,62 +53,33 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Workflow }
-     *
-     */
     public Workflow createWorkflow() {
         return new Workflow();
     }
 
-    /**
-     * Create an instance of {@link ProtocolLink }
-     *
-     */
     public ProtocolLink createProtocolLink() {
         return new ProtocolLink();
     }
 
-    /**
-     * Create an instance of {@link WorkflowLink }
-     *
-     */
     public WorkflowLink createWorkflowLink() {
         return new WorkflowLink();
     }
 
-    /**
-     * Create an instance of {@link StageLink }
-     *
-     */
     public StageLink createStageLink() {
         return new StageLink();
     }
 
-    /**
-     * Create an instance of {@link Workflows }
-     *
-     */
     public Workflows createWorkflows() {
         return new Workflows();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Workflows }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = WORKFLOW_CONFIGURATION_NAMESPACE, name = "workflows")
     public JAXBElement<Workflows> createWorkflows(Workflows value) {
         return new JAXBElement<Workflows>(_Workflows_QNAME, Workflows.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Workflow }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = WORKFLOW_CONFIGURATION_NAMESPACE, name = "workflow")
     public JAXBElement<Workflow> createWorkflow(Workflow value) {
         return new JAXBElement<Workflow>(_Workflow_QNAME, Workflow.class, null, value);
     }
-
 }

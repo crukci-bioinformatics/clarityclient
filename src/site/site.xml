@@ -7,8 +7,8 @@
         <menu name="User Guide">
             <item name="Introduction" href="/index.html">
                 <description>
-                    The CRUK-CI Genologics Java Client provides the Java or Groovy developer
-                    a means to work with Genologics' REST API using objects rather than XML
+                    The CRUK-CI Clarity Java Client provides the Java or Groovy developer
+                    a means to work with Clarity's REST API using objects rather than XML
                     or DOM document trees.
                 </description>
             </item>

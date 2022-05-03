@@ -79,9 +79,6 @@ public class Credentials implements Serializable
         this.accountLocked = value;
     }
 
-    /**
-     * The type of system access assigned to the researcher's user account.
-     */
     public List<Role> getRoles()
     {
         if (roles == null)

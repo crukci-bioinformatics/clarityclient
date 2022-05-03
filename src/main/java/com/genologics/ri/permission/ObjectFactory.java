@@ -54,43 +54,23 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Permissions }
-     *
-     */
     public Permissions createPermissions() {
         return new Permissions();
     }
 
-    /**
-     * Create an instance of {@link PermissionLink }
-     *
-     */
     public PermissionLink createPermissionLink() {
         return new PermissionLink();
     }
 
-    /**
-     * Create an instance of {@link Permission }
-     *
-     */
     public Permission createPermission() {
         return new Permission();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Permission }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = PERMISSION_NAMESPACE, name = "permission")
     public JAXBElement<Permission> createPermission(Permission value) {
         return new JAXBElement<Permission>(_Permission_QNAME, Permission.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Permissions }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = PERMISSION_NAMESPACE, name = "permissions")
     public JAXBElement<Permissions> createPermissions(Permissions value) {
         return new JAXBElement<Permissions>(_Permissions_QNAME, Permissions.class, null, value);
