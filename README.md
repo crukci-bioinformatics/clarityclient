@@ -44,16 +44,16 @@ Alternatively, you can add our Maven repository to your POM and let
 Maven do the work. Add a &lt;repositories&gt; section containing:
 
 ```XML
-    <repository>
-        <id>crukci-bioinformatics</id>
-        <url>https://content.cruk.cam.ac.uk/bioinformatics/maven</url>
-        <releases>
-            <enabled>true</enabled>
-        </releases>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
+<repository>
+    <id>crukci-bioinformatics</id>
+    <url>https://content.cruk.cam.ac.uk/bioinformatics/maven</url>
+    <releases>
+        <enabled>true</enabled>
+    </releases>
+    <snapshots>
+        <enabled>false</enabled>
+    </snapshots>
+</repository>
 ```
 
 ## Usage
@@ -61,11 +61,11 @@ Maven do the work. Add a &lt;repositories&gt; section containing:
 Add the JAR file to your POM (I'm assuming you're using Maven now):
 
 ```XML
-    <dependency>
-        <groupId>org.cruk.clarity</groupId>
-        <artifactId>clarity-client</artifactId>
-        <version>...</version>
-    </dependency>
+<dependency>
+    <groupId>org.cruk.clarity</groupId>
+    <artifactId>clarity-client</artifactId>
+    <version>...</version>
+</dependency>
 ```
 
 _Fill in the <version> tag with the version of the API._
