@@ -1,4 +1,4 @@
-# CRUK-CI Genologics API Java Client
+# CRUK-CI Clarity API Java Client
 
 The Cancer Research UK Cambridge Institute (CRUK-CI) Clarity Java Client
 provides the Java or Groovy developer a means to work with
