@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,27 +55,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GenologicsFileBatchFetchResult }
+     * Create an instance of {@link ClarityFileBatchFetchResult }
      *
      */
-    public GenologicsFileBatchFetchResult createDetails() {
-        return new GenologicsFileBatchFetchResult();
+    public ClarityFileBatchFetchResult createDetails() {
+        return new ClarityFileBatchFetchResult();
     }
 
     /**
-     * Create an instance of {@link GenologicsFile }
+     * Create an instance of {@link ClarityFile }
      *
      */
-    public GenologicsFile createFile() {
-        return new GenologicsFile();
+    public ClarityFile createFile() {
+        return new ClarityFile();
     }
 
     /**
-     * Create an instance of {@link GenologicsFiles }
+     * Create an instance of {@link ClarityFiles }
      *
      */
-    public GenologicsFiles createFiles() {
-        return new GenologicsFiles();
+    public ClarityFiles createFiles() {
+        return new ClarityFiles();
     }
 
     /**
@@ -87,30 +87,30 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GenologicsFileBatchFetchResult }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ClarityFileBatchFetchResult }{@code >}}
      *
      */
     @XmlElementDecl(namespace = FILE_NAMESPACE, name = "details")
-    public JAXBElement<GenologicsFileBatchFetchResult> createDetails(GenologicsFileBatchFetchResult value) {
-        return new JAXBElement<GenologicsFileBatchFetchResult>(_Details_QNAME, GenologicsFileBatchFetchResult.class, null, value);
+    public JAXBElement<ClarityFileBatchFetchResult> createDetails(ClarityFileBatchFetchResult value) {
+        return new JAXBElement<ClarityFileBatchFetchResult>(_Details_QNAME, ClarityFileBatchFetchResult.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GenologicsFile }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ClarityFile }{@code >}}
      *
      */
     @XmlElementDecl(namespace = FILE_NAMESPACE, name = "file")
-    public JAXBElement<GenologicsFile> createFile(GenologicsFile value) {
-        return new JAXBElement<GenologicsFile>(_File_QNAME, GenologicsFile.class, null, value);
+    public JAXBElement<ClarityFile> createFile(ClarityFile value) {
+        return new JAXBElement<ClarityFile>(_File_QNAME, ClarityFile.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GenologicsFiles }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ClarityFiles }{@code >}}
      *
      */
     @XmlElementDecl(namespace = FILE_NAMESPACE, name = "files")
-    public JAXBElement<GenologicsFiles> createFiles(GenologicsFiles value) {
-        return new JAXBElement<GenologicsFiles>(_Files_QNAME, GenologicsFiles.class, null, value);
+    public JAXBElement<ClarityFiles> createFiles(ClarityFiles value) {
+        return new JAXBElement<ClarityFiles>(_Files_QNAME, ClarityFiles.class, null, value);
     }
 
 }

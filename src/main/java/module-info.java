@@ -1,12 +1,12 @@
-import org.cruk.genologics.api.GenologicsAPI;
-import org.cruk.genologics.api.impl.GenologicsAPIImpl;
+import org.cruk.clarity.api.ClarityAPI;
+import org.cruk.clarity.api.impl.ClarityAPIImpl;
 
 /**
  * The Clarity Java client for Clarity 6+.
  */
 module org.cruk.clarity.api
 {
-    provides GenologicsAPI with GenologicsAPIImpl;
+    provides ClarityAPI with ClarityAPIImpl;
 
     requires transitive java.annotation;
     requires transitive java.xml.bind;
@@ -64,10 +64,10 @@ module org.cruk.clarity.api
     exports com.genologics.ri.version;
     exports com.genologics.ri.workflowconfiguration;
 
-    exports org.cruk.genologics.api;
-    exports org.cruk.genologics.api.cache;
-    exports org.cruk.genologics.api.debugging;
-    exports org.cruk.genologics.api.http;
-    exports org.cruk.genologics.api.impl;
-    exports org.cruk.genologics.api.jaxb;
+    exports org.cruk.clarity.api;
+    exports org.cruk.clarity.api.cache;
+    exports org.cruk.clarity.api.debugging;
+    exports org.cruk.clarity.api.http;
+    exports org.cruk.clarity.api.impl;
+    exports org.cruk.clarity.api.jaxb;
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+    CRUK-CI Clarity REST API Java Client.
+    Copyright (C) 2013 Cancer Research UK Cambridge Institute.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:annotation-config />
+
+    <bean id="clarityCacheManager" class="org.cruk.clarity.api.cache.EhCacheManagerFactory">
+        <property name="configLocation" value="classpath:/org/cruk/clarity/api/ehcache.xml"/>
+    </bean>
+
+    <bean id="clarityApiCacheAspect" class="org.cruk.clarity.api.cache.ClarityAPICache">
+        <property name="clarityAPI" ref="clarityAPI"/>
+        <property name="internalClarityAPI" ref="clarityAPI"/>
+        <property name="cacheManager" ref="clarityCacheManager"/>
+        <property name="latestVersionsResetAspect" ref="clarityLatestVersionsResetAspect"/>
+        <property name="statefulBehaviour" value="LATEST"/>
+    </bean>
+
+    <aop:config>
+        <aop:aspect id="clarityCachingAspect" ref="clarityApiCacheAspect">
+            <aop:around method="retrieve" pointcut="execution(public * retrieve(..)) and bean(clarityAPI)" />
+            <aop:around method="loadById" pointcut="execution(public * load(String, Class)) and bean(clarityAPI)" />
+            <aop:around method="loadById" pointcut="execution(public * load(String, String, Class)) and bean(clarityAPI)" />
+            <aop:around method="loadByLink" pointcut="execution(public * load(com.genologics.ri.LimsLink)) and bean(clarityAPI)" />
+            <aop:around method="loadAll" pointcut="execution(public * loadAll(..)) and bean(clarityAPI)" />
+            <aop:around method="reload" pointcut="execution(public * reload(..)) and bean(clarityAPI)" />
+            <aop:around method="create" pointcut="execution(public * create(..)) and bean(clarityAPI)" />
+            <aop:around method="createAll" pointcut="execution(public * createAll(..)) and bean(clarityAPI)" />
+            <aop:around method="update" pointcut="execution(public * update(..)) and bean(clarityAPI)" />
+            <aop:around method="updateAll" pointcut="execution(public * updateAll(..)) and bean(clarityAPI)" />
+            <aop:around method="delete" pointcut="execution(public * delete(..)) and bean(clarityAPI)" />
+            <aop:around method="deleteAll" pointcut="execution(public * deleteAll(..)) and bean(clarityAPI)" />
+            <aop:around method="uploadFile" pointcut="execution(public * uploadFile(..)) and bean(clarityAPI)" />
+            <aop:around method="deleteAndRemoveFile" pointcut="execution(public * deleteAndRemoveFile(..)) and bean(clarityAPI)" />
+            <aop:around method="runSomething" pointcut="execution(public * executeProcess(..)) and bean(clarityAPI)" />
+            <aop:around method="runSomething" pointcut="execution(public * beginProcessStep(..)) and bean(clarityAPI)" />
+
+            <aop:after method="cancelStatefulOverride" pointcut="execution(public * *(..)) and bean(clarityAPI)"/>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

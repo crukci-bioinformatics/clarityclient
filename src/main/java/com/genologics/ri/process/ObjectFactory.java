@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -61,11 +61,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GenologicsProcess }
+     * Create an instance of {@link ClarityProcess }
      *
      */
-    public GenologicsProcess createProcess() {
-        return new GenologicsProcess();
+    public ClarityProcess createProcess() {
+        return new ClarityProcess();
     }
 
     /**
@@ -93,11 +93,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GenologicsProcesses }
+     * Create an instance of {@link ClarityProcesses }
      *
      */
-    public GenologicsProcesses createProcesses() {
-        return new GenologicsProcesses();
+    public ClarityProcesses createProcesses() {
+        return new ClarityProcesses();
     }
 
     /**
@@ -141,84 +141,84 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GenologicsProcesses }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ClarityProcesses }{@code >}}
      *
      */
     @XmlElementDecl(namespace = PROCESS_NAMESPACE, name = "processes")
-    public JAXBElement<GenologicsProcesses> createProcesses(GenologicsProcesses value) {
-        return new JAXBElement<GenologicsProcesses>(_Processes_QNAME, GenologicsProcesses.class, null, value);
+    public JAXBElement<ClarityProcesses> createProcesses(ClarityProcesses value) {
+        return new JAXBElement<ClarityProcesses>(_Processes_QNAME, ClarityProcesses.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link GenologicsProcess }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ClarityProcess }{@code >}}
      *
      */
     @XmlElementDecl(namespace = PROCESS_NAMESPACE, name = "process")
-    public JAXBElement<GenologicsProcess> createProcess(GenologicsProcess value) {
-        return new JAXBElement<GenologicsProcess>(_Process_QNAME, GenologicsProcess.class, null, value);
+    public JAXBElement<ClarityProcess> createProcess(ClarityProcess value) {
+        return new JAXBElement<ClarityProcess>(_Process_QNAME, ClarityProcess.class, null, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      *
      */
-    @XmlElementDecl(namespace = "", name = "protocol-name", scope = GenologicsProcess.class)
+    @XmlElementDecl(namespace = "", name = "protocol-name", scope = ClarityProcess.class)
     public JAXBElement<String> createProcessProtocolName(String value) {
-        return new JAXBElement<String>(_ProcessProtocolName_QNAME, String.class, GenologicsProcess.class, value);
+        return new JAXBElement<String>(_ProcessProtocolName_QNAME, String.class, ClarityProcess.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Technician }{@code >}}
      *
      */
-    @XmlElementDecl(namespace = "", name = "technician", scope = GenologicsProcess.class)
+    @XmlElementDecl(namespace = "", name = "technician", scope = ClarityProcess.class)
     public JAXBElement<Technician> createProcessTechnician(Technician value) {
-        return new JAXBElement<Technician>(_ProcessTechnician_QNAME, Technician.class, GenologicsProcess.class, value);
+        return new JAXBElement<Technician>(_ProcessTechnician_QNAME, Technician.class, ClarityProcess.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link InstrumentLink }{@code >}}
      *
      */
-    @XmlElementDecl(namespace = "", name = "instrument", scope = GenologicsProcess.class)
+    @XmlElementDecl(namespace = "", name = "instrument", scope = ClarityProcess.class)
     public JAXBElement<InstrumentLink> createProcessInstrument(InstrumentLink value) {
-        return new JAXBElement<InstrumentLink>(_ProcessInstrument_QNAME, InstrumentLink.class, GenologicsProcess.class, value);
+        return new JAXBElement<InstrumentLink>(_ProcessInstrument_QNAME, InstrumentLink.class, ClarityProcess.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ProcessTypeLink }{@code >}}
      *
      */
-    @XmlElementDecl(namespace = "", name = "type", scope = GenologicsProcess.class)
+    @XmlElementDecl(namespace = "", name = "type", scope = ClarityProcess.class)
     public JAXBElement<ProcessTypeLink> createProcessType(ProcessTypeLink value) {
-        return new JAXBElement<ProcessTypeLink>(_ProcessType_QNAME, ProcessTypeLink.class, GenologicsProcess.class, value);
+        return new JAXBElement<ProcessTypeLink>(_ProcessType_QNAME, ProcessTypeLink.class, ClarityProcess.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link InputOutputMap }{@code >}}
      *
      */
-    @XmlElementDecl(namespace = "", name = "input-output-map", scope = GenologicsProcess.class)
+    @XmlElementDecl(namespace = "", name = "input-output-map", scope = ClarityProcess.class)
     public JAXBElement<InputOutputMap> createProcessInputOutputMap(InputOutputMap value) {
-        return new JAXBElement<InputOutputMap>(_ProcessInputOutputMap_QNAME, InputOutputMap.class, GenologicsProcess.class, value);
+        return new JAXBElement<InputOutputMap>(_ProcessInputOutputMap_QNAME, InputOutputMap.class, ClarityProcess.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Parameter }{@code >}}
      *
      */
-    @XmlElementDecl(namespace = "", name = "process-parameter", scope = GenologicsProcess.class)
+    @XmlElementDecl(namespace = "", name = "process-parameter", scope = ClarityProcess.class)
     public JAXBElement<Parameter> createProcessProcessParameter(Parameter value) {
-        return new JAXBElement<Parameter>(_ProcessProcessParameter_QNAME, Parameter.class, GenologicsProcess.class, value);
+        return new JAXBElement<Parameter>(_ProcessProcessParameter_QNAME, Parameter.class, ClarityProcess.class, value);
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      *
      */
-    @XmlElementDecl(namespace = "", name = "date-run", scope = GenologicsProcess.class)
+    @XmlElementDecl(namespace = "", name = "date-run", scope = ClarityProcess.class)
     public JAXBElement<String> createProcessDateRun(String value) {
-        return new JAXBElement<String>(_ProcessDateRun_QNAME, String.class, GenologicsProcess.class, value);
+        return new JAXBElement<String>(_ProcessDateRun_QNAME, String.class, ClarityProcess.class, value);
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
-import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
+import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;

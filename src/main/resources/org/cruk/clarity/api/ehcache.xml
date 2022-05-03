@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    CRUK-CI Clarity REST API Java Client.
+    Copyright (C) 2013 Cancer Research UK Cambridge Institute.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<config xmlns="http://www.ehcache.org/v3"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+
+    <!-- Templates -->
+
+    <cache-template name="smallLong">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.clarity.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">1800</tti>
+        </expiry>
+        <heap>100</heap>
+    </cache-template>
+
+    <cache-template name="smallMedium">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.clarity.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">600</tti>
+        </expiry>
+        <heap>100</heap>
+    </cache-template>
+
+    <cache-template name="mediumShort">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.clarity.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">300</tti>
+        </expiry>
+        <heap>250</heap>
+    </cache-template>
+
+    <cache-template name="mediumMedium">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.clarity.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">600</tti>
+        </expiry>
+        <heap>250</heap>
+    </cache-template>
+
+    <cache-template name="largeShort">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.clarity.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">300</tti>
+        </expiry>
+        <heap>1800</heap>
+    </cache-template>
+
+    <!-- The caches themselves -->
+
+    <cache alias="com.genologics.ri.LimsEntity">
+        <key-type>java.lang.String</key-type>
+        <value-type>org.cruk.clarity.api.cache.CacheElementWrapper</value-type>
+        <expiry>
+            <tti unit="seconds">600</tti>
+        </expiry>
+        <heap>500</heap>
+    </cache>
+
+    <cache alias="com.genologics.ri.artifact.Artifact" uses-template="largeShort"/>
+
+    <cache alias="com.genologics.ri.artifact.Demux" uses-template="mediumShort"/>
+
+    <cache alias="com.genologics.ri.automation.Automation" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.container.Container" uses-template="mediumShort"/>
+
+    <cache alias="com.genologics.ri.containertype.ContainerType" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.controltype.ControlType" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.file.ClarityFile" uses-template="largeShort"/>
+
+    <cache alias="com.genologics.ri.instrument.Instrument" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.lab.Lab" uses-template="mediumMedium"/>
+
+    <cache alias="com.genologics.ri.process.ClarityProcess" uses-template="mediumShort"/>
+
+    <cache alias="com.genologics.ri.processtype.ProcessType" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.project.Project" uses-template="mediumShort"/>
+
+    <cache alias="com.genologics.ri.researcher.Researcher" uses-template="mediumMedium"/>
+
+    <cache alias="com.genologics.ri.reagenttype.ReagentType" uses-template="largeShort"/>
+
+    <cache alias="com.genologics.ri.sample.Sample" uses-template="largeShort"/>
+
+    <cache alias="com.genologics.ri.stage.Stage" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.protocolconfiguration.Protocol" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.protocolconfiguration.ProtocolStep" uses-template="smallLong"/>
+
+    <cache alias="com.genologics.ri.workflowconfiguration.Workflow" uses-template="smallLong"/>
+
+</config>

@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.LimsEntity;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.LimsEntityLinkable;
@@ -44,8 +44,8 @@ import com.genologics.ri.Location;
 import com.genologics.ri.artifactgroup.ArtifactGroup;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.controltype.ControlType;
-import com.genologics.ri.file.GenologicsFile;
-import com.genologics.ri.process.GenologicsProcess;
+import com.genologics.ri.file.ClarityFile;
+import com.genologics.ri.process.ClarityProcess;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.userdefined.UDF;
 
@@ -62,7 +62,7 @@ import com.genologics.ri.userdefined.UDF;
  * Artifacts do not support HTTP POST requests.
  * </p>
  */
-@GenologicsEntity(uriSection = "artifacts", updateable = true, stateful = true)
+@ClarityEntity(uriSection = "artifacts", updateable = true, stateful = true)
 @XmlRootElement(name = "artifact")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "artifact",
@@ -105,7 +105,7 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
     protected List<UDF> fields;
 
     @XmlElement(name = "file", namespace = FILE_NAMESPACE)
-    protected GenologicsFile file;
+    protected ClarityFile file;
 
     @XmlElement(name = "artifact-group")
     protected List<ArtifactGroupLink> artifactGroups;
@@ -165,7 +165,7 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
         return parentProcess;
     }
 
-    public ParentProcessLink setParentProcess(LimsEntityLinkable<GenologicsProcess> link)
+    public ParentProcessLink setParentProcess(LimsEntityLinkable<ClarityProcess> link)
     {
         parentProcess = new ParentProcessLink(link);
         return parentProcess;
@@ -286,14 +286,14 @@ public class Artifact implements LimsEntity<Artifact>, Serializable
      *
      * @return The file link, if present.
      */
-    public GenologicsFile getFile()
+    public ClarityFile getFile()
     {
         return file;
     }
 
-    public void setFile(GenologicsFile value)
+    public void setFile(ClarityFile value)
     {
-        this.file = value == null ? null : new GenologicsFile(value);
+        this.file = value == null ? null : new ClarityFile(value);
     }
 
     public List<ArtifactGroupLink> getArtifactGroups()

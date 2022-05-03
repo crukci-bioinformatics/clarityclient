@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.cruk.genologics.api.GenologicsException;
-import org.cruk.genologics.api.jaxb.JaxbUnmarshallingAspect;
+import org.cruk.clarity.api.ClarityException;
+import org.cruk.clarity.api.jaxb.JaxbUnmarshallingAspect;
 
 /**
  *
@@ -51,10 +51,10 @@ import org.cruk.genologics.api.jaxb.JaxbUnmarshallingAspect;
  *
  * <p>
  * Note that within the client, these exceptions are converted to true Java
- * {@code GenologicsException} automatically.
+ * {@code ClarityException} automatically.
  * </p>
  *
- * @see GenologicsException
+ * @see ClarityException
  * @see JaxbUnmarshallingAspect
  */
 @XmlRootElement(name = "exception")

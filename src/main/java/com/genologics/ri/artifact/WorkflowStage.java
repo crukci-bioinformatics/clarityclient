@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2015 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify

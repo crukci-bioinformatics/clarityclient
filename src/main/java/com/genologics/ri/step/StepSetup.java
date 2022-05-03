@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,14 +31,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
 
 /**
  * @since 2.18
  */
-@GenologicsEntity(uriSection = "steps", uriSubsection = "setup")
+@ClarityEntity(uriSection = "steps", uriSubsection = "setup")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "setup", propOrder = { "step", "configuration", "files" })
 @XmlRootElement(name = "setup")

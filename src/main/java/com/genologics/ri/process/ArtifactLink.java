@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -98,7 +98,7 @@ public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
         return parentProcess;
     }
 
-    public ParentProcessLink setParentProcess(LimsEntityLinkable<GenologicsProcess> parentProcess)
+    public ParentProcessLink setParentProcess(LimsEntityLinkable<ClarityProcess> parentProcess)
     {
         this.parentProcess = new ParentProcessLink(parentProcess);
         return this.parentProcess;

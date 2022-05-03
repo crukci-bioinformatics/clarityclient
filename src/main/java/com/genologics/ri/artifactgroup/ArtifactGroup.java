@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Locatable;
 
 /**
@@ -38,7 +38,7 @@ import com.genologics.ri.Locatable;
  * artifactGroup. Seeing a sample in an artifactGroup in the API indicates that
  * the sample has been assigned to a workflow of the same name.
  */
-@GenologicsEntity(uriSection = "artifactgroups")
+@ClarityEntity(uriSection = "artifactgroups")
 @XmlRootElement(name = "artifactgroup")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "artifactgroup", propOrder = { "name", "artifacts" })

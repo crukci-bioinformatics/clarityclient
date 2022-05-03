@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.cruk.genologics.api.jaxb.ShortDateAdapter;
+import org.cruk.clarity.api.jaxb.ShortDateAdapter;
 
 import com.genologics.ri.ExternalId;
 import com.genologics.ri.LimsEntityLinkable;
@@ -45,7 +45,7 @@ import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.controltype.ControlType;
-import com.genologics.ri.file.GenologicsFile;
+import com.genologics.ri.file.ClarityFile;
 import com.genologics.ri.project.Project;
 import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.userdefined.UDF;
@@ -101,7 +101,7 @@ public class SampleBase implements Serializable
     protected List<ExternalId> externalIds;
 
     @XmlElement(name = "file", namespace = FILE_NAMESPACE)
-    protected List<GenologicsFile> files;
+    protected List<ClarityFile> files;
 
     @XmlAttribute(name = "limsid")
     protected String limsid;
@@ -135,7 +135,7 @@ public class SampleBase implements Serializable
         }
         if (other.files != null)
         {
-            this.files = new ArrayList<GenologicsFile>(other.files);
+            this.files = new ArrayList<ClarityFile>(other.files);
         }
     }
 
@@ -292,16 +292,16 @@ public class SampleBase implements Serializable
      * Each file provides a URI linking to the detailed representation of a file
      * associated with the Sample.
      */
-    public List<GenologicsFile> getFiles()
+    public List<ClarityFile> getFiles()
     {
         if (files == null)
         {
-            files = new ArrayList<GenologicsFile>();
+            files = new ArrayList<ClarityFile>();
         }
         return this.files;
     }
 
-    public GenologicsFile addFile(GenologicsFile f)
+    public ClarityFile addFile(ClarityFile f)
     {
         getFiles().add(f);
         return f;

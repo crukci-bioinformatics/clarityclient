@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
 
@@ -49,7 +49,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  * normal protocol, where samples go through in series.
  * </p>
  */
-@GenologicsEntity(uriSection = "configuration/protocols")
+@ClarityEntity(uriSection = "configuration/protocols")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "protocol", propOrder = { "steps", "protocolProperties" })
 @XmlRootElement(name = "protocol")
@@ -85,7 +85,7 @@ public class Protocol implements Linkable<Protocol>, Serializable
 
     static
     {
-        GenologicsEntity anno = Protocol.class.getAnnotation(GenologicsEntity.class);
+        ClarityEntity anno = Protocol.class.getAnnotation(ClarityEntity.class);
 
         StringBuilder b = new StringBuilder();
         b.append("^.*/").append(anno.uriSection()).append("/(\\d+)$");
