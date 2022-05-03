@@ -1,18 +1,18 @@
 # CRUK-CI Genologics API Java Client
 
-The Cancer Research UK Cambridge Institute (CRUK-CI) Genologics Java Client
+The Cancer Research UK Cambridge Institute (CRUK-CI) Clarity Java Client
 provides the Java or Groovy developer a means to work with
-[Genologics' REST API](https://www.genologics.com/developer/) using objects
+[Clarity's REST API](https://d10e8rzir0haj8.cloudfront.net/6.0/REST.html) using objects
 rather than XML or DOM document trees.
 
 It provides a single interface to perform (almost) all the operations
-supported by the Genologics' REST API with XML to Java object conversion,
+supported by the Clarity REST API with XML to Java object conversion,
 error handling and, optionally, client side caching. The developer works
-with Java objects that map onto the XML documents described by Genologics'
-API documentation.
+with Java objects that map onto the XML documents described by Illumina's
+Clarity API documentation.
 
 It uses the JAXB object to XML binding mechanism to convert the XML
-messages sent to and received from Genologics' REST API. The communication
+messages sent to and received from Clarity's REST API. The communication
 uses Apache's HTTP Java client and Spring's REST client. Spring is used
 throughout this tool.
 
@@ -33,18 +33,20 @@ and server.
 
 Having got this check out of the code, run:
 
-    mvn install
+```
+mvn install
+```
 
 This will build and install the project into your local Maven cache.
 You'll need Maven 3.5 or newer.
 
 Alternatively, you can add our Maven repository to your POM and let
-Maven do the work. Add a <repositories> section containing:
+Maven do the work. Add a &lt;repositories&gt; section containing:
 
 ```XML
     <repository>
         <id>crukci-bioinformatics</id>
-        <url>http://content.cruk.cam.ac.uk/bioinformatics/maven</url>
+        <url>https://content.cruk.cam.ac.uk/bioinformatics/maven</url>
         <releases>
             <enabled>true</enabled>
         </releases>
@@ -60,7 +62,7 @@ Add the JAR file to your POM (I'm assuming you're using Maven now):
 
 ```XML
     <dependency>
-        <groupId>org.cruk.genologics</groupId>
+        <groupId>org.cruk.clarity</groupId>
         <artifactId>clarity-client</artifactId>
         <version>...</version>
     </dependency>
