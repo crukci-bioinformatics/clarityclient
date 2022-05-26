@@ -19,6 +19,7 @@
 package org.cruk.clarity.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -30,7 +31,6 @@ import java.lang.reflect.Constructor;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -54,7 +54,6 @@ import org.cruk.clarity.api.debugging.RestClientSnoopingAspect;
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.clarity.api.impl.ClarityAPIImpl;
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
-import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +70,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import com.genologics.ri.LimsLink;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.sample.Samples;
 
@@ -114,51 +112,56 @@ public class ClarityAPIPaginatedBatchTest
     }
 
     @Test
-    public void testMultipageFetchFind() throws Exception
+    public void testMultipageFetchFind1() throws Exception
     {
         // Part one - mock the rest template to return the already parsed objects.
 
-        RestOperations restMock = EasyMock.createStrictMock(RestOperations.class);
+        RestOperations restMock = mock(RestOperations.class);
 
-        EasyMock.expect(restMock.getForEntity("http://lims.cri.camres.org:8080/api/v2/samples?projectname=Run 1030", Samples.class))
-                .andReturn(response1).once();
-        EasyMock.expect(restMock.getForEntity(new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030"), Samples.class))
-                .andReturn(response2).once();
-        EasyMock.expect(restMock.getForEntity(new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=1000&projectname=Run+1030"), Samples.class))
-                 .andReturn(response3).once();
+        final String uri1 = "http://lims.cri.camres.org:8080/api/v2/samples?projectname=Run 1030";
+        final URI uri2 = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030");
+        final URI uri3 = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=1000&projectname=Run+1030");
+
+        when(restMock.getForEntity(uri1, Samples.class)).thenReturn(response1);
+        when(restMock.getForEntity(uri2, Samples.class)).thenReturn(response2);
+        when(restMock.getForEntity(uri3, Samples.class)).thenReturn(response3);
 
 
         localApi.setRestClient(restMock);
         localApi.setServer(new URL("http://lims.cri.camres.org:8080"));
 
-        EasyMock.replay(restMock);
-
-        Map<String, Object> terms = new HashMap<String, Object>();
+        Map<String, Object> terms = new HashMap<>();
         terms.put("projectname", "Run 1030");
 
-        List<LimsLink<Sample>> links = localApi.find(terms, Sample.class);
-
-        EasyMock.verify(restMock);
+        var links = localApi.find(terms, Sample.class);
 
         assertEquals(1150, links.size(), "Expected 1150 sample links returned");
+        verify(restMock, times(1)).getForEntity(uri1, Samples.class);
+        verify(restMock, times(1)).getForEntity(uri2, Samples.class);
+        verify(restMock, times(1)).getForEntity(uri3, Samples.class);
+    }
 
-
+    @Test
+    public void testMultipageFetchFind2() throws Exception
+    {
         // Part two - mock the HTTP client and request factory to ensure that the URIs are
         // being presented as expected without character cludging.
 
+        Map<String, Object> terms = new HashMap<>();
+        terms.put("projectname", "Run 1030");
 
         HttpContext httpContext = HttpClientContext.create();
-        HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
-        AuthenticatingClientHttpRequestFactory mockRequestFactory = EasyMock.createMock(AuthenticatingClientHttpRequestFactory.class);
+        HttpClient mockHttpClient = mock(HttpClient.class);
+        AuthenticatingClientHttpRequestFactory mockRequestFactory = mock(AuthenticatingClientHttpRequestFactory.class);
 
         restTemplate.setRequestFactory(mockRequestFactory);
 
         localApi.setHttpClient(mockHttpClient);
         localApi.setRestClient(restTemplate);
 
-        URI pageOne = new URI("http://lims.cri.camres.org:8080/api/v2/samples?projectname=Run%201030");
-        URI pageTwo = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030");
-        URI pageThree = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=1000&projectname=Run+1030");
+        final URI pageOne = new URI("http://lims.cri.camres.org:8080/api/v2/samples?projectname=Run%201030");
+        final URI pageTwo = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030");
+        final URI pageThree = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=1000&projectname=Run+1030");
 
         HttpGet getOne = new HttpGet(pageOne);
         HttpGet getTwo = new HttpGet(pageOne);
@@ -176,59 +179,67 @@ public class ClarityAPIPaginatedBatchTest
         ClientHttpRequest reqTwo = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getTwo, httpContext);
         ClientHttpRequest reqThree = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getThree, httpContext);
 
-        EasyMock.expect(mockRequestFactory.createRequest(pageOne, HttpMethod.GET)).andReturn(reqOne).once();
-        EasyMock.expect(mockRequestFactory.createRequest(pageTwo, HttpMethod.GET)).andReturn(reqTwo).once();
-        EasyMock.expect(mockRequestFactory.createRequest(pageThree, HttpMethod.GET)).andReturn(reqThree).once();
+        when(mockRequestFactory.createRequest(pageOne, HttpMethod.GET)).thenReturn(reqOne);
+        when(mockRequestFactory.createRequest(pageTwo, HttpMethod.GET)).thenReturn(reqTwo);
+        when(mockRequestFactory.createRequest(pageThree, HttpMethod.GET)).thenReturn(reqThree);
 
-        EasyMock.expect(mockHttpClient.execute(getOne, httpContext)).andReturn(responseOne).once();
-        EasyMock.expect(mockHttpClient.execute(getTwo, httpContext)).andReturn(responseTwo).once();
-        EasyMock.expect(mockHttpClient.execute(getThree, httpContext)).andReturn(responseThree).once();
+        when(mockHttpClient.execute(getOne, httpContext)).thenReturn(responseOne);
+        when(mockHttpClient.execute(getTwo, httpContext)).thenReturn(responseTwo);
+        when(mockHttpClient.execute(getThree, httpContext)).thenReturn(responseThree);
 
-        EasyMock.replay(mockHttpClient, mockRequestFactory);
-
-        links = localApi.find(terms, Sample.class);
-
-        EasyMock.verify(mockHttpClient, mockRequestFactory);
+        var links = localApi.find(terms, Sample.class);
 
         assertEquals(1150, links.size(), "Expected 1150 sample links returned");
+
+        verify(mockRequestFactory, times(1)).createRequest(pageOne, HttpMethod.GET);
+        verify(mockRequestFactory, times(1)).createRequest(pageTwo, HttpMethod.GET);
+        verify(mockRequestFactory, times(1)).createRequest(pageThree, HttpMethod.GET);
+
+        verify(mockHttpClient, times(1)).execute(getOne, httpContext);
+        verify(mockHttpClient, times(1)).execute(getTwo, httpContext);
+        verify(mockHttpClient, times(1)).execute(getThree, httpContext);
     }
 
     @Test
-    public void testMultipageFetchListSome() throws Exception
+    public void testMultipageFetchListSome1() throws Exception
     {
         // Note - reusing the files from above means that the subsequent pages
         // with have "&projectname=Run+1030" as part of the URL. This can be ignored
         // for this test.
 
+        final String uri1 = "http://lims.cri.camres.org:8080/api/v2/samples?start-index=0";
+        final URI uri2 = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030");
+        final URI uri3 = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=1000&projectname=Run+1030");
+
         // Part one - mock the rest template to return the already parsed objects.
 
-        RestOperations restMock = EasyMock.createStrictMock(RestOperations.class);
+        RestOperations restMock = mock(RestOperations.class);
 
-        EasyMock.expect(restMock.getForEntity("http://lims.cri.camres.org:8080/api/v2/samples?start-index=0", Samples.class))
-                .andReturn(response1).once();
-        EasyMock.expect(restMock.getForEntity(new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030"), Samples.class))
-                .andReturn(response2).once();
+        when(restMock.getForEntity(uri1, Samples.class)).thenReturn(response1);
+        when(restMock.getForEntity(uri2, Samples.class)).thenReturn(response2);
         // Should get as far as response 3 in this test.
 
         localApi.setRestClient(restMock);
         localApi.setServer(new URL("http://lims.cri.camres.org:8080"));
 
-        EasyMock.replay(restMock);
-
-        List<LimsLink<Sample>> links = localApi.listSome(Sample.class, 0, 750);
-
-        EasyMock.verify(restMock);
+        var links = localApi.listSome(Sample.class, 0, 750);
 
         assertEquals(750, links.size(), "Expected 750 sample links returned");
 
+        verify(restMock, times(1)).getForEntity(uri1, Samples.class);
+        verify(restMock, times(1)).getForEntity(uri2, Samples.class);
+        verify(restMock, never()).getForEntity(uri3, Samples.class);
+    }
 
+    @Test
+    public void testMultipageFetchListSome2() throws Exception
+    {
         // Part two - mock the HTTP client and request factory to ensure that the URIs are
         // being presented as expected without character cludging.
 
-
         HttpContext httpContext = HttpClientContext.create();
-        HttpClient mockHttpClient = EasyMock.createMock(HttpClient.class);
-        ClientHttpRequestFactory mockRequestFactory = EasyMock.createMock(ClientHttpRequestFactory.class);
+        HttpClient mockHttpClient = mock(HttpClient.class);
+        ClientHttpRequestFactory mockRequestFactory = mock(ClientHttpRequestFactory.class);
 
         restTemplate.setRequestFactory(mockRequestFactory);
 
@@ -251,19 +262,21 @@ public class ClarityAPIPaginatedBatchTest
         ClientHttpRequest reqOne = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getOne, httpContext);
         ClientHttpRequest reqTwo = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getTwo, httpContext);
 
-        EasyMock.expect(mockRequestFactory.createRequest(pageOne, HttpMethod.GET)).andReturn(reqOne).once();
-        EasyMock.expect(mockRequestFactory.createRequest(pageTwo, HttpMethod.GET)).andReturn(reqTwo).once();
+        when(mockRequestFactory.createRequest(pageOne, HttpMethod.GET)).thenReturn(reqOne);
+        when(mockRequestFactory.createRequest(pageTwo, HttpMethod.GET)).thenReturn(reqTwo);
 
-        EasyMock.expect(mockHttpClient.execute(getOne, httpContext)).andReturn(responseOne).once();
-        EasyMock.expect(mockHttpClient.execute(getTwo, httpContext)).andReturn(responseTwo).once();
+        when(mockHttpClient.execute(getOne, httpContext)).thenReturn(responseOne);
+        when(mockHttpClient.execute(getTwo, httpContext)).thenReturn(responseTwo);
 
-        EasyMock.replay(mockHttpClient, mockRequestFactory);
-
-        links = localApi.listSome(Sample.class, 0, 750);
-
-        EasyMock.verify(mockHttpClient, mockRequestFactory);
+        var links = localApi.listSome(Sample.class, 0, 750);
 
         assertEquals(750, links.size(), "Expected 750 sample links returned");
+
+        verify(mockRequestFactory, times(1)).createRequest(pageOne, HttpMethod.GET);
+        verify(mockRequestFactory, times(1)).createRequest(pageTwo, HttpMethod.GET);
+
+        verify(mockHttpClient, times(1)).execute(getOne, httpContext);
+        verify(mockHttpClient, times(1)).execute(getTwo, httpContext);
     }
 
 

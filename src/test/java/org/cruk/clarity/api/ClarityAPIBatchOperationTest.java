@@ -18,9 +18,12 @@
 
 package org.cruk.clarity.api;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -39,9 +42,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.output.NullOutputStream;
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
-import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -95,10 +96,8 @@ public class ClarityAPIBatchOperationTest
         links.add(new ArtifactLink(new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000622?state=10101")));
         links.add(new ArtifactLink(new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000622?state=10121")));
 
-        ClientHttpRequestFactory mockFactory = EasyMock.createMock(ClientHttpRequestFactory.class);
+        ClientHttpRequestFactory mockFactory = mock(ClientHttpRequestFactory.class);
         restTemplate.setRequestFactory(mockFactory);
-
-        EasyMock.replay(mockFactory);
 
         try
         {
@@ -114,7 +113,7 @@ public class ClarityAPIBatchOperationTest
             // Otherwise what we expect.
         }
 
-        EasyMock.verify(mockFactory);
+        verify(mockFactory);
     }
 
     @Test
@@ -129,7 +128,7 @@ public class ClarityAPIBatchOperationTest
         links.add(new ArtifactLink(new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/2-1000625")));
 
         File expectedResultFile = new File("src/test/xml/batchtestreordering-artifacts.xml");
-        String expectedReply = FileUtils.readFileToString(expectedResultFile);
+        String expectedReply = FileUtils.readFileToString(expectedResultFile, UTF_8);
 
         URI uri = new URI("http://limsdev.cri.camres.org:8080/api/v2/artifacts/batch/retrieve");
 
@@ -140,25 +139,21 @@ public class ClarityAPIBatchOperationTest
 
         HttpHeaders headers = new HttpHeaders();
 
-        ClientHttpResponse httpResponse = EasyMock.createMock(ClientHttpResponse.class);
-        EasyMock.expect(httpResponse.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
-        EasyMock.expect(httpResponse.getRawStatusCode()).andReturn(HttpStatus.OK.value()).anyTimes();
-        EasyMock.expect(httpResponse.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpResponse.getBody()).andReturn(responseStream).once();
-        httpResponse.close();
-        EasyMock.expectLastCall().once();
+        ClientHttpResponse httpResponse = mock(ClientHttpResponse.class);
+        when(httpResponse.getStatusCode()).thenReturn(HttpStatus.OK);
+        when(httpResponse.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
+        when(httpResponse.getHeaders()).thenReturn(headers);
+        when(httpResponse.getBody()).thenReturn(responseStream);
 
-        ClientHttpRequest httpRequest = EasyMock.createMock(ClientHttpRequest.class);
-        EasyMock.expect(httpRequest.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpRequest.getBody()).andReturn(new NullOutputStream()).times(0, 2);
-        EasyMock.expect(httpRequest.execute()).andReturn(httpResponse).once();
+        ClientHttpRequest httpRequest = mock(ClientHttpRequest.class);
+        when(httpRequest.getHeaders()).thenReturn(headers);
+        when(httpRequest.getBody()).thenReturn(NULL_OUTPUT_STREAM);
+        when(httpRequest.execute()).thenReturn(httpResponse);
 
-        ClientHttpRequestFactory mockFactory = EasyMock.createStrictMock(ClientHttpRequestFactory.class);
-        EasyMock.expect(mockFactory.createRequest(uri, HttpMethod.POST)).andReturn(httpRequest).once();
+        ClientHttpRequestFactory mockFactory = mock(ClientHttpRequestFactory.class);
+        when(mockFactory.createRequest(uri, HttpMethod.POST)).thenReturn(httpRequest);
 
         restTemplate.setRequestFactory(mockFactory);
-
-        EasyMock.replay(httpResponse, httpRequest, mockFactory);
 
         List<Artifact> artifacts = api.loadAll(links);
 
@@ -170,7 +165,9 @@ public class ClarityAPIBatchOperationTest
                        "Artifact " + i + " wrong: " + artifacts.get(i).getUri());
         }
 
-        EasyMock.verify(httpResponse, httpRequest, mockFactory);
+        verify(httpResponse, times(1)).getBody();
+        verify(httpResponse, times(1)).close();
+        verify(httpRequest, atMost(2)).getBody();
     }
 
     @Test
@@ -220,39 +217,33 @@ public class ClarityAPIBatchOperationTest
 
         HttpHeaders headers = new HttpHeaders();
 
-        ClientHttpResponse httpResponse1 = EasyMock.createMock(ClientHttpResponse.class);
-        EasyMock.expect(httpResponse1.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
-        EasyMock.expect(httpResponse1.getRawStatusCode()).andReturn(HttpStatus.OK.value()).anyTimes();
-        EasyMock.expect(httpResponse1.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpResponse1.getBody()).andReturn(response1Stream).once();
-        httpResponse1.close();
-        EasyMock.expectLastCall().once();
+        ClientHttpResponse httpResponse1 = mock(ClientHttpResponse.class);
+        when(httpResponse1.getStatusCode()).thenReturn(HttpStatus.OK);
+        when(httpResponse1.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
+        when(httpResponse1.getHeaders()).thenReturn(headers);
+        when(httpResponse1.getBody()).thenReturn(response1Stream);
 
-        ClientHttpRequest httpRequest1 = EasyMock.createMock(ClientHttpRequest.class);
-        EasyMock.expect(httpRequest1.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpRequest1.getBody()).andReturn(NULL_OUTPUT_STREAM).times(0, 2);
-        EasyMock.expect(httpRequest1.execute()).andReturn(httpResponse1).once();
+        ClientHttpRequest httpRequest1 = mock(ClientHttpRequest.class);
+        when(httpRequest1.getHeaders()).thenReturn(headers);
+        when(httpRequest1.getBody()).thenReturn(NULL_OUTPUT_STREAM);
+        when(httpRequest1.execute()).thenReturn(httpResponse1);
 
-        ClientHttpResponse httpResponse2 = EasyMock.createMock(ClientHttpResponse.class);
-        EasyMock.expect(httpResponse2.getStatusCode()).andReturn(HttpStatus.OK).anyTimes();
-        EasyMock.expect(httpResponse2.getRawStatusCode()).andReturn(HttpStatus.OK.value()).anyTimes();
-        EasyMock.expect(httpResponse2.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpResponse2.getBody()).andReturn(response2Stream).once();
-        httpResponse2.close();
-        EasyMock.expectLastCall().once();
+        ClientHttpResponse httpResponse2 = mock(ClientHttpResponse.class);
+        when(httpResponse2.getStatusCode()).thenReturn(HttpStatus.OK);
+        when(httpResponse2.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
+        when(httpResponse2.getHeaders()).thenReturn(headers);
+        when(httpResponse2.getBody()).thenReturn(response2Stream);
 
-        ClientHttpRequest httpRequest2 = EasyMock.createMock(ClientHttpRequest.class);
-        EasyMock.expect(httpRequest2.getHeaders()).andReturn(headers).anyTimes();
-        EasyMock.expect(httpRequest2.getBody()).andReturn(NULL_OUTPUT_STREAM).times(0, 2);
-        EasyMock.expect(httpRequest2.execute()).andReturn(httpResponse2).once();
+        ClientHttpRequest httpRequest2 = mock(ClientHttpRequest.class);
+        when(httpRequest2.getHeaders()).thenReturn(headers);
+        when(httpRequest2.getBody()).thenReturn(NULL_OUTPUT_STREAM);
+        when(httpRequest2.execute()).thenReturn(httpResponse2);
 
-        ClientHttpRequestFactory mockFactory = EasyMock.createStrictMock(ClientHttpRequestFactory.class);
-        EasyMock.expect(mockFactory.createRequest(updateUri, HttpMethod.POST)).andReturn(httpRequest1).once();
-        EasyMock.expect(mockFactory.createRequest(retrieveUri, HttpMethod.POST)).andReturn(httpRequest2).once();
+        ClientHttpRequestFactory mockFactory = mock(ClientHttpRequestFactory.class);
+        when(mockFactory.createRequest(updateUri, HttpMethod.POST)).thenReturn(httpRequest1);
+        when(mockFactory.createRequest(retrieveUri, HttpMethod.POST)).thenReturn(httpRequest2);
 
         restTemplate.setRequestFactory(mockFactory);
-
-        EasyMock.replay(httpResponse1, httpRequest1, httpResponse2, httpRequest2, mockFactory);
 
         api.updateAll(artifacts);
 
@@ -263,6 +254,17 @@ public class ClarityAPIBatchOperationTest
             assertEquals(uriOrder.get(i), artifacts.get(i).getUri(), "Artifact " + i + " wrong:");
         }
 
-        EasyMock.verify(httpResponse2, httpRequest2, mockFactory);
+        verify(httpResponse1, times(1)).getBody();
+        verify(httpResponse1, times(1)).close();
+        verify(httpRequest1, atMost(2)).getBody();
+        verify(httpRequest1, times(1)).execute();
+
+        verify(httpResponse2, times(1)).getBody();
+        verify(httpResponse2, times(1)).close();
+        verify(httpRequest2, atMost(2)).getBody();
+        verify(httpRequest2, times(1)).execute();
+
+        verify(mockFactory, times(1)).createRequest(updateUri, HttpMethod.POST);
+        verify(mockFactory, times(1)).createRequest(retrieveUri, HttpMethod.POST);
     }
 }

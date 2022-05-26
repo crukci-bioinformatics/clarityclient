@@ -18,7 +18,9 @@
 
 package org.cruk.clarity.api;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
 
 import java.net.URI;
 import java.net.URL;
@@ -31,7 +33,6 @@ import java.util.Set;
 
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.clarity.api.impl.ClarityAPIImpl;
-import org.easymock.EasyMock;
 import org.junit.jupiter.api.Test;
 
 import com.genologics.ri.artifact.Artifact;
@@ -51,7 +52,7 @@ public class ClarityAPITest
     public void testLimsIdToUri1() throws Exception
     {
         ClarityAPIImpl api = new ClarityAPIImpl();
-        api.setHttpRequestFactory((AuthenticatingClientHttpRequestFactory)EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
+        api.setHttpRequestFactory(mock(AuthenticatingClientHttpRequestFactory.class));
 
         try
         {
@@ -133,7 +134,7 @@ public class ClarityAPITest
     public void testLimsIdToUri2() throws Exception
     {
         ClarityAPIImpl api = new ClarityAPIImpl();
-        api.setHttpRequestFactory((AuthenticatingClientHttpRequestFactory)EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
+        api.setHttpRequestFactory(mock(AuthenticatingClientHttpRequestFactory.class));
 
         try
         {
@@ -221,7 +222,7 @@ public class ClarityAPITest
     public void testIllegalSearchTerms() throws Exception
     {
         ClarityAPIImpl api = new ClarityAPIImpl();
-        api.setHttpRequestFactory((AuthenticatingClientHttpRequestFactory)EasyMock.createNiceMock(AuthenticatingClientHttpRequestFactory.class));
+        api.setHttpRequestFactory(mock(AuthenticatingClientHttpRequestFactory.class));
 
         Map<String, Object> searchTerms = new HashMap<String, Object>();
 
