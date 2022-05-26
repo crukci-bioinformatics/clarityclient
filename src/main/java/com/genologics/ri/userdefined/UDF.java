@@ -407,6 +407,8 @@ public class UDF implements Serializable
 
         if (thing != null)
         {
+            assert thing.getUserDefinedFields() != null : thing + " getUserDefinedFields returned null: breaks contract.";
+
             try
             {
                 udf = getUDF(thing.getUserDefinedFields(), name, fail, failMessage);
@@ -526,6 +528,8 @@ public class UDF implements Serializable
         {
             throw new IllegalArgumentException("UDF holding object cannot be null");
         }
+
+        assert thing.getUserDefinedFields() != null : thing + " getUserDefinedFields returned null: breaks contract.";
 
         return setUDF(thing.getUserDefinedFields(), name, value);
     }
