@@ -40,6 +40,7 @@ import com.genologics.ri.instrument.Instrument;
 import com.genologics.ri.processtype.ProcessType;
 import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 /**
@@ -51,7 +52,7 @@ import com.genologics.ri.userdefined.UDT;
 @XmlType(name = "process-template",
          propOrder = { "name", "processType", "technician", "instrument", "parameter",
                        "type", "fields", "defaultTemplate" })
-public class ProcessTemplate implements Linkable<ProcessTemplate>, Serializable
+public class ProcessTemplate implements Linkable<ProcessTemplate>, UDFHolder, Serializable
 {
     private static final long serialVersionUID = 3219761173873030207L;
 
@@ -191,6 +192,7 @@ public class ProcessTemplate implements Linkable<ProcessTemplate>, Serializable
         return this.type;
     }
 
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -200,12 +202,14 @@ public class ProcessTemplate implements Linkable<ProcessTemplate>, Serializable
         return fields;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));

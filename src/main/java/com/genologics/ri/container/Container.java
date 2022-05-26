@@ -36,12 +36,13 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.LimsEntity;
-import com.genologics.ri.Linkable;
 import com.genologics.ri.LimsEntityLinkable;
+import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.containertype.ContainerType;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 @ClarityEntity(uriSection = "containers", creatable = true, updateable = true, removable = true)
@@ -49,7 +50,7 @@ import com.genologics.ri.userdefined.UDT;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "container",
          propOrder = { "name", "containerType", "occupiedWells", "placements", "type", "fields", "state" })
-public class Container implements LimsEntity<Container>, Serializable
+public class Container implements LimsEntity<Container>, UDFHolder, Serializable
 {
     private static final long serialVersionUID = -5274665844559069140L;
 
@@ -195,6 +196,7 @@ public class Container implements LimsEntity<Container>, Serializable
         return this.type;
     }
 
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -204,17 +206,20 @@ public class Container implements LimsEntity<Container>, Serializable
         return fields;
     }
 
+    @Deprecated
     public UDF getUserDefinedField(String name)
     {
         return UDF.getUDF(fields, name);
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));

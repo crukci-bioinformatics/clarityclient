@@ -42,6 +42,7 @@ import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.instrument.Instrument;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 
 /**
  * @since 2.18
@@ -50,7 +51,7 @@ import com.genologics.ri.userdefined.UDF;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "details", propOrder = { "step", "configuration", "inputOutputMaps", "fields", "preset", "instrument" })
 @XmlRootElement(name = "details")
-public class StepDetails implements Locatable, Serializable
+public class StepDetails implements Locatable, UDFHolder, Serializable
 {
     private static final long serialVersionUID = 5865493881321340964L;
 
@@ -130,6 +131,7 @@ public class StepDetails implements Locatable, Serializable
         return iomap;
     }
 
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -139,17 +141,20 @@ public class StepDetails implements Locatable, Serializable
         return fields;
     }
 
+    @Deprecated
     public UDF getUserDefinedField(String name)
     {
         return UDF.getUDF(fields, name);
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));

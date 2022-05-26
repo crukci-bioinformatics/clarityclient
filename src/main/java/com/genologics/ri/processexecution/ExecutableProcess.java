@@ -41,6 +41,7 @@ import com.genologics.ri.instrument.Instrument;
 import com.genologics.ri.processtype.ProcessType;
 import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 /**
@@ -52,7 +53,7 @@ import com.genologics.ri.userdefined.UDT;
 @XmlType(name = "process",
          propOrder = { "processType", "dateRun", "technician", "inputOutputMaps",
                        "type", "fields", "instrument", "parameter" })
-public class ExecutableProcess implements Serializable
+public class ExecutableProcess implements UDFHolder, Serializable
 {
     private static final long serialVersionUID = -4582482597481524823L;
 
@@ -170,6 +171,7 @@ public class ExecutableProcess implements Serializable
         return this.type;
     }
 
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -179,12 +181,14 @@ public class ExecutableProcess implements Serializable
         return fields;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));

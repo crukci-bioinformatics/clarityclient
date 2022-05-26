@@ -33,6 +33,7 @@ import org.springframework.web.client.ResourceAccessException;
 
 import com.genologics.ri.container.Container;
 import com.genologics.ri.containertype.ContainerType;
+import com.genologics.ri.process.ClarityProcess;
 
 @SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class UnicodeTest
@@ -68,7 +69,7 @@ public class UnicodeTest
     {
         final String originalXml = FileUtils.readFileToString(unicodeEntityFile, UTF_8);
 
-        Object unmarshalled = marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
+        ClarityProcess unmarshalled = (ClarityProcess)marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
 
         StringWriter writer = new StringWriter();
 
@@ -111,7 +112,7 @@ public class UnicodeTest
         CRUKCICheck.assumeInCrukCI();
         checkCredentialsSet();
 
-        Object unmarshalled = marshaller.unmarshal(new StreamSource(unicodeEntityFile));
+        ClarityProcess unmarshalled = (ClarityProcess)marshaller.unmarshal(new StreamSource(unicodeEntityFile));
         String unicodeComment = getUDFValue(unmarshalled, "Comments");
         assertNotNull(unicodeComment, "Cannot find comment");
 

@@ -39,14 +39,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.cruk.clarity.api.jaxb.ShortDateAdapter;
 
-import com.genologics.ri.ExternalId;
 import com.genologics.ri.ClarityEntity;
+import com.genologics.ri.ExternalId;
 import com.genologics.ri.LimsEntity;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.file.ClarityFile;
 import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 /**
@@ -58,7 +59,7 @@ import com.genologics.ri.userdefined.UDT;
 @XmlType(name = "project",
          propOrder = { "name", "openDate", "closeDate", "invoiceDate", "researcher", "type",
                        "fields", "externalIds", "files" })
-public class Project implements LimsEntity<Project>, Serializable
+public class Project implements LimsEntity<Project>, UDFHolder, Serializable
 {
     private static final long serialVersionUID = -2194491709522434295L;
 
@@ -185,6 +186,7 @@ public class Project implements LimsEntity<Project>, Serializable
         return this.type;
     }
 
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -194,17 +196,20 @@ public class Project implements LimsEntity<Project>, Serializable
         return this.fields;
     }
 
+    @Deprecated
     public UDF getUserDefinedField(String name)
     {
         return UDF.getUDF(fields, name);
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));

@@ -49,6 +49,7 @@ import com.genologics.ri.file.ClarityFile;
 import com.genologics.ri.project.Project;
 import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 /**
@@ -62,7 +63,7 @@ import com.genologics.ri.userdefined.UDT;
          propOrder = { "name", "dateReceived", "dateCompleted", "project", "controlType", "submitter",
                        "artifact", "bioSource", "type", "fields", "externalIds", "files" })
 @XmlSeeAlso({ SampleCreation.class, Sample.class })
-public class SampleBase implements Serializable
+public class SampleBase implements UDFHolder, Serializable
 {
     private static final long serialVersionUID = 7926341075019764297L;
 
@@ -244,6 +245,7 @@ public class SampleBase implements Serializable
         return this.type;
     }
 
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -253,17 +255,20 @@ public class SampleBase implements Serializable
         return fields;
     }
 
+    @Deprecated
     public UDF getUserDefinedField(String name)
     {
         return UDF.getUDF(fields, name);
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));

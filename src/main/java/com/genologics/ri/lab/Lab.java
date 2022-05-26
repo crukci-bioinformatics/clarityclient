@@ -35,12 +35,13 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.Address;
-import com.genologics.ri.ExternalId;
 import com.genologics.ri.ClarityEntity;
+import com.genologics.ri.ExternalId;
 import com.genologics.ri.LimsEntity;
 import com.genologics.ri.Link;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 /**
@@ -51,7 +52,7 @@ import com.genologics.ri.userdefined.UDT;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "lab",
          propOrder = { "name", "billingAddress", "shippingAddress", "type", "fields", "externalIds", "website" })
-public class Lab implements LimsEntity<Lab>, Serializable
+public class Lab implements LimsEntity<Lab>, UDFHolder, Serializable
 {
     private static final long serialVersionUID = 8559819171292932068L;
 
@@ -142,6 +143,7 @@ public class Lab implements LimsEntity<Lab>, Serializable
         return this.type;
     }
 
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -151,17 +153,20 @@ public class Lab implements LimsEntity<Lab>, Serializable
         return this.fields;
     }
 
+    @Deprecated
     public UDF getUserDefinedField(String name)
     {
         return UDF.getUDF(fields, name);
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));

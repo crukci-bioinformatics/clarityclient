@@ -38,7 +38,7 @@ import com.genologics.ri.configuration.FieldType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "type")
-public class UDT implements Serializable
+public class UDT implements UDFHolder, Serializable
 {
     private static final long serialVersionUID = -6550385282803073762L;
 
@@ -72,6 +72,7 @@ public class UDT implements Serializable
      *
      * @return A list of UDFs on this type.
      */
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         return getFields();
@@ -97,5 +98,4 @@ public class UDT implements Serializable
     {
         this.name = value;
     }
-
 }
