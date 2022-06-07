@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2018 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,19 +23,19 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Locatable;
 import com.genologics.ri.Namespaces;
-import com.genologics.ri.file.GenologicsFile;
+import com.genologics.ri.file.ClarityFile;
 
 /**
  * The automation element integrates the process with the Automation Worker
@@ -45,7 +45,7 @@ import com.genologics.ri.file.GenologicsFile;
  *
  * @since 2.26
  */
-@GenologicsEntity(uriSection = "configuration/automations")
+@ClarityEntity(uriSection = "configuration/automations")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "automation",
          propOrder = { "context", "script", "runProgramPerEvent", "channel", "files", "processTypes" })
@@ -67,7 +67,7 @@ public class Automation implements Locatable, Serializable
     protected String channel;
 
     @XmlElement(namespace = Namespaces.FILE_NAMESPACE, name = "file")
-    protected List<GenologicsFile> files;
+    protected List<ClarityFile> files;
 
     @XmlElementWrapper(name = "process-types")
     @XmlElement(name = "process-type")
@@ -125,11 +125,7 @@ public class Automation implements Locatable, Serializable
         this.channel = value;
     }
 
-    /**
-     * Each File provides a URI linking to the detailed representation of a File
-     * associated with the Automation.
-     */
-    public List<GenologicsFile> getFiles()
+    public List<ClarityFile> getFiles()
     {
         if (files == null)
         {

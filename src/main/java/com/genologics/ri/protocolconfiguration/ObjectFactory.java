@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,9 +21,9 @@ package com.genologics.ri.protocolconfiguration;
 
 import static com.genologics.ri.Namespaces.PROTOCOL_CONFIGURATION_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -54,54 +54,29 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Protocols }
-     *
-     */
     public Protocols createProtocols() {
         return new Protocols();
     }
 
-    /**
-     * Create an instance of {@link ProtocolProperty }
-     *
-     */
     public ProtocolProperty createProtocolProperty() {
         return new ProtocolProperty();
     }
 
-    /**
-     * Create an instance of {@link ProtocolLink }
-     *
-     */
     public ProtocolLink createProtocolLink() {
         return new ProtocolLink();
     }
 
-    /**
-     * Create an instance of {@link Protocol }
-     *
-     */
     public Protocol createProtocol() {
         return new Protocol();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Protocol }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = PROTOCOL_CONFIGURATION_NAMESPACE, name = "protocol")
     public JAXBElement<Protocol> createProtocol(Protocol value) {
         return new JAXBElement<Protocol>(_Protocol_QNAME, Protocol.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Protocols }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = PROTOCOL_CONFIGURATION_NAMESPACE, name = "protocols")
     public JAXBElement<Protocols> createProtocols(Protocols value) {
         return new JAXBElement<Protocols>(_Protocols_QNAME, Protocols.class, null, value);
     }
-
 }

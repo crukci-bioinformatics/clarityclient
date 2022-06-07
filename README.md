@@ -1,18 +1,18 @@
-# CRUK-CI Genologics API Java Client
+# CRUK-CI Clarity API Java Client
 
-The Cancer Research UK Cambridge Institute (CRUK-CI) Genologics Java Client
+The Cancer Research UK Cambridge Institute (CRUK-CI) Clarity Java Client
 provides the Java or Groovy developer a means to work with
-[Genologics' REST API](https://www.genologics.com/developer/) using objects
+[Clarity's REST API](https://d10e8rzir0haj8.cloudfront.net/6.0/REST.html) using objects
 rather than XML or DOM document trees.
 
 It provides a single interface to perform (almost) all the operations
-supported by the Genologics' REST API with XML to Java object conversion,
+supported by the Clarity REST API with XML to Java object conversion,
 error handling and, optionally, client side caching. The developer works
-with Java objects that map onto the XML documents described by Genologics'
-API documentation.
+with Java objects that map onto the XML documents described by Illumina's
+Clarity API documentation.
 
 It uses the JAXB object to XML binding mechanism to convert the XML
-messages sent to and received from Genologics' REST API. The communication
+messages sent to and received from Clarity's REST API. The communication
 uses Apache's HTTP Java client and Spring's REST client. Spring is used
 throughout this tool.
 
@@ -33,25 +33,27 @@ and server.
 
 Having got this check out of the code, run:
 
-    mvn install
+```
+mvn install
+```
 
 This will build and install the project into your local Maven cache.
 You'll need Maven 3.5 or newer.
 
 Alternatively, you can add our Maven repository to your POM and let
-Maven do the work. Add a <repositories> section containing:
+Maven do the work. Add a &lt;repositories&gt; section containing:
 
 ```XML
-    <repository>
-        <id>crukci-bioinformatics</id>
-        <url>http://content.cruk.cam.ac.uk/bioinformatics/maven</url>
-        <releases>
-            <enabled>true</enabled>
-        </releases>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
+<repository>
+    <id>crukci-bioinformatics</id>
+    <url>https://content.cruk.cam.ac.uk/bioinformatics/maven</url>
+    <releases>
+        <enabled>true</enabled>
+    </releases>
+    <snapshots>
+        <enabled>false</enabled>
+    </snapshots>
+</repository>
 ```
 
 ## Usage
@@ -59,17 +61,18 @@ Maven do the work. Add a <repositories> section containing:
 Add the JAR file to your POM (I'm assuming you're using Maven now):
 
 ```XML
-    <dependency>
-        <groupId>org.cruk.genologics</groupId>
-        <artifactId>clarity-client</artifactId>
-        <version>...</version>
-    </dependency>
+<dependency>
+    <groupId>org.cruk.clarity</groupId>
+    <artifactId>clarity-client</artifactId>
+    <version>...</version>
+</dependency>
 ```
 
-(Fill in the <version> tag with the version of the API.)
+_Fill in the <version> tag with the version of the API._
+_For this branch, and code using EE8, the version should start "2.31.ee8"._
 
 For details of using the API, please refer to the documentation at
-<http://crukci-bioinformatics.github.io/clarityclient>
+https://crukci-bioinformatics.github.io/clarityclient
 
 ## Clarity 6
 
@@ -81,29 +84,24 @@ supporting the corresponding versions of the Clarity API.
 The Clarity client is built with Java 11 source and bytecode. The release
 of Clarity 6 has provided a good time to move the requirements for this
 library forward in Java terms. It now includes Java module information.
-It has also moved forward to use the Jakarta EE **9** libraries.
 
 ## JAXB Implementation
 
 The Java EE modules used by the client, specifically JAXB, have been
-moved to **Jakarta EE** specifications from version the 2.31, complying
-with [Jakarta EE 9](https://jakarta.ee/release/9). These use, for example,
-`jakarta.xml.bind` packages rather than the traditional
-`javax.xml.bind` packages.
+moved to **Jakarta EE** specifications, complying
+with [Jakarta EE 8](https://jakarta.ee/release/8).
+The move should not have any noticeable side effects.
 
 The POM will pull in the Jakarta JAXB API (version 2.3) that the code needs to
-compile. It marks the actual implementation of JAXB as an optional
-dependency, so other code that uses this client will not automatically
-have a JAXB implementation (it was removed from the JRE with Java 9).
-One should add the JAXB implementation to the final POM:
+compile. One should add a JAXB implementation to the final POM, such as:
 
 ```XML
-    <dependency>
-        <groupId>org.glassfish.jaxb</groupId>
-        <artifactId>jaxb-runtime</artifactId>
-        <version>3.0.2</version>
-        <scope>runtime</scope>
-    </dependency>
+<dependency>
+    <groupId>org.glassfish.jaxb</groupId>
+    <artifactId>jaxb-runtime</artifactId>
+    <version>2.3.6</version>
+    <scope>runtime</scope>
+</dependency>
 ```
 
 The scope should be `runtime` for building stand alone applications
@@ -113,6 +111,11 @@ unit tests need to use the client (if not, this dependency isn't needed).
 Where the client is part of an EE container, the container will supply
 the JAXB implementation.
 
+JAXB version 3.x.x is for EE9, with its renaming of `javax.xml.bind`
+to `jakarta.xml.bind`, and is not suitable for this build of the
+Clarity client. Also the `com.sun.xml.bind:jaxb-impl` artifacts
+available in Maven won't work well with newer JREs.
+
 ## Other Branches
 
 This project has some other streams of the code for legacy reasons.
@@ -121,7 +124,8 @@ This project has some other streams of the code for legacy reasons.
 the latest for Clarity 4.3.
 2. `clarity5`: A version using the 2.28 schema, the latest for Clarity 5.
 3. `clarity6-ee8`: A version using this same version of the schema (2.31)
-but built for EE8.
+but built for EE8. This branch is currently the same as _master_, but will
+stay on EE8 when _master_ moves to EE9.
 
 At the time of writing (April 2022) there isn't a complete version of
 Wildfly that implements Jakarta EE 9, only a preview. The preview is missing
@@ -131,4 +135,3 @@ mean time, use the clarity6-ee8 branch (and version 2.31.ee8* of the artifact).
 
 Illumina is due to stop support for Clarity versions 4 and 5 in June 2022,
 so one would expect no more changes on those branches.
-

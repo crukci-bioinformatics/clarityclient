@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.file.GenologicsFile;
+import com.genologics.ri.file.ClarityFile;
 
 /**
  *
@@ -71,7 +71,7 @@ public class Parameter implements Serializable
      * @since 2.26
      */
     @XmlElement(name = "file", namespace = FILE_NAMESPACE)
-    protected List<GenologicsFile> files;
+    protected List<ClarityFile> files;
 
     @XmlAttribute(name = "name")
     protected String name;
@@ -79,6 +79,7 @@ public class Parameter implements Serializable
 
     /**
      * The file of the parameter.
+     * @return The file name (presumably).
      * @deprecated This property is no longer supported.
      */
     @Deprecated
@@ -105,6 +106,7 @@ public class Parameter implements Serializable
 
     /**
      * Should the EPP run once for each process related event?
+     * @return true if it should run once per event, false if not.
      * @deprecated This property is no longer supported.
      */
     @Deprecated
@@ -131,6 +133,7 @@ public class Parameter implements Serializable
 
     /**
      * The epp invocation type of this script.
+     * @return The invocation type.
      * @deprecated This property is no longer supported.
      */
     @Deprecated
@@ -162,7 +165,7 @@ public class Parameter implements Serializable
      *
      * @since 2.26
      */
-    public List<GenologicsFile> getFiles()
+    public List<ClarityFile> getFiles()
     {
         if (files == null)
         {

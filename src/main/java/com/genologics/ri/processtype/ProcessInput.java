@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,10 @@ package com.genologics.ri.processtype;
 
 import java.io.Serializable;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -69,6 +69,7 @@ public class ProcessInput implements Serializable
     /**
      * Whether the working flag should be removed from the input when the process runs.
      *
+     * @return true if it should be removed, false if not.
      * @deprecated This property is no longer supported.
      */
     @Deprecated

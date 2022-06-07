@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.artifact;
 
 import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -56,174 +56,90 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link DemuxDetails }
-     *
-     */
     public DemuxDetails createDemuxDetails() {
         return new DemuxDetails();
     }
 
-    /**
-     * Create an instance of {@link PoolStep }
-     *
-     */
     public PoolStep createPoolStep() {
         return new PoolStep();
     }
 
-    /**
-     * Create an instance of {@link ArtifactGroupLink }
-     *
-     */
     public ArtifactGroupLink createArtifactgroup() {
         return new ArtifactGroupLink();
     }
 
-    /**
-     * Create an instance of {@link SampleLink }
-     *
-     */
     public SampleLink createSample() {
         return new SampleLink();
     }
 
-    /**
-     * Create an instance of {@link Demux }
-     *
-     */
     public Demux createDemux() {
         return new Demux();
     }
 
-    /**
-     * Create an instance of {@link ReagentLabel }
-     *
-     */
     public ReagentLabel createReagentLabel() {
         return new ReagentLabel();
     }
 
-    /**
-     * Create an instance of {@link DemuxSourceArtifact }
-     *
-     */
     public DemuxSourceArtifact createDemuxSourceArtifact() {
         return new DemuxSourceArtifact();
     }
 
-    /**
-     * Create an instance of {@link DemuxLink }
-     *
-     */
     public DemuxLink createDemuxLink() {
         return new DemuxLink();
     }
 
-    /**
-     * Create an instance of {@link DemuxArtifactSample }
-     *
-     */
     public DemuxArtifactSample createDemuxArtifactSample() {
         return new DemuxArtifactSample();
     }
 
-    /**
-     * Create an instance of {@link DemuxArtifact }
-     *
-     */
     public DemuxArtifact createDemuxArtifact() {
         return new DemuxArtifact();
     }
 
-    /**
-     * Create an instance of {@link ParentProcessLink }
-     *
-     */
     public ParentProcessLink createParentProcess() {
         return new ParentProcessLink();
     }
 
-    /**
-     * Create an instance of {@link Artifact }
-     *
-     */
     public Artifact createArtifact() {
         return new Artifact();
     }
 
-    /**
-     * Create an instance of {@link ArtifactLink }
-     *
-     */
     public ArtifactLink createArtifactLink() {
         return new ArtifactLink();
     }
 
-    /**
-     * Create an instance of {@link ControlTypeLink }
-     *
-     */
     public ControlTypeLink createControlTypeLink() {
         return new ControlTypeLink();
     }
 
-    /**
-     * Create an instance of {@link ArtifactBatchFetchResult }
-     *
-     */
     public ArtifactBatchFetchResult createDetails() {
         return new ArtifactBatchFetchResult();
     }
 
-    /**
-     * Create an instance of {@link Artifacts }
-     *
-     */
     public Artifacts createArtifacts() {
         return new Artifacts();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Artifacts }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ARTIFACT_NAMESPACE, name = "artifacts")
     public JAXBElement<Artifacts> createArtifacts(Artifacts value) {
         return new JAXBElement<Artifacts>(_Artifacts_QNAME, Artifacts.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArtifactBatchFetchResult }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ARTIFACT_NAMESPACE, name = "details")
     public JAXBElement<ArtifactBatchFetchResult> createDetails(ArtifactBatchFetchResult value) {
         return new JAXBElement<ArtifactBatchFetchResult>(_Details_QNAME, ArtifactBatchFetchResult.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Artifact }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ARTIFACT_NAMESPACE, name = "artifact")
     public JAXBElement<Artifact> createArtifact(Artifact value) {
         return new JAXBElement<Artifact>(_Artifact_QNAME, Artifact.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link DemuxDetails }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ARTIFACT_NAMESPACE, name = "demux-details")
     public JAXBElement<DemuxDetails> createDemuxDetails(DemuxDetails value) {
         return new JAXBElement<DemuxDetails>(_DemuxDetails_QNAME, DemuxDetails.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Demux }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = "http://genologics.com/ri/artifact", name = "demux")
     public JAXBElement<Demux> createDemux(Demux value) {
         return new JAXBElement<Demux>(_Demux_QNAME, Demux.class, null, value);

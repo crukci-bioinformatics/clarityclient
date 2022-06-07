@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,10 +21,10 @@ package com.genologics.ri.file;
 import java.io.Serializable;
 import java.net.URI;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.LimsEntityLinkable;
@@ -39,7 +39,7 @@ import com.genologics.ri.LimsEntityLinkable;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "file-link")
-public class FileLink implements LimsLink<GenologicsFile>, Serializable
+public class FileLink implements LimsLink<ClarityFile>, Serializable
 {
     private static final long serialVersionUID = -2151598768590902010L;
 
@@ -64,16 +64,16 @@ public class FileLink implements LimsLink<GenologicsFile>, Serializable
         this.limsid = limsid;
     }
 
-    public FileLink(LimsEntityLinkable<GenologicsFile> link)
+    public FileLink(LimsEntityLinkable<ClarityFile> link)
     {
         this.uri = link.getUri();
         this.limsid = link.getLimsid();
     }
 
     @Override
-    public Class<GenologicsFile> getEntityClass()
+    public Class<ClarityFile> getEntityClass()
     {
-        return GenologicsFile.class;
+        return ClarityFile.class;
     }
 
     public URI getUri()

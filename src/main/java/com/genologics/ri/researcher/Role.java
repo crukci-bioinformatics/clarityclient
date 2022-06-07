@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,11 @@ package com.genologics.ri.researcher;
 import java.io.Serializable;
 import java.net.URI;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
@@ -105,6 +105,7 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
      * Acceptable  values are: "systemadministrator", "administrator", "labtech",
      * and "webclient".
      *
+     * @return The role name.
      * @deprecated Deprecated from version 2.19.
      */
     @Deprecated
@@ -114,6 +115,8 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
     }
 
     /**
+     * Set the role name.
+     * @param value The role name.
      * @deprecated Deprecated from version 2.19.
      */
     @Deprecated
@@ -135,6 +138,8 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
     }
 
     /**
+     * Set the role name.
+     * @param name The role name.
      * @since 2.19
      */
     public void setName(String name)
@@ -143,6 +148,8 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
     }
 
     /**
+     * Get the URI to the researcher.
+     * @return The URI.
      * @since 2.19
      */
     @Override
@@ -152,6 +159,8 @@ public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
     }
 
     /**
+     * Set the URI to the researcher.
+     * @param uri The URI.
      * @since 2.19
      */
     @Override

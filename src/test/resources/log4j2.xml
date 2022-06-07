@@ -13,17 +13,17 @@
     <Loggers>
         <Logger name="org.cruk" level="ERROR"/>
 
-        <Logger name="org.cruk.genologics.api" level="ERROR"/>
+        <Logger name="org.cruk.clarity.api" level="ERROR"/>
 
-        <Logger name="org.cruk.genologics.api.GenologicsAPI" level="ERROR"/>
+        <Logger name="org.cruk.clarity.api.ClarityAPI" level="ERROR"/>
 
-        <Logger name="org.cruk.genologics.api.debugging.HttpClientTimingAspect" level="OFF"/>
+        <Logger name="org.cruk.clarity.api.debugging.HttpClientTimingAspect" level="OFF"/>
 
-        <Logger name="org.cruk.genologics.api.debugging.RestClientSnoopingAspect" level="OFF"/>
+        <Logger name="org.cruk.clarity.api.debugging.RestClientSnoopingAspect" level="OFF"/>
 
-        <Logger name="org.cruk.genologics.api.cache.GenologicsAPICache" level="WARN"/>
+        <Logger name="org.cruk.clarity.api.cache.ClarityAPICache" level="WARN"/>
 
-        <Logger name="org.cruk.genologics.api.cache.GenologicsAPICacheTest" level="OFF"/>
+        <Logger name="org.cruk.clarity.api.cache.ClarityAPICacheTest" level="OFF"/>
 
         <Logger name="org.springframework.web.client.RestTemplate" level="OFF"/>
 

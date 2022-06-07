@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 package com.genologics.ri.reagentlot;
 
-import jakarta.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnum;
 
 @XmlEnum
 public enum Status

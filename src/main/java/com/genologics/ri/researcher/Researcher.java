@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,34 +26,35 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.ExternalId;
-import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.LimsEntity;
 import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.lab.Lab;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 /**
  * The detailed representation of a researcher.
  */
-@GenologicsEntity(uriSection = "researchers", creatable = true, updateable = true, removable = true)
+@ClarityEntity(uriSection = "researchers", creatable = true, updateable = true, removable = true)
 @XmlRootElement(name = "researcher")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "researcher",
          propOrder = { "firstName", "lastName", "phone", "fax", "email", "lab", "type", "fields",
                        "externalIds", "credentials", "initials" })
-public class Researcher implements LimsEntity<Researcher>, Serializable
+public class Researcher implements LimsEntity<Researcher>, UDFHolder, Serializable
 {
     private static final long serialVersionUID = 2552745292977587999L;
 
@@ -179,11 +180,7 @@ public class Researcher implements LimsEntity<Researcher>, Serializable
         return this.type;
     }
 
-    /**
-     *
-     * A User-Defined Field that is associated with the researcher. This element
-     * is repeated for each UDF associated with the researcher.
-     */
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -193,27 +190,25 @@ public class Researcher implements LimsEntity<Researcher>, Serializable
         return fields;
     }
 
+    @Deprecated
     public UDF getUserDefinedField(String name)
     {
         return UDF.getUDF(fields, name);
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));
     }
 
-    /**
-     *
-     * An identifier that allows an external system to retrieve information
-     * about the researcher.
-     */
     public List<ExternalId> getExternalIds()
     {
         if (externalIds == null)

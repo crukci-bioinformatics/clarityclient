@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2018 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.automation;
 
 import static com.genologics.ri.Namespaces.AUTOMATION_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 /**
@@ -77,5 +77,4 @@ public class ObjectFactory
     {
         return new JAXBElement<Automations>(_Automations_QNAME, Automations.class, null, value);
     }
-
 }

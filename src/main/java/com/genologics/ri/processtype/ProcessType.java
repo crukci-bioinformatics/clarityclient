@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,16 +23,16 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.configuration.FieldLink;
 
@@ -40,7 +40,7 @@ import com.genologics.ri.configuration.FieldLink;
  * The process-type element contains the XML representation of a type of process
  * configured in the system.
  */
-@GenologicsEntity(uriSection = "processtypes")
+@ClarityEntity(uriSection = "processtypes")
 @XmlRootElement(name = "process-type")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "process-type",
@@ -201,6 +201,8 @@ public class ProcessType implements Linkable<ProcessType>, Serializable
 
     /**
      * Each field definition provides a URI linking to the configuration of a user-defined field for the output type.
+     *
+     * @return A list of links to fields.
      *
      * @deprecated These field definitions are ignored as of Clarity LIMS 5.0.
      */

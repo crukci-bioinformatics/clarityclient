@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,23 +18,21 @@
 
 package com.genologics.ri.userdefined;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlType;
-import jakarta.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.Locatable;
@@ -49,11 +47,6 @@ import com.genologics.ri.configuration.FieldType;
 public class UDF implements Serializable
 {
     private static final long serialVersionUID = -3019516615900521203L;
-
-    private static final String UDF_METHOD_NAME = "getUserDefinedFields";
-
-    private static Map<Class<?>, Method> classUdfMethods = Collections.synchronizedMap(new HashMap<Class<?>, Method>());
-
 
     @XmlAttribute(name = "name", required = true)
     protected String name;
@@ -183,7 +176,7 @@ public class UDF implements Serializable
     public static String getUDFValue(Collection<UDF> udfs, String name, String defaultValue)
     {
         String value = getUDFValue(udfs, name, false, null);
-        return StringUtils.isNotEmpty(value) ? value : defaultValue;
+        return isNotEmpty(value) ? value : defaultValue;
     }
 
     /**
@@ -285,27 +278,25 @@ public class UDF implements Serializable
     public static String getUDFValue(Collection<UDF> udfs, String name, boolean fail, String failMessage)
     {
         UDF udf = getUDF(udfs, name, fail, failMessage);
-        if (udf != null && fail && StringUtils.isEmpty(udf.getValue()))
+        if (udf != null && fail && isEmpty(udf.getValue()))
         {
             throw new MissingUDFException(name, getMissingUDFMessage(name, failMessage));
         }
-        return udf == null || StringUtils.isEmpty(udf.getValue()) ? null : udf.getValue();
+        return udf == null || isEmpty(udf.getValue()) ? null : udf.getValue();
     }
 
     /**
      * Finds a UDF by name in the UDFs of the given object.
      *
-     * @param thing The object that should have the UDFs. Needs to have a method
-     * "getUserDefinedFields".
+     * @param thing The object that holds UDFs.
      * @param name The name of the UDF to find.
      *
      * @return The UDF object with the same name, or {@code null} if there
      * is no matching UDF.
      *
-     * @throws IllegalArgumentException if {@code name} is null, or if {@code thing}
-     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
+     * @throws IllegalArgumentException if {@code name} is null.
      */
-    public static UDF getUDF(Object thing, String name)
+    public static UDF getUDF(UDFHolder thing, String name)
     {
         return getUDF(thing, name, false, null);
     }
@@ -313,17 +304,15 @@ public class UDF implements Serializable
     /**
      * Finds a UDF by name in the UDFs of the given object and, if found, returns its value.
      *
-     * @param thing The object that should have the UDFs. Needs to have a method
-     * "getUserDefinedFields".
+     * @param thing The object that holds UDFs.
      * @param name The name of the UDF to find.
      *
      * @return The value of the UDF, or {@code null} if there
      * is no matching UDF.
      *
-     * @throws IllegalArgumentException if {@code name} is null, or if {@code thing}
-     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
+     * @throws IllegalArgumentException if {@code name} is null.
      */
-    public static String getUDFValue(Object thing, String name)
+    public static String getUDFValue(UDFHolder thing, String name)
     {
         return getUDFValue(thing, name, false, null);
     }
@@ -331,30 +320,27 @@ public class UDF implements Serializable
     /**
      * Finds a UDF by name in the UDFs of the given object and, if found, returns its value.
      *
-     * @param thing The object that should have the UDFs. Needs to have a method
-     * "getUserDefinedFields".
+     * @param thing The object that holds UDFs.
      * @param name The name of the UDF to find.
      * @param defaultValue The value to return if there is no matching UDF.
      *
      * @return The value of the UDF, or {@code defaultValue} if there
      * is no matching UDF.
      *
-     * @throws IllegalArgumentException if {@code name} is null, or if {@code thing}
-     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
+     * @throws IllegalArgumentException if {@code name} is null.
      *
      * @since 2.22
      */
-    public static String getUDFValue(Object thing, String name, String defaultValue)
+    public static String getUDFValue(UDFHolder thing, String name, String defaultValue)
     {
         String value = getUDFValue(thing, name, false, null);
-        return StringUtils.isNotEmpty(value) ? value : defaultValue;
+        return isNotEmpty(value) ? value : defaultValue;
     }
 
     /**
      * Finds a UDF by name in the UDFs of the given object.
      *
-     * @param thing The object that should have the UDFs. Needs to have a method
-     * "getUserDefinedFields".
+     * @param thing The object that holds UDFs.
      * @param name The name of the UDF to find.
      * @param fail Whether to fail with a {@code MissingUDFException} if the field
      * is not found.
@@ -362,11 +348,10 @@ public class UDF implements Serializable
      * @return The UDF object with the same name, or {@code null} if there
      * is no matching UDF and {@code fail} is false.
      *
-     * @throws IllegalArgumentException if {@code name} is null, or if {@code thing}
-     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
+     * @throws IllegalArgumentException if {@code name} is null.
      * @throws MissingUDFException if {@code fail} is true and there is no matching UDF.
      */
-    public static UDF getUDF(Object thing, String name, boolean fail)
+    public static UDF getUDF(UDFHolder thing, String name, boolean fail)
     {
         return getUDF(thing, name, fail, null);
     }
@@ -374,8 +359,7 @@ public class UDF implements Serializable
     /**
      * Finds a UDF by name in the UDFs of the given object and returns its value.
      *
-     * @param thing The object that should have the UDFs. Needs to have a method
-     * "getUserDefinedFields".
+     * @param thing The object that holds UDFs.
      * @param name The name of the UDF to find.
      * @param fail Whether to fail with a {@code MissingUDFException} if the field
      * is not found.
@@ -383,11 +367,10 @@ public class UDF implements Serializable
      * @return The value of the UDF, or {@code null} if there
      * is no matching UDF and {@code fail} is false.
      *
-     * @throws IllegalArgumentException if {@code name} is null, or if {@code thing}
-     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
+     * @throws IllegalArgumentException if {@code name} is null.
      * @throws MissingUDFException if {@code fail} is true and there is no matching UDF.
      */
-    public static String getUDFValue(Object thing, String name, boolean fail)
+    public static String getUDFValue(UDFHolder thing, String name, boolean fail)
     {
         return getUDFValue(thing, name, fail, null);
     }
@@ -395,10 +378,7 @@ public class UDF implements Serializable
     /**
      * Finds a UDF by name in the UDFs of the given object.
      *
-     * <p>The given object needs to have a method "getUserDefinedFields" returning a {@link Collection}
-     * of UDFs.</p>
-     *
-     * @param thing The object that should have the UDFs.
+     * @param thing The object that holds UDFs.
      * @param name The name of the UDF to find.
      * @param fail Whether to fail with a {@code MissingUDFException} if the field
      * is not found.
@@ -408,11 +388,10 @@ public class UDF implements Serializable
      * @return The UDF object with the same name, or {@code null} if there
      * is no matching UDF and {@code fail} is false.
      *
-     * @throws IllegalArgumentException if {@code name} is null, or if {@code thing}
-     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
+     * @throws IllegalArgumentException if {@code name} is null.
      * @throws MissingUDFException if {@code fail} is true and there is no matching UDF.
      */
-    public static UDF getUDF(Object thing, String name, boolean fail, String failMessage)
+    public static UDF getUDF(UDFHolder thing, String name, boolean fail, String failMessage)
     {
         if (name == null)
         {
@@ -428,10 +407,11 @@ public class UDF implements Serializable
 
         if (thing != null)
         {
+            assert thing.getUserDefinedFields() != null : thing + " getUserDefinedFields returned null: breaks contract.";
+
             try
             {
-                Collection<UDF> udfs = getUDFCollection(thing);
-                udf = getUDF(udfs, name, fail, failMessage);
+                udf = getUDF(thing.getUserDefinedFields(), name, fail, failMessage);
             }
             catch (MissingUDFException e)
             {
@@ -464,13 +444,13 @@ public class UDF implements Serializable
     /**
      * Create a message for the MissingUDFException when {@code failMessage} is not set.
      *
-     * @param thing The object the UDF is set on.
+     * @param thing The object the UDF is not set on.
      * @param name The name of the UDF.
      * @param failMessage The fail message supplied by the caller.
      *
      * @return A suitable failure message for the exception.
      */
-    private static String getMissingUDFMessage(Object thing, String name, String failMessage)
+    private static String getMissingUDFMessage(UDFHolder thing, String name, String failMessage)
     {
         if (failMessage == null)
         {
@@ -504,8 +484,7 @@ public class UDF implements Serializable
     /**
      * Finds a UDF by name in the UDFs of the given object and returns its value.
      *
-     * @param thing The object that should have the UDFs. Needs to have a method
-     * "getUserDefinedFields".
+     * @param thing The object that holds UDFs.
      * @param name The name of the UDF to find.
      * @param fail Whether to fail with a {@code MissingUDFException} if the field
      * is not found.
@@ -515,81 +494,17 @@ public class UDF implements Serializable
      * @return The value of the UDF, or {@code null} if there
      * is no matching UDF and {@code fail} is false.
      *
-     * @throws IllegalArgumentException if {@code name} is null, or if {@code thing}
-     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
+     * @throws IllegalArgumentException if {@code name} is null.
      * @throws MissingUDFException if {@code fail} is true and there is no matching UDF.
      */
-    public static String getUDFValue(Object thing, String name, boolean fail, String failMessage)
+    public static String getUDFValue(UDFHolder thing, String name, boolean fail, String failMessage)
     {
         UDF udf = getUDF(thing, name, fail, failMessage);
-        if (udf != null && fail && StringUtils.isEmpty(udf.getValue()))
+        if (udf != null && fail && isEmpty(udf.getValue()))
         {
             throw new MissingUDFException(name, getMissingUDFMessage(thing, name, failMessage));
         }
         return udf == null ? null : udf.getValue();
-    }
-
-    /**
-     * Helper method to get the collection of UDFs from an object.
-     *
-     * @param thing The object that should have the UDFs.
-     *
-     * @return The collection of UDFs from {@code thing}.
-     *
-     * @throws IllegalArgumentException if {@code thing} is null, or if {@code thing}
-     * does not have a publicly visible "getUserDefinedFields" method returning a {@code Collection}.
-     */
-    static Collection<UDF> getUDFCollection(Object thing)
-    {
-        if (thing == null)
-        {
-            throw new IllegalArgumentException("thing cannot be null");
-        }
-
-        Method getPropsMethod = classUdfMethods.get(thing.getClass());
-        if (getPropsMethod == null)
-        {
-            try
-            {
-                getPropsMethod = thing.getClass().getMethod(UDF_METHOD_NAME);
-                if (!Collection.class.isAssignableFrom(getPropsMethod.getReturnType()))
-                {
-                    throw new IllegalArgumentException(
-                            MessageFormat.format(
-                                "The \"{0}\" method on {1} does not return a Collection.",
-                                UDF_METHOD_NAME, thing.getClass().getName()));
-                }
-
-                classUdfMethods.put(thing.getClass(), getPropsMethod);
-            }
-            catch (NoSuchMethodException e)
-            {
-                throw new IllegalArgumentException(
-                        MessageFormat.format(
-                            "There is no method \"{0}\" method on {1}.",
-                            UDF_METHOD_NAME, thing.getClass().getName()));
-            }
-        }
-
-        try
-        {
-            @SuppressWarnings("unchecked")
-            Collection<UDF> udfs = (Collection<UDF>)getPropsMethod.invoke(thing);
-
-            return udfs;
-        }
-        catch (IllegalAccessException e)
-        {
-            throw new IllegalArgumentException(
-                    MessageFormat.format(
-                        "Cannot call method \"{0}\" method on {1}: {2}",
-                        UDF_METHOD_NAME, thing.getClass().getName(), e.getMessage()));
-        }
-        catch (InvocationTargetException e)
-        {
-            throw new RuntimeException("Exception while fetching UDFs from " + thing.getClass().getName(),
-                                       e.getTargetException());
-        }
     }
 
     /**
@@ -605,14 +520,18 @@ public class UDF implements Serializable
      * @return The UDF object found or created, or null if it is removed or not found.
      *
      * @throws IllegalArgumentException if either of {@code thing} or {@code name}
-     * are null, or if {@code thing} does not have a publicly visible
-     * "getUserDefinedFields" method returning a {@code Collection}.
+     * are null.
      */
-    public static UDF setUDF(Object thing, String name, Object value)
+    public static UDF setUDF(UDFHolder thing, String name, Object value)
     {
-        Collection<UDF> udfs = getUDFCollection(thing);
+        if (thing == null)
+        {
+            throw new IllegalArgumentException("UDF holding object cannot be null");
+        }
 
-        return setUDF(udfs, name, value);
+        assert thing.getUserDefinedFields() != null : thing + " getUserDefinedFields returned null: breaks contract.";
+
+        return setUDF(thing.getUserDefinedFields(), name, value);
     }
 
     /**
@@ -645,7 +564,7 @@ public class UDF implements Serializable
 
         String strValue = value == null ? null : value.toString();
 
-        if (StringUtils.isEmpty(strValue))
+        if (isEmpty(strValue))
         {
             if (udf != null)
             {
@@ -653,7 +572,7 @@ public class UDF implements Serializable
                 // API will actually set the value (or rather clear it). It seems
                 // that the assumption that it can just be removed from the list
                 // is wrong.
-                udf.setValue(StringUtils.EMPTY);
+                udf.setValue(EMPTY);
             }
         }
         else

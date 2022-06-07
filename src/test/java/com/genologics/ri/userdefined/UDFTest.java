@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
-import org.cruk.genologics.api.unittests.ClarityClientTestConfiguration;
+import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -45,6 +45,9 @@ public class UDFTest
     protected Jaxb2Marshaller marshaller;
 
     protected File exampleDirectory = new File("src/test/jaxb");
+
+    private final Collection<UDF> nullCollection = null;
+    private final UDFHolder nullHolder = null;
 
     public UDFTest() throws Exception
     {
@@ -68,7 +71,7 @@ public class UDFTest
         UDF udf = UDF.getUDF(a.getUserDefinedFields(), "User Comments");
         assertNotNull(udf, "No UDF found");
 
-        udf = UDF.getUDF(null, "User Comments");
+        udf = UDF.getUDF(nullCollection, "User Comments");
         assertNull(udf, "UDF found in null collection");
 
         udf = UDF.getUDF(a.getUserDefinedFields(), "No Field");
@@ -86,7 +89,7 @@ public class UDFTest
 
         try
         {
-            udf = UDF.getUDF(null, "User Comments", true);
+            udf = UDF.getUDF(nullCollection, "User Comments", true);
             fail("No exception with UDF from null collection.");
         }
         catch (MissingUDFException e)
@@ -133,7 +136,7 @@ public class UDFTest
         String value = UDF.getUDFValue(a.getUserDefinedFields(), "User Comments");
         assertNotNull(value, "No UDF found");
 
-        value = UDF.getUDFValue((Collection<?>)null, "User Comments");
+        value = UDF.getUDFValue(nullCollection, "User Comments");
         assertNull(value, "UDF found in null collection");
 
         value = UDF.getUDFValue(a.getUserDefinedFields(), "No Field");
@@ -154,7 +157,7 @@ public class UDFTest
 
         try
         {
-            value = UDF.getUDFValue((Collection<?>)null, "User Comments", true);
+            value = UDF.getUDFValue(nullHolder, "User Comments", true);
             fail("No exception with UDF from null collection.");
         }
         catch (MissingUDFException e)
@@ -190,7 +193,7 @@ public class UDFTest
 
         try
         {
-            UDF.setUDF(null, null, null);
+            UDF.setUDF(nullCollection, null, null);
             fail("Allowed null collection");
         }
         catch (IllegalArgumentException e)
@@ -243,27 +246,6 @@ public class UDFTest
     }
 
     @Test
-    public void testGetUdfCollection()
-    {
-        Object o1 = new Artifact();
-
-        Collection<UDF> udfs = UDF.getUDFCollection(o1);
-        assertNotNull(udfs, "No UDFs returned");
-
-        Object o2 = new Object();
-
-        try
-        {
-            UDF.getUDFCollection(o2);
-            fail("Fetched UDF collection from a class without getUserDefinedFields method.");
-        }
-        catch (IllegalArgumentException e)
-        {
-            // Correct.
-        }
-    }
-
-    @Test
     public void testGetUDFFromObject() throws Exception
     {
         Artifact a = (Artifact)marshaller.unmarshal(new StreamSource(new File(exampleDirectory, "artifact.xml")));
@@ -281,7 +263,7 @@ public class UDFTest
         UDF udf = UDF.getUDF(a, "User Comments");
         assertNotNull(udf, "No UDF found");
 
-        udf = UDF.getUDF(null, "User Comments");
+        udf = UDF.getUDF(nullHolder, "User Comments");
         assertNull(udf, "UDF found in null collection");
 
         udf = UDF.getUDF(a, "No Field");
@@ -299,7 +281,7 @@ public class UDFTest
 
         try
         {
-            udf = UDF.getUDF((Artifact)null, "User Comments", true);
+            udf = UDF.getUDF(nullHolder, "User Comments", true);
             fail("No exception with UDF from null entity.");
         }
         catch (MissingUDFException e)
@@ -346,7 +328,7 @@ public class UDFTest
         String value = UDF.getUDFValue(a, "User Comments");
         assertNotNull(value, "No UDF found");
 
-        value = UDF.getUDFValue(null, "User Comments");
+        value = UDF.getUDFValue(nullHolder, "User Comments");
         assertNull(value, "UDF found in null collection");
 
         value = UDF.getUDFValue(a, "No Field");
@@ -367,7 +349,7 @@ public class UDFTest
 
         try
         {
-            value = UDF.getUDFValue((Artifact)null, "User Comments", true);
+            value = UDF.getUDFValue(nullHolder, "User Comments", true);
             fail("No exception with UDF from null entity.");
         }
         catch (MissingUDFException e)

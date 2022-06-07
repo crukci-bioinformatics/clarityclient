@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.controltype;
 
 import static com.genologics.ri.Namespaces.CONTROL_TYPE_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,46 +53,25 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ControlType }
-     *
-     */
     public ControlType createControlType() {
         return new ControlType();
     }
 
-    /**
-     * Create an instance of {@link ControlTypeLink }
-     *
-     */
     public ControlTypeLink createControlTypeLink() {
         return new ControlTypeLink();
     }
 
-    /**
-     * Create an instance of {@link ControlTypes }
-     *
-     */
     public ControlTypes createControlTypes() {
         return new ControlTypes();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ControlType }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONTROL_TYPE_NAMESPACE, name = "control-type")
     public JAXBElement<ControlType> createControlType(ControlType value) {
         return new JAXBElement<ControlType>(_ControlType_QNAME, ControlType.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ControlTypes }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONTROL_TYPE_NAMESPACE, name = "control-types")
     public JAXBElement<ControlTypes> createControlTypes(ControlTypes value) {
         return new JAXBElement<ControlTypes>(_ControlTypes_QNAME, ControlTypes.class, null, value);
     }
-
 }

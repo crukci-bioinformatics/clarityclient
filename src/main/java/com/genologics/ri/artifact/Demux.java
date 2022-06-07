@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2018 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,15 +21,15 @@ package com.genologics.ri.artifact;
 import java.io.Serializable;
 import java.net.URI;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Locatable;
 
 /**
@@ -37,7 +37,7 @@ import com.genologics.ri.Locatable;
  *
  * @since 2.26
  */
-@GenologicsEntity(uriSection = "artifact", uriSubsection = "demux")
+@ClarityEntity(uriSection = "artifact", uriSubsection = "demux")
 @XmlRootElement(name = "demux")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "demux", propOrder = { "artifact", "demuxDetails" })

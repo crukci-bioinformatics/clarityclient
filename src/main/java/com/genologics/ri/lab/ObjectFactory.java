@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.lab;
 
 import static com.genologics.ri.Namespaces.LAB_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,46 +53,25 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Lab }
-     *
-     */
     public Lab createLab() {
         return new Lab();
     }
 
-    /**
-     * Create an instance of {@link Labs }
-     *
-     */
     public Labs createLabs() {
         return new Labs();
     }
 
-    /**
-     * Create an instance of {@link LabLink }
-     *
-     */
     public LabLink createLabLink() {
         return new LabLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Labs }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = LAB_NAMESPACE, name = "labs")
     public JAXBElement<Labs> createLabs(Labs value) {
         return new JAXBElement<Labs>(_Labs_QNAME, Labs.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Lab }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = LAB_NAMESPACE, name = "lab")
     public JAXBElement<Lab> createLab(Lab value) {
         return new JAXBElement<Lab>(_Lab_QNAME, Lab.class, null, value);
     }
-
 }

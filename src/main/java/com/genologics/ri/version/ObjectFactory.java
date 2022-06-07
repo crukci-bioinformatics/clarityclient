@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.version;
 
 import static com.genologics.ri.Namespaces.VERSION_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,38 +53,21 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Version }
-     *
-     */
     public Version createVersion() {
         return new Version();
     }
 
-    /**
-     * Create an instance of {@link Versions }
-     *
-     */
     public Versions createVersions() {
         return new Versions();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Version }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = VERSION_NAMESPACE, name = "version")
     public JAXBElement<Version> createVersion(Version value) {
         return new JAXBElement<Version>(_Version_QNAME, Version.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Versions }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = VERSION_NAMESPACE, name = "versions")
     public JAXBElement<Versions> createVersions(Versions value) {
         return new JAXBElement<Versions>(_Versions_QNAME, Versions.class, null, value);
     }
-
 }

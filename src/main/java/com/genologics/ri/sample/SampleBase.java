@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,16 +28,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlSeeAlso;
-import jakarta.xml.bind.annotation.XmlType;
-import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.cruk.genologics.api.jaxb.ShortDateAdapter;
+import org.cruk.clarity.api.jaxb.ShortDateAdapter;
 
 import com.genologics.ri.ExternalId;
 import com.genologics.ri.LimsEntityLinkable;
@@ -45,10 +45,11 @@ import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.configuration.FieldType;
 import com.genologics.ri.controltype.ControlType;
-import com.genologics.ri.file.GenologicsFile;
+import com.genologics.ri.file.ClarityFile;
 import com.genologics.ri.project.Project;
 import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 /**
@@ -62,7 +63,7 @@ import com.genologics.ri.userdefined.UDT;
          propOrder = { "name", "dateReceived", "dateCompleted", "project", "controlType", "submitter",
                        "artifact", "bioSource", "type", "fields", "externalIds", "files" })
 @XmlSeeAlso({ SampleCreation.class, Sample.class })
-public class SampleBase implements Serializable
+public class SampleBase implements UDFHolder, Serializable
 {
     private static final long serialVersionUID = 7926341075019764297L;
 
@@ -101,7 +102,7 @@ public class SampleBase implements Serializable
     protected List<ExternalId> externalIds;
 
     @XmlElement(name = "file", namespace = FILE_NAMESPACE)
-    protected List<GenologicsFile> files;
+    protected List<ClarityFile> files;
 
     @XmlAttribute(name = "limsid")
     protected String limsid;
@@ -135,7 +136,7 @@ public class SampleBase implements Serializable
         }
         if (other.files != null)
         {
-            this.files = new ArrayList<GenologicsFile>(other.files);
+            this.files = new ArrayList<ClarityFile>(other.files);
         }
     }
 
@@ -227,9 +228,6 @@ public class SampleBase implements Serializable
         this.bioSource = bioSource;
     }
 
-    /**
-     * The user-defined type of the Sample.
-     */
     public UDT getUserDefinedType()
     {
         return type;
@@ -247,9 +245,7 @@ public class SampleBase implements Serializable
         return this.type;
     }
 
-    /**
-     * The user-defined fields of the Sample.
-     */
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -259,26 +255,25 @@ public class SampleBase implements Serializable
         return fields;
     }
 
+    @Deprecated
     public UDF getUserDefinedField(String name)
     {
         return UDF.getUDF(fields, name);
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));
     }
 
-    /**
-     * Each external id is an identifier that allows looking up related
-     * information about the Sample from an external system.
-     */
     public List<ExternalId> getExternalIds()
     {
         if (externalIds == null)
@@ -288,20 +283,16 @@ public class SampleBase implements Serializable
         return this.externalIds;
     }
 
-    /**
-     * Each file provides a URI linking to the detailed representation of a file
-     * associated with the Sample.
-     */
-    public List<GenologicsFile> getFiles()
+    public List<ClarityFile> getFiles()
     {
         if (files == null)
         {
-            files = new ArrayList<GenologicsFile>();
+            files = new ArrayList<ClarityFile>();
         }
         return this.files;
     }
 
-    public GenologicsFile addFile(GenologicsFile f)
+    public ClarityFile addFile(ClarityFile f)
     {
         getFiles().add(f);
         return f;

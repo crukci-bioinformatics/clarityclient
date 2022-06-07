@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.queue;
 
 import static com.genologics.ri.Namespaces.QUEUE_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,29 +53,16 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Queue }
-     *
-     */
     public Queue createQueue() {
         return new Queue();
     }
 
-    /**
-     * Create an instance of {@link ArtifactLink }
-     *
-     */
     public ArtifactLink createArtifactLink() {
         return new ArtifactLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Queue }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = QUEUE_NAMESPACE, name = "queue")
     public JAXBElement<Queue> createQueue(Queue value) {
         return new JAXBElement<Queue>(_Queue_QNAME, Queue.class, null, value);
     }
-
 }

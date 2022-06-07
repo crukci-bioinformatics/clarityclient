@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,9 @@
 
 package com.genologics.ri;
 
-import jakarta.xml.bind.annotation.XmlSchema;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
+import javax.xml.bind.annotation.XmlSchema;
 
 /**
  * Static list of all the namespaces in the Genologics API.
@@ -61,6 +63,10 @@ public final class Namespaces
     public static final String VERSION_NAMESPACE = "http://genologics.com/ri/version";
     public static final String WORKFLOW_CONFIGURATION_NAMESPACE = "http://genologics.com/ri/workflowconfiguration";
 
+    /**
+     * The empty namespace. Used for some inner elements.
+     */
+    public static final String EMPTY_NAMESPACE = EMPTY;
 
     /**
      * Extract package level information for the named package.

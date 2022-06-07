@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,12 @@
 
 package com.genologics.ri.sample;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.cruk.genologics.api.GenologicsAPI;
+import org.cruk.clarity.api.ClarityAPI;
 
 import com.genologics.ri.Location;
 
@@ -34,12 +34,12 @@ import com.genologics.ri.Location;
  * <p>
  * For this API, this class should not be used directly. Create
  * {@code Sample} objects and set their {@code creationLocation} field
- * for the initial location before calling {@code GenologicsAPI.create}
+ * for the initial location before calling {@code ClarityAPI.create}
  * methods.
  * </p>
  *
  * @see Sample#setCreationLocation(Location)
- * @see GenologicsAPI#create(com.genologics.ri.Locatable)
+ * @see ClarityAPI#create(com.genologics.ri.Locatable)
  */
 @XmlRootElement(name = "samplecreation")
 @XmlAccessorType(XmlAccessType.FIELD)

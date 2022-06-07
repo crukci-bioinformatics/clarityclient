@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.reagenttype;
 
 import static com.genologics.ri.Namespaces.REAGENT_TYPE_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,62 +53,33 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ReagentTypes }
-     *
-     */
     public ReagentTypes createReagentTypes() {
         return new ReagentTypes();
     }
 
-    /**
-     * Create an instance of {@link SpecialType }
-     *
-     */
     public SpecialType createSpecialType() {
         return new SpecialType();
     }
 
-    /**
-     * Create an instance of {@link Attribute }
-     *
-     */
     public Attribute createAttribute() {
         return new Attribute();
     }
 
-    /**
-     * Create an instance of {@link ReagentTypeLink }
-     *
-     */
     public ReagentTypeLink createReagentTypeLink() {
         return new ReagentTypeLink();
     }
 
-    /**
-     * Create an instance of {@link ReagentType }
-     *
-     */
     public ReagentType createReagentType() {
         return new ReagentType();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReagentType }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = REAGENT_TYPE_NAMESPACE, name = "reagent-type")
     public JAXBElement<ReagentType> createReagentType(ReagentType value) {
         return new JAXBElement<ReagentType>(_ReagentType_QNAME, ReagentType.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReagentTypes }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = REAGENT_TYPE_NAMESPACE, name = "reagent-types")
     public JAXBElement<ReagentTypes> createReagentTypes(ReagentTypes value) {
         return new JAXBElement<ReagentTypes>(_ReagentTypes_QNAME, ReagentTypes.class, null, value);
     }
-
 }

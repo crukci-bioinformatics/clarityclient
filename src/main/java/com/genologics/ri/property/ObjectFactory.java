@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,9 +18,9 @@
 
 package com.genologics.ri.property;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 import com.genologics.ri.Namespaces;
@@ -52,29 +52,16 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link PropertyLink }
-     *
-     */
     public PropertyLink createPropertyLink() {
         return new PropertyLink();
     }
 
-    /**
-     * Create an instance of {@link Properties }
-     *
-     */
     public Properties createProperties() {
         return new Properties();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Properties }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = Namespaces.PROPERTY_NAMESPACE, name = "properties")
     public JAXBElement<Properties> createProperties(Properties value) {
         return new JAXBElement<Properties>(_Properties_QNAME, Properties.class, null, value);
     }
-
 }

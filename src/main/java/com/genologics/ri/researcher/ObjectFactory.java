@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.researcher;
 
 import static com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,70 +53,37 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Researcher }
-     *
-     */
     public Researcher createResearcher() {
         return new Researcher();
     }
 
-    /**
-     * Create an instance of {@link Role }
-     *
-     */
     public Role createRole() {
         return new Role();
     }
 
-    /**
-     * Create an instance of {@link Researchers }
-     *
-     */
     public Researchers createResearchers() {
         return new Researchers();
     }
 
-    /**
-     * Create an instance of {@link LabLink }
-     *
-     */
     public LabLink createLab() {
         return new LabLink();
     }
 
-    /**
-     * Create an instance of {@link Credentials }
-     *
-     */
     public Credentials createCredentials() {
         return new Credentials();
     }
 
-    /**
-     * Create an instance of {@link ResearcherLink }
-     *
-     */
     public ResearcherLink createResearcherLink() {
         return new ResearcherLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Researcher }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = RESEARCHER_NAMESPACE, name = "researcher")
     public JAXBElement<Researcher> createResearcher(Researcher value) {
         return new JAXBElement<Researcher>(_Researcher_QNAME, Researcher.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Researchers }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = RESEARCHER_NAMESPACE, name = "researchers")
     public JAXBElement<Researchers> createResearchers(Researchers value) {
         return new JAXBElement<Researchers>(_Researchers_QNAME, Researchers.class, null, value);
     }
-
 }

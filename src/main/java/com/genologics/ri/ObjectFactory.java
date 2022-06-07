@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri;
 
 import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -54,95 +54,50 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ExternalId }
-     *
-     */
     public ExternalId createExternalid() {
         return new ExternalId();
     }
 
-    /**
-     * Create an instance of {@link ContainerLink }
-     *
-     */
     public ContainerLink createContainer() {
         return new ContainerLink();
     }
 
-    /**
-     * Create an instance of {@link Link }
-     *
-     */
     public Link createLink() {
         return new Link();
     }
 
-    /**
-     * Create an instance of {@link Index }
-     *
-     */
     public Index createIndex() {
         return new Index();
     }
 
-    /**
-     * Create an instance of {@link Location }
-     *
-     */
     public Location createLocation() {
         return new Location();
     }
 
-    /**
-     * Create an instance of {@link Address }
-     *
-     */
     public Address createAddress() {
         return new Address();
     }
 
-    /**
-     * Create an instance of {@link Links }
-     *
-     */
     public Links createLinks() {
         return new Links();
     }
 
-    /**
-     * Create an instance of {@link Page }
-     *
-     */
     public Page createPage() {
         return new Page();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Links }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ROOT_NAMESPACE, name = "links")
     public JAXBElement<Links> createLinks(Links value) {
         return new JAXBElement<Links>(_Links_QNAME, Links.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Index }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ROOT_NAMESPACE, name = "index")
     public JAXBElement<Index> createIndex(Index value) {
         return new JAXBElement<Index>(_Index_QNAME, Index.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExternalId }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ROOT_NAMESPACE, name = "externalid")
     public JAXBElement<ExternalId> createExternalid(ExternalId value) {
         return new JAXBElement<ExternalId>(_Externalid_QNAME, ExternalId.class, null, value);
     }
-
 }

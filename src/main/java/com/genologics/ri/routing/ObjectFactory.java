@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,9 +21,9 @@ package com.genologics.ri.routing;
 
 import static com.genologics.ri.Namespaces.ROUTING_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,37 +53,20 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ArtifactLink }
-     *
-     */
     public ArtifactLink createArtifact() {
         return new ArtifactLink();
     }
 
-    /**
-     * Create an instance of {@link ExtArtifactAssignments }
-     *
-     */
     public ExtArtifactAssignments createExternalArtifactAssignments() {
         return new ExtArtifactAssignments();
     }
 
-    /**
-     * Create an instance of {@link Routing }
-     *
-     */
     public Routing createRouting() {
         return new Routing();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Routing }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ROUTING_NAMESPACE, name = "routing")
     public JAXBElement<Routing> createRouting(Routing value) {
         return new JAXBElement<Routing>(_Routing_QNAME, Routing.class, null, value);
     }
-
 }

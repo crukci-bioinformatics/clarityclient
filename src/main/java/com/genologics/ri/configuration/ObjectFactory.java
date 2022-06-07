@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.configuration;
 
 import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -57,122 +57,65 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link Udts }
-     *
-     */
     public Udts createUdts() {
         return new Udts();
     }
 
-    /**
-     * Create an instance of {@link FieldLink }
-     *
-     */
     public FieldLink createFieldLink() {
         return new FieldLink();
     }
 
-    /**
-     * Create an instance of {@link Udfs }
-     *
-     */
     public Udfs createUdfs() {
         return new Udfs();
     }
 
-    /**
-     * Create an instance of {@link UdfConfigLink }
-     *
-     */
     public UdfConfigLink createUdfconfigLink() {
         return new UdfConfigLink();
     }
 
-    /**
-     * Create an instance of {@link TypeDefinition }
-     *
-     */
     public TypeDefinition createTypeDefinition() {
         return new TypeDefinition();
     }
 
-    /**
-     * Create an instance of {@link Field }
-     *
-     */
     public Field createField() {
         return new Field();
     }
 
-    /**
-     * Create an instance of {@link UdtConfigLink }
-     *
-     */
     public UdtConfigLink createUdtconfigLink() {
         return new UdtConfigLink();
     }
 
-    /**
-     * Create an instance of {@link Type }
-     *
-     */
     public Type createType() {
         return new Type();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Type }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONFIGURATION_NAMESPACE, name = "type")
     public JAXBElement<Type> createType(Type value) {
         return new JAXBElement<Type>(_Type_QNAME, Type.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UdtConfigLink }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONFIGURATION_NAMESPACE, name = "udtconfig-link")
     public JAXBElement<UdtConfigLink> createUdtconfigLink(UdtConfigLink value) {
         return new JAXBElement<UdtConfigLink>(_UdtconfigLink_QNAME, UdtConfigLink.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Udfs }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONFIGURATION_NAMESPACE, name = "udfs")
     public JAXBElement<Udfs> createUdfs(Udfs value) {
         return new JAXBElement<Udfs>(_Udfs_QNAME, Udfs.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UdfConfigLink }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONFIGURATION_NAMESPACE, name = "udfconfig-link")
     public JAXBElement<UdfConfigLink> createUdfconfigLink(UdfConfigLink value) {
         return new JAXBElement<UdfConfigLink>(_UdfconfigLink_QNAME, UdfConfigLink.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Udts }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONFIGURATION_NAMESPACE, name = "udts")
     public JAXBElement<Udts> createUdts(Udts value) {
         return new JAXBElement<Udts>(_Udts_QNAME, Udts.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Field }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = CONFIGURATION_NAMESPACE, name = "field")
     public JAXBElement<Field> createField(Field value) {
         return new JAXBElement<Field>(_Field_QNAME, Field.class, null, value);
     }
-
 }

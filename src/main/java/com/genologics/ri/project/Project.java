@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,37 +28,38 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
-import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.cruk.genologics.api.jaxb.ShortDateAdapter;
+import org.cruk.clarity.api.jaxb.ShortDateAdapter;
 
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.ExternalId;
-import com.genologics.ri.GenologicsEntity;
 import com.genologics.ri.LimsEntity;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.configuration.FieldType;
-import com.genologics.ri.file.GenologicsFile;
+import com.genologics.ri.file.ClarityFile;
 import com.genologics.ri.researcher.Researcher;
 import com.genologics.ri.userdefined.UDF;
+import com.genologics.ri.userdefined.UDFHolder;
 import com.genologics.ri.userdefined.UDT;
 
 /**
  * The detailed representation of a Project.
  */
-@GenologicsEntity(uriSection = "projects", creatable = true, updateable = true)
+@ClarityEntity(uriSection = "projects", creatable = true, updateable = true)
 @XmlRootElement(name = "project")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "project",
          propOrder = { "name", "openDate", "closeDate", "invoiceDate", "researcher", "type",
                        "fields", "externalIds", "files" })
-public class Project implements LimsEntity<Project>, Serializable
+public class Project implements LimsEntity<Project>, UDFHolder, Serializable
 {
     private static final long serialVersionUID = -2194491709522434295L;
 
@@ -92,7 +93,7 @@ public class Project implements LimsEntity<Project>, Serializable
     protected List<ExternalId> externalIds;
 
     @XmlElement(name = "file", namespace = FILE_NAMESPACE)
-    protected List<GenologicsFile> files;
+    protected List<ClarityFile> files;
 
     @XmlAttribute(name = "limsid")
     protected String limsid;
@@ -168,9 +169,6 @@ public class Project implements LimsEntity<Project>, Serializable
         this.researcher = new ResearcherLink(link);
     }
 
-    /**
-     * The UDT of the Project.
-     */
     public UDT getUserDefinedType()
     {
         return type;
@@ -188,9 +186,7 @@ public class Project implements LimsEntity<Project>, Serializable
         return this.type;
     }
 
-    /**
-     * The UDFs of the Project.
-     */
+    @Override
     public List<UDF> getUserDefinedFields()
     {
         if (fields == null)
@@ -200,27 +196,25 @@ public class Project implements LimsEntity<Project>, Serializable
         return this.fields;
     }
 
+    @Deprecated
     public UDF getUserDefinedField(String name)
     {
         return UDF.getUDF(fields, name);
     }
 
+    @Deprecated
     public UDF addUserDefinedField(UDF udf)
     {
         getUserDefinedFields().add(udf);
         return udf;
     }
 
+    @Deprecated
     public UDF addUserDefinedField(String name, FieldType type, String value)
     {
         return addUserDefinedField(new UDF(name, type, value));
     }
 
-    /**
-     *
-     * Each external id is an identifier that allows looking up related
-     * information about the Project from an external system.
-     */
     public List<ExternalId> getExternalIds()
     {
         if (externalIds == null)
@@ -230,21 +224,16 @@ public class Project implements LimsEntity<Project>, Serializable
         return this.externalIds;
     }
 
-    /**
-     *
-     * Each File provides a URI linking to the detailed representation of a File
-     * associated with the Project.
-     */
-    public List<GenologicsFile> getFiles()
+    public List<ClarityFile> getFiles()
     {
         if (files == null)
         {
-            files = new ArrayList<GenologicsFile>();
+            files = new ArrayList<ClarityFile>();
         }
         return this.files;
     }
 
-    public GenologicsFile addFile(GenologicsFile f)
+    public ClarityFile addFile(ClarityFile f)
     {
         getFiles().add(f);
         return f;

@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,10 +21,10 @@ package com.genologics.ri.processtype;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import com.genologics.ri.configuration.FieldLink;
 
 /**
@@ -69,7 +69,9 @@ public class ProcessOutput implements Serializable
 
 
     /**
-     * Each field definition provides a URI linking to the configuration of a user-defined field for the output type.
+     * Each field definition provides a URI linking to the configuration of a user defined field for the output type.
+     *
+     * @return A list of links to fields.
      *
      * @deprecated These field definitions are ignored as of Clarity LIMS 5.0.
      */
@@ -84,6 +86,8 @@ public class ProcessOutput implements Serializable
 
     /**
      * Artifact type for this output.
+     *
+     * @return The artifact type.
      */
     public String getArtifactType()
     {
@@ -97,6 +101,8 @@ public class ProcessOutput implements Serializable
 
     /**
      * The display name for the output.
+     *
+     * @return The display name.
      */
     public String getDisplayName()
     {
@@ -111,6 +117,8 @@ public class ProcessOutput implements Serializable
     /**
      * Specifies how the outputs are generated in relation to the inputs
      * (COMPOUND, PER_REAGENT_LABEL, or PER_INPUT).
+     *
+     * @return The output generation type.
      */
     public OutputGenerationType getOutputGenerationType()
     {
@@ -125,6 +133,8 @@ public class ProcessOutput implements Serializable
     /**
      * Specifies how the process determines the number of outputs to generated
      * (FIXED, VARIABLE, or VARIABLE_BY_INPUT).
+     *
+     * @return The number of outputs type.
      */
     public VariabilityType getVariabilityType()
     {
@@ -138,6 +148,7 @@ public class ProcessOutput implements Serializable
 
     /**
      * Number of outputs to generate (only applies if variabilityType is FIXED).
+     * @return The number of outputs.
      */
     public Integer getNumberOfOutputs()
     {
@@ -151,6 +162,7 @@ public class ProcessOutput implements Serializable
 
     /**
      * Pattern for specifying how the output name is generated.
+     * @return The output name pattern.
      */
     public String getOutputName()
     {
@@ -165,6 +177,7 @@ public class ProcessOutput implements Serializable
     /**
      * Whether the working flag should be assigned to the output when the process runs.
      *
+     * @return true if it should be removed, false if not.
      * @deprecated This property is no longer supported.
      */
     @Deprecated

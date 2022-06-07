@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,11 +21,11 @@ package com.genologics.ri.process;
 import java.io.Serializable;
 import java.net.URI;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsEntityLink;
 import com.genologics.ri.LimsEntityLinkable;
@@ -37,7 +37,7 @@ import com.genologics.ri.LimsEntityLinkable;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "process-link")
-public class ProcessLink implements LimsEntityLink<GenologicsProcess>, Serializable
+public class ProcessLink implements LimsEntityLink<ClarityProcess>, Serializable
 {
     private static final long serialVersionUID = 6298646614909486599L;
 
@@ -63,16 +63,16 @@ public class ProcessLink implements LimsEntityLink<GenologicsProcess>, Serializa
         this.limsid = limsid;
     }
 
-    public ProcessLink(LimsEntityLinkable<GenologicsProcess> link)
+    public ProcessLink(LimsEntityLinkable<ClarityProcess> link)
     {
         uri = link.getUri();
         limsid = link.getLimsid();
     }
 
     @Override
-    public Class<GenologicsProcess> getEntityClass()
+    public Class<ClarityProcess> getEntityClass()
     {
-        return GenologicsProcess.class;
+        return ClarityProcess.class;
     }
 
     public URI getUri()

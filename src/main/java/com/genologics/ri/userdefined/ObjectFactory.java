@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.userdefined;
 
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,38 +53,21 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link UDT }
-     *
-     */
     public UDT createType() {
         return new UDT();
     }
 
-    /**
-     * Create an instance of {@link UDF }
-     *
-     */
     public UDF createField() {
         return new UDF();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UDF }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = UDF_NAMESPACE, name = "field")
     public JAXBElement<UDF> createField(UDF value) {
         return new JAXBElement<UDF>(_Field_QNAME, UDF.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link UDT }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = UDF_NAMESPACE, name = "type")
     public JAXBElement<UDT> createType(UDT value) {
         return new JAXBElement<UDT>(_Type_QNAME, UDT.class, null, value);
     }
-
 }

@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.reagentlot;
 
 import static com.genologics.ri.Namespaces.REAGENT_LOT_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,62 +53,33 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ReagentLotLink }
-     *
-     */
     public ReagentLotLink createReagentLotLink() {
         return new ReagentLotLink();
     }
 
-    /**
-     * Create an instance of {@link ReagentLot }
-     *
-     */
     public ReagentLot createReagentLot() {
         return new ReagentLot();
     }
 
-    /**
-     * Create an instance of {@link ResearcherLink }
-     *
-     */
     public ResearcherLink createResearcher() {
         return new ResearcherLink();
     }
 
-    /**
-     * Create an instance of {@link ReagentLots }
-     *
-     */
     public ReagentLots createReagentLots() {
         return new ReagentLots();
     }
 
-    /**
-     * Create an instance of {@link ReagentKitLink }
-     *
-     */
     public ReagentKitLink createReagentKitLink() {
         return new ReagentKitLink();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReagentLots }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = REAGENT_LOT_NAMESPACE, name = "reagent-lots")
     public JAXBElement<ReagentLots> createReagentLots(ReagentLots value) {
         return new JAXBElement<ReagentLots>(_ReagentLots_QNAME, ReagentLots.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ReagentLot }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = REAGENT_LOT_NAMESPACE, name = "reagent-lot")
     public JAXBElement<ReagentLot> createReagentLot(ReagentLot value) {
         return new JAXBElement<ReagentLot>(_ReagentLot_QNAME, ReagentLot.class, null, value);
     }
-
 }

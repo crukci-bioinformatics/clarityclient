@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,9 @@ package com.genologics.ri.artifactgroup;
 
 import static com.genologics.ri.Namespaces.ARTIFACT_GROUP_NAMESPACE;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
@@ -53,54 +53,29 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    /**
-     * Create an instance of {@link ArtifactGroup }
-     *
-     */
     public ArtifactGroup createArtifactgroup() {
         return new ArtifactGroup();
     }
 
-    /**
-     * Create an instance of {@link ArtifactGroupLink }
-     *
-     */
     public ArtifactGroupLink createArtifactgroupLink() {
         return new ArtifactGroupLink();
     }
 
-    /**
-     * Create an instance of {@link Artifacts }
-     *
-     */
     public Artifacts createArtifacts() {
         return new Artifacts();
     }
 
-    /**
-     * Create an instance of {@link ArtifactGroups }
-     *
-     */
     public ArtifactGroups createArtifactgroups() {
         return new ArtifactGroups();
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArtifactGroup }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ARTIFACT_GROUP_NAMESPACE, name = "artifactgroup")
     public JAXBElement<ArtifactGroup> createArtifactgroup(ArtifactGroup value) {
         return new JAXBElement<ArtifactGroup>(_Artifactgroup_QNAME, ArtifactGroup.class, null, value);
     }
 
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ArtifactGroups }{@code >}}
-     *
-     */
     @XmlElementDecl(namespace = ARTIFACT_GROUP_NAMESPACE, name = "artifactgroups")
     public JAXBElement<ArtifactGroups> createArtifactgroups(ArtifactGroups value) {
         return new JAXBElement<ArtifactGroups>(_Artifactgroups_QNAME, ArtifactGroups.class, null, value);
     }
-
 }

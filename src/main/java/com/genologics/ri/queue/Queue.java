@@ -1,5 +1,5 @@
 /*
- * CRUK-CI Genologics REST API Java Client.
+ * CRUK-CI Clarity REST API Java Client.
  * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,16 +24,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
-import com.genologics.ri.GenologicsEntity;
+import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.Page;
 import com.genologics.ri.PaginatedBatch;
@@ -53,7 +53,7 @@ import com.genologics.ri.PaginatedBatch;
  *
  * @since 2.19
  */
-@GenologicsEntity(uriSection = "queues", cacheable = false)
+@ClarityEntity(uriSection = "queues", cacheable = false)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "queue", propOrder = { "artifacts", "previousPage", "nextPage" })
 @XmlRootElement(name = "queue")
