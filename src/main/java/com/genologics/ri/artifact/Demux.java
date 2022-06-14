@@ -37,7 +37,7 @@ import com.genologics.ri.Locatable;
  *
  * @since 2.26
  */
-@GenologicsEntity(uriSection = "artifact", uriSubsection = "demux")
+@GenologicsEntity(uriSection = "artifacts", uriSubsection = "demux")
 @XmlRootElement(name = "demux")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "demux", propOrder = { "artifact", "demuxDetails" })
