@@ -40,4 +40,28 @@ public interface LimsEntityLinkable<E extends LimsEntity<E>> extends Linkable<E>
      * @param id The new LIMS id.
      */
     void setLimsid(String id);
+
+    /**
+     * Same as {@code getLimsid()} but written in a more pleasing form for camel case.
+     *
+     * @return The LIMS id.
+     *
+     * @since 2.31.1
+     */
+    default String getLimsId()
+    {
+        return getLimsid();
+    }
+
+    /**
+     * Same as {@code setLimsid(String)} but written in a more pleasing form for camel case.
+     *
+     * @param id The new LIMS id.
+     *
+     * @since 2.31.1
+     */
+    default void setLimsId(String id)
+    {
+        setLimsid(id);
+    }
 }
