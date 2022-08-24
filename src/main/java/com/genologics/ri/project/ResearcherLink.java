@@ -88,4 +88,10 @@ public class ResearcherLink implements LimsEntityLink<Researcher>, Serializable
     {
         // Does nothing.
     }
+
+    @Override
+    public String toString()
+    {
+        return getLimsid();
+    }
 }

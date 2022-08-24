@@ -19,6 +19,7 @@
 package com.genologics.ri.container;
 
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -241,6 +242,10 @@ public class Container implements LimsEntity<Container>, UDFHolder, Serializable
     {
         StringBuilder sb = new StringBuilder();
         sb.append(limsid);
+        if (isNotBlank(name))
+        {
+            sb.append(' ').append(name);
+        }
         if (containerType != null)
         {
             sb.append(' ').append(containerType.getName());

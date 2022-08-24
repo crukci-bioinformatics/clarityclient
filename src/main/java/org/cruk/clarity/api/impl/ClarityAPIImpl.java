@@ -105,6 +105,7 @@ import com.genologics.ri.Location;
 import com.genologics.ri.PaginatedBatch;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.file.ClarityFile;
+import com.genologics.ri.instrument.Instrument;
 import com.genologics.ri.process.ClarityProcess;
 import com.genologics.ri.processexecution.ExecutableProcess;
 import com.genologics.ri.queue.Queue;
@@ -1070,6 +1071,16 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
         }
 
         checkServerSet();
+
+        // Special case for instrument when asked for its full lims id, eg. "55-10"
+        // The URI can only have the last part of this, creating a URI ending with the
+        // simple number only, ie. "55-10" becomes "/10" in the URI.
+        // See Redmine 7273.
+
+        if (Instrument.class.equals(entityClass) && limsid.startsWith("55-"))
+        {
+            limsid = limsid.substring(3);
+        }
 
         StringBuilder uri = new StringBuilder(apiRoot);
         uri.append(entityAnno.uriSection()).append('/').append(limsid);
