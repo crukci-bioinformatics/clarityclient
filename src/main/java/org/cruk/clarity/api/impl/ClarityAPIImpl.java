@@ -66,6 +66,7 @@ import org.cruk.clarity.api.ClarityAPI;
 import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.ClarityUpdateException;
 import org.cruk.clarity.api.IllegalSearchTermException;
+import org.cruk.clarity.api.InvalidURIException;
 import org.cruk.clarity.api.StatefulOverride;
 import org.cruk.clarity.api.cache.CacheStatefulBehaviour;
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
@@ -344,12 +345,12 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      *
      * @param configuration The properties file.
      *
-     * @throws MalformedURLException if the server URL is set and the value cannot form
+     * @throws InvalidURIException if the server URL is set and the value cannot form
      * a valid URL.
      *
      * @see #setConfiguration(Properties)
      */
-    public ClarityAPIImpl(Properties configuration) throws MalformedURLException
+    public ClarityAPIImpl(Properties configuration)
     {
         this();
         setConfiguration(configuration);
@@ -621,7 +622,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * {@inheritDoc}
      */
     @Override
-    public void setConfiguration(Properties configuration) throws MalformedURLException
+    public void setConfiguration(Properties configuration)
     {
         if (configuration != null)
         {
@@ -642,7 +643,14 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
                 if (isNotBlank(apiServer))
                 {
-                    setServer(new URL(apiServer));
+                    try
+                    {
+                        setServer(new URL(apiServer));
+                    }
+                    catch (MalformedURLException e)
+                    {
+                        throw new InvalidURIException("The server address is not a valid URL: ", e);
+                    }
                 }
                 if (isNotBlank(apiUser))
                 {
@@ -1032,9 +1040,15 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
     @Override
     public <E extends Locatable>
     URI limsIdToUri(String limsid, Class<E> entityClass)
-    throws URISyntaxException
     {
-        return new URI(makeUri(limsid, entityClass, "limsIdToUri"));
+        try
+        {
+            return new URI(makeUri(limsid, entityClass, "limsIdToUri"));
+        }
+        catch (URISyntaxException e)
+        {
+            throw new InvalidURIException(e);
+        }
     }
 
     /**
@@ -1098,9 +1112,15 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
     @Override
     public <E extends Locatable>
     URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass)
-    throws URISyntaxException
     {
-        return new URI(makeUri(outerLimsid, innerLimsid, entityClass, "limsIdToUri"));
+        try
+        {
+            return new URI(makeUri(outerLimsid, innerLimsid, entityClass, "limsIdToUri"));
+        }
+        catch (URISyntaxException e)
+        {
+            throw new InvalidURIException(e);
+        }
     }
 
     /**
@@ -1436,17 +1456,10 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             throw new IllegalArgumentException("uri cannot be null or empty");
         }
 
-        try
+        ClarityEntity anno = checkEntityAnnotated(entityClass);
+        if (anno.stateful() && isFetchLatestVersions())
         {
-            ClarityEntity anno = checkEntityAnnotated(entityClass);
-            if (anno.stateful() && isFetchLatestVersions())
-            {
-                uri = removeStateParameter(uri);
-            }
-        }
-        catch (URISyntaxException e)
-        {
-            throw new IllegalArgumentException("Cannot create a URI object: " + e.getMessage());
+            uri = removeStateParameter(uri);
         }
 
         ResponseEntity<E> response = restClient.getForEntity(uri, entityClass);
@@ -2539,6 +2552,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * @throws ClarityException if the server reports a problem with the upload.
      * @throws IllegalStateException if {@code targetFile} does not have a LIMS id.
      * @throws IOException if there is a problem with the transfer.
+     * @throws InvalidURIException if the upload URI string isn't a valid URI (shouldn't happen).
      */
     protected void uploadViaHTTP(URLInputStreamResource fileURLResource, ClarityFile targetFile)
     throws IOException
@@ -2569,7 +2583,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             }
             catch (URISyntaxException e)
             {
-                throw new IOException("File LIMS id " + targetFile.getLimsid() + " produces an invalid URI for upload.", e);
+                throw new InvalidURIException("File LIMS id " + targetFile.getLimsid() + " produces an invalid URI for upload: ", e);
             }
 
             logger.info("Uploading {} over {} to {} on {}",
@@ -3388,6 +3402,9 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * @param uri The original URI.
      *
      * @return The URI minus the state parameter.
+     *
+     * @throws InvalidURIException if the newly formed URI is somehow invalid.
+     * This shouldn't ever happen.
      */
     protected URI removeStateParameter(URI uri)
     {
@@ -3435,7 +3452,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     // This should never happen, as we're creating the URI from an existing, valid
                     // URI object. It could only happen if something goes wrong with recreating the
                     // query string.
-                    throw new AssertionError("Could not recreate a URI: " + e.getMessage());
+                    throw new InvalidURIException("Could not recreate a URI: ", e);
                 }
             }
         }
@@ -3450,11 +3467,18 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      *
      * @return The URI minus the state parameter.
      *
-     * @throws URISyntaxException if there is a problem parsing {@code uri} into a URI object.
+     * @throws InvalidURIException if there is a problem parsing {@code uri} into a URI object.
      */
-    protected String removeStateParameter(String uri) throws URISyntaxException
+    protected String removeStateParameter(String uri)
     {
-        return removeStateParameter(new URI(uri)).toString();
+        try
+        {
+            return removeStateParameter(new URI(uri)).toString();
+        }
+        catch (URISyntaxException e)
+        {
+            throw new InvalidURIException(e);
+        }
     }
 
     /**

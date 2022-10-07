@@ -20,9 +20,7 @@ package org.cruk.clarity.api;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
@@ -205,10 +203,10 @@ public interface ClarityAPI
      *
      * @param configuration The properties file to configure from.
      *
-     * @throws MalformedURLException if the {@code api.server} property is set to
+     * @throws InvalidURIException if the {@code api.server} property is set to
      * an invalid URL.
      */
-    void setConfiguration(Properties configuration) throws MalformedURLException;
+    void setConfiguration(Properties configuration);
 
     /**
      * Set the number of objects that will be fetched, updated or created in each
@@ -329,15 +327,15 @@ public interface ClarityAPI
      *
      * @return The full URI to the entity.
      *
-     * @throws URISyntaxException if the creation of the URI gives a malformed URI.
+     * @throws InvalidURIException if the creation of the URI gives a malformed URI.
+     *
      * @throws IllegalArgumentException if either argument is null, or if
      * {@code entityClass} is annotated with a primary section attribute.
      *
      * @see #limsIdToUri(String, String, Class)
      */
     <E extends Locatable>
-    URI limsIdToUri(String limsid, Class<E> entityClass)
-    throws URISyntaxException;
+    URI limsIdToUri(String limsid, Class<E> entityClass);
 
     /**
      * Convert the given LIMS ids to a full URI for that entity.
@@ -356,15 +354,15 @@ public interface ClarityAPI
      *
      * @return The full URI to the entity.
      *
-     * @throws URISyntaxException if the creation of the URI gives a malformed URI.
+     * @throws InvalidURIException if the creation of the URI gives a malformed URI.
+     *
      * @throws IllegalArgumentException if any argument is null, or if
      * {@code entityClass} is not annotated with a primary section attribute.
      *
      * @since 2.22
      */
     <E extends Locatable>
-    URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass)
-    throws URISyntaxException;
+    URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass);
 
     /**
      * This method was used to overrides the cache behaviour for the next call on the
@@ -499,6 +497,8 @@ public interface ClarityAPI
      * @param entityClass The type of entity to list.
      *
      * @return The LIMS entity.
+     *
+     * @throws InvalidURIException if {@code uri} is not a valid URI.
      *
      * @see #retrieve(URI, Class)
      */
@@ -837,6 +837,8 @@ public interface ClarityAPI
      * @param resultStream The OutputStream to write the file content to.
      *
      * @throws IOException if there is a problem with the download.
+     * @throws InvalidURIException if the download URI string internally created to fetch
+     * the file isn't a valid URI (shouldn't happen).
      */
     void downloadFile(Linkable<ClarityFile> file, OutputStream resultStream) throws IOException;
 
