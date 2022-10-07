@@ -52,7 +52,7 @@ public class InvalidURIException extends IllegalArgumentException
      */
     public InvalidURIException(URISyntaxException e)
     {
-        super("Could not create a URI object: " + e.getMessage());
+        super("Could not create a URI object: " + e.getMessage(), e);
     }
 
     /**
@@ -63,7 +63,7 @@ public class InvalidURIException extends IllegalArgumentException
      */
     public InvalidURIException(String message, URISyntaxException e)
     {
-        super(message + e.getMessage());
+        super(message + e.getMessage(), e);
     }
 
     /**
@@ -73,7 +73,7 @@ public class InvalidURIException extends IllegalArgumentException
      */
     public InvalidURIException(MalformedURLException e)
     {
-        super("Could not create a URL object: " + e.getMessage());
+        super("Could not create a URL object: " + e.getMessage(), e);
     }
 
     /**
@@ -84,6 +84,6 @@ public class InvalidURIException extends IllegalArgumentException
      */
     public InvalidURIException(String message, MalformedURLException e)
     {
-        super(message + e.getMessage());
+        super(message + e.getMessage(), e);
     }
 }
