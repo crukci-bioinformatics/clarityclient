@@ -20,6 +20,8 @@ package com.genologics.ri.researcher;
 
 import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
+import static org.apache.commons.lang3.StringUtils.isNoneEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -116,6 +118,38 @@ public class Researcher implements LimsEntity<Researcher>, UDFHolder, Serializab
     public void setLastName(String value)
     {
         this.lastName = value;
+    }
+
+    /**
+     * Convenience method for returning the full name of the researcher.
+     *
+     * @return First name &lt;space&gt; last name. If both names are null,
+     * returns null.
+     *
+     * @since 2.31.2
+     */
+    public String getFullName()
+    {
+        if (firstName == null && lastName == null)
+        {
+            return null;
+        }
+
+        StringBuilder name = new StringBuilder(32);
+        if (isNotEmpty(firstName))
+        {
+            name.append(firstName);
+        }
+        if (isNoneEmpty(firstName, lastName))
+        {
+            name.append(' ');
+        }
+        if (isNotEmpty(lastName))
+        {
+            name.append(lastName);
+        }
+
+        return name.toString();
     }
 
     public String getPhone()
