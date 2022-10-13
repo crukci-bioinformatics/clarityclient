@@ -123,12 +123,27 @@ public class Researcher implements LimsEntity<Researcher>, UDFHolder, Serializab
     /**
      * Convenience method for returning the full name of the researcher.
      *
+     * @return The full name.
+     *
+     * @since 2.31.2
+     *
+     * @see #makeFullName(String, String)
+     */
+    public String getFullName()
+    {
+        return makeFullName(firstName, lastName);
+    }
+
+    /**
+     * Convenience method for making the full name of the researcher.
+     * Present as a static to allow reuse by some of the researcher link classes.
+     *
      * @return First name &lt;space&gt; last name. If both names are null,
      * returns null.
      *
      * @since 2.31.2
      */
-    public String getFullName()
+    public static String makeFullName(String firstName, String lastName)
     {
         if (firstName == null && lastName == null)
         {
