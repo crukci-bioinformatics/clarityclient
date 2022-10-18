@@ -2798,6 +2798,10 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
         {
             throw new IllegalArgumentException("file cannot be null");
         }
+        if (file.getUri() == null)
+        {
+            throw new IllegalArgumentException("file has no URI set.");
+        }
 
         ClarityFile realFile;
         if (file instanceof ClarityFile)
@@ -2816,14 +2820,13 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         URL targetURL = new URL(null, realFile.getContentLocation().toString(), NullURLStreamHandler.INSTANCE);
 
-        if ("sftp".equalsIgnoreCase(targetURL.getProtocol()))
+        if (SFTP_PROTOCOL.equalsIgnoreCase(targetURL.getProtocol()))
         {
             logger.info("Deleting file {} from file store on {}", targetURL.getPath(), targetURL.getHost());
 
             checkFilestoreSet();
 
-            Session<LsEntry> session = filestoreSessionFactory.getSession();
-            try
+            try (Session<LsEntry> session = filestoreSessionFactory.getSession())
             {
                 session.remove(targetURL.getPath());
             }
@@ -2869,17 +2872,13 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     throw e;
                 }
             }
-            finally
-            {
-                session.close();
-            }
         }
         else
         {
             logger.debug("File {} is not in the file store, so just removing its record.", targetURL.getPath());
         }
 
-        delete(realFile);
+        doDelete(realFile.getUri(), ClarityFile.class);
     }
 
 
