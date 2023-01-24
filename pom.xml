@@ -356,6 +356,7 @@
                 <configuration>
                     <toolchains>
                         <jdk>
+                            <!-- Using JDK 11 fails for generating Javadoc because of package-info.java and JAXB annotations. -->
                             <version>11</version>
                         </jdk>
                     </toolchains>
