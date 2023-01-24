@@ -30,6 +30,17 @@ import com.genologics.ri.step.ProcessStep;
 public enum ProcessState
 {
     /**
+     * The step state when the step is in the sample placement stage.
+     */
+    PLACEMENT("Placement"),
+
+    /**
+     * The step state when the step is in the stage where barcodes are attached
+     * to the samples.
+     */
+    BARCODING("Add Reagent"),
+
+    /**
      * The step state when the step is in the pooling stage.
      */
     POOLING("Pooling"),
