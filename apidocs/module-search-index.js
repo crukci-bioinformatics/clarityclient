@@ -1,1 +1,1 @@
-moduleSearchIndex = [{"l":"org.cruk.clarity.api"}]
+moduleSearchIndex = [{"l":"org.cruk.clarity.api"}];updateSearchResults();
