@@ -42,6 +42,12 @@
                         within an application or web server.
                     </description>
                 </item>
+                <item name="Process Automation" href="/automation.html">
+                    <description>
+                        Helper classes to automate process execution through
+                        the API as if it were done through a browser.
+                    </description>
+                </item>
             </item>
             <item name="Known Issues" href="/issues.html">
                 <description>

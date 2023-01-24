@@ -65,6 +65,7 @@ module org.cruk.clarity.api
     exports com.genologics.ri.workflowconfiguration;
 
     exports org.cruk.clarity.api;
+    exports org.cruk.clarity.api.automation;
     exports org.cruk.clarity.api.cache;
     exports org.cruk.clarity.api.debugging;
     exports org.cruk.clarity.api.http;
