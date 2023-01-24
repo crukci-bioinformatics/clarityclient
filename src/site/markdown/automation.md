@@ -25,7 +25,7 @@ The `beginProcessStep` method starts a process. It needs to be given a completed
 [`StepCreation`](https://d10e8rzir0haj8.cloudfront.net/6.0/data_stp.html#step-creation)
 object, which will provide the inputs to the process (which must be in the step's queue)
 and the container type the outputs will be put into. If all is well, the call will return
-a `ProcessStep` object.
+a [`ProcessStep`](https://d10e8rzir0haj8.cloudfront.net/6.0/data_stp.html#step) object.
 
 #### Wait for the Process to have started
 
