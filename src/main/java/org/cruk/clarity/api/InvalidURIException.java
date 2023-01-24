@@ -29,7 +29,7 @@ import java.net.URL;
  *
  * <p>
  * This is a RuntimeException that is used in place of the typed
- * {@link URISyntaxException} or {@link MalformedURLException) from within
+ * {@link URISyntaxException} or {@link MalformedURLException} from within
  * the Clarity API client. We don't expect these to actually happen if
  * the client is configured properly, so handling them as typed exceptions
  * on every call is burdensome. Prior to release 2.31.2 these errors came

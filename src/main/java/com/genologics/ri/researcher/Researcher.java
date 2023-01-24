@@ -138,6 +138,9 @@ public class Researcher implements LimsEntity<Researcher>, UDFHolder, Serializab
      * Convenience method for making the full name of the researcher.
      * Present as a static to allow reuse by some of the researcher link classes.
      *
+     * @param firstName The researcher first name.
+     * @param lastName The researcher last name.
+     *
      * @return First name &lt;space&gt; last name. If both names are null,
      * returns null.
      *
