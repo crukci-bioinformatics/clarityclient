@@ -9,9 +9,8 @@ need to run protocol steps automatically.
 
 The main class of the library, `ClarityProcessAutomation`, can be used
 as a simple Java class (just create an instance) or can be injected into other
-classes by Spring. If you create a bean definition explicitly, best make it a prototype
-bean so that polling times can be customised where used rather than set across
-all occurrences.
+classes by Spring. There is a bean definition in `clarity-client-context.xml`
+with the id "`clarityAutomation`".
 
 ### Basic Usage
 
