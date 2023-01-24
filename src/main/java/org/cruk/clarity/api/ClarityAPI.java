@@ -731,7 +731,7 @@ public interface ClarityAPI
      *
      * @throws IllegalArgumentException if {@code stepCreation} is null.
      *
-     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.steps.html#POST">Clarity API documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.html#POST">Clarity API documentation</a>
      *
      * @see <a href="https://genologics.zendesk.com/entries/68573603-Starting-a-Protocol-Step-via-the-API">Starting
      * a Protocol Step via the API</a>
@@ -749,9 +749,9 @@ public interface ClarityAPI
      *
      * @param step The step to advance. The state of this object is updated in place.
      *
-     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.steps.limsid.advance.html">Clarity API documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.limsid.advance.html">Clarity API documentation</a>
      *
-     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.steps.limsid.actions.html">Actions documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.limsid.actions.html">Actions documentation</a>
      *
      * @see <a href="https://genologics.zendesk.com/entries/69596247-Advancing-Completing-a-Protocol-Step-via-the-API">Advancing
      * and Completing a Step via the API</a>
@@ -765,7 +765,7 @@ public interface ClarityAPI
      *
      * @return An updated program status structure.
      *
-     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.steps.limsid.trigger.programid.html">Clarity API Documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.limsid.trigger.programid.html">Clarity API Documentation</a>
      *
      * @since 2.27.5
      */
@@ -885,7 +885,7 @@ public interface ClarityAPI
      *
      * <p>
      * Search terms work the same as for the {@link #find(Map, Class)} method. Also see
-     * <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.queues.protocolStepId.html">Genologics'
+     * <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.queues.protocolStepId.html">Genologics'
      * documentation of this end point</a> for the options available.
      * </p>
      *

@@ -129,7 +129,6 @@ public class StepCreation implements Serializable
 
     public CreationInput addInput(Linkable<Artifact> artifact, Linkable<ControlType> controlType, Long replicates)
     {
-
         return addInput(new CreationInput(artifact, controlType, replicates));
     }
 }
