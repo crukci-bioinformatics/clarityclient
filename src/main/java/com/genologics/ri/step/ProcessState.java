@@ -16,49 +16,66 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.cruk.clarity.api.automation;
+package com.genologics.ri.step;
 
-import com.genologics.ri.step.ProcessStep;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
+import javax.xml.bind.annotation.XmlType;
+
 
 /**
- * Enumeration of the process states Clarity returns.
- *
- * @see ProcessStep#getCurrentState()
- *
- * @since 2.31.2
+ * An enumeration of the values possible in the
+ * {@link ProcessStep#currentState} attribute. This enumeration
+ * isn't actually an enumeration in the XML schemas, but it has
+ * a finite set of possible values and it's easier to work with
+ * an enumeration in Java code than just a string.
  */
+@XmlType(name = "process-state")
+@XmlEnum
 public enum ProcessState
 {
     /**
      * The step state when the step is in the sample placement stage.
      */
+    @XmlEnumValue("Started")
+    STARTED("Started"),
+
+    /**
+     * The step state when the step is in the sample placement stage.
+     */
+    @XmlEnumValue("Placement")
     PLACEMENT("Placement"),
 
     /**
      * The step state when the step is in the stage where barcodes are attached
      * to the samples.
      */
-    BARCODING("Add Reagent"),
+    @XmlEnumValue("Placement")
+    ADD_REAGENT("Add Reagent"),
 
     /**
      * The step state when the step is in the pooling stage.
      */
+    @XmlEnumValue("Pooling")
     POOLING("Pooling"),
 
     /**
      * The step state when the step is in the record details stage.
      */
-    RECDETAILS("Record Details"),
+    @XmlEnumValue("Record Details")
+    RECORD_DETAILS("Record Details"),
 
     /**
      * The step state when the step is in the next steps stage.
      */
-    NEXTSTEPS("Assign Next Steps"),
+    @XmlEnumValue("Assign Next Steps")
+    NEXT_STEPS("Assign Next Steps"),
 
     /**
      * The step state when the step is complete.
      */
-    COMPLETE("Completed");
+    @XmlEnumValue("Completed")
+    COMPLETED("Completed");
 
 
     /**
@@ -76,22 +93,16 @@ public enum ProcessState
         displayName = display;
     }
 
-    /**
-     * Get the display name of the state.
-     *
-     * @return The display name.
-     */
-    public String getDisplayName()
-    {
-        return displayName;
-    }
-
     @Override
     public String toString()
     {
         return displayName;
     }
 
+    public String value()
+    {
+        return displayName;
+    }
 
     /**
      * Get the process state that has the given display name.
@@ -103,7 +114,7 @@ public enum ProcessState
      * @throws IllegalArgumentException if {@code str} does not match the
      * display name of a state.
      */
-    public static ProcessState of(String str)
+    public static ProcessState fromValue(String str)
     {
         if (str == null)
         {
@@ -119,17 +130,5 @@ public enum ProcessState
         }
 
         throw new IllegalArgumentException('"' + str + "\" is not a recognised Clarity process state.");
-    }
-
-    /**
-     * Get the current state of the given process step.
-     *
-     * @param step The process step object.
-     *
-     * @return The process step's current state.
-     */
-    public static ProcessState currentState(ProcessStep step)
-    {
-        return of(step.getCurrentState());
     }
 }

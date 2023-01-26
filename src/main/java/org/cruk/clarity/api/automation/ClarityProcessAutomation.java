@@ -30,6 +30,7 @@ import com.genologics.ri.Link;
 import com.genologics.ri.protocolconfiguration.Protocol;
 import com.genologics.ri.stage.Stage;
 import com.genologics.ri.step.AvailableProgram;
+import com.genologics.ri.step.ProcessState;
 import com.genologics.ri.step.ProcessStep;
 import com.genologics.ri.step.ProgramStatus;
 import com.genologics.ri.step.StepCreation;
@@ -250,7 +251,7 @@ public class ClarityProcessAutomation
 
             api.reload(step);
 
-            if (ProcessState.currentState(step) == desiredState)
+            if (step.getCurrentState() == desiredState)
             {
                 return;
             }
