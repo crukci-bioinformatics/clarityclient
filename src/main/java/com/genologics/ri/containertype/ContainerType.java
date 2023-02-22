@@ -204,4 +204,10 @@ public class ContainerType implements Linkable<ContainerType>, Serializable
             return null;
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

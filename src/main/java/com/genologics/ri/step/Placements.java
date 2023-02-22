@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
+import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.container.Container;
 
 /**
@@ -123,6 +124,13 @@ public class Placements implements Linkable<Placements>, Serializable
 
     public OutputPlacement addOutputPlacement(OutputPlacement placement)
     {
+        getOutputPlacements().add(placement);
+        return placement;
+    }
+
+    public OutputPlacement addOutputPlacement(Linkable<Artifact> artifact, Linkable<Container> container, String wellPosition)
+    {
+        OutputPlacement placement = new OutputPlacement(artifact, container, wellPosition);
         getOutputPlacements().add(placement);
         return placement;
     }

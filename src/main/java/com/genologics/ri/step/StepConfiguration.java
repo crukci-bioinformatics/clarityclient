@@ -68,10 +68,7 @@ public class StepConfiguration implements LimsLink<ProtocolStep>, Serializable
 
     public StepConfiguration(Linkable<ProtocolStep> step)
     {
-        if (step != null)
-        {
-            this.protocolStepUri = step.getUri();
-        }
+        this.protocolStepUri = step == null ? null : step.getUri();
     }
 
     public URI getProtocolStepUri()

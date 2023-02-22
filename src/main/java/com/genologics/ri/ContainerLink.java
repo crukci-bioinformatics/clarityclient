@@ -62,6 +62,11 @@ public class ContainerLink implements LimsEntityLink<Container>, Serializable
         this.limsid = limsid;
     }
 
+    public ContainerLink(Linkable<Container> link)
+    {
+        this.uri = link.getUri();
+    }
+
     public ContainerLink(LimsEntityLinkable<Container> link)
     {
         this.uri = link.getUri();

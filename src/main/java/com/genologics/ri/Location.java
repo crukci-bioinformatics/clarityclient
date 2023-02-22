@@ -70,6 +70,12 @@ public class Location implements LimsEntityLink<Container>, Serializable, Compar
         this.wellPosition = position;
     }
 
+    public Location(Linkable<Container> container, String position)
+    {
+        this.container = new ContainerLink(container);
+        this.wellPosition = position;
+    }
+
     public ContainerLink getContainer()
     {
         return container;
