@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlType;
 import com.genologics.ri.LimsEntityLink;
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.artifact.Artifact;
+import com.genologics.ri.artifact.OutputType;
 
 /**
  *
@@ -46,7 +47,7 @@ public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
     private static final long serialVersionUID = 5059350210397125299L;
 
     @XmlAttribute(name = "type")
-    protected String type;
+    protected OutputType type;
 
     @XmlAttribute(name = "output-generation-type")
     protected OutputGenerationType outputGenerationType;
@@ -79,12 +80,12 @@ public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
         limsid = link.getLimsid();
     }
 
-    public String getType()
+    public OutputType getType()
     {
         return type;
     }
 
-    public void setType(String type)
+    public void setType(OutputType type)
     {
         this.type = type;
     }
