@@ -20,13 +20,7 @@ package org.cruk.clarity.api.automation;
 
 import org.cruk.clarity.api.ClarityAPI;
 import org.cruk.clarity.api.ClarityException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 
-import com.genologics.ri.LimsLink;
-import com.genologics.ri.Link;
 import com.genologics.ri.protocolconfiguration.Protocol;
 import com.genologics.ri.stage.Stage;
 import com.genologics.ri.step.AvailableProgram;
@@ -42,73 +36,16 @@ import com.genologics.ri.workflowconfiguration.Workflow;
  * using the "click through" newer methods rather than the API's
  * {@code ExecutableProcess} end point.
  *
- * @since 2.31.2
+ * @since 2.31.4
  */
-public class ClarityProcessAutomation
+public interface ClarityProcessAutomation
 {
-    /**
-     * Minimum time between polls of Clarity to see if the process has moved state (milliseconds).
-     */
-    private static final int MIN_WAIT = 500;
-
-    /**
-     * Logger.
-     */
-    protected Logger logger = LoggerFactory.getLogger(ClarityProcessAutomation.class);
-
-    /**
-     * Clarity API.
-     */
-    protected ClarityAPI api;
-
-    /**
-     * Wait time between polls, in milliseconds.
-     */
-    private int wait = 4000;
-
-    /**
-     * Maximum number of times to poll waiting for a state change before giving up.
-     */
-    private int waitAttempts = 15;
-
-
-    /**
-     * Constructor.
-     */
-    public ClarityProcessAutomation()
-    {
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param api The Clarity API.
-     */
-    public ClarityProcessAutomation(ClarityAPI api)
-    {
-        setClarityAPI(api);
-    }
-
-    /**
-     * Set the API.
-     *
-     * @param api The Clarity API.
-     */
-    @Autowired
-    public void setClarityAPI(ClarityAPI api)
-    {
-        this.api = api;
-    }
-
     /**
      * Get the time to wait between polls.
      *
      * @return The wait time, in milliseconds.
      */
-    public int getWait()
-    {
-        return wait;
-    }
+    int getWait();
 
     /**
      * Set the wait time between polls.
@@ -117,24 +54,14 @@ public class ClarityProcessAutomation
      *
      * @throws IllegalArgumentException if the wait time is too short (minimum 500ms).
      */
-    public void setWait(int wait)
-    {
-        if (wait < MIN_WAIT)
-        {
-            throw new IllegalArgumentException("wait can't be negative, and less than " + MIN_WAIT + "ms will thrash the server.");
-        }
-        this.wait = wait;
-    }
+    void setWait(int wait);
 
     /**
      * Get the number of times to ask for a state change before stopping.
      *
      * @return The number of polls.
      */
-    public int getWaitAttempts()
-    {
-        return waitAttempts;
-    }
+    int getWaitAttempts();
 
     /**
      * Set the number of times to ask for a state change before stopping.
@@ -143,14 +70,7 @@ public class ClarityProcessAutomation
      *
      * @throws IllegalArgumentException if there is not at least one poll attempt.
      */
-    public void setWaitAttempts(int waitAttempts)
-    {
-        if (waitAttempts < 1)
-        {
-            throw new IllegalArgumentException("Need at least one attempt when waiting for a state change.");
-        }
-        this.waitAttempts = waitAttempts;
-    }
+    void setWaitAttempts(int waitAttempts);
 
     /**
      * Start a protocol step as if running through Clarity. This is a call through to
@@ -170,10 +90,7 @@ public class ClarityProcessAutomation
      * @see <a href="https://genologics.zendesk.com/entries/68573603-Starting-a-Protocol-Step-via-the-API">Starting
      * a Protocol Step via the API</a>
      */
-    public ProcessStep beginProcessStep(StepCreation stepCreation)
-    {
-        return api.beginProcessStep(stepCreation);
-    }
+    ProcessStep beginProcessStep(StepCreation stepCreation);
 
     /**
      * Move a process step on to the next stage. Tries this a number of times,
@@ -193,40 +110,7 @@ public class ClarityProcessAutomation
      * @see <a href="https://genologics.zendesk.com/entries/69596247-Advancing-Completing-a-Protocol-Step-via-the-API">Advancing
      * and Completing a Step via the API</a>
      */
-    public void advanceStep(ProcessStep step) throws InterruptedException
-    {
-        for (int i = 0; i < waitAttempts; i++)
-        {
-            try
-            {
-                // Try to step. If waiting for scripts, this will raise an exception.
-                api.advanceProcessStep(step);
-
-                // If no exception, we're done.
-                return;
-            }
-            catch (ClarityException e)
-            {
-                if (e.getHttpStatus() == HttpStatus.BAD_REQUEST && e.getMessage().startsWith("Cannot advance a step"))
-                {
-                    Thread.sleep(wait);
-
-                    // Need to reload as the state may have changed.
-                    api.reload(step);
-
-                    logger.debug("Step not yet ready. Current state is {}.", step.getCurrentState());
-                }
-                else
-                {
-                    throw e;
-                }
-            }
-        }
-
-        int totalTime = wait * waitAttempts / 1000;
-        throw new ClarityAutomationException("Process " + step.getLimsid() +
-                " did not finish within the allowed " + totalTime + " seconds.");
-    }
+    void advanceStep(ProcessStep step) throws InterruptedException;
 
     /**
      * Wait until a process has reached a certain state. Tries this a number of times,
@@ -243,26 +127,7 @@ public class ClarityProcessAutomation
      * @throws ClarityAutomationException if the process didn't reach the required
      * state before the time and number of polling attempts ran out.
      */
-    public void waitUntilProcessInState(ProcessStep step, ProcessState desiredState) throws InterruptedException
-    {
-        for (int i = 0; i < waitAttempts; i++)
-        {
-            Thread.sleep(wait);
-
-            api.reload(step);
-
-            if (step.getCurrentState() == desiredState)
-            {
-                return;
-            }
-
-            logger.debug("Step not yet ready. Current state is {}.", step.getCurrentState());
-        }
-
-        int totalTime = wait * waitAttempts / 1000;
-        throw new ClarityAutomationException("Process " + step.getLimsid() +
-                " did not reach the state '" + desiredState + "' within the allowed " + totalTime + " seconds.");
-    }
+    void waitUntilProcessInState(ProcessStep step, ProcessState desiredState) throws InterruptedException;
 
     /**
      * Start execution of an EPP as part of a process step moving through Clarity.
@@ -275,10 +140,7 @@ public class ClarityProcessAutomation
      *
      * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.limsid.trigger.programid.html">Clarity API Documentation</a>
      */
-    public ProgramStatus startProgram(AvailableProgram program)
-    {
-        return api.startProgram(program);
-    }
+    ProgramStatus startProgram(AvailableProgram program);
 
     /**
      * Wait for an EPP to finish running. Tries this a number of times,
@@ -294,31 +156,7 @@ public class ClarityProcessAutomation
      *
      * @throws ClarityAutomationException if the EPP has failed.
      */
-    public void waitUntilProgramCompletes(AvailableProgram program, ProgramStatus status) throws InterruptedException
-    {
-        for (int i = 0; i < waitAttempts; i++)
-        {
-            Thread.sleep(wait);
-
-            api.currentStatus(status);
-
-            switch (status.getStatus())
-            {
-                case OK:
-                case WARNING:
-                    return;
-
-                case ERROR:
-                    throw new ClarityAutomationException(program.getName() + " has failed: " + status.getMessage());
-            }
-
-            logger.debug("Program not yet complete. Current status is {}.", status.getStatus());
-        }
-
-        int totalTime = wait * waitAttempts / 1000;
-        throw new ClarityAutomationException("Program " + program.getName() + " for process " +
-                Link.limsIdFromUri(status.getStep().getUri()) + " did not complete within the allowed " + totalTime + " seconds.");
-    }
+    void waitUntilProgramCompletes(AvailableProgram program, ProgramStatus status) throws InterruptedException;
 
     /**
      * Find a work flow by name.
@@ -329,18 +167,7 @@ public class ClarityProcessAutomation
      *
      * @throws ClarityAutomationException if there is no such work flow.
      */
-    public Workflow findWorkflow(String name)
-    {
-        for (LimsLink<Workflow> link : api.listAll(Workflow.class))
-        {
-            com.genologics.ri.workflowconfiguration.WorkflowLink wfl = (com.genologics.ri.workflowconfiguration.WorkflowLink)link;
-            if (name.equals(wfl.getName()))
-            {
-                return api.load(wfl);
-            }
-        }
-        throw new ClarityAutomationException("There is no workflow " + name);
-    }
+    Workflow findWorkflow(String name);
 
     /**
      * Find a stage in a work flow by name.
@@ -352,17 +179,7 @@ public class ClarityProcessAutomation
      *
      * @throws ClarityAutomationException if there is no such stage in the work flow.
      */
-    public Stage findStage(Workflow workflow, String name)
-    {
-        for (com.genologics.ri.workflowconfiguration.StageLink s : workflow.getStages())
-        {
-            if (name.equals(s.getName()))
-            {
-                return api.load(s);
-            }
-        }
-        throw new ClarityAutomationException("There is no stage/protocol step " + name + " in workflow " + workflow.getName());
-    }
+    Stage findStage(Workflow workflow, String name);
 
     /**
      * Find a protocol by name.
@@ -373,18 +190,7 @@ public class ClarityProcessAutomation
      *
      * @throws ClarityAutomationException if there is no such protocol.
      */
-    public Protocol findProtocol(String name)
-    {
-        for (LimsLink<Protocol> link : api.listAll(Protocol.class))
-        {
-            com.genologics.ri.protocolconfiguration.ProtocolLink pfl = (com.genologics.ri.protocolconfiguration.ProtocolLink)link;
-            if (name.equals(pfl.getName()))
-            {
-                return api.load(pfl);
-            }
-        }
-        throw new ClarityAutomationException("There is no protocol " + name);
-    }
+    Protocol findProtocol(String name);
 
     /**
      * Find a step in a protocol by name.
@@ -396,15 +202,5 @@ public class ClarityProcessAutomation
      *
      * @throws ClarityAutomationException if there is no such step in the protocol.
      */
-    public ProtocolStep findStep(Protocol protocol, String name)
-    {
-        for (ProtocolStep s : protocol.getSteps())
-        {
-            if (name.equals(s.getName()))
-            {
-                return s;
-            }
-        }
-        throw new ClarityAutomationException("There is no step " + name + " in protocol " + protocol.getName());
-    }
+    ProtocolStep findStep(Protocol protocol, String name);
 }

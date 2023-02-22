@@ -1,4 +1,6 @@
 import org.cruk.clarity.api.ClarityAPI;
+import org.cruk.clarity.api.automation.ClarityProcessAutomation;
+import org.cruk.clarity.api.automation.impl.ClarityProcessAutomationImpl;
 import org.cruk.clarity.api.impl.ClarityAPIImpl;
 
 /**
@@ -7,6 +9,7 @@ import org.cruk.clarity.api.impl.ClarityAPIImpl;
 module org.cruk.clarity.api
 {
     provides ClarityAPI with ClarityAPIImpl;
+    provides ClarityProcessAutomation with ClarityProcessAutomationImpl;
 
     requires transitive java.annotation;
     requires transitive java.xml.bind;
@@ -66,6 +69,7 @@ module org.cruk.clarity.api
 
     exports org.cruk.clarity.api;
     exports org.cruk.clarity.api.automation;
+    exports org.cruk.clarity.api.automation.impl;
     exports org.cruk.clarity.api.cache;
     exports org.cruk.clarity.api.debugging;
     exports org.cruk.clarity.api.http;

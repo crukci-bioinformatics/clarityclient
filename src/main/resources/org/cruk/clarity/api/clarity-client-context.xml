@@ -276,7 +276,7 @@
         </aop:aspect>
     </aop:config>
 
-    <bean id="clarityAutomation" class="org.cruk.clarity.api.automation.ClarityProcessAutomation" scope="prototype">
+    <bean id="clarityAutomation" class="org.cruk.clarity.api.automation.impl.ClarityProcessAutomationImpl" scope="prototype">
         <constructor-arg ref="clarityAPI"/>
     </bean>
 </beans>
