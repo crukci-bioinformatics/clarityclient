@@ -44,7 +44,7 @@ import com.genologics.ri.artifact.OutputType;
 @XmlType(name = "artifact")
 public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
 {
-    private static final long serialVersionUID = 5059350210397125299L;
+    private static final long serialVersionUID = -3085489413319927673L;
 
     @XmlAttribute(name = "type")
     protected OutputType type;
