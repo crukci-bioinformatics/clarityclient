@@ -36,6 +36,7 @@ com.genologics.ri.version
 com.genologics.ri.workflowconfiguration
 org.cruk.clarity.api
 org.cruk.clarity.api.automation
+org.cruk.clarity.api.automation.impl
 org.cruk.clarity.api.cache
 org.cruk.clarity.api.debugging
 org.cruk.clarity.api.http
