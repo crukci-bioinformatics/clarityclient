@@ -50,7 +50,7 @@ public enum ProcessState
      * The step state when the step is in the stage where barcodes are attached
      * to the samples.
      */
-    @XmlEnumValue("Placement")
+    @XmlEnumValue("Add Reagent")
     ADD_REAGENT("Add Reagent"),
 
     /**
