@@ -174,10 +174,10 @@ public interface UDFHolder
     }
 
     /**
-     * Adds, sets or removes a UDF on this given object. If the named
-     * UDF exists in the collection, it either has its value set (if "value" is not null)
+     * Adds, sets or removes a UDF. If the named
+     * UDF exists, it either has its value set (if "value" is not null)
      * or is removed (if "value" is null). If it doesn't exist, a new {@code UDF}
-     * object is created for the field and is added to the collection.
+     * object is created for the field and is added.
      *
      * @param name The name of the field to change.
      * @param value The value to set the field to.
