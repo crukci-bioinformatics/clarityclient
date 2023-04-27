@@ -98,6 +98,12 @@ public class Link implements Locatable, Serializable
         this.uri = uri;
     }
 
+    @Override
+    public String toString()
+    {
+        return uri == null ? "Unset" : uri.toString();
+    }
+
     /**
      * Extract the LIMS identifier from a URI. The identifier is the
      * last part of the URI path.
