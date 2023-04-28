@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsEntityLink;
 import com.genologics.ri.LimsEntityLinkable;
+import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.OutputType;
 
@@ -72,6 +73,11 @@ public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
     {
         this.uri = uri;
         this.limsid = limsid;
+    }
+
+    public ArtifactLink(Linkable<Artifact> link)
+    {
+        uri = link.getUri();
     }
 
     public ArtifactLink(LimsEntityLinkable<Artifact> link)

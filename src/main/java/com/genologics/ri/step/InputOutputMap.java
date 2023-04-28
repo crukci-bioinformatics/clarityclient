@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsEntityLinkable;
+import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
 
 /**
@@ -56,10 +57,22 @@ public class InputOutputMap implements Serializable
     {
     }
 
+    public InputOutputMap(ArtifactLink input, ArtifactLink output)
+    {
+        setInput(input);
+        setOutput(output);
+    }
+
+    public InputOutputMap(Linkable<Artifact> input, Linkable<Artifact> output)
+    {
+        setInput(input);
+        setOutput(output);
+    }
+
     public InputOutputMap(LimsEntityLinkable<Artifact> input, LimsEntityLinkable<Artifact> output)
     {
-        this.input = new ArtifactLink(input);
-        this.output = new ArtifactLink(output);
+        setInput(input);
+        setOutput(output);
     }
 
     public ArtifactLink getInput()
@@ -67,9 +80,19 @@ public class InputOutputMap implements Serializable
         return input;
     }
 
-    public void setInput(LimsEntityLinkable<Artifact> value)
+    public void setInput(ArtifactLink value)
     {
-        this.input = new ArtifactLink(value);
+        this.input = value;
+    }
+
+    public void setInput(Linkable<Artifact> link)
+    {
+        this.input = link == null ? null : new ArtifactLink(link);
+    }
+
+    public void setInput(LimsEntityLinkable<Artifact> link)
+    {
+        this.input = link == null ? null : new ArtifactLink(link);
     }
 
     public ArtifactLink getOutput()
@@ -77,9 +100,18 @@ public class InputOutputMap implements Serializable
         return output;
     }
 
-    public void setOutput(LimsEntityLinkable<Artifact> value)
+    public void setOutput(ArtifactLink value)
     {
-        this.output = new ArtifactLink(value);
+        this.output = value;
     }
 
+    public void setOutput(Linkable<Artifact> link)
+    {
+        this.output = link == null ? null : new ArtifactLink(link);
+    }
+
+    public void setOutput(LimsEntityLinkable<Artifact> link)
+    {
+        this.output = link == null ? null : new ArtifactLink(link);
+    }
 }
