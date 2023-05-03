@@ -69,16 +69,12 @@ public class ProcessTypeLink implements LimsLink<ProcessType>, Serializable
     public ProcessTypeLink(Linkable<ProcessType> link)
     {
         this.uri = link.getUri();
-        /*
-        try
-        {
-            this.name = (String)PropertyUtils.getProperty(link, "name");
-        }
-        catch (Exception e)
-        {
-            // Ignore.
-        }
-        */
+    }
+
+    public ProcessTypeLink(ProcessType pt)
+    {
+        this.uri = pt.getUri();
+        this.name = pt.getName();
     }
 
     @Override
