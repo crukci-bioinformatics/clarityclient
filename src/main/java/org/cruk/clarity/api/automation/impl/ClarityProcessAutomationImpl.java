@@ -232,6 +232,7 @@ public class ClarityProcessAutomationImpl implements ClarityProcessAutomation
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("incomplete-switch")
     public void waitUntilProgramCompletes(AvailableProgram program, ProgramStatus status) throws InterruptedException
     {
         for (int i = 0; i < waitAttempts; i++)
