@@ -363,6 +363,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityFilestoreSFTPSessionFactory")
+    @SuppressWarnings("exports")
     public void setFilestoreSessionFactory(DefaultSftpSessionFactory filestoreSessionFactory)
     {
         this.filestoreSessionFactory = filestoreSessionFactory;
@@ -380,6 +381,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityJaxbMarshaller")
+    @SuppressWarnings("exports")
     public void setJaxbMarshaller(Jaxb2Marshaller jaxbMarshaller)
     {
         entityToListClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
@@ -431,6 +433,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityRestTemplate")
+    @SuppressWarnings("exports")
     public void setRestClient(RestOperations restClient)
     {
         this.restClient = restClient;
@@ -443,6 +446,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityFileUploadTemplate")
+    @SuppressWarnings("exports")
     public void setFileUploadClient(RestOperations fileUploadClient)
     {
         this.fileUploadClient = fileUploadClient;
@@ -456,6 +460,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityHttpClient")
+    @SuppressWarnings("exports")
     public void setHttpClient(HttpClient httpClient)
     {
         this.httpClient = httpClient;
@@ -555,6 +560,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("exports")
     public void setCredentials(Credentials httpCredentials)
     {
         if (serverAddress != null)
@@ -1175,6 +1181,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * {@inheritDoc}
      */
     @Deprecated
+    @SuppressWarnings("incomplete-switch")
     public void nextCallCacheOverride(CacheStatefulBehaviour behaviour)
     {
         if (behaviour != null)
