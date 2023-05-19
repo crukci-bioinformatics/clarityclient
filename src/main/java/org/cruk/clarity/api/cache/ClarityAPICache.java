@@ -164,6 +164,7 @@ public class ClarityAPICache
      */
     @Autowired
     @Qualifier("clarityCacheManager")
+    @SuppressWarnings("exports")
     public void setCacheManager(CacheManager cacheManager)
     {
         this.cacheManager = cacheManager;
@@ -267,6 +268,7 @@ public class ClarityAPICache
      * @see ClarityAPIInternal#cancelStatefulOverride(String)
      * @see LatestVersionsResetAspect#cancelStatefulOverride(JoinPoint)
      */
+    @SuppressWarnings("exports")
     public void cancelStatefulOverride(JoinPoint jp)
     {
         latestVersionsResetAspect.cancelStatefulOverride(jp);
@@ -286,6 +288,7 @@ public class ClarityAPICache
      * @see ClarityAPI#retrieve(URI, Class)
      * @see #loadOrRetrieve(ProceedingJoinPoint, String, Class)
      */
+    @SuppressWarnings("exports")
     public Object retrieve(ProceedingJoinPoint pjp) throws Throwable
     {
         assert pjp.getArgs().length == 2 : "Wrong number of arguments.";
@@ -314,6 +317,7 @@ public class ClarityAPICache
      * @see ClarityAPI#load(String, Class)
      * @see #loadOrRetrieve(ProceedingJoinPoint, String, Class)
      */
+    @SuppressWarnings("exports")
     public Object loadById(ProceedingJoinPoint pjp) throws Throwable
     {
         Object[] args = pjp.getArgs();
@@ -367,6 +371,7 @@ public class ClarityAPICache
      * @see ClarityAPI#load(LimsLink)
      * @see #loadOrRetrieve(ProceedingJoinPoint, String, Class)
      */
+    @SuppressWarnings("exports")
     public Object loadByLink(ProceedingJoinPoint pjp) throws Throwable
     {
         assert pjp.getArgs().length == 1 : "Wrong number of arguments.";
@@ -563,6 +568,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#loadAll(Collection)
      */
+    @SuppressWarnings("exports")
     public <E extends Locatable> List<E> loadAll(ProceedingJoinPoint pjp) throws Throwable
     {
         @SuppressWarnings("unchecked")
@@ -815,6 +821,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#reload(LimsEntity)
      */
+    @SuppressWarnings("exports")
     public void reload(ProceedingJoinPoint pjp) throws Throwable
     {
         Locatable entity = (Locatable)pjp.getArgs()[0];
@@ -839,6 +846,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#create(Locatable)
      */
+    @SuppressWarnings("exports")
     public void create(ProceedingJoinPoint pjp) throws Throwable
     {
         Locatable entity = (Locatable)pjp.getArgs()[0];
@@ -863,6 +871,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#createAll(Collection)
      */
+    @SuppressWarnings("exports")
     public void createAll(ProceedingJoinPoint pjp) throws Throwable
     {
         @SuppressWarnings("unchecked")
@@ -896,6 +905,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#update(Locatable)
      */
+    @SuppressWarnings("exports")
     public void update(ProceedingJoinPoint pjp) throws Throwable
     {
         Locatable entity = (Locatable)pjp.getArgs()[0];
@@ -920,6 +930,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#updateAll(Collection)
      */
+    @SuppressWarnings("exports")
     public void updateAll(ProceedingJoinPoint pjp) throws Throwable
     {
         @SuppressWarnings("unchecked")
@@ -952,6 +963,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#delete(Locatable)
      */
+    @SuppressWarnings("exports")
     public void delete(ProceedingJoinPoint pjp) throws Throwable
     {
         Locatable entity = (Locatable)pjp.getArgs()[0];
@@ -978,6 +990,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#deleteAll(Collection)
      */
+    @SuppressWarnings("exports")
     public void deleteAll(ProceedingJoinPoint pjp) throws Throwable
     {
         @SuppressWarnings("unchecked")
@@ -1028,6 +1041,7 @@ public class ClarityAPICache
      * @see ClarityAPI#executeProcess(com.genologics.ri.processexecution.ExecutableProcess)
      * @see ClarityAPI#beginProcessStep(com.genologics.ri.step.StepCreation)
      */
+    @SuppressWarnings("exports")
     public Locatable runSomething(ProceedingJoinPoint pjp) throws Throwable
     {
         Locatable result = (Locatable)pjp.proceed();
@@ -1054,6 +1068,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#uploadFile(com.genologics.ri.LimsEntityLinkable, java.net.URL, boolean)
      */
+    @SuppressWarnings("exports")
     public ClarityFile uploadFile(ProceedingJoinPoint pjp) throws Throwable
     {
         ClarityFile file = (ClarityFile)pjp.proceed();
@@ -1078,6 +1093,7 @@ public class ClarityAPICache
      *
      * @see ClarityAPI#deleteAndRemoveFile(Linkable)
      */
+    @SuppressWarnings("exports")
     public void deleteAndRemoveFile(ProceedingJoinPoint pjp) throws Throwable
     {
         Linkable<?> file = (Linkable<?>)pjp.getArgs()[0];
