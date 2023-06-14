@@ -31,9 +31,27 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.LimsEntity;
+import com.genologics.ri.Link;
 
 /**
  * The detailed representation of an instrument.
+ *
+ * <p>
+ * Since API version 2.25 this object has received an explicit {@code limsid} attribute from
+ * the server. Unfortunately this is broken in that the last part of the URI path is not the
+ * same as the LIMS id. The id on the path is just a number corresponding to the database id
+ * whereas the LIMS id has the prefix "55-", corresponding to the LUID.
+ * </p>
+ * <p>
+ * To make this work without special cases elsewhere this object will work as it did for
+ * API 2.24 and before, and return the LIMS id as just the number from {@link #getLimsid()}.
+ * This keeps things consistent.
+ * </p>
+ * <p>
+ * This issue has been reported to Illumina but they are very reluctant to fix it (SFC# 02921030).
+ * </p>
+ *
+ * @see <a href="https://github.com/crukci-bioinformatics/clarityclient/issues/12">GitHub issue 12</a>
  */
 @ClarityEntity(uriSection = "instruments")
 @XmlRootElement(name = "instrument")
@@ -101,10 +119,17 @@ public class Instrument implements LimsEntity<Instrument>, Serializable
         this.uri = uri;
     }
 
+    /**
+     * Get the LIMS id of this instrument. Due to the error described in the class
+     * description, this doesn't return the {@code limsid} value but takes the id
+     * from the path of the URI.
+     *
+     * @return The LIMS id as recorded on the URI path.
+     */
     @Override
     public String getLimsid()
     {
-        return limsid;
+        return Link.limsIdFromUri(uri);
     }
 
     @Override
