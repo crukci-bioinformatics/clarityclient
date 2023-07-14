@@ -106,7 +106,6 @@ import com.genologics.ri.Location;
 import com.genologics.ri.PaginatedBatch;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.file.ClarityFile;
-import com.genologics.ri.instrument.Instrument;
 import com.genologics.ri.process.ClarityProcess;
 import com.genologics.ri.processexecution.ExecutableProcess;
 import com.genologics.ri.queue.Queue;

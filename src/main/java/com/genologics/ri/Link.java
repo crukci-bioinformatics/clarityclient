@@ -125,4 +125,16 @@ public class Link implements Locatable, Serializable
 
         return id;
     }
+
+    /**
+     * Extract the LIMS identifier from the URI of a Locatable object.
+     *
+     * @param thing The Locatable object.
+     *
+     * @return The id from the object's URI, or null if {@code thing} is null.
+     */
+    public static String limsIdFromUri(Locatable thing)
+    {
+        return thing == null ? null : limsIdFromUri(thing.getUri());
+    }
 }
