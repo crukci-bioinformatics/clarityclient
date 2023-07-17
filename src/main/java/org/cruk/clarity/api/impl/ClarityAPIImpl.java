@@ -74,7 +74,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.NestedIOException;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -2826,7 +2825,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             {
                 session.remove(targetURL.getPath());
             }
-            catch (NestedIOException e)
+            catch (IOException e)
             {
                 // Don't want things to fail if the file doesn't exist on the file store,
                 // just a warning. This handling code deals with this.
@@ -3015,11 +3014,15 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         for (Map.Entry<String, ?> term : searchTerms.entrySet())
         {
+            // Have issues with Groovy GStrings being flagged up as cannot be cast to Strings.
+            // We'll translate them into Java strings before using them.
+            final String param = term.getKey().toString();
+
             Object value = term.getValue();
             if (value == null)
             {
                 throw new IllegalSearchTermException(
-                        term.getKey(), "Search term \"" + term.getKey() + "\" is null.");
+                        param, "Search term \"" + param + "\" is null.");
             }
             else
             {
@@ -3030,12 +3033,12 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     if (values.length == 0)
                     {
                         throw new IllegalSearchTermException(
-                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
+                                param, "Search term \"" + param + "\" has no values.");
                     }
 
                     for (Object v : values)
                     {
-                        appendQueryTerm(query, term.getKey(), v);
+                        appendQueryTerm(query, param, v);
                     }
                 }
                 else if (value instanceof Iterable)
@@ -3045,17 +3048,17 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     if (!values.iterator().hasNext())
                     {
                         throw new IllegalSearchTermException(
-                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
+                                param, "Search term \"" + param + "\" has no values.");
                     }
 
                     for (Object v : values)
                     {
-                        appendQueryTerm(query, term.getKey(), v);
+                        appendQueryTerm(query, param, v);
                     }
                 }
                 else
                 {
-                    appendQueryTerm(query, term.getKey(), value);
+                    appendQueryTerm(query, param, value);
                 }
             }
         }
