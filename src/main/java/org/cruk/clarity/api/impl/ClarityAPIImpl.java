@@ -3016,7 +3016,8 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
         {
             // Have issues with Groovy GStrings being flagged up as cannot be cast to Strings.
             // We'll translate them into Java strings before using them.
-            final String param = term.getKey().toString();
+            final Object paramO = term.getKey();
+            final String param = paramO.toString();
 
             Object value = term.getValue();
             if (value == null)
