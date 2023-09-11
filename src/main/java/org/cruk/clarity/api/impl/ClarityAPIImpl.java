@@ -1385,7 +1385,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     "A " + primaryName + " should supply a list of its relevant " + entityClassName + "s.");
         }
 
-        ArrayList<LimsLink<E>> allLinks = new ArrayList<LimsLink<E>>(1024);
+        ArrayList<LimsLink<E>> allLinks = new ArrayList<>(1024);
 
         // Note that it is important here to prevent the Spring escaping system
         // from encoding subsequent page URIs and turning, for example, plus signs
