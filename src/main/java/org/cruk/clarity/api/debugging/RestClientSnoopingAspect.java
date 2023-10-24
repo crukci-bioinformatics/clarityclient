@@ -34,7 +34,7 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Aspect used to examine calls from the REST template to the
- * Genologics API. If logging is set to DEBUG, this class will print the
+ * Clarity API. If logging is set to DEBUG, this class will print the
  * information being sent to the API and the response received.
  *
  * @see RestTemplate

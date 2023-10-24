@@ -27,18 +27,11 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 /**
  * Aspect that wraps the unmarshalling of responses from the
- * Genologics API. Changes the returned value from a {@code JAXBElement}
+ * Clarity API. Changes the returned value from a {@code JAXBElement}
  * (seemingly now what is returned from Spring's {@code Jaxb2Marshaller}
  * as of Spring 4) to the actual object and, if the reply is found to be
  * an exception from the API, converts the reply into a Java exception
  * and throws it.
- *
- * <p>
- * In releases prior to 2.23.1 of the client, this class was called
- * {@code GenologicsExceptionAspect}. It has been renamed to reflect the
- * more general operation that it performs (and its change from an
- * "after returning" to an "around" aspect).
- * </p>
  *
  * @see com.genologics.ri.exception.Exception
  * @see ClarityException
