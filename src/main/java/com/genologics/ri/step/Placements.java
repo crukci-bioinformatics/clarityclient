@@ -87,6 +87,11 @@ public class Placements implements Linkable<Placements>, Serializable
         this.step = step;
     }
 
+    public void setStep(Linkable<ProcessStep> step)
+    {
+        this.step = step == null ? null : new Link(step);
+    }
+
     public StepConfiguration getConfiguration()
     {
         return configuration;
