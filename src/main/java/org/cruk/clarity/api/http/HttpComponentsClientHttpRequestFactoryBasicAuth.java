@@ -21,17 +21,18 @@ package org.cruk.clarity.api.http;
 import java.net.URI;
 import java.net.URL;
 
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScheme;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.BasicAuthCache;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.client5.http.auth.AuthCache;
+import org.apache.hc.client5.http.auth.AuthScheme;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.Credentials;
+import org.apache.hc.client5.http.auth.CredentialsProvider;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.impl.auth.BasicAuthCache;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.auth.BasicScheme;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
  *
  * @since 2.23.1
  */
+@SuppressWarnings("exports")
 public class HttpComponentsClientHttpRequestFactoryBasicAuth extends HttpComponentsClientHttpRequestFactory
 implements AuthenticatingClientHttpRequestFactory
 {
@@ -158,7 +160,8 @@ implements AuthenticatingClientHttpRequestFactory
     @Override
     public HttpHost getHost()
     {
-        return authenticationScope == null ? null : authenticationScope.getOrigin();
+        return authenticationScope == null ? null :
+            new HttpHost(authenticationScope.getProtocol(), authenticationScope.getHost(), authenticationScope.getPort());
     }
 
     @Override
@@ -175,7 +178,7 @@ implements AuthenticatingClientHttpRequestFactory
             throw new IllegalArgumentException("url cannot be set to null");
         }
 
-        setCredentials(new HttpHost(url.getHost(), url.getPort(), url.getProtocol()), credentials);
+        setCredentials(new HttpHost(url.getProtocol(), url.getHost(), url.getPort()), credentials);
     }
 
     @Override
@@ -194,7 +197,7 @@ implements AuthenticatingClientHttpRequestFactory
 
         if (credentials != null)
         {
-            getCredentialsProvider().setCredentials(authenticationScope, credentials);
+            ((BasicCredentialsProvider)getCredentialsProvider()).setCredentials(authenticationScope, credentials);
         }
     }
 }

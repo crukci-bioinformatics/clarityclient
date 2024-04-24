@@ -21,6 +21,7 @@ package org.cruk.clarity.api;
 import org.apache.commons.lang3.StringUtils;
 import org.cruk.clarity.api.jaxb.JaxbUnmarshallingAspect;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
 
 /**
@@ -31,6 +32,7 @@ import org.springframework.http.HttpStatus;
  * @see com.genologics.ri.exception.Exception
  * @see JaxbUnmarshallingAspect
  */
+@SuppressWarnings("exports")
 public class ClarityException extends RuntimeException
 {
     private static final long serialVersionUID = 404952616991787238L;
@@ -41,7 +43,7 @@ public class ClarityException extends RuntimeException
 
     protected String code;
 
-    protected HttpStatus httpStatus;
+    protected HttpStatusCode httpStatus;
 
     /**
      * Initialise from the given API exception.
@@ -62,7 +64,7 @@ public class ClarityException extends RuntimeException
      * @param ge The Exception unmarshalled from the XML response.
      * @param httpStatus The return code from the HTTP call.
      */
-    public ClarityException(com.genologics.ri.exception.Exception ge, HttpStatus httpStatus)
+    public ClarityException(com.genologics.ri.exception.Exception ge, HttpStatusCode httpStatus)
     {
         this(ge);
         this.httpStatus = httpStatus;
@@ -103,7 +105,7 @@ public class ClarityException extends RuntimeException
      *
      * @return The HTTP status code returned from the server.
      */
-    public HttpStatus getHttpStatus()
+    public HttpStatusCode getHttpStatus()
     {
         return httpStatus;
     }
@@ -113,7 +115,7 @@ public class ClarityException extends RuntimeException
      *
      * @param httpStatus The HTTP status code.
      */
-    public void setHttpStatus(HttpStatus httpStatus)
+    public void setHttpStatus(HttpStatusCode httpStatus)
     {
         this.httpStatus = httpStatus;
     }

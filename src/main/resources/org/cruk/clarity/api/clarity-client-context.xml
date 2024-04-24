@@ -56,25 +56,17 @@
 
     <bean id="clarityFilestoreSFTPSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
         <property name="allowUnknownKeys" value="true"/>
-        <property name="sessionConfig">
-            <!-- Note: this set up required to stop the Kerberos user name prompts in Java 7. -->
-            <props>
-                <prop key="PreferredAuthentications">publickey,password</prop>
-
-                <!-- May want this turned on if you are being particularly security conscious. -->
-                <!-- Can cause issues if host keys change, so by default it's turned off.      -->
-                <prop key="StrictHostKeyChecking">no</prop>
-            </props>
-        </property>
     </bean>
 
-    <bean id="clarityRequestConfigBuilder" class="org.apache.http.client.config.RequestConfig" factory-method="custom">
-        <property name="connectTimeout" value="${http.connect.timeout}" />
-        <property name="socketTimeout" value="${http.socket.timeout}" />
+    <bean id="clarityRequestConfigBuilder" class="org.apache.hc.client5.http.config.RequestConfig" factory-method="custom" >
+        <property name="connectTimeout">
+            <bean class="org.apache.hc.core5.util.Timeout" factory-method="ofMilliseconds">
+                <constructor-arg value="${http.connect.timeout}"/>
+            </bean>
+        </property>
 
         <property name="authenticationEnabled" value="true"/>
         <property name="redirectsEnabled" value="true"/>
-        <property name="relativeRedirectsAllowed" value="true"/>
 
         <!-- Note that the XML is not compressed, and the downloads should fetch without decompressing. -->
         <property name="contentCompressionEnabled" value="false"/>
@@ -88,7 +80,7 @@
 
     <bean id="clarityRequestConfig" factory-bean="clarityRequestConfigBuilder" factory-method="build" />
 
-    <bean id="clarityHttpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder" factory-method="create">
+    <bean id="clarityHttpClientBuilder" class="org.apache.hc.client5.http.impl.classic.HttpClientBuilder" factory-method="create">
         <property name="defaultRequestConfig" ref="clarityRequestConfig" />
     </bean>
 
@@ -96,10 +88,10 @@
         <property name="target">
             <bean factory-bean="clarityHttpClientBuilder" factory-method="build" />
         </property>
-        <property name="proxyInterfaces" value="org.apache.http.client.HttpClient"/>
+        <property name="proxyInterfaces" value="org.apache.hc.client5.http.classic.HttpClient"/>
     </bean>
 
-    <bean id="clarityCredentialsProvider" class="org.apache.http.impl.client.BasicCredentialsProvider" />
+    <bean id="clarityCredentialsProvider" class="org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider" />
 
     <bean id="clarityClientHttpRequestFactory" class="org.cruk.clarity.api.http.HttpComponentsClientHttpRequestFactoryBasicAuth">
         <constructor-arg ref="clarityHttpClient"/>
@@ -158,11 +150,11 @@
 
     <util:map id="clarityJaxbMarshallerProperties">
         <entry>
-            <key><util:constant static-field="javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/></key>
+            <key><util:constant static-field="jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT"/></key>
             <value type="java.lang.Boolean">true</value>
         </entry>
         <entry>
-            <key><util:constant static-field="javax.xml.bind.Marshaller.JAXB_ENCODING"/></key>
+            <key><util:constant static-field="jakarta.xml.bind.Marshaller.JAXB_ENCODING"/></key>
             <value>UTF-8</value>
         </entry>
     </util:map>

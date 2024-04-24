@@ -28,6 +28,7 @@ import org.cruk.clarity.api.jaxb.JaxbUnmarshallingAspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.DefaultResponseErrorHandler;
@@ -75,9 +76,9 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
      * @return {@code true} if the response is not in the 200 series of HTTP codes.
      */
     @Override
-    protected boolean hasError(HttpStatus statusCode)
+    protected boolean hasError(HttpStatusCode statusCode)
     {
-        return statusCode.series() != HttpStatus.Series.SUCCESSFUL;
+        return !statusCode.is2xxSuccessful();
     }
 
     /**
@@ -96,9 +97,10 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
      * @see JaxbUnmarshallingAspect
      */
     @Override
+    @SuppressWarnings("exports")
     public void handleError(ClientHttpResponse response) throws IOException
     {
-        HttpStatus statusCode = response.getStatusCode();
+        HttpStatusCode statusCode = response.getStatusCode();
         if (statusCode.is4xxClientError() || statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
         {
             // Try and decode the message body. If it forms a Clarity exception,

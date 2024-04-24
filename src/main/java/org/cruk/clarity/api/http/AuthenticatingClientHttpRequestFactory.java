@@ -20,8 +20,8 @@ package org.cruk.clarity.api.http;
 
 import java.net.URL;
 
-import org.apache.http.HttpHost;
-import org.apache.http.auth.Credentials;
+import org.apache.hc.client5.http.auth.Credentials;
+import org.apache.hc.core5.http.HttpHost;
 import org.springframework.http.client.ClientHttpRequestFactory;
 
 /**
@@ -30,6 +30,7 @@ import org.springframework.http.client.ClientHttpRequestFactory;
  *
  * @since 2.23.1
  */
+@SuppressWarnings("exports")
 public interface AuthenticatingClientHttpRequestFactory extends ClientHttpRequestFactory
 {
     /**

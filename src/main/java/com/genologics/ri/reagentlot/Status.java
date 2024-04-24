@@ -18,7 +18,7 @@
 
 package com.genologics.ri.reagentlot;
 
-import javax.xml.bind.annotation.XmlEnum;
+import jakarta.xml.bind.annotation.XmlEnum;
 
 @XmlEnum
 public enum Status

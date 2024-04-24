@@ -19,7 +19,11 @@
 package org.cruk.clarity.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -33,23 +37,18 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.entity.AbstractHttpEntity;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.message.BasicHttpResponse;
-import org.apache.http.message.BasicStatusLine;
-import org.apache.http.protocol.HttpContext;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.io.entity.AbstractHttpEntity;
+import org.apache.hc.core5.http.message.BasicClassicHttpResponse;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.cruk.clarity.api.debugging.RestClientSnoopingAspect;
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.clarity.api.impl.ClarityAPIImpl;
@@ -73,7 +72,10 @@ import org.springframework.web.client.RestTemplate;
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.sample.Samples;
 
+import jakarta.annotation.PostConstruct;
+
 @SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
+@SuppressWarnings("deprecation")
 public class ClarityAPIPaginatedBatchTest
 {
     @Autowired
@@ -282,7 +284,7 @@ public class ClarityAPIPaginatedBatchTest
 
     private HttpResponse createMultipageFetchResponse(File responseFile)
     {
-        HttpResponse response = new BasicHttpResponse(new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), 200, "OK"));
+        BasicClassicHttpResponse response = new BasicClassicHttpResponse(200, "OK");
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE);
         response.setEntity(new HttpEntityForMultipageFetch(responseFile));
         return response;
@@ -294,8 +296,11 @@ public class ClarityAPIPaginatedBatchTest
 
         private File responseFile;
 
+        private InputStream contentStream;
+
         public HttpEntityForMultipageFetch(File responseFile)
         {
+            super(MediaType.APPLICATION_XML_VALUE, "UTF-8");
             this.responseFile = responseFile;
         }
 
@@ -303,13 +308,8 @@ public class ClarityAPIPaginatedBatchTest
         public InputStream getContent() throws IOException
         {
             logger.info("Returning body from file, NOT from the live API");
-            return new BufferedInputStream(new FileInputStream(responseFile));
-        }
-
-        @Override
-        public Header getContentType()
-        {
-            return new BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE);
+            contentStream = new BufferedInputStream(new FileInputStream(responseFile));
+            return contentStream;
         }
 
         @Override
@@ -334,6 +334,15 @@ public class ClarityAPIPaginatedBatchTest
         public boolean isStreaming()
         {
             return false;
+        }
+
+        @Override
+        public void close() throws IOException
+        {
+            if (contentStream != null)
+            {
+                contentStream.close();
+            }
         }
     }
 }

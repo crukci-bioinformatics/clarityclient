@@ -29,15 +29,17 @@ module org.cruk.clarity.api
     provides ClarityAPI with ClarityAPIImpl;
     provides ClarityProcessAutomation with ClarityProcessAutomationImpl;
 
-    requires transitive java.annotation;
-    requires transitive java.xml.bind;
+    requires transitive jakarta.annotation;
+    requires transitive jakarta.xml.bind;
     requires commons.beanutils;
     requires ehcache;
-    requires jsch;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
-    requires org.apache.httpcomponents.httpclient;
-    requires org.apache.httpcomponents.httpcore;
+    requires org.apache.httpcomponents.client5.httpclient5;
+    requires org.apache.httpcomponents.core5.httpcore5;
+    requires org.apache.httpcomponents.core5.httpcore5.h2;
+    requires org.apache.sshd.core;
+    requires org.apache.sshd.sftp;
     requires org.aspectj.runtime;
     requires org.slf4j;
     requires spring.beans;

@@ -111,7 +111,7 @@ unit tests need to use the client (if not, this dependency isn't needed).
 Where the client is part of an EE container, the container will supply
 the JAXB implementation.
 
-JAXB version 3.x.x is for EE9, with its renaming of `javax.xml.bind`
+JAXB version 3.x.x is for EE9, with its renaming of `jakarta.xml.bind`
 to `jakarta.xml.bind`, and is not suitable for this build of the
 Clarity client. Also the `com.sun.xml.bind:jaxb-impl` artifacts
 available in Maven won't work well with newer JREs.

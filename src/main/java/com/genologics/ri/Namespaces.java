@@ -20,7 +20,7 @@ package com.genologics.ri;
 
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
-import javax.xml.bind.annotation.XmlSchema;
+import jakarta.xml.bind.annotation.XmlSchema;
 
 /**
  * Static list of all the namespaces in the Genologics API.

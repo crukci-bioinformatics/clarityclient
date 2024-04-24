@@ -18,8 +18,9 @@
 
 package org.cruk.clarity.api.debugging;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.core5.http.HttpRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
@@ -51,6 +52,7 @@ public class HttpClientTimingAspect
      *
      * @see HttpClient#execute(HttpUriRequest)
      */
+    @SuppressWarnings("exports")
     public Object timeCall(ProceedingJoinPoint pjp) throws Throwable
     {
         if (!logger.isDebugEnabled())
@@ -63,10 +65,10 @@ public class HttpClientTimingAspect
 
         for (Object arg : pjp.getArgs())
         {
-            if (arg instanceof HttpUriRequest)
+            if (arg instanceof HttpRequest)
             {
-                HttpUriRequest httpRequest = (HttpUriRequest)arg;
-                uri = httpRequest.getURI().toString();
+                HttpRequest httpRequest = (HttpRequest)arg;
+                uri = httpRequest.getUri().toString();
                 method = httpRequest.getMethod();
                 break;
             }

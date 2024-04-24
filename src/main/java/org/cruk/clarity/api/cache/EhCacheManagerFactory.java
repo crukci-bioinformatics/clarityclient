@@ -20,8 +20,8 @@ package org.cruk.clarity.api.cache;
 
 import java.io.IOException;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 
 import org.ehcache.CacheManager;
 import org.ehcache.StateTransitionException;

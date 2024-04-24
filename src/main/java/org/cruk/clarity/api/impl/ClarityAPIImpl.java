@@ -50,18 +50,17 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.PostConstruct;
-import javax.xml.bind.annotation.XmlTransient;
-
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.ConvertUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.http.auth.Credentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.HttpClient;
+import org.apache.hc.client5.http.auth.Credentials;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.sshd.sftp.common.SftpConstants;
+import org.apache.sshd.sftp.common.SftpException;
 import org.cruk.clarity.api.ClarityAPI;
 import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.ClarityUpdateException;
@@ -80,8 +79,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
+import org.springframework.integration.sftp.session.SftpSession;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -116,8 +115,9 @@ import com.genologics.ri.step.ProcessStep;
 import com.genologics.ri.step.ProgramStatus;
 import com.genologics.ri.step.StepCreation;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
-import com.jcraft.jsch.ChannelSftp.LsEntry;
-import com.jcraft.jsch.SftpException;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -548,7 +548,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
     @Override
     public void setCredentials(String username, String password)
     {
-        apiCredentials = new UsernamePasswordCredentials(username, password);
+        apiCredentials = new UsernamePasswordCredentials(username, password.toCharArray());
         if (serverAddress != null)
         {
             httpRequestFactory.setCredentials(serverAddress, apiCredentials);
@@ -597,7 +597,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             throw new IllegalArgumentException("username cannot be null");
         }
 
-        filestoreCredentials = new UsernamePasswordCredentials(username, password);
+        filestoreCredentials = new UsernamePasswordCredentials(username, password.toCharArray());
 
         filestoreSessionFactory.setUser(username);
         filestoreSessionFactory.setPassword(password);
@@ -2664,7 +2664,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         checkFilestoreSet();
 
-        Session<LsEntry> session = filestoreSessionFactory.getSession();
+        SftpSession session = filestoreSessionFactory.getSession();
         try
         {
             URI targetURL = targetFile.getContentLocation();
@@ -2772,25 +2772,24 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         ClientHttpResponse response = request.execute();
 
-        switch (response.getStatusCode().series())
+        if (response.getStatusCode().is2xxSuccessful())
         {
-            case SUCCESSFUL:
-                try (InputStream in = response.getBody())
-                {
-                    byte[] buffer = new byte[8192];
-                    IOUtils.copyLarge(in, resultStream, buffer);
-                }
-                finally
-                {
-                    resultStream.flush();
-                }
-                logger.debug("{} download successful.", fileURL);
-                break;
-
-            default:
-                logger.debug("{} download failed. HTTP {}", fileURL, response.getStatusCode());
-                throw new IOException("Could not download file " + realFile.getLimsid() +
-                                      " (HTTP " + response.getStatusCode() + "): " + response.getStatusText());
+            try (InputStream in = response.getBody())
+            {
+                byte[] buffer = new byte[8192];
+                IOUtils.copyLarge(in, resultStream, buffer);
+            }
+            finally
+            {
+                resultStream.flush();
+            }
+            logger.debug("{} download successful.", fileURL);
+        }
+        else
+        {
+            logger.debug("{} download failed. HTTP {}", fileURL, response.getStatusCode());
+            throw new IOException("Could not download file " + realFile.getLimsid() +
+                                  " (HTTP " + response.getStatusCode() + "): " + response.getStatusText());
         }
     }
 
@@ -2832,7 +2831,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
             checkFilestoreSet();
 
-            try (Session<LsEntry> session = filestoreSessionFactory.getSession())
+            try (SftpSession session = filestoreSessionFactory.getSession())
             {
                 session.remove(targetURL.getPath());
             }
@@ -2864,7 +2863,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                 catch (SftpException se)
                 {
                     // See if it's just a "file not found".
-                    if (se.id == 2)
+                    if (se.getStatus() == SftpConstants.SSH_FX_NO_SUCH_FILE)
                     {
                         logger.warn("File {} does not exist on {}", targetURL.getPath(), targetURL.getHost());
                     }

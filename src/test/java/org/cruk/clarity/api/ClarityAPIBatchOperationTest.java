@@ -19,11 +19,14 @@
 package org.cruk.clarity.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atMost;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -42,6 +45,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.output.NullOutputStream;
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,13 +144,12 @@ public class ClarityAPIBatchOperationTest
 
         ClientHttpResponse httpResponse = mock(ClientHttpResponse.class);
         when(httpResponse.getStatusCode()).thenReturn(HttpStatus.OK);
-        when(httpResponse.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
         when(httpResponse.getHeaders()).thenReturn(headers);
         when(httpResponse.getBody()).thenReturn(responseStream);
 
         ClientHttpRequest httpRequest = mock(ClientHttpRequest.class);
         when(httpRequest.getHeaders()).thenReturn(headers);
-        when(httpRequest.getBody()).thenReturn(NULL_OUTPUT_STREAM);
+        when(httpRequest.getBody()).thenReturn(NullOutputStream.INSTANCE);
         when(httpRequest.execute()).thenReturn(httpResponse);
 
         ClientHttpRequestFactory mockFactory = mock(ClientHttpRequestFactory.class);
@@ -218,24 +221,22 @@ public class ClarityAPIBatchOperationTest
 
         ClientHttpResponse httpResponse1 = mock(ClientHttpResponse.class);
         when(httpResponse1.getStatusCode()).thenReturn(HttpStatus.OK);
-        when(httpResponse1.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
         when(httpResponse1.getHeaders()).thenReturn(headers);
         when(httpResponse1.getBody()).thenReturn(response1Stream);
 
         ClientHttpRequest httpRequest1 = mock(ClientHttpRequest.class);
         when(httpRequest1.getHeaders()).thenReturn(headers);
-        when(httpRequest1.getBody()).thenReturn(NULL_OUTPUT_STREAM);
+        when(httpRequest1.getBody()).thenReturn(NullOutputStream.INSTANCE);
         when(httpRequest1.execute()).thenReturn(httpResponse1);
 
         ClientHttpResponse httpResponse2 = mock(ClientHttpResponse.class);
         when(httpResponse2.getStatusCode()).thenReturn(HttpStatus.OK);
-        when(httpResponse2.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
         when(httpResponse2.getHeaders()).thenReturn(headers);
         when(httpResponse2.getBody()).thenReturn(response2Stream);
 
         ClientHttpRequest httpRequest2 = mock(ClientHttpRequest.class);
         when(httpRequest2.getHeaders()).thenReturn(headers);
-        when(httpRequest2.getBody()).thenReturn(NULL_OUTPUT_STREAM);
+        when(httpRequest2.getBody()).thenReturn(NullOutputStream.INSTANCE);
         when(httpRequest2.execute()).thenReturn(httpResponse2);
 
         ClientHttpRequestFactory mockFactory = mock(ClientHttpRequestFactory.class);

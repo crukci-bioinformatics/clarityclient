@@ -26,11 +26,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.net.URIBuilder;
+
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Convert to and from URI objects, correctly encoding the query string.
@@ -104,22 +104,21 @@ public class URIAdapter extends XmlAdapter<String, URI>
      * @param v The URI in string form.
      *
      * @return The encoded URI.
+     *
+     * @throws URISyntaxException if the string cannot be parsed.
      */
-    private String escapeString(String v)
+    private String escapeString(String v) throws URISyntaxException
     {
         if (v != null)
         {
             int queryStart = v.indexOf('?');
             if (queryStart >= 0)
             {
-                List<NameValuePair> queryParts = URLEncodedUtils.parse(v.substring(queryStart + 1), UTF8);
+                URIBuilder builder = new URIBuilder(v.substring(queryStart + 1), UTF8);
+                List<NameValuePair> queryParts = builder.getQueryParams();
                 removeStateParameter(queryParts);
-
-                v = v.substring(0, queryStart);
-                if (!queryParts.isEmpty())
-                {
-                    v += '?' + URLEncodedUtils.format(queryParts, UTF8);
-                }
+                builder.setParameters(queryParts);
+                v = builder.toString();
             }
         }
         return v;

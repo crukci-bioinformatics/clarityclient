@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.http.auth.Credentials;
+import org.apache.hc.client5.http.auth.Credentials;
 import org.cruk.clarity.api.cache.CacheStatefulBehaviour;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -150,6 +150,7 @@ public interface ClarityAPI
      * @param httpCredentials A Credentials object for the HTTP client.
      * Does nothing if this is {@code null}.
      */
+    @SuppressWarnings("exports")
     void setCredentials(Credentials httpCredentials);
 
     /**

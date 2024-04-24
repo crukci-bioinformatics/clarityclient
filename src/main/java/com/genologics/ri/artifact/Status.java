@@ -18,8 +18,8 @@
 
 package com.genologics.ri.artifact;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlType;
+import jakarta.xml.bind.annotation.XmlEnum;
+import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * The workflow stage status for the artifact.
