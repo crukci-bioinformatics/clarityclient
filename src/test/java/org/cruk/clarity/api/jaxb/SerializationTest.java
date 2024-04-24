@@ -202,7 +202,6 @@ public class SerializationTest
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testExceptionSimple() throws Throwable
     {
         // Cannot use configured because of aspects.

@@ -43,7 +43,7 @@ public class Sample extends SampleBase implements LimsEntity<Sample>
     /**
      * Location for a new sample to be created in a container.
      * This field is not serialized or marshalled to XML or sent
-     * (in this form) to the Genologics server.
+     * (in this form) to the Clarity server.
      */
     //@XmlTransient
     private transient Location creationLocation;

@@ -17,11 +17,8 @@
  */
 
 /**
- * The main public package of the Clarity API.
+ * Implementation of the automation service.
  *
- * <p>
- * The main Spring configuration file for the API is in this
- * package as {@code clarity-client-context.xml}.
- * </p>
+ * @since 2.31.4
  */
-package org.cruk.clarity.api;
+package org.cruk.clarity.api.automation.impl;

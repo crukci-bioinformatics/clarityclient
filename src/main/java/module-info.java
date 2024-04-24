@@ -1,4 +1,24 @@
+/*
+ * CRUK-CI Clarity REST API Java Client.
+ * Copyright (C) 2013 Cancer Research UK Cambridge Institute.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import org.cruk.clarity.api.ClarityAPI;
+import org.cruk.clarity.api.automation.ClarityProcessAutomation;
+import org.cruk.clarity.api.automation.impl.ClarityProcessAutomationImpl;
 import org.cruk.clarity.api.impl.ClarityAPIImpl;
 
 /**
@@ -7,26 +27,27 @@ import org.cruk.clarity.api.impl.ClarityAPIImpl;
 module org.cruk.clarity.api
 {
     provides ClarityAPI with ClarityAPIImpl;
+    provides ClarityProcessAutomation with ClarityProcessAutomationImpl;
 
     requires transitive java.annotation;
     requires transitive java.xml.bind;
     requires commons.beanutils;
-    requires transitive ehcache;
+    requires ehcache;
     requires jsch;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
-    requires transitive org.apache.httpcomponents.httpclient;
-    requires transitive org.apache.httpcomponents.httpcore;
-    requires transitive org.aspectj.runtime;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.apache.httpcomponents.httpcore;
+    requires org.aspectj.runtime;
     requires org.slf4j;
-    requires transitive spring.beans;
-    requires transitive spring.core;
-    requires transitive spring.context;
-    requires transitive spring.integration.core;
-    requires transitive spring.integration.file;
-    requires transitive spring.integration.sftp;
-    requires transitive spring.oxm;
-    requires transitive spring.web;
+    requires spring.beans;
+    requires spring.core;
+    requires spring.context;
+    requires spring.integration.core;
+    requires spring.integration.file;
+    requires spring.integration.sftp;
+    requires spring.oxm;
+    requires spring.web;
 
     exports com.genologics.ri;
     exports com.genologics.ri.artifact;
@@ -65,6 +86,8 @@ module org.cruk.clarity.api
     exports com.genologics.ri.workflowconfiguration;
 
     exports org.cruk.clarity.api;
+    exports org.cruk.clarity.api.automation;
+    exports org.cruk.clarity.api.automation.impl;
     exports org.cruk.clarity.api.cache;
     exports org.cruk.clarity.api.debugging;
     exports org.cruk.clarity.api.http;

@@ -102,6 +102,20 @@ public class ResearcherLink implements LimsEntityLink<Researcher>, Serializable
         this.lastName = lastName;
     }
 
+    /**
+     * Convenience method for returning the full name of the researcher.
+     *
+     * @return The full name.
+     *
+     * @since 2.31.2
+     *
+     * @see Researcher#makeFullName(String, String)
+     */
+    public String getFullName()
+    {
+        return Researcher.makeFullName(firstName, lastName);
+    }
+
     public URI getUri()
     {
         return uri;

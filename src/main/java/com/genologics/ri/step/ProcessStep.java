@@ -132,10 +132,12 @@ public class ProcessStep implements LimsEntity<ProcessStep>, Serializable
     protected String limsid;
 
     /**
+     * Now an enumeration since release 2.31.3 of the client.
+     *
      * @since 2.18
      */
     @XmlAttribute(name = "current-state")
-    protected String currentState;
+    protected ProcessState currentState;
 
 
     public ProcessStep()
@@ -298,12 +300,12 @@ public class ProcessStep implements LimsEntity<ProcessStep>, Serializable
         return ap;
     }
 
-    public String getCurrentState()
+    public ProcessState getCurrentState()
     {
         return currentState;
     }
 
-    public void setCurrentState(String currentState)
+    public void setCurrentState(ProcessState currentState)
     {
         this.currentState = currentState;
     }

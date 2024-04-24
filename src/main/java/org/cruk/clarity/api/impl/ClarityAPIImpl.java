@@ -66,6 +66,7 @@ import org.cruk.clarity.api.ClarityAPI;
 import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.ClarityUpdateException;
 import org.cruk.clarity.api.IllegalSearchTermException;
+import org.cruk.clarity.api.InvalidURIException;
 import org.cruk.clarity.api.StatefulOverride;
 import org.cruk.clarity.api.cache.CacheStatefulBehaviour;
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
@@ -73,7 +74,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.NestedIOException;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -344,12 +344,12 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      *
      * @param configuration The properties file.
      *
-     * @throws MalformedURLException if the server URL is set and the value cannot form
+     * @throws InvalidURIException if the server URL is set and the value cannot form
      * a valid URL.
      *
      * @see #setConfiguration(Properties)
      */
-    public ClarityAPIImpl(Properties configuration) throws MalformedURLException
+    public ClarityAPIImpl(Properties configuration)
     {
         this();
         setConfiguration(configuration);
@@ -362,6 +362,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityFilestoreSFTPSessionFactory")
+    @SuppressWarnings("exports")
     public void setFilestoreSessionFactory(DefaultSftpSessionFactory filestoreSessionFactory)
     {
         this.filestoreSessionFactory = filestoreSessionFactory;
@@ -379,6 +380,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityJaxbMarshaller")
+    @SuppressWarnings("exports")
     public void setJaxbMarshaller(Jaxb2Marshaller jaxbMarshaller)
     {
         entityToListClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
@@ -430,6 +432,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityRestTemplate")
+    @SuppressWarnings("exports")
     public void setRestClient(RestOperations restClient)
     {
         this.restClient = restClient;
@@ -442,6 +445,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityFileUploadTemplate")
+    @SuppressWarnings("exports")
     public void setFileUploadClient(RestOperations fileUploadClient)
     {
         this.fileUploadClient = fileUploadClient;
@@ -455,6 +459,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityHttpClient")
+    @SuppressWarnings("exports")
     public void setHttpClient(HttpClient httpClient)
     {
         this.httpClient = httpClient;
@@ -554,6 +559,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * {@inheritDoc}
      */
     @Override
+    @SuppressWarnings("exports")
     public void setCredentials(Credentials httpCredentials)
     {
         if (serverAddress != null)
@@ -621,7 +627,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * {@inheritDoc}
      */
     @Override
-    public void setConfiguration(Properties configuration) throws MalformedURLException
+    public void setConfiguration(Properties configuration)
     {
         if (configuration != null)
         {
@@ -642,7 +648,14 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
                 if (isNotBlank(apiServer))
                 {
-                    setServer(new URL(apiServer));
+                    try
+                    {
+                        setServer(new URL(apiServer));
+                    }
+                    catch (MalformedURLException e)
+                    {
+                        throw new InvalidURIException("The server address is not a valid URL: ", e);
+                    }
                 }
                 if (isNotBlank(apiUser))
                 {
@@ -1032,9 +1045,15 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
     @Override
     public <E extends Locatable>
     URI limsIdToUri(String limsid, Class<E> entityClass)
-    throws URISyntaxException
     {
-        return new URI(makeUri(limsid, entityClass, "limsIdToUri"));
+        try
+        {
+            return new URI(makeUri(limsid, entityClass, "limsIdToUri"));
+        }
+        catch (URISyntaxException e)
+        {
+            throw new InvalidURIException(e);
+        }
     }
 
     /**
@@ -1098,9 +1117,15 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
     @Override
     public <E extends Locatable>
     URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass)
-    throws URISyntaxException
     {
-        return new URI(makeUri(outerLimsid, innerLimsid, entityClass, "limsIdToUri"));
+        try
+        {
+            return new URI(makeUri(outerLimsid, innerLimsid, entityClass, "limsIdToUri"));
+        }
+        catch (URISyntaxException e)
+        {
+            throw new InvalidURIException(e);
+        }
     }
 
     /**
@@ -1155,6 +1180,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * {@inheritDoc}
      */
     @Deprecated
+    @SuppressWarnings("incomplete-switch")
     public void nextCallCacheOverride(CacheStatefulBehaviour behaviour)
     {
         if (behaviour != null)
@@ -1370,7 +1396,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     "A " + primaryName + " should supply a list of its relevant " + entityClassName + "s.");
         }
 
-        ArrayList<LimsLink<E>> allLinks = new ArrayList<LimsLink<E>>(1024);
+        ArrayList<LimsLink<E>> allLinks = new ArrayList<>(1024);
 
         // Note that it is important here to prevent the Spring escaping system
         // from encoding subsequent page URIs and turning, for example, plus signs
@@ -1436,17 +1462,10 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             throw new IllegalArgumentException("uri cannot be null or empty");
         }
 
-        try
+        ClarityEntity anno = checkEntityAnnotated(entityClass);
+        if (anno.stateful() && isFetchLatestVersions())
         {
-            ClarityEntity anno = checkEntityAnnotated(entityClass);
-            if (anno.stateful() && isFetchLatestVersions())
-            {
-                uri = removeStateParameter(uri);
-            }
-        }
-        catch (URISyntaxException e)
-        {
-            throw new IllegalArgumentException("Cannot create a URI object: " + e.getMessage());
+            uri = removeStateParameter(uri);
         }
 
         ResponseEntity<E> response = restClient.getForEntity(uri, entityClass);
@@ -2539,6 +2558,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * @throws ClarityException if the server reports a problem with the upload.
      * @throws IllegalStateException if {@code targetFile} does not have a LIMS id.
      * @throws IOException if there is a problem with the transfer.
+     * @throws InvalidURIException if the upload URI string isn't a valid URI (shouldn't happen).
      */
     protected void uploadViaHTTP(URLInputStreamResource fileURLResource, ClarityFile targetFile)
     throws IOException
@@ -2569,7 +2589,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             }
             catch (URISyntaxException e)
             {
-                throw new IOException("File LIMS id " + targetFile.getLimsid() + " produces an invalid URI for upload.", e);
+                throw new InvalidURIException("File LIMS id " + targetFile.getLimsid() + " produces an invalid URI for upload: ", e);
             }
 
             logger.info("Uploading {} over {} to {} on {}",
@@ -2784,6 +2804,10 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
         {
             throw new IllegalArgumentException("file cannot be null");
         }
+        if (file.getUri() == null)
+        {
+            throw new IllegalArgumentException("file has no URI set.");
+        }
 
         ClarityFile realFile;
         if (file instanceof ClarityFile)
@@ -2802,18 +2826,17 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         URL targetURL = new URL(null, realFile.getContentLocation().toString(), NullURLStreamHandler.INSTANCE);
 
-        if ("sftp".equalsIgnoreCase(targetURL.getProtocol()))
+        if (SFTP_PROTOCOL.equalsIgnoreCase(targetURL.getProtocol()))
         {
             logger.info("Deleting file {} from file store on {}", targetURL.getPath(), targetURL.getHost());
 
             checkFilestoreSet();
 
-            Session<LsEntry> session = filestoreSessionFactory.getSession();
-            try
+            try (Session<LsEntry> session = filestoreSessionFactory.getSession())
             {
                 session.remove(targetURL.getPath());
             }
-            catch (NestedIOException e)
+            catch (IOException e)
             {
                 // Don't want things to fail if the file doesn't exist on the file store,
                 // just a warning. This handling code deals with this.
@@ -2855,17 +2878,13 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     throw e;
                 }
             }
-            finally
-            {
-                session.close();
-            }
         }
         else
         {
             logger.debug("File {} is not in the file store, so just removing its record.", targetURL.getPath());
         }
 
-        delete(realFile);
+        doDelete(realFile.getUri(), ClarityFile.class);
     }
 
 
@@ -3006,11 +3025,16 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         for (Map.Entry<String, ?> term : searchTerms.entrySet())
         {
+            // Have issues with Groovy GStrings being flagged up as cannot be cast to Strings.
+            // We'll translate them into Java strings before using them.
+            final Object paramO = term.getKey();
+            final String param = paramO.toString();
+
             Object value = term.getValue();
             if (value == null)
             {
                 throw new IllegalSearchTermException(
-                        term.getKey(), "Search term \"" + term.getKey() + "\" is null.");
+                        param, "Search term \"" + param + "\" is null.");
             }
             else
             {
@@ -3021,12 +3045,12 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     if (values.length == 0)
                     {
                         throw new IllegalSearchTermException(
-                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
+                                param, "Search term \"" + param + "\" has no values.");
                     }
 
                     for (Object v : values)
                     {
-                        appendQueryTerm(query, term.getKey(), v);
+                        appendQueryTerm(query, param, v);
                     }
                 }
                 else if (value instanceof Iterable)
@@ -3036,17 +3060,17 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     if (!values.iterator().hasNext())
                     {
                         throw new IllegalSearchTermException(
-                                term.getKey(), "Search term \"" + term.getKey() + "\" has no values.");
+                                param, "Search term \"" + param + "\" has no values.");
                     }
 
                     for (Object v : values)
                     {
-                        appendQueryTerm(query, term.getKey(), v);
+                        appendQueryTerm(query, param, v);
                     }
                 }
                 else
                 {
-                    appendQueryTerm(query, term.getKey(), value);
+                    appendQueryTerm(query, param, value);
                 }
             }
         }
@@ -3388,6 +3412,9 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * @param uri The original URI.
      *
      * @return The URI minus the state parameter.
+     *
+     * @throws InvalidURIException if the newly formed URI is somehow invalid.
+     * This shouldn't ever happen.
      */
     protected URI removeStateParameter(URI uri)
     {
@@ -3435,7 +3462,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                     // This should never happen, as we're creating the URI from an existing, valid
                     // URI object. It could only happen if something goes wrong with recreating the
                     // query string.
-                    throw new AssertionError("Could not recreate a URI: " + e.getMessage());
+                    throw new InvalidURIException("Could not recreate a URI: ", e);
                 }
             }
         }
@@ -3450,11 +3477,18 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      *
      * @return The URI minus the state parameter.
      *
-     * @throws URISyntaxException if there is a problem parsing {@code uri} into a URI object.
+     * @throws InvalidURIException if there is a problem parsing {@code uri} into a URI object.
      */
-    protected String removeStateParameter(String uri) throws URISyntaxException
+    protected String removeStateParameter(String uri)
     {
-        return removeStateParameter(new URI(uri)).toString();
+        try
+        {
+            return removeStateParameter(new URI(uri)).toString();
+        }
+        catch (URISyntaxException e)
+        {
+            throw new InvalidURIException(e);
+        }
     }
 
     /**

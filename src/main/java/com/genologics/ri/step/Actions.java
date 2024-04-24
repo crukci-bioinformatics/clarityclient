@@ -32,6 +32,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.util.CollectionUtils;
+
 import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
@@ -122,4 +126,23 @@ public class Actions implements Linkable<Actions>, Serializable
         this.escalation = escalation;
     }
 
+    @Override
+    public String toString()
+    {
+        ToStringBuilder b = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        b.append("step", step);
+        if (configuration != null)
+        {
+            b.append("stepName", configuration.stepName);
+            b.append("protocolStepUri", configuration.protocolStepUri);
+        }
+        if (!CollectionUtils.isEmpty(nextActions))
+        {
+            for (var na : nextActions)
+            {
+                b.append("nextAction", na);
+            }
+        }
+        return b.toString();
+    }
 }

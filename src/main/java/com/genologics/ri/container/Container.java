@@ -73,8 +73,12 @@ public class Container implements LimsEntity<Container>, UDFHolder, Serializable
     @XmlElement(name = "field", namespace = UDF_NAMESPACE)
     protected List<UDF> fields;
 
+    /**
+     * Container state. Note this has changed from a string to an enum from
+     * release 2.31.6.
+     */
     @XmlElement(name = "state")
-    protected String state;
+    protected ContainerState state;
 
     @XmlAttribute(name = "limsid")
     protected String limsid;
@@ -97,6 +101,12 @@ public class Container implements LimsEntity<Container>, UDFHolder, Serializable
     {
         setContainerType(containerType);
         setName(name);
+    }
+
+    public Container(ContainerType containerType)
+    {
+        setContainerType(containerType);
+        setName(containerType.getName());
     }
 
     public String getLimsid()
@@ -226,16 +236,15 @@ public class Container implements LimsEntity<Container>, UDFHolder, Serializable
         return addUserDefinedField(new UDF(name, type, value));
     }
 
-    public String getState()
+    public ContainerState getState()
     {
         return state;
     }
 
-    public void setState(String state)
+    public void setState(ContainerState state)
     {
         this.state = state;
     }
-
 
     @Override
     public String toString()

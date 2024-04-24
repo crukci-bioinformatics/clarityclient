@@ -185,4 +185,29 @@ public class ContainerType implements Linkable<ContainerType>, Serializable
         this.rows = rows;
     }
 
+    /**
+     * Get the capacity of a container of this type, i.e. the columns * rows.
+     *
+     * @return The capacity (number of lanes/wells). If this cannot be calculated
+     * through missing values, returns null.
+     *
+     * @since 2.31.2
+     */
+    public Integer getCapacity()
+    {
+        try
+        {
+            return columns.getSize() * rows.getSize();
+        }
+        catch (NullPointerException e)
+        {
+            return null;
+        }
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

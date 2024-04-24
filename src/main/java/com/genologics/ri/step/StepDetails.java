@@ -36,7 +36,6 @@ import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
-import com.genologics.ri.Locatable;
 import com.genologics.ri.Namespaces;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.configuration.FieldType;
@@ -51,7 +50,7 @@ import com.genologics.ri.userdefined.UDFHolder;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "details", propOrder = { "step", "configuration", "inputOutputMaps", "fields", "preset", "instrument" })
 @XmlRootElement(name = "details")
-public class StepDetails implements Locatable, UDFHolder, Serializable
+public class StepDetails implements Linkable<StepDetails>, UDFHolder, Serializable
 {
     private static final long serialVersionUID = 5865493881321340964L;
 

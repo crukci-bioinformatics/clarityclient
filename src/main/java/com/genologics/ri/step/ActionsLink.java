@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import com.genologics.ri.LimsLink;
+import com.genologics.ri.Linkable;
 
 
 /**
@@ -52,6 +53,11 @@ public class ActionsLink implements LimsLink<Actions>, Serializable
     public ActionsLink(URI uri)
     {
         this.uri = uri;
+    }
+
+    public ActionsLink(Linkable<Actions> link)
+    {
+        this.uri = link.getUri();
     }
 
     @Override

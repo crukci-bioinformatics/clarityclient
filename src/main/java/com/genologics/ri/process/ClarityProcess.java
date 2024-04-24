@@ -151,7 +151,7 @@ public class ClarityProcess implements LimsEntity<ClarityProcess>, UDFHolder, Se
 
     public void setProcessType(ProcessType processType)
     {
-        setProcessType(new ProcessTypeLink(processType));
+        this.processType = new ProcessTypeLink(processType);
     }
 
     public Date getDateRun()

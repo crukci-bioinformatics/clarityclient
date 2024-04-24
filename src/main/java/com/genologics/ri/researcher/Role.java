@@ -45,10 +45,10 @@ import com.genologics.ri.Linkable;
 @XmlType(name = "role")
 public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
 {
-    public static final String SYSTEM_ADMIN_ROLE = "systemadministrator";
-    public static final String CLARITY_ROLE = "labtech";
-    public static final String ADMIN_ROLE = "administrator";
-    public static final String LABLINK_ROLE = "webclient";
+    public static final String SYSTEM_ADMIN_ROLE = "System Administrator";
+    public static final String CLARITY_ROLE = "Researcher";
+    public static final String ADMIN_ROLE = "Facility Administrator";
+    public static final String LABLINK_ROLE = "Collaborator";
 
     private static final long serialVersionUID = -4641418115009008515L;
 

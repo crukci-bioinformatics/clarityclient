@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlType;
 import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.Link;
 import com.genologics.ri.Linkable;
+import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.container.Container;
 
 /**
@@ -86,6 +87,11 @@ public class Placements implements Linkable<Placements>, Serializable
         this.step = step;
     }
 
+    public void setStep(Linkable<ProcessStep> step)
+    {
+        this.step = step == null ? null : new Link(step);
+    }
+
     public StepConfiguration getConfiguration()
     {
         return configuration;
@@ -100,7 +106,7 @@ public class Placements implements Linkable<Placements>, Serializable
     {
         if (selectedContainers == null)
         {
-            selectedContainers = new ArrayList<ContainerLink>();
+            selectedContainers = new ArrayList<>();
         }
         return selectedContainers;
     }
@@ -116,13 +122,20 @@ public class Placements implements Linkable<Placements>, Serializable
     {
         if (outputPlacements == null)
         {
-            outputPlacements = new ArrayList<OutputPlacement>();
+            outputPlacements = new ArrayList<>();
         }
         return outputPlacements;
     }
 
     public OutputPlacement addOutputPlacement(OutputPlacement placement)
     {
+        getOutputPlacements().add(placement);
+        return placement;
+    }
+
+    public OutputPlacement addOutputPlacement(Linkable<Artifact> artifact, Linkable<Container> container, String wellPosition)
+    {
+        OutputPlacement placement = new OutputPlacement(artifact, container, wellPosition);
         getOutputPlacements().add(placement);
         return placement;
     }

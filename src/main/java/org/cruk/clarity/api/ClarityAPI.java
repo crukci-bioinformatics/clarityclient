@@ -20,9 +20,7 @@ package org.cruk.clarity.api;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.List;
@@ -205,10 +203,10 @@ public interface ClarityAPI
      *
      * @param configuration The properties file to configure from.
      *
-     * @throws MalformedURLException if the {@code api.server} property is set to
+     * @throws InvalidURIException if the {@code api.server} property is set to
      * an invalid URL.
      */
-    void setConfiguration(Properties configuration) throws MalformedURLException;
+    void setConfiguration(Properties configuration);
 
     /**
      * Set the number of objects that will be fetched, updated or created in each
@@ -329,15 +327,15 @@ public interface ClarityAPI
      *
      * @return The full URI to the entity.
      *
-     * @throws URISyntaxException if the creation of the URI gives a malformed URI.
+     * @throws InvalidURIException if the creation of the URI gives a malformed URI.
+     *
      * @throws IllegalArgumentException if either argument is null, or if
      * {@code entityClass} is annotated with a primary section attribute.
      *
      * @see #limsIdToUri(String, String, Class)
      */
     <E extends Locatable>
-    URI limsIdToUri(String limsid, Class<E> entityClass)
-    throws URISyntaxException;
+    URI limsIdToUri(String limsid, Class<E> entityClass);
 
     /**
      * Convert the given LIMS ids to a full URI for that entity.
@@ -356,15 +354,15 @@ public interface ClarityAPI
      *
      * @return The full URI to the entity.
      *
-     * @throws URISyntaxException if the creation of the URI gives a malformed URI.
+     * @throws InvalidURIException if the creation of the URI gives a malformed URI.
+     *
      * @throws IllegalArgumentException if any argument is null, or if
      * {@code entityClass} is not annotated with a primary section attribute.
      *
      * @since 2.22
      */
     <E extends Locatable>
-    URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass)
-    throws URISyntaxException;
+    URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass);
 
     /**
      * This method was used to overrides the cache behaviour for the next call on the
@@ -499,6 +497,8 @@ public interface ClarityAPI
      * @param entityClass The type of entity to list.
      *
      * @return The LIMS entity.
+     *
+     * @throws InvalidURIException if {@code uri} is not a valid URI.
      *
      * @see #retrieve(URI, Class)
      */
@@ -731,7 +731,7 @@ public interface ClarityAPI
      *
      * @throws IllegalArgumentException if {@code stepCreation} is null.
      *
-     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.steps.html#POST">Clarity API documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.html#POST">Clarity API documentation</a>
      *
      * @see <a href="https://genologics.zendesk.com/entries/68573603-Starting-a-Protocol-Step-via-the-API">Starting
      * a Protocol Step via the API</a>
@@ -749,9 +749,9 @@ public interface ClarityAPI
      *
      * @param step The step to advance. The state of this object is updated in place.
      *
-     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.steps.limsid.advance.html">Clarity API documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.limsid.advance.html">Clarity API documentation</a>
      *
-     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.steps.limsid.actions.html">Actions documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.limsid.actions.html">Actions documentation</a>
      *
      * @see <a href="https://genologics.zendesk.com/entries/69596247-Advancing-Completing-a-Protocol-Step-via-the-API">Advancing
      * and Completing a Step via the API</a>
@@ -765,7 +765,7 @@ public interface ClarityAPI
      *
      * @return An updated program status structure.
      *
-     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.steps.limsid.trigger.programid.html">Clarity API Documentation</a>
+     * @see <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.steps.limsid.trigger.programid.html">Clarity API Documentation</a>
      *
      * @since 2.27.5
      */
@@ -837,6 +837,8 @@ public interface ClarityAPI
      * @param resultStream The OutputStream to write the file content to.
      *
      * @throws IOException if there is a problem with the download.
+     * @throws InvalidURIException if the download URI string internally created to fetch
+     * the file isn't a valid URI (shouldn't happen).
      */
     void downloadFile(Linkable<ClarityFile> file, OutputStream resultStream) throws IOException;
 
@@ -883,7 +885,7 @@ public interface ClarityAPI
      *
      * <p>
      * Search terms work the same as for the {@link #find(Map, Class)} method. Also see
-     * <a href="https://d10e8rzir0haj8.cloudfront.net/5.2/rest.version.queues.protocolStepId.html">Genologics'
+     * <a href="https://d10e8rzir0haj8.cloudfront.net/6.0/rest.version.queues.protocolStepId.html">Genologics'
      * documentation of this end point</a> for the options available.
      * </p>
      *

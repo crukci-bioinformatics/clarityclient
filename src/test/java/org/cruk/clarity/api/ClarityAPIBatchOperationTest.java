@@ -63,7 +63,6 @@ import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
 import com.genologics.ri.artifact.ArtifactLink;
 
-@SuppressWarnings("deprecation")
 @SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class ClarityAPIBatchOperationTest
 {

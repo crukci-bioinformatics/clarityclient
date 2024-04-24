@@ -69,7 +69,12 @@ public class StepCreation implements Serializable
 
     public StepCreation(StepConfiguration configuration)
     {
-        this.configuration = configuration;
+        setConfiguration(configuration);
+    }
+
+    public StepCreation(Linkable<ProtocolStep> step)
+    {
+        setConfiguration(step);
     }
 
     public StepConfiguration getConfiguration()
@@ -84,7 +89,7 @@ public class StepCreation implements Serializable
 
     public void setConfiguration(Linkable<ProtocolStep> step)
     {
-        this.configuration = step == null ? null : new StepConfiguration(step.getUri());
+        this.configuration = step == null ? null : new StepConfiguration(step);
     }
 
     public String getContainerType()
@@ -129,7 +134,6 @@ public class StepCreation implements Serializable
 
     public CreationInput addInput(Linkable<Artifact> artifact, Linkable<ControlType> controlType, Long replicates)
     {
-
         return addInput(new CreationInput(artifact, controlType, replicates));
     }
 }

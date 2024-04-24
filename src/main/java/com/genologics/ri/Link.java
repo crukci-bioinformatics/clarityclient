@@ -98,6 +98,12 @@ public class Link implements Locatable, Serializable
         this.uri = uri;
     }
 
+    @Override
+    public String toString()
+    {
+        return uri == null ? "Unset" : uri.toString();
+    }
+
     /**
      * Extract the LIMS identifier from a URI. The identifier is the
      * last part of the URI path.
@@ -118,5 +124,17 @@ public class Link implements Locatable, Serializable
         }
 
         return id;
+    }
+
+    /**
+     * Extract the LIMS identifier from the URI of a Locatable object.
+     *
+     * @param thing The Locatable object.
+     *
+     * @return The id from the object's URI, or null if {@code thing} is null.
+     */
+    public static String limsIdFromUri(Locatable thing)
+    {
+        return thing == null ? null : limsIdFromUri(thing.getUri());
     }
 }

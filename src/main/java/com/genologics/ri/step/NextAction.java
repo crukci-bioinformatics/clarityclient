@@ -27,6 +27,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
@@ -172,5 +175,18 @@ public class NextAction implements LimsLink<Artifact>, Serializable
     public Class<Artifact> getEntityClass()
     {
         return Artifact.class;
+    }
+
+    @Override
+    public String toString()
+    {
+        ToStringBuilder b = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        b.append("artifactUri", artifactUri);
+        b.append("action", action);
+        if (reworkStepUri != null)
+        {
+            b.append("reworkStepUri", reworkStepUri);
+        }
+        return b.toString();
     }
 }

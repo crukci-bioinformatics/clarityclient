@@ -29,6 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.genologics.ri.ClarityEntity;
 import com.genologics.ri.LimsEntity;
 import com.genologics.ri.Link;
@@ -124,5 +127,15 @@ public class ReagentType implements LimsEntity<ReagentType>, Serializable
     public void setLimsid(String id)
     {
         // Does nothing.
+    }
+
+    @Override
+    public String toString()
+    {
+        ToStringBuilder b = new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        b.append("id", getLimsid());
+        b.append("category", reagentCategory);
+        b.append("name", name);
+        return b.toString();
     }
 }

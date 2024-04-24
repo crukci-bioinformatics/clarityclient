@@ -26,7 +26,6 @@ import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.ResourceAccessException;
@@ -38,15 +37,6 @@ import com.genologics.ri.process.ClarityProcess;
 @SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class UnicodeTest
 {
-    /**
-     * This test needs to ensure it has a "pure" configuration, where it
-     * can actually talk to the server.
-     */
-    @Configuration
-    public static class UnicodeTestConfiguration extends ClarityClientTestConfiguration
-    {
-    }
-
     @Autowired
     @Qualifier("clarityClientHttpRequestFactory")
     protected AuthenticatingClientHttpRequestFactory httpRequestFactory;

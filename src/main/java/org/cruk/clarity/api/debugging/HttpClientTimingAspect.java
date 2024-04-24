@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Testing aspect that reports on the calls being made by the HTTP client
- * talking to the Genologics API. Reports on the URI being called and the
+ * talking to the Clarity API. Reports on the URI being called and the
  * time the call took to execute.
  */
 @Aspect

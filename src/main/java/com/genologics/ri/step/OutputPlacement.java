@@ -54,15 +54,20 @@ public class OutputPlacement implements LimsLink<Artifact>, Serializable
     {
     }
 
-    public OutputPlacement(URI artifactURI, Location location)
+    public OutputPlacement(Linkable<Artifact> artifact)
     {
-        this.uri = artifactURI;
-        this.location = location;
+        setArtifact(artifact);
     }
 
-    public OutputPlacement(URI artifactURI, LimsEntityLinkable<Container> container, String wellPosition)
+    public OutputPlacement(Linkable<Artifact> artifact, LimsEntityLinkable<Container> container, String wellPosition)
     {
-        this.uri = artifactURI;
+        setArtifact(artifact);
+        setLocation(container, wellPosition);
+    }
+
+    public OutputPlacement(Linkable<Artifact> artifact, Linkable<Container> container, String wellPosition)
+    {
+        setArtifact(artifact);
         setLocation(container, wellPosition);
     }
 
@@ -77,6 +82,11 @@ public class OutputPlacement implements LimsLink<Artifact>, Serializable
     }
 
     public void setLocation(LimsEntityLinkable<Container> container, String wellPosition)
+    {
+        this.location = new Location(container, wellPosition);
+    }
+
+    public void setLocation(Linkable<Container> container, String wellPosition)
     {
         this.location = new Location(container, wellPosition);
     }

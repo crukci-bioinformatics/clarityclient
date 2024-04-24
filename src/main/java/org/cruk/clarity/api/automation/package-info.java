@@ -17,11 +17,10 @@
  */
 
 /**
- * The main public package of the Clarity API.
+ * Tools to help move steps through Clarity using the API that allows
+ * processes to be run as if they are done through the browser, rather than
+ * the {@code ExecutableProcess} mechanism.
  *
- * <p>
- * The main Spring configuration file for the API is in this
- * package as {@code clarity-client-context.xml}.
- * </p>
+ * @since 2.31.2
  */
-package org.cruk.clarity.api;
+package org.cruk.clarity.api.automation;

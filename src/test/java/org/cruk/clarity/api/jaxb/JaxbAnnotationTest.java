@@ -26,10 +26,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Map;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -100,6 +102,7 @@ import com.genologics.ri.stage.Stage;
 import com.genologics.ri.step.Actions;
 import com.genologics.ri.step.Placements;
 import com.genologics.ri.step.Pools;
+import com.genologics.ri.step.ProcessState;
 import com.genologics.ri.step.ProcessStep;
 import com.genologics.ri.step.ProgramStatus;
 import com.genologics.ri.step.Reagents;
@@ -136,6 +139,12 @@ public class JaxbAnnotationTest
     {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         docBuilder = factory.newDocumentBuilder();
+    }
+
+    @Test
+    public void testActions() throws Throwable
+    {
+        fetchMarshalAndCompare(Actions.class);
     }
 
     @Test
@@ -243,9 +252,27 @@ public class JaxbAnnotationTest
     }
 
     @Test
+    public void testExecutableProcess() throws Throwable
+    {
+        fetchMarshalAndCompare(ExecutableProcess.class);
+    }
+
+    @Test
+    public void testField() throws Throwable
+    {
+        fetchMarshalAndCompare(Field.class);
+    }
+
+    @Test
     public void testFile() throws Throwable
     {
         fetchMarshalAndCompare(ClarityFile.class);
+    }
+
+    @Test
+    public void testFileBatchRetrieve() throws Throwable
+    {
+        fetchMarshalAndCompare(ClarityFileBatchFetchResult.class);
     }
 
     @Test
@@ -273,89 +300,15 @@ public class JaxbAnnotationTest
     }
 
     @Test
-    public void testProcess() throws Throwable
+    public void testPermissions() throws Throwable
     {
-        fetchMarshalAndCompare(ClarityProcess.class);
+        fetchMarshalAndCompare(Permissions.class);
     }
 
     @Test
-    public void testExecutableProcess() throws Throwable
+    public void testPermission() throws Throwable
     {
-        fetchMarshalAndCompare(ExecutableProcess.class);
-    }
-
-    @Test
-    public void testProcessTemplate() throws Throwable
-    {
-        fetchMarshalAndCompare(ProcessTemplate.class);
-    }
-
-    @Test
-    public void testProcessType() throws Throwable
-    {
-        fetchMarshalAndCompare(ProcessType.class);
-    }
-
-    @Test
-    public void testProject() throws Throwable
-    {
-        fetchMarshalAndCompare(Project.class);
-    }
-
-    @Test
-    public void testReagentType() throws Throwable
-    {
-        fetchMarshalAndCompare(ReagentType.class);
-    }
-
-    @Test
-    public void testResearcher() throws Throwable
-    {
-        fetchMarshalAndCompare(Researcher.class);
-    }
-
-    @Test
-    public void testField() throws Throwable
-    {
-        fetchMarshalAndCompare(Field.class);
-    }
-
-    @Test
-    public void testType() throws Throwable
-    {
-        fetchMarshalAndCompare(Type.class);
-    }
-
-    @Test
-    public void testSample() throws Throwable
-    {
-        fetchMarshalAndCompare(Sample.class);
-    }
-
-    @Test
-    public void testSampleCreation() throws Throwable
-    {
-        fetchMarshalAndCompare(SampleCreation.class);
-    }
-
-    @Test
-    public void testVersions() throws Throwable
-    {
-        fetchMarshalAndCompare(Versions.class);
-    }
-
-    // Clarity 2 bits.
-
-    @Test
-    public void testProcessStep() throws Throwable
-    {
-        fetchMarshalAndCompare(ProcessStep.class);
-    }
-
-    @Test
-    public void testActions() throws Throwable
-    {
-        fetchMarshalAndCompare(Actions.class);
+        fetchMarshalAndCompare(Permission.class);
     }
 
     @Test
@@ -371,15 +324,40 @@ public class JaxbAnnotationTest
     }
 
     @Test
+    public void testProcess() throws Throwable
+    {
+        fetchMarshalAndCompare(ClarityProcess.class);
+    }
+
+    @Test
+    public void testProcessStep() throws Throwable
+    {
+        ProcessStep step = fetchMarshalAndCompare(ProcessStep.class);
+        assertEquals(ProcessState.RECORD_DETAILS, step.getCurrentState(), "Process state wrong.");
+    }
+
+    @Test
+    public void testProcessTemplate() throws Throwable
+    {
+        fetchMarshalAndCompare(ProcessTemplate.class);
+    }
+
+    @Test
+    public void testProcessType() throws Throwable
+    {
+        fetchMarshalAndCompare(ProcessType.class);
+    }
+
+    @Test
     public void testProgramStatus() throws Throwable
     {
         fetchMarshalAndCompare(ProgramStatus.class);
     }
 
     @Test
-    public void testReagents() throws Throwable
+    public void testProject() throws Throwable
     {
-        fetchMarshalAndCompare(Reagents.class);
+        fetchMarshalAndCompare(Project.class);
     }
 
     @Test
@@ -401,41 +379,15 @@ public class JaxbAnnotationTest
     }
 
     @Test
-    public void testWorkflows() throws Throwable
+    public void testQueue() throws Throwable
     {
-        fetchMarshalAndCompare(Workflows.class);
+        fetchMarshalAndCompare(Queue.class);
     }
 
     @Test
-    public void testWorkflow() throws Throwable
+    public void testReagents() throws Throwable
     {
-        fetchMarshalAndCompare(Workflow.class);
-    }
-
-    @Test
-    public void testStage() throws Throwable
-    {
-        fetchMarshalAndCompare(Stage.class);
-    }
-
-    @Test
-    public void testRouting() throws Throwable
-    {
-        fetchMarshalAndCompare(Routing.class);
-    }
-
-    // Clarity 3 additions
-
-    @Test
-    public void testFileBatchRetrieve() throws Throwable
-    {
-        fetchMarshalAndCompare(ClarityFileBatchFetchResult.class);
-    }
-
-    @Test
-    public void testSampleBatchRetrieve() throws Throwable
-    {
-        fetchMarshalAndCompare(SampleBatchFetchResult.class);
+        fetchMarshalAndCompare(Reagents.class);
     }
 
     @Test
@@ -451,6 +403,60 @@ public class JaxbAnnotationTest
     }
 
     @Test
+    public void testReagentType() throws Throwable
+    {
+        fetchMarshalAndCompare(ReagentType.class);
+    }
+
+    @Test
+    public void testResearcher() throws Throwable
+    {
+        fetchMarshalAndCompare(Researcher.class);
+    }
+
+    @Test
+    public void testRole() throws Throwable
+    {
+        fetchMarshalAndCompare(Role.class);
+    }
+
+    @Test
+    public void testRoles() throws Throwable
+    {
+        fetchMarshalAndCompare(Roles.class);
+    }
+
+    @Test
+    public void testRouting() throws Throwable
+    {
+        fetchMarshalAndCompare(Routing.class);
+    }
+
+    @Test
+    public void testSample() throws Throwable
+    {
+        fetchMarshalAndCompare(Sample.class);
+    }
+
+    @Test
+    public void testSampleBatchRetrieve() throws Throwable
+    {
+        fetchMarshalAndCompare(SampleBatchFetchResult.class);
+    }
+
+    @Test
+    public void testSampleCreation() throws Throwable
+    {
+        fetchMarshalAndCompare(SampleCreation.class);
+    }
+
+    @Test
+    public void testStepCreation() throws Throwable
+    {
+        fetchMarshalAndCompare(StepCreation.class);
+    }
+
+    @Test
     public void testStepDetails() throws Throwable
     {
         fetchMarshalAndCompare(StepDetails.class);
@@ -463,45 +469,37 @@ public class JaxbAnnotationTest
     }
 
     @Test
-    public void testStepCreation() throws Throwable
+    public void testStage() throws Throwable
     {
-        fetchMarshalAndCompare(StepCreation.class);
-    }
-
-    // Clarity 3.1 additions
-
-    @Test
-    public void testPermissions() throws Throwable
-    {
-        fetchMarshalAndCompare(Permissions.class);
+        fetchMarshalAndCompare(Stage.class);
     }
 
     @Test
-    public void testPermission() throws Throwable
+    public void testType() throws Throwable
     {
-        fetchMarshalAndCompare(Permission.class);
+        fetchMarshalAndCompare(Type.class);
     }
 
     @Test
-    public void testQueue() throws Throwable
+    public void testVersions() throws Throwable
     {
-        fetchMarshalAndCompare(Queue.class);
+        fetchMarshalAndCompare(Versions.class);
     }
 
     @Test
-    public void testRoles() throws Throwable
+    public void testWorkflows() throws Throwable
     {
-        fetchMarshalAndCompare(Roles.class);
+        fetchMarshalAndCompare(Workflows.class);
     }
 
     @Test
-    public void testRole() throws Throwable
+    public void testWorkflow() throws Throwable
     {
-        fetchMarshalAndCompare(Role.class);
+        fetchMarshalAndCompare(Workflow.class);
     }
 
 
-    private void fetchMarshalAndCompare(Class<?> entityClass) throws Throwable
+    private <T> T fetchMarshalAndCompare(Class<T> entityClass) throws Throwable
     {
         final String className = ClassUtils.getShortClassName(entityClass);
 
@@ -515,11 +513,11 @@ public class JaxbAnnotationTest
 
         final String originalXml = FileUtils.readFileToString(exampleFile, UTF_8);
 
-        Object unmarshalled = marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
+        T thing = unmarshal(entityClass, originalXml);
 
         StringWriter writer = new StringWriter();
 
-        marshaller.marshal(unmarshalled, new StreamResult(writer));
+        marshaller.marshal(thing, new StreamResult(writer));
 
         final String marshalledXml = writer.toString();
 
@@ -542,6 +540,25 @@ public class JaxbAnnotationTest
             }
 
             throw e;
+        }
+
+        return thing;
+    }
+
+    private <T> T unmarshal(Class<T> entityClass, String xml) throws Throwable
+    {
+        try (Reader reader = new StringReader(xml))
+        {
+            Object unmarshalled = marshaller.unmarshal(new StreamSource(reader));
+
+            if (unmarshalled instanceof JAXBElement<?>)
+            {
+                unmarshalled = ((JAXBElement<?>)unmarshalled).getValue();
+            }
+
+            assertEquals(entityClass, unmarshalled.getClass(), "Class of unmarshalled object doesn't match expected.");
+
+            return entityClass.cast(unmarshalled);
         }
     }
 

@@ -24,6 +24,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
+import com.genologics.ri.LimsEntityLinkable;
+import com.genologics.ri.Linkable;
+import com.genologics.ri.artifact.Artifact;
+
 /**
  *
  * Input-output-map is a child element of Process and relates one of the Process
@@ -46,48 +50,65 @@ public class InputOutputMap implements Serializable
     protected ArtifactLink input;
     protected ArtifactLink output;
 
-    /**
-     * Gets the value of the input property.
-     *
-     * @return possible object is {@link ArtifactLink }
-     *
-     */
+    public InputOutputMap()
+    {
+    }
+
+    public InputOutputMap(ArtifactLink input, ArtifactLink output)
+    {
+        setInput(input);
+        setOutput(output);
+    }
+
+    public InputOutputMap(Linkable<Artifact> input, Linkable<Artifact> output)
+    {
+        setInput(input);
+        setOutput(output);
+    }
+
+    public InputOutputMap(LimsEntityLinkable<Artifact> input, LimsEntityLinkable<Artifact> output)
+    {
+        setInput(input);
+        setOutput(output);
+    }
+
     public ArtifactLink getInput()
     {
         return input;
     }
 
-    /**
-     * Sets the value of the input property.
-     *
-     * @param value allowed object is {@link ArtifactLink }
-     *
-     */
     public void setInput(ArtifactLink value)
     {
         this.input = value;
     }
 
-    /**
-     * Gets the value of the output property.
-     *
-     * @return possible object is {@link ArtifactLink }
-     *
-     */
+    public void setInput(Linkable<Artifact> link)
+    {
+        this.input = link == null ? null : new ArtifactLink(link);
+    }
+
+    public void setInput(LimsEntityLinkable<Artifact> link)
+    {
+        this.input = link == null ? null : new ArtifactLink(link);
+    }
+
     public ArtifactLink getOutput()
     {
         return output;
     }
 
-    /**
-     * Sets the value of the output property.
-     *
-     * @param value allowed object is {@link ArtifactLink }
-     *
-     */
     public void setOutput(ArtifactLink value)
     {
         this.output = value;
     }
 
+    public void setOutput(Linkable<Artifact> link)
+    {
+        this.output = link == null ? null : new ArtifactLink(link);
+    }
+
+    public void setOutput(LimsEntityLinkable<Artifact> link)
+    {
+        this.output = link == null ? null : new ArtifactLink(link);
+    }
 }

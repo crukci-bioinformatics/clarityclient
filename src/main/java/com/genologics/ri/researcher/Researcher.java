@@ -20,6 +20,8 @@ package com.genologics.ri.researcher;
 
 import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
+import static org.apache.commons.lang3.StringUtils.isNoneEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -116,6 +118,56 @@ public class Researcher implements LimsEntity<Researcher>, UDFHolder, Serializab
     public void setLastName(String value)
     {
         this.lastName = value;
+    }
+
+    /**
+     * Convenience method for returning the full name of the researcher.
+     *
+     * @return The full name.
+     *
+     * @since 2.31.2
+     *
+     * @see #makeFullName(String, String)
+     */
+    public String getFullName()
+    {
+        return makeFullName(firstName, lastName);
+    }
+
+    /**
+     * Convenience method for making the full name of the researcher.
+     * Present as a static to allow reuse by some of the researcher link classes.
+     *
+     * @param firstName The researcher first name.
+     * @param lastName The researcher last name.
+     *
+     * @return First name &lt;space&gt; last name. If both names are null,
+     * returns null.
+     *
+     * @since 2.31.2
+     */
+    public static String makeFullName(String firstName, String lastName)
+    {
+        if (firstName == null && lastName == null)
+        {
+            return null;
+        }
+
+        StringBuilder name = new StringBuilder(32);
+        if (isNotEmpty(firstName))
+        {
+            name.append(firstName);
+        }
+        if (isNoneEmpty(firstName, lastName))
+        {
+            name.append(' ');
+        }
+        if (isNotEmpty(lastName))
+        {
+            name.append(lastName);
+        }
+
+        return name.toString();
     }
 
     public String getPhone()

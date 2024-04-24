@@ -27,7 +27,7 @@ throughout this tool.
 ## Clarity 6
 
 The 2.31 and later versions of the library has been updated to work with Clarity 6,
-supporting version 2.31+ of the Clarity API. The opportunity has been taken to 
+supporting version 2.31+ of the Clarity API. The opportunity has been taken to
 move things on with the client with this release. It is now based on Java 11 and
 is packaged with Java's module information. It has also provided a sensible time
 to do some repackaging, reflecting Genologics' disappearance as a separate company
