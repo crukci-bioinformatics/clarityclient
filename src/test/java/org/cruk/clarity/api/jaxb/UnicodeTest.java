@@ -1,7 +1,5 @@
 package org.cruk.clarity.api.jaxb;
 
-import static com.genologics.ri.userdefined.UDF.getUDFValue;
-import static com.genologics.ri.userdefined.UDF.setUDF;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -103,7 +101,7 @@ public class UnicodeTest
         checkCredentialsSet();
 
         ClarityProcess unmarshalled = (ClarityProcess)marshaller.unmarshal(new StreamSource(unicodeEntityFile));
-        String unicodeComment = getUDFValue(unmarshalled, "Comments");
+        String unicodeComment = unmarshalled.getUDFValue("Comments");
         assertNotNull(unicodeComment, "Cannot find comment");
 
         try
@@ -114,7 +112,7 @@ public class UnicodeTest
             c.setContainerType(tubeType);
             c.setName("Unicode Unit Test Tube");
             c.setUserDefinedType("SLX Container");
-            setUDF(c.getUserDefinedType(), "Special Sequencing Instructions", unicodeComment);
+            c.getUserDefinedType().setUDF("Special Sequencing Instructions", unicodeComment);
 
             api.create(c);
             assertNotNull(c.getUri(), "New container URI not set");
@@ -123,7 +121,7 @@ public class UnicodeTest
             {
                 Container copy = api.retrieve(c.getUri(), Container.class);
 
-                String retrievedComment = getUDFValue(copy.getUserDefinedType(), "Special Sequencing Instructions", true);
+                String retrievedComment = copy.getUserDefinedType().getUDFValue("Special Sequencing Instructions", true);
 
                 assertEquals(unicodeComment, retrievedComment, "Original unicode text and that retrieved from the server don't match.");
             }

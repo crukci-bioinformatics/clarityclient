@@ -72,7 +72,7 @@ implements AuthenticatingClientHttpRequestFactory
     /**
      * Basic authentication scheme object.
      */
-    private AuthScheme basicAuthenticationScheme = new BasicScheme();
+    private BasicScheme basicAuthenticationScheme = new BasicScheme();
 
     /**
      * Authentication cache.
@@ -190,6 +190,8 @@ implements AuthenticatingClientHttpRequestFactory
         }
 
         authenticationScope = new AuthScope(host);
+
+        basicAuthenticationScheme.initPreemptive(credentials);
 
         authenticationCache.put(host, basicAuthenticationScheme);
 
