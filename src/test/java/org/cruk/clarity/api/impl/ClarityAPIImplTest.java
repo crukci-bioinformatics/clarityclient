@@ -18,10 +18,9 @@
 
 package org.cruk.clarity.api.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Method;
-import java.net.URI;
 
 import org.junit.jupiter.api.Test;
 
@@ -31,38 +30,6 @@ import com.genologics.ri.artifact.ArtifactLink;
 
 public class ClarityAPIImplTest
 {
-    @Test
-    public void testRemoveStateParameter() throws Throwable
-    {
-        ClarityAPIImpl api = new ClarityAPIImpl();
-
-        final String base = "https://limsdev.cruk.cam.ac.uk/api/v2/artifacts/1234";
-
-        URI original = new URI(base);
-        URI stripped = api.removeStateParameter(original);
-        assertEquals(original.toString(), stripped.toString(), "URI without state changed");
-
-        original = new URI(base + "?state=1234");
-        stripped = api.removeStateParameter(original);
-        assertEquals(base, stripped.toString(), "State not removed");
-
-        original = new URI(base + "?state=1234&type=Hello");
-        stripped = api.removeStateParameter(original);
-        assertEquals(base + "?type=Hello", stripped.toString(), "State not removed");
-
-        original = new URI(base + "?type=Hello&state=1234");
-        stripped = api.removeStateParameter(original);
-        assertEquals(base + "?type=Hello", stripped.toString(), "State not removed");
-
-        original = new URI(base + "?type=Hello&state=1234&name=What");
-        stripped = api.removeStateParameter(original);
-        assertEquals(base + "?type=Hello&name=What", stripped.toString(), "State not removed");
-
-        original = new URI(base + "?type=Hello&state=1234&&name=What");
-        stripped = api.removeStateParameter(original);
-        assertEquals(base + "?type=Hello&name=What", stripped.toString(), "State not removed");
-    }
-
     @Test
     public void testClassOfEntity() throws Exception
     {

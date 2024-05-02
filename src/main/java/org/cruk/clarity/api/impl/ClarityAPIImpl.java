@@ -23,6 +23,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.join;
+import static org.cruk.clarity.api.jaxb.URIAdapter.removeStateParameter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,7 +49,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.ConvertUtilsBean;
@@ -162,17 +162,6 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * The protocol in URIs and URLs for SFTP.
      */
     private static final String SFTP_PROTOCOL = "sftp";
-
-    /**
-     * The part of the URI that specifies the state number.
-     */
-    private static final String STATE_TERM = "state=";
-
-    /**
-     * Regular expression for splitting on ampersand.
-     * @see #removeStateParameter(URI)
-     */
-    private static final Pattern AMPERSAND_SPLIT = Pattern.compile("&");
 
 
     /**
@@ -3403,91 +3392,6 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             id = id.substring(lastSlash + 1);
         }
         return id;
-    }
-
-    /**
-     * Strip the state parameter from a URI.
-     *
-     * @param uri The original URI.
-     *
-     * @return The URI minus the state parameter.
-     *
-     * @throws InvalidURIException if the newly formed URI is somehow invalid.
-     * This shouldn't ever happen.
-     */
-    protected URI removeStateParameter(URI uri)
-    {
-        String query = uri.getRawQuery();
-        if (isNotEmpty(query))
-        {
-            StringBuilder newQuery = new StringBuilder(query.length());
-
-            boolean hasStateParameter = false;
-            for (String term : AMPERSAND_SPLIT.split(query))
-            {
-                if (isNotBlank(term))
-                {
-                    if (term.startsWith(STATE_TERM))
-                    {
-                        hasStateParameter = true;
-                    }
-                    else
-                    {
-                        if (newQuery.length() > 0)
-                        {
-                            newQuery.append('&');
-                        }
-                        newQuery.append(term);
-                    }
-                }
-            }
-
-            // Don't need a new URI object if nothing has been removed.
-            if (hasStateParameter)
-            {
-                String nq = null;
-                if (newQuery.length() > 0)
-                {
-                    nq = newQuery.toString();
-                }
-
-                try
-                {
-                    return new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
-                                   uri.getPath(), nq, uri.getFragment());
-                }
-                catch (URISyntaxException e)
-                {
-                    // This should never happen, as we're creating the URI from an existing, valid
-                    // URI object. It could only happen if something goes wrong with recreating the
-                    // query string.
-                    throw new InvalidURIException("Could not recreate a URI: ", e);
-                }
-            }
-        }
-
-        return uri;
-    }
-
-    /**
-     * Strip the state parameter from a URI in string form.
-     *
-     * @param uri The original URI string.
-     *
-     * @return The URI minus the state parameter.
-     *
-     * @throws InvalidURIException if there is a problem parsing {@code uri} into a URI object.
-     */
-    protected String removeStateParameter(String uri)
-    {
-        try
-        {
-            return removeStateParameter(new URI(uri)).toString();
-        }
-        catch (URISyntaxException e)
-        {
-            throw new InvalidURIException(e);
-        }
     }
 
     /**
