@@ -21,6 +21,7 @@ package org.cruk.clarity.api.cache;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -32,6 +33,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.net.URIBuilder;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -79,16 +82,6 @@ public class ClarityAPICache
      * The version to use for objects and requests that give no state.
      */
     static final long NO_STATE_VALUE = 0L;
-
-    /**
-     * The part of the URI that specifies the state number.
-     */
-    private static final String STATE_TERM = "state=";
-
-    /**
-     * The length of the STATE_TERM string.
-     */
-    private static final int STATE_TERM_LENGTH = STATE_TERM.length();
 
     /**
      * Logger.
@@ -1367,7 +1360,7 @@ public class ClarityAPICache
      */
     public long versionFromUri(URI uri)
     {
-        return uri == null ? NO_STATE_VALUE : versionFromUri(uri.toString());
+        return uri == null ? NO_STATE_VALUE : extractVersion(new URIBuilder(uri));
     }
 
     /**
@@ -1380,26 +1373,43 @@ public class ClarityAPICache
      */
     public long versionFromUri(String uri)
     {
-        long version = NO_STATE_VALUE;
-        int query = uri.indexOf('?');
-        if (query >= 0)
+        try
         {
-            int statePosition = uri.indexOf(STATE_TERM, query + 1);
-            if (statePosition >= 0)
+            if (uri != null)
             {
-                version = 0L;
-                int length = uri.length();
-                for (int i = statePosition + STATE_TERM_LENGTH; i < length; i++)
+                return extractVersion(new URIBuilder(uri));
+            }
+        }
+        catch (URISyntaxException e)
+        {
+            // Cannot extract the state from a bad URI. Just ignore this exception.
+        }
+        return NO_STATE_VALUE;
+    }
+
+    /**
+     * Helper to the {@code versionFromUri} methods: retrieve the state value from the
+     * URI if there is one in the query string.
+     *
+     * @param builder A URIBuilder initialised with the URI.
+     *
+     * @return The state value, defaulting to {@code NO_STATE_VALUE} if there is none.
+     */
+    private long extractVersion(URIBuilder builder)
+    {
+        long version = NO_STATE_VALUE;
+        if (!builder.isQueryEmpty())
+        {
+            NameValuePair stateParam = builder.getFirstQueryParam("state");
+            if (stateParam != null)
+            {
+                try
                 {
-                    char c = uri.charAt(i);
-                    if (Character.isDigit(c))
-                    {
-                        version = version * 10 + (c - '0');
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    version = Long.parseLong(stateParam.getValue());
+                }
+                catch (NumberFormatException e)
+                {
+                    // If it's not a number, ignore it.
                 }
             }
         }
@@ -1429,7 +1439,7 @@ public class ClarityAPICache
      */
     public String keyFromUri(URI uri)
     {
-        return uri == null ? null : keyFromUri(uri.toString());
+        return uri == null ? null : new URIBuilder(uri).clearParameters().toString();
     }
 
     /**

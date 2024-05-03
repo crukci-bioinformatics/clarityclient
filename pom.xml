@@ -159,6 +159,7 @@
                         <encoding>UTF-8</encoding>
                         <compilerArgs>
                             <compilerArg>-Xlint:all</compilerArg>
+                            <compilerArg>-nowarn</compilerArg>
                         </compilerArgs>
                     </configuration>
                 </plugin>
