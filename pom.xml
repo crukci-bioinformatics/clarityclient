@@ -421,13 +421,12 @@
                         <link>https://commons.apache.org/proper/commons-collections/javadocs/api-4.4</link>
                         <link>http://commons.apache.org/proper/commons-io/javadocs/api-release</link>
                         <link>http://commons.apache.org/proper/commons-lang/javadocs/api-release</link>
-                        <link>https://docs.spring.io/spring-framework/docs/6.0.x/javadoc-api</link>
-                        <link>https://docs.spring.io/spring-integration/docs/6.0.x/api</link>
+                        <link>https://docs.spring.io/spring-framework/docs/6.1.x/javadoc-api</link>
+                        <link>https://docs.spring.io/spring-integration/docs/6.2.x/api</link>
                         <link>https://www.ehcache.org/apidocs/3.10.0</link>
-                        <link>https://hc.apache.org/httpcomponents-client-4.5.x/current/httpclient/apidocs</link>
-                        <link>https://hc.apache.org/httpcomponents-core-4.4.x/current/httpcore/apidocs</link>
-                        <link>https://eclipse.org/aspectj/doc/released/runtime-api/</link>
-                        <link>https://eclipse.org/aspectj/doc/released/aspectj5rt-api/</link>
+                        <link>https://hc.apache.org/httpcomponents-client-5.3.x/current/httpclient5/apidocs</link>
+                        <link>https://hc.apache.org/httpcomponents-core-5.2.x/current/httpcore5/apidocs</link>
+                        <link>https://eclipse.dev/aspectj/doc/released/weaver-api</link>
                     </links>
                 </configuration>
             </plugin>
