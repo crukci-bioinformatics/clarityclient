@@ -112,7 +112,7 @@ public class ClarityAPIBatchOperationTest
             // Otherwise what we expect.
         }
 
-        verify(mockFactory);
+        verifyNoInteractions(mockFactory);
     }
 
     @Test

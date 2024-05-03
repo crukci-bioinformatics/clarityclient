@@ -106,7 +106,7 @@ public class Placements implements Linkable<Placements>, Serializable
     {
         if (selectedContainers == null)
         {
-            selectedContainers = new ArrayList<ContainerLink>();
+            selectedContainers = new ArrayList<>();
         }
         return selectedContainers;
     }
@@ -122,7 +122,7 @@ public class Placements implements Linkable<Placements>, Serializable
     {
         if (outputPlacements == null)
         {
-            outputPlacements = new ArrayList<OutputPlacement>();
+            outputPlacements = new ArrayList<>();
         }
         return outputPlacements;
     }
