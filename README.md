@@ -69,7 +69,7 @@ Add the JAR file to your POM (I'm assuming you're using Maven now):
 ```
 
 _Fill in the <version> tag with the version of the API._
-_For this branch, and code using EE8, the version should start "2.31.ee8"._
+_For this branch, and code using EE10, the version should start "2.31.ee10"._
 
 For details of using the API, please refer to the documentation at
 https://crukci-bioinformatics.github.io/clarityclient
@@ -81,25 +81,24 @@ supporting the corresponding versions of the Clarity API.
 
 ## Java Version
 
-The Clarity client is built with Java 11 source and bytecode. The release
-of Clarity 6 has provided a good time to move the requirements for this
-library forward in Java terms. It now includes Java module information.
+The Clarity client is built with Java 17 source and bytecode. Jakarta EE 10
+brings some dependencies compiled for this version of Java, so that is the
+oldest version now supported.
 
 ## JAXB Implementation
 
 The Java EE modules used by the client, specifically JAXB, have been
 moved to **Jakarta EE** specifications, complying
-with [Jakarta EE 8](https://jakarta.ee/release/8).
-The move should not have any noticeable side effects.
+with [Jakarta EE 10](https://jakarta.ee/release/10).
 
-The POM will pull in the Jakarta JAXB API (version 2.3) that the code needs to
+The POM will pull in the Jakarta JAXB API (version 4) that the code needs to
 compile. One should add a JAXB implementation to the final POM, such as:
 
 ```XML
 <dependency>
     <groupId>org.glassfish.jaxb</groupId>
     <artifactId>jaxb-runtime</artifactId>
-    <version>2.3.6</version>
+    <version>4.0.5</version>
     <scope>runtime</scope>
 </dependency>
 ```
@@ -111,7 +110,7 @@ unit tests need to use the client (if not, this dependency isn't needed).
 Where the client is part of an EE container, the container will supply
 the JAXB implementation.
 
-JAXB version 3.x.x is for EE9, with its renaming of `jakarta.xml.bind`
+JAXB version 4.x.x is for EE10, with its renaming of `javax.xml.bind`
 to `jakarta.xml.bind`, and is not suitable for this build of the
 Clarity client. Also the `com.sun.xml.bind:jaxb-impl` artifacts
 available in Maven won't work well with newer JREs.
@@ -124,14 +123,7 @@ This project has some other streams of the code for legacy reasons.
 the latest for Clarity 4.3.
 2. `clarity5`: A version using the 2.28 schema, the latest for Clarity 5.
 3. `clarity6-ee8`: A version using this same version of the schema (2.31)
-but built for EE8. This branch is currently the same as _master_, but will
-stay on EE8 when _master_ moves to EE9.
-
-At the time of writing (April 2022) there isn't a complete version of
-Wildfly that implements Jakarta EE 9, only a preview. The preview is missing
-the JMS system and so isn't quite ready for full deployment. Wildfly 27 is
-due to deliver this, so once that is out code can be moved to EE9. In the
-mean time, use the clarity6-ee8 branch (and version 2.31.ee8* of the artifact).
+but built for EE8.
 
 Illumina is due to stop support for Clarity versions 4 and 5 in June 2022,
 so one would expect no more changes on those branches.
