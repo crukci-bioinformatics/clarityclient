@@ -22,7 +22,6 @@ import java.net.URI;
 import java.net.URL;
 
 import org.apache.hc.client5.http.auth.AuthCache;
-import org.apache.hc.client5.http.auth.AuthScheme;
 import org.apache.hc.client5.http.auth.AuthScope;
 import org.apache.hc.client5.http.auth.Credentials;
 import org.apache.hc.client5.http.auth.CredentialsProvider;

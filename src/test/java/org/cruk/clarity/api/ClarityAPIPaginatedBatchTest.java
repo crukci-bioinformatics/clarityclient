@@ -19,6 +19,7 @@
 package org.cruk.clarity.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -41,12 +42,13 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpHeaders;
-import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.Method;
 import org.apache.hc.core5.http.io.entity.AbstractHttpEntity;
+import org.apache.hc.core5.http.message.BasicClassicHttpRequest;
 import org.apache.hc.core5.http.message.BasicClassicHttpResponse;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.cruk.clarity.api.debugging.RestClientSnoopingAspect;
@@ -75,7 +77,6 @@ import com.genologics.ri.sample.Samples;
 import jakarta.annotation.PostConstruct;
 
 @SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
-@SuppressWarnings("deprecation")
 public class ClarityAPIPaginatedBatchTest
 {
     @Autowired
@@ -160,34 +161,35 @@ public class ClarityAPIPaginatedBatchTest
 
         localApi.setHttpClient(mockHttpClient);
         localApi.setRestClient(restTemplate);
+        localApi.setServer(new URL("http://lims.cri.camres.org:8080"));
 
         final URI pageOne = new URI("http://lims.cri.camres.org:8080/api/v2/samples?projectname=Run%201030");
         final URI pageTwo = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030");
         final URI pageThree = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=1000&projectname=Run+1030");
 
-        HttpGet getOne = new HttpGet(pageOne);
-        HttpGet getTwo = new HttpGet(pageOne);
-        HttpGet getThree = new HttpGet(pageOne);
+        ClassicHttpRequest getOne = new BasicClassicHttpRequest(Method.GET, pageOne);
+        ClassicHttpRequest getTwo = new BasicClassicHttpRequest(Method.GET, pageTwo);
+        ClassicHttpRequest getThree = new BasicClassicHttpRequest(Method.GET, pageThree);
 
-        HttpResponse responseOne = createMultipageFetchResponse(pageFiles[0]);
-        HttpResponse responseTwo = createMultipageFetchResponse(pageFiles[1]);
-        HttpResponse responseThree = createMultipageFetchResponse(pageFiles[2]);
+        ClassicHttpResponse responseOne = createMultipageFetchResponse(pageFiles[0]);
+        ClassicHttpResponse responseTwo = createMultipageFetchResponse(pageFiles[1]);
+        ClassicHttpResponse responseThree = createMultipageFetchResponse(pageFiles[2]);
 
         Class<?> requestClass = Class.forName("org.springframework.http.client.HttpComponentsClientHttpRequest");
-        Constructor<?> constructor = requestClass.getDeclaredConstructor(HttpClient.class, HttpUriRequest.class, HttpContext.class);
+        Constructor<?> constructor = requestClass.getDeclaredConstructor(HttpClient.class, ClassicHttpRequest.class, HttpContext.class);
         constructor.setAccessible(true);
 
         ClientHttpRequest reqOne = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getOne, httpContext);
         ClientHttpRequest reqTwo = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getTwo, httpContext);
         ClientHttpRequest reqThree = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getThree, httpContext);
 
-        when(mockRequestFactory.createRequest(pageOne, HttpMethod.GET)).thenReturn(reqOne);
-        when(mockRequestFactory.createRequest(pageTwo, HttpMethod.GET)).thenReturn(reqTwo);
-        when(mockRequestFactory.createRequest(pageThree, HttpMethod.GET)).thenReturn(reqThree);
+        when(mockRequestFactory.createRequest(eq(pageOne), eq(HttpMethod.GET))).thenReturn(reqOne);
+        when(mockRequestFactory.createRequest(eq(pageTwo), eq(HttpMethod.GET))).thenReturn(reqTwo);
+        when(mockRequestFactory.createRequest(eq(pageThree), eq(HttpMethod.GET))).thenReturn(reqThree);
 
-        when(mockHttpClient.execute(getOne, httpContext)).thenReturn(responseOne);
-        when(mockHttpClient.execute(getTwo, httpContext)).thenReturn(responseTwo);
-        when(mockHttpClient.execute(getThree, httpContext)).thenReturn(responseThree);
+        when(mockHttpClient.executeOpen(null, getOne, httpContext)).thenReturn(responseOne);
+        when(mockHttpClient.executeOpen(null, getTwo, httpContext)).thenReturn(responseTwo);
+        when(mockHttpClient.executeOpen(null, getThree, httpContext)).thenReturn(responseThree);
 
         var links = localApi.find(terms, Sample.class);
 
@@ -197,9 +199,9 @@ public class ClarityAPIPaginatedBatchTest
         verify(mockRequestFactory, times(1)).createRequest(pageTwo, HttpMethod.GET);
         verify(mockRequestFactory, times(1)).createRequest(pageThree, HttpMethod.GET);
 
-        verify(mockHttpClient, times(1)).execute(getOne, httpContext);
-        verify(mockHttpClient, times(1)).execute(getTwo, httpContext);
-        verify(mockHttpClient, times(1)).execute(getThree, httpContext);
+        verify(mockHttpClient, times(1)).executeOpen(null, getOne, httpContext);
+        verify(mockHttpClient, times(1)).executeOpen(null, getTwo, httpContext);
+        verify(mockHttpClient, times(1)).executeOpen(null, getThree, httpContext);
     }
 
     @Test
@@ -247,28 +249,29 @@ public class ClarityAPIPaginatedBatchTest
 
         localApi.setHttpClient(mockHttpClient);
         localApi.setRestClient(restTemplate);
+        localApi.setServer(new URL("http://lims.cri.camres.org:8080"));
 
         URI pageOne = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=0");
         URI pageTwo = new URI("http://lims.cri.camres.org:8080/api/v2/samples?start-index=500&projectname=Run+1030");
 
-        HttpGet getOne = new HttpGet(pageOne);
-        HttpGet getTwo = new HttpGet(pageTwo);
+        ClassicHttpRequest getOne = new BasicClassicHttpRequest(Method.GET, pageOne);
+        ClassicHttpRequest getTwo = new BasicClassicHttpRequest(Method.GET, pageTwo);
 
-        HttpResponse responseOne = createMultipageFetchResponse(pageFiles[0]);
-        HttpResponse responseTwo = createMultipageFetchResponse(pageFiles[1]);
+        ClassicHttpResponse responseOne = createMultipageFetchResponse(pageFiles[0]);
+        ClassicHttpResponse responseTwo = createMultipageFetchResponse(pageFiles[1]);
 
         Class<?> requestClass = Class.forName("org.springframework.http.client.HttpComponentsClientHttpRequest");
-        Constructor<?> constructor = requestClass.getDeclaredConstructor(HttpClient.class, HttpUriRequest.class, HttpContext.class);
+        Constructor<?> constructor = requestClass.getDeclaredConstructor(HttpClient.class, ClassicHttpRequest.class, HttpContext.class);
         constructor.setAccessible(true);
 
         ClientHttpRequest reqOne = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getOne, httpContext);
         ClientHttpRequest reqTwo = (ClientHttpRequest)constructor.newInstance(mockHttpClient, getTwo, httpContext);
 
-        when(mockRequestFactory.createRequest(pageOne, HttpMethod.GET)).thenReturn(reqOne);
-        when(mockRequestFactory.createRequest(pageTwo, HttpMethod.GET)).thenReturn(reqTwo);
+        when(mockRequestFactory.createRequest(eq(pageOne), eq(HttpMethod.GET))).thenReturn(reqOne);
+        when(mockRequestFactory.createRequest(eq(pageTwo), eq(HttpMethod.GET))).thenReturn(reqTwo);
 
-        when(mockHttpClient.execute(getOne, httpContext)).thenReturn(responseOne);
-        when(mockHttpClient.execute(getTwo, httpContext)).thenReturn(responseTwo);
+        when(mockHttpClient.executeOpen(null, getOne, httpContext)).thenReturn(responseOne);
+        when(mockHttpClient.executeOpen(null, getTwo, httpContext)).thenReturn(responseTwo);
 
         var links = localApi.listSome(Sample.class, 0, 750);
 
@@ -277,12 +280,12 @@ public class ClarityAPIPaginatedBatchTest
         verify(mockRequestFactory, times(1)).createRequest(pageOne, HttpMethod.GET);
         verify(mockRequestFactory, times(1)).createRequest(pageTwo, HttpMethod.GET);
 
-        verify(mockHttpClient, times(1)).execute(getOne, httpContext);
-        verify(mockHttpClient, times(1)).execute(getTwo, httpContext);
+        verify(mockHttpClient, times(1)).executeOpen(null, getOne, httpContext);
+        verify(mockHttpClient, times(1)).executeOpen(null, getTwo, httpContext);
     }
 
 
-    private HttpResponse createMultipageFetchResponse(File responseFile)
+    private ClassicHttpResponse createMultipageFetchResponse(File responseFile)
     {
         BasicClassicHttpResponse response = new BasicClassicHttpResponse(200, "OK");
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML_VALUE);
@@ -307,7 +310,7 @@ public class ClarityAPIPaginatedBatchTest
         @Override
         public InputStream getContent() throws IOException
         {
-            logger.info("Returning body from file, NOT from the live API");
+            logger.debug("Returning body from file, NOT from the live API");
             contentStream = new BufferedInputStream(new FileInputStream(responseFile));
             return contentStream;
         }
