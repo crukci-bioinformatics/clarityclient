@@ -40,7 +40,7 @@ module org.cruk.clarity.api
     requires org.apache.httpcomponents.core5.httpcore5.h2;
     requires org.apache.sshd.core;
     requires org.apache.sshd.sftp;
-    requires org.aspectj.runtime;
+    requires org.aspectj.weaver;
     requires org.slf4j;
     requires spring.beans;
     requires spring.core;
