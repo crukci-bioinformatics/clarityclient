@@ -28,7 +28,7 @@ throughout this tool.
 
 The 2.31 and later versions of the library has been updated to work with Clarity 6,
 supporting version 2.31+ of the Clarity API. The opportunity has been taken to
-move things on with the client with this release. It is now based on Java 11 and
+move things on with the client with this release. -It is now based on Java 11- and
 is packaged with Java's module information. It has also provided a sensible time
 to do some repackaging, reflecting Genologics' disappearance as a separate company
 after its purchase by and absorbtion into Illumina.
@@ -42,3 +42,10 @@ after its purchase by and absorbtion into Illumina.
 
 The client has kept the `com.genologics.ri` namespace for the model classes because
 that namespace is still what is used in the XSD files provided by Illumina.
+
+### Jakarta EE 10
+
+The EE 10 version of the code is based on Java 17 and Jakarta EE 10. This is the
+code on the "master" branch in GitHub. The Java EE 8 version is on the "ee8" branch.
+We are moving all our code to EE 10 so the EE 8 branch may not be maintained beyond
+API version 2.31.
