@@ -556,9 +556,9 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             httpRequestFactory.setCredentials(serverAddress, httpCredentials);
         }
 
-        if (httpCredentials instanceof UsernamePasswordCredentials)
+        if (httpCredentials instanceof UsernamePasswordCredentials upCredentials)
         {
-            apiCredentials = (UsernamePasswordCredentials)httpCredentials;
+            apiCredentials = upCredentials;
         }
     }
 
@@ -2724,9 +2724,9 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
         ClarityEntity entityAnno = checkEntityAnnotated(ClarityFile.class);
 
         ClarityFile realFile;
-        if (file instanceof ClarityFile)
+        if (file instanceof ClarityFile cf)
         {
-            realFile = (ClarityFile)file;
+            realFile = cf;
             if (realFile.getContentLocation() == null)
             {
                 // Don't know where the actual file is, so fetch to get the full info.
@@ -2798,9 +2798,9 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
         }
 
         ClarityFile realFile;
-        if (file instanceof ClarityFile)
+        if (file instanceof ClarityFile cf)
         {
-            realFile = (ClarityFile)file;
+            realFile = cf;
             if (realFile.getContentLocation() == null)
             {
                 // Don't know where the actual file is, so fetch to get the full info.
@@ -3041,10 +3041,8 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                         appendQueryTerm(query, param, v);
                     }
                 }
-                else if (value instanceof Iterable)
+                else if (value instanceof Iterable<?> values)
                 {
-                    Iterable<?> values = (Iterable<?>)value;
-
                     if (!values.iterator().hasNext())
                     {
                         throw new IllegalSearchTermException(

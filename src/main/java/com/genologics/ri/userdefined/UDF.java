@@ -461,14 +461,12 @@ public class UDF implements Serializable
             else
             {
                 String better = "UDF \"{0}\" does not exist on {1} {2}";
-                if (thing instanceof LimsEntityLinkable<?>)
+                if (thing instanceof LimsEntityLinkable<?> linkable)
                 {
-                    LimsEntityLinkable<?> linkable = (LimsEntityLinkable<?>)thing;
                     failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), linkable.getLimsid());
                 }
-                else if (thing instanceof Locatable)
+                else if (thing instanceof Locatable locatable)
                 {
-                    Locatable locatable = (Locatable)thing;
                     failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), locatable.getUri());
                 }
                 else

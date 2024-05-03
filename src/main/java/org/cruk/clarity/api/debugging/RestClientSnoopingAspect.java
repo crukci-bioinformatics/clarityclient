@@ -254,11 +254,9 @@ public class RestClientSnoopingAspect
      */
     private void displayAfter(Object reply)
     {
-        ResponseEntity<?> response = null;
         Object thing = reply;
-        if (reply instanceof ResponseEntity<?>)
+        if (reply instanceof ResponseEntity<?> response)
         {
-            response = (ResponseEntity<?>)reply;
             thing = response.getBody();
             logger.debug("Reply status is {}", response.getStatusCode());
         }

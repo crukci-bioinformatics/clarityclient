@@ -64,14 +64,14 @@ public class JaxbUnmarshallingAspect
     {
         Object unmarshalled = pjp.proceed();
 
-        if (unmarshalled instanceof JAXBElement<?>)
+        if (unmarshalled instanceof JAXBElement<?> element)
         {
-            unmarshalled = ((JAXBElement<?>)unmarshalled).getValue();
+            unmarshalled = element.getValue();
         }
 
-        if (unmarshalled instanceof com.genologics.ri.exception.Exception)
+        if (unmarshalled instanceof com.genologics.ri.exception.Exception ge)
         {
-            throw new ClarityException((com.genologics.ri.exception.Exception)unmarshalled);
+            throw new ClarityException(ge);
         }
 
         return unmarshalled;

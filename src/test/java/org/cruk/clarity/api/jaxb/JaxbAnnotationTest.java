@@ -551,9 +551,9 @@ public class JaxbAnnotationTest
         {
             Object unmarshalled = marshaller.unmarshal(new StreamSource(reader));
 
-            if (unmarshalled instanceof JAXBElement<?>)
+            if (unmarshalled instanceof JAXBElement<?> element)
             {
-                unmarshalled = ((JAXBElement<?>)unmarshalled).getValue();
+                unmarshalled = element.getValue();
             }
 
             assertEquals(entityClass, unmarshalled.getClass(), "Class of unmarshalled object doesn't match expected.");

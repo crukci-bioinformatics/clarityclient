@@ -65,9 +65,8 @@ public class HttpClientTimingAspect
 
         for (Object arg : pjp.getArgs())
         {
-            if (arg instanceof HttpRequest)
+            if (arg instanceof HttpRequest httpRequest)
             {
-                HttpRequest httpRequest = (HttpRequest)arg;
                 uri = httpRequest.getUri().toString();
                 method = httpRequest.getMethod();
                 break;

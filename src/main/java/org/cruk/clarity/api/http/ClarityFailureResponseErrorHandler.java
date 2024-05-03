@@ -115,9 +115,9 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
                 // Should be handled by the ClarityExceptionAspect, but in case
                 // that isn't in place...
 
-                if (content instanceof com.genologics.ri.exception.Exception)
+                if (content instanceof com.genologics.ri.exception.Exception ge)
                 {
-                    throw new ClarityException((com.genologics.ri.exception.Exception)content, statusCode);
+                    throw new ClarityException(ge, statusCode);
                 }
             }
             catch (ClarityException e)
