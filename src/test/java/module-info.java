@@ -18,5 +18,29 @@
 
 open module test.org.cruk.clarity.api
 {
+    requires ehcache;
+    requires org.apache.commons.beanutils;
+    requires org.apache.commons.io;
+    requires org.apache.commons.lang3;
+    requires org.apache.httpcomponents.client5.httpclient5;
+    requires org.apache.httpcomponents.core5.httpcore5;
+    requires org.apache.httpcomponents.core5.httpcore5.h2;
+    requires org.apache.sshd.core;
+    requires org.apache.sshd.sftp;
+    requires org.aspectj.weaver;
+    requires org.slf4j;
+    requires spring.beans;
+    requires spring.core;
+    requires spring.context;
+    requires spring.integration.core;
+    requires spring.integration.file;
+    requires spring.integration.sftp;
+    requires spring.oxm;
+    requires spring.web;
+
     requires org.cruk.clarity.api;
+
+    requires org.junit.jupiter;
+    requires org.junit.jupiter.api;
+    requires spring.test;
 }

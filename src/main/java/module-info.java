@@ -51,10 +51,6 @@ module org.cruk.clarity.api
     requires spring.oxm;
     requires spring.web;
 
-    requires bull.bean.transformer;
-    requires bull.common;
-    requires bull.converter;
-
     exports com.genologics.ri;
     exports com.genologics.ri.artifact;
     exports com.genologics.ri.artifactgroup;

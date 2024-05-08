@@ -456,7 +456,7 @@
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
-                <version>1.9.5</version>
+                <version>1.10.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-codec</groupId>
@@ -464,19 +464,9 @@
                 <version>1.16.1</version>
             </dependency>
             <dependency>
-                <groupId>commons-collections</groupId>
-                <artifactId>commons-collections</artifactId>
-                <version>3.2.2</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.16.1</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>2.6</version>
             </dependency>
             <dependency>
                 <groupId>commons-net</groupId>
@@ -493,6 +483,11 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
+                <version>2.0.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
                 <version>2.0.7</version>
             </dependency>
             <dependency>
@@ -524,6 +519,10 @@
                 <version>2.12.1</version>
                 <exclusions>
                     <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                    <exclusion>
                         <groupId>org.apache.sshd</groupId>
                         <artifactId>sshd-common</artifactId>
                     </exclusion>
@@ -538,6 +537,12 @@
                 <groupId>org.apache.sshd</groupId>
                 <artifactId>sshd-spring-sftp</artifactId>
                 <version>2.12.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -617,9 +622,8 @@
         </dependency>
 
         <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <scope>runtime</scope>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -678,7 +682,7 @@
 
         <dependency>
             <groupId>org.apache.sshd</groupId>
-            <artifactId>sshd-spring-sftp</artifactId>
+            <artifactId>sshd-sftp</artifactId>
         </dependency>
 
         <dependency>
@@ -690,6 +694,11 @@
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
