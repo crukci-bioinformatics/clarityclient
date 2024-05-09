@@ -31,8 +31,9 @@ module org.cruk.clarity.api
 
     requires transitive jakarta.annotation;
     requires transitive jakarta.xml.bind;
-    requires ehcache;
+    requires static ehcache;
     requires org.apache.commons.beanutils;
+    requires org.apache.commons.collections4;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
     requires org.apache.httpcomponents.client5.httpclient5;
@@ -95,6 +96,4 @@ module org.cruk.clarity.api
     exports org.cruk.clarity.api.http;
     exports org.cruk.clarity.api.impl;
     exports org.cruk.clarity.api.jaxb;
-
-    opens org.cruk.clarity.api to spring.core;
 }

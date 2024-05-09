@@ -419,8 +419,8 @@
                         <link>https://www.slf4j.org/apidocs/</link>
                         <link>https://commons.apache.org/proper/commons-beanutils/javadocs/v1.9.4/apidocs</link>
                         <link>https://commons.apache.org/proper/commons-collections/javadocs/api-4.4</link>
-                        <link>http://commons.apache.org/proper/commons-io/javadocs/api-release</link>
-                        <link>http://commons.apache.org/proper/commons-lang/javadocs/api-release</link>
+                        <link>https://commons.apache.org/proper/commons-io/javadocs/api-release</link>
+                        <link>https://commons.apache.org/proper/commons-lang/javadocs/api-release</link>
                         <link>https://docs.spring.io/spring-framework/docs/6.1.x/javadoc-api</link>
                         <link>https://docs.spring.io/spring-integration/docs/6.2.x/api</link>
                         <link>https://www.ehcache.org/apidocs/3.10.0</link>
@@ -474,6 +474,11 @@
                 <version>3.10.0</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -628,6 +633,10 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
