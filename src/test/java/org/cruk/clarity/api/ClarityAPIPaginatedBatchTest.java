@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.HashMap;
@@ -55,11 +56,13 @@ import org.cruk.clarity.api.debugging.RestClientSnoopingAspect;
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.clarity.api.impl.ClarityAPIImpl;
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -67,39 +70,45 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 import com.genologics.ri.sample.Sample;
 import com.genologics.ri.sample.Samples;
 
-import jakarta.annotation.PostConstruct;
-
-@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
+/*
+ * Can't use the wired standard configuration as it's all changed around with the mocks.
+ */
 public class ClarityAPIPaginatedBatchTest
 {
-    @Autowired
+    private static ConfigurableApplicationContext context;
+
     ClarityAPIImpl localApi;
-
-    @Autowired
     Jaxb2Marshaller marshaller;
-
-    @Autowired
-    @Qualifier("clarityRestTemplate")
     RestTemplate restTemplate;
-
 
     File[] pageFiles;
     ResponseEntity<Samples> response1, response2, response3;
 
-    public ClarityAPIPaginatedBatchTest()
+    @BeforeAll
+    public static void start()
     {
+        context = new AnnotationConfigApplicationContext(ClarityClientTestConfiguration.class);
     }
 
-    @PostConstruct
-    public void setup()
+    @AfterAll
+    public static void finish()
     {
+        context.close();
+    }
+
+    public ClarityAPIPaginatedBatchTest() throws MalformedURLException
+    {
+        marshaller = context.getBean(Jaxb2Marshaller.class);
+        restTemplate = context.getBean("clarityRestTemplate", RestTemplate.class);
+        localApi = context.getBean(ClarityAPIImpl.class);
+        localApi.setServer(new URL("http://lims.cri.camres.org:8080"));
+
         pageFiles = new File[] {
                 new File("src/test/xml/multipagefetch-1.xml"),
                 new File("src/test/xml/multipagefetch-2.xml"),
