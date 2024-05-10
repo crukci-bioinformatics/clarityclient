@@ -16,16 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-open module test.org.cruk.clarity.api
+import org.cruk.clarity.api.ClarityAPI;
+import org.cruk.clarity.api.automation.ClarityProcessAutomation;
+import org.cruk.clarity.api.automation.impl.ClarityProcessAutomationImpl;
+import org.cruk.clarity.api.impl.ClarityAPIImpl;
+
+open module org.cruk.clarity.api
 {
-    requires ehcache;
+    provides ClarityAPI with ClarityAPIImpl;
+    provides ClarityProcessAutomation with ClarityProcessAutomationImpl;
+
+    requires transitive jakarta.annotation;
+    requires transitive jakarta.xml.bind;
+    requires static ehcache;
     requires org.apache.commons.beanutils;
+    requires org.apache.commons.collections4;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
     requires org.apache.httpcomponents.client5.httpclient5;
     requires org.apache.httpcomponents.core5.httpcore5;
     requires org.apache.httpcomponents.core5.httpcore5.h2;
-    requires org.apache.sshd.core;
+    requires org.apache.sshd.osgi;
     requires org.apache.sshd.sftp;
     requires org.aspectj.weaver;
     requires org.slf4j;
@@ -38,9 +49,8 @@ open module test.org.cruk.clarity.api
     requires spring.oxm;
     requires spring.web;
 
-    requires org.cruk.clarity.api;
-
-    requires org.junit.jupiter;
-    requires org.junit.jupiter.api;
-    requires spring.test;
+    requires static org.junit.jupiter;
+    requires static org.junit.jupiter.api;
+    requires static org.junit.jupiter.engine;
+    requires static org.junit.jupiter.params;
 }

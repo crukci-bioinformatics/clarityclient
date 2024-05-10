@@ -39,7 +39,7 @@ module org.cruk.clarity.api
     requires org.apache.httpcomponents.client5.httpclient5;
     requires org.apache.httpcomponents.core5.httpcore5;
     requires org.apache.httpcomponents.core5.httpcore5.h2;
-    requires org.apache.sshd.core;
+    requires org.apache.sshd.osgi;
     requires org.apache.sshd.sftp;
     requires org.aspectj.weaver;
     requires org.slf4j;
