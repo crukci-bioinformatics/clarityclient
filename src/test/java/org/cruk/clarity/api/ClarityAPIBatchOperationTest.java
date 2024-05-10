@@ -48,9 +48,11 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.output.NullOutputStream;
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -58,7 +60,6 @@ import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestTemplate;
 
 import com.genologics.ri.LimsLink;
@@ -68,26 +69,34 @@ import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
 import com.genologics.ri.artifact.ArtifactLink;
 
-@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
+/*
+ * Can't use the wired standard configuration as it's all changed around with the mocks.
+ */
 public class ClarityAPIBatchOperationTest
 {
+    private static ConfigurableApplicationContext context;
+
     private ClarityAPI api;
-
-    @Autowired
-    @Qualifier("clarityRestTemplate")
     private RestTemplate restTemplate;
-
-    @Autowired
     private Jaxb2Marshaller marshaller;
+
+    @BeforeAll
+    public static void start()
+    {
+        context = new AnnotationConfigApplicationContext(ClarityClientTestConfiguration.class);
+    }
+
+    @AfterAll
+    public static void finish()
+    {
+        context.close();
+    }
 
     public ClarityAPIBatchOperationTest() throws MalformedURLException
     {
-    }
-
-    @Autowired
-    public void setClarityAPI(ClarityAPI api) throws MalformedURLException
-    {
-        this.api = api;
+        marshaller = context.getBean(Jaxb2Marshaller.class);
+        restTemplate = context.getBean("clarityRestTemplate", RestTemplate.class);
+        api = context.getBean(ClarityAPI.class);
         api.setServer(new URL("http://limsdev.cri.camres.org:8080"));
     }
 
