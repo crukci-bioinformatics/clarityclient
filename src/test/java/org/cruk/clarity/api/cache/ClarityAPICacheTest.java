@@ -648,7 +648,7 @@ public class ClarityAPICacheTest
             s.setSubmitter(apiUser);
 
             UDF.setUDF(s, "Read Length", 50);
-            UDF.setUDF(s, "Concentration", 0);
+            UDF.setUDF(s, "Concentration (ng/\u00b5l)", 0);
             UDF.setUDF(s, "Library Type", "Other");
             UDF.setUDF(s, "Number of Lanes", 2);
             UDF.setUDF(s, "Pool Size", samples.length);
