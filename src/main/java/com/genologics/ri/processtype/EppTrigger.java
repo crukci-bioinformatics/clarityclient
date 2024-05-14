@@ -18,6 +18,8 @@
 
 package com.genologics.ri.processtype;
 
+import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -32,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "epp-trigger")
+@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "epp-trigger")
 public class EppTrigger implements Serializable
 {
     private static final long serialVersionUID = 3481787346877063815L;

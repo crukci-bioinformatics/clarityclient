@@ -18,6 +18,8 @@
 
 package com.genologics.ri.version;
 
+import static com.genologics.ri.Namespaces.VERSION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -30,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlType;
 import com.genologics.ri.Locatable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "version")
+@XmlType(namespace = VERSION_NAMESPACE, name = "version")
 public class Version implements Locatable, Serializable
 {
     private static final long serialVersionUID = -28598435711579586L;

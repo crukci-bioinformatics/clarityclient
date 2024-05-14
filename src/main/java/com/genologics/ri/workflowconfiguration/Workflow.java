@@ -18,6 +18,8 @@
 
 package com.genologics.ri.workflowconfiguration;
 
+import static com.genologics.ri.Namespaces.WORKFLOW_CONFIGURATION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ import com.genologics.ri.stage.Stage;
  */
 @ClarityEntity(uriSection = "configuration/workflows")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "workflow", propOrder = { "protocols", "stages" })
+@XmlType(namespace = WORKFLOW_CONFIGURATION_NAMESPACE, name = "workflow", propOrder = { "protocols", "stages" })
 @XmlRootElement(name = "workflow")
 public class Workflow implements Linkable<Workflow>, Serializable
 {

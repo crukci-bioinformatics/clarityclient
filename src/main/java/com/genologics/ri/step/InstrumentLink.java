@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -41,7 +43,7 @@ import com.genologics.ri.instrument.Instrument;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "instrument")
+@XmlType(namespace = STEP_NAMESPACE, name = "instrument")
 public class InstrumentLink implements LimsEntityLink<Instrument>, Serializable
 {
     private static final long serialVersionUID = -8476139725814009464L;

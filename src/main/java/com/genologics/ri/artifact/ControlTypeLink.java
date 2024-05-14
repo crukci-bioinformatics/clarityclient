@@ -18,6 +18,8 @@
 
 package com.genologics.ri.artifact;
 
+import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -37,7 +39,7 @@ import com.genologics.ri.controltype.ControlType;
  * sample.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "control-type")
+@XmlType(namespace = ARTIFACT_NAMESPACE, name = "control-type")
 public class ControlTypeLink implements LimsLink<ControlType>, Serializable
 {
     private static final long serialVersionUID = -4203696627970925073L;

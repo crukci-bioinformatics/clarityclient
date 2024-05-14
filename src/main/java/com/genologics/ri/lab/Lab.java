@@ -19,6 +19,7 @@
 package com.genologics.ri.lab;
 
 import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
+import static com.genologics.ri.Namespaces.LAB_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
 import java.io.Serializable;
@@ -50,7 +51,7 @@ import com.genologics.ri.userdefined.UDT;
 @ClarityEntity(uriSection = "labs", creatable = true, updateable = true)
 @XmlRootElement(name = "lab")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "lab",
+@XmlType(namespace = LAB_NAMESPACE, name = "lab",
          propOrder = { "name", "billingAddress", "shippingAddress", "type", "fields", "externalIds", "website" })
 public class Lab implements LimsEntity<Lab>, UDFHolder, Serializable
 {

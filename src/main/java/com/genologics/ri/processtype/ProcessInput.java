@@ -18,6 +18,8 @@
 
 package com.genologics.ri.processtype;
 
+import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -31,7 +33,8 @@ import jakarta.xml.bind.annotation.XmlType;
  * input types for the process
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "process-input", propOrder = { "artifactType", "displayName", "removeWorkingFlag" })
+@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "process-input",
+         propOrder = { "artifactType", "displayName", "removeWorkingFlag" })
 public class ProcessInput implements Serializable
 {
     private static final long serialVersionUID = -2733188258573850043L;

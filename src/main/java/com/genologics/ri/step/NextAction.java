@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +42,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  * Sample next action or step.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "next-action")
+@XmlType(namespace = STEP_NAMESPACE, name = "next-action")
 public class NextAction implements LimsLink<Artifact>, Serializable
 {
     private static final long serialVersionUID = -8061858911629830727L;

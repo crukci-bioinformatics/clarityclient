@@ -18,6 +18,8 @@
 
 package com.genologics.ri.property;
 
+import static com.genologics.ri.Namespaces.PROPERTY_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -33,7 +35,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * to the detailed representation of a property.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "property-link")
+@XmlType(namespace = PROPERTY_NAMESPACE, name = "property-link")
 public class PropertyLink implements Serializable
 {
     private static final long serialVersionUID = -6134863203392574429L;

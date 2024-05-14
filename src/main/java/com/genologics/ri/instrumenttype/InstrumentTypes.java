@@ -18,6 +18,8 @@
 
 package com.genologics.ri.instrumenttype;
 
+import static com.genologics.ri.Namespaces.INSTRUMENT_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,7 +41,8 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = InstrumentType.class)
 @XmlRootElement(name = "instrument-types")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "instrument-types", propOrder = { "instrumentTypes", "previousPage", "nextPage" })
+@XmlType(namespace = INSTRUMENT_TYPE_NAMESPACE, name = "instrument-types",
+         propOrder = { "instrumentTypes", "previousPage", "nextPage" })
 public class InstrumentTypes implements PaginatedBatch<InstrumentTypeLink>, Serializable
 {
     private static final long serialVersionUID = 1268811869773163450L;

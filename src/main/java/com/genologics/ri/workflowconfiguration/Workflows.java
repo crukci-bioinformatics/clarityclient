@@ -18,6 +18,8 @@
 
 package com.genologics.ri.workflowconfiguration;
 
+import static com.genologics.ri.Namespaces.WORKFLOW_CONFIGURATION_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,7 +40,7 @@ import com.genologics.ri.ClarityQueryResult;
  */
 @ClarityQueryResult(entityClass = Workflow.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "workflows")
+@XmlType(namespace = WORKFLOW_CONFIGURATION_NAMESPACE, name = "workflows")
 @XmlRootElement(name = "workflows")
 public class Workflows implements Batch<WorkflowLink>, Serializable
 {

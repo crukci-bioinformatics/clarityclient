@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -37,7 +39,7 @@ import com.genologics.ri.researcher.Researcher;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "escalation-review", propOrder = { "author", "date", "comment" })
+@XmlType(namespace = STEP_NAMESPACE, name = "escalation-review", propOrder = { "author", "date", "comment" })
 public class EscalationReview implements Serializable
 {
     private static final long serialVersionUID = -4529608991906508233L;

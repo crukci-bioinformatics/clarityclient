@@ -18,12 +18,12 @@
 
 package com.genologics.ri.property;
 
+import static com.genologics.ri.Namespaces.PROPERTY_NAMESPACE;
+
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.XmlElementDecl;
 import jakarta.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
-
-import com.genologics.ri.Namespaces;
 
 
 /**
@@ -43,7 +43,7 @@ import com.genologics.ri.Namespaces;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _Properties_QNAME = new QName(Namespaces.PROPERTY_NAMESPACE, "properties");
+    private final static QName _Properties_QNAME = new QName(PROPERTY_NAMESPACE, "properties");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.genologics.ri.property
@@ -60,7 +60,7 @@ public class ObjectFactory {
         return new Properties();
     }
 
-    @XmlElementDecl(namespace = Namespaces.PROPERTY_NAMESPACE, name = "properties")
+    @XmlElementDecl(namespace = PROPERTY_NAMESPACE, name = "properties")
     public JAXBElement<Properties> createProperties(Properties value) {
         return new JAXBElement<Properties>(_Properties_QNAME, Properties.class, null, value);
     }

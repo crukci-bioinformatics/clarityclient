@@ -18,6 +18,8 @@
 
 package com.genologics.ri.sample;
 
+import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -35,7 +37,7 @@ import com.genologics.ri.container.Container;
 @ClarityEntity(uriSection = "samples", creationClass = SampleCreation.class, creatable = true, updateable = true)
 @XmlRootElement(name = "sample")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "sample")
+@XmlType(namespace = SAMPLE_NAMESPACE, name = "sample")
 public class Sample extends SampleBase implements LimsEntity<Sample>
 {
     private static final long serialVersionUID = 5852545940907097947L;

@@ -18,6 +18,8 @@
 
 package com.genologics.ri.automation;
 
+import static com.genologics.ri.Namespaces.AUTOMATION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ import com.genologics.ri.PaginatedBatch;
  */
 @ClarityQueryResult(entityClass = Automation.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "automations", propOrder = { "automations", "previousPage", "nextPage" })
+@XmlType(namespace = AUTOMATION_NAMESPACE, name = "automations", propOrder = { "automations", "previousPage", "nextPage" })
 @XmlRootElement(name = "automations")
 public class Automations implements PaginatedBatch<AutomationLink>, Serializable
 {

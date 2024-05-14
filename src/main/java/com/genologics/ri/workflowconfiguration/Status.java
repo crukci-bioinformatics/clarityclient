@@ -18,10 +18,12 @@
 
 package com.genologics.ri.workflowconfiguration;
 
+import static com.genologics.ri.Namespaces.WORKFLOW_CONFIGURATION_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlType;
 
-@XmlType(name = "status")
+@XmlType(namespace = WORKFLOW_CONFIGURATION_NAMESPACE, name = "status")
 @XmlEnum
 public enum Status
 {

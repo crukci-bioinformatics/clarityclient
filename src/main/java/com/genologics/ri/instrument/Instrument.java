@@ -18,6 +18,8 @@
 
 package com.genologics.ri.instrument;
 
+import static com.genologics.ri.Namespaces.INSTRUMENT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -56,7 +58,8 @@ import com.genologics.ri.Link;
 @ClarityEntity(uriSection = "instruments")
 @XmlRootElement(name = "instrument")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "instrument", propOrder = { "name", "type", "serialNumber", "expiryDate", "archived" })
+@XmlType(namespace = INSTRUMENT_NAMESPACE, name = "instrument",
+         propOrder = { "name", "type", "serialNumber", "expiryDate", "archived" })
 public class Instrument implements LimsEntity<Instrument>, Serializable
 {
     private static final long serialVersionUID = 1517557403395348841L;

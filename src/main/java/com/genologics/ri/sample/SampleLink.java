@@ -18,6 +18,8 @@
 
 package com.genologics.ri.sample;
 
+import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -35,7 +37,7 @@ import com.genologics.ri.LimsEntityLinkable;
  * the detailed representation of a sample.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "sample-link")
+@XmlType(namespace = SAMPLE_NAMESPACE, name = "sample-link")
 public class SampleLink implements LimsEntityLink<Sample>, Serializable
 {
     private static final long serialVersionUID = -5247716763134908401L;

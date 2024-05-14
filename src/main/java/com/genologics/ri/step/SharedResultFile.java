@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +42,7 @@ import com.genologics.ri.artifact.Artifact;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "file")
+@XmlType(namespace = STEP_NAMESPACE, name = "file")
 public class SharedResultFile implements LimsEntityLink<Artifact>, Serializable
 {
     private static final long serialVersionUID = -1481534271853089634L;

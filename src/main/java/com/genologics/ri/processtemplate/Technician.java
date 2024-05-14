@@ -18,6 +18,8 @@
 
 package com.genologics.ri.processtemplate;
 
+import static com.genologics.ri.Namespaces.PROCESS_TEMPLATE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +41,7 @@ import com.genologics.ri.researcher.Researcher;
  * Process created using this Process Template.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "technician", propOrder = { "firstName", "lastName" })
+@XmlType(namespace = PROCESS_TEMPLATE_NAMESPACE, name = "technician", propOrder = { "firstName", "lastName" })
 public class Technician implements LimsLink<Researcher>, Serializable
 {
     private static final long serialVersionUID = -8798198413338733052L;

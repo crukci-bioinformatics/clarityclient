@@ -18,6 +18,8 @@
 
 package com.genologics.ri.instrument;
 
+import static com.genologics.ri.Namespaces.INSTRUMENT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -37,7 +39,7 @@ import com.genologics.ri.Linkable;
  * linking to the detailed representation of an instrument.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "instrument-link", propOrder = { "name" })
+@XmlType(namespace = INSTRUMENT_NAMESPACE, name = "instrument-link")
 public class InstrumentLink implements LimsEntityLink<Instrument>, Serializable
 {
     private static final long serialVersionUID = 4463465224415870496L;

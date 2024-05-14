@@ -18,6 +18,8 @@
 
 package com.genologics.ri.workflowconfiguration;
 
+import static com.genologics.ri.Namespaces.WORKFLOW_CONFIGURATION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -36,7 +38,7 @@ import com.genologics.ri.Linkable;
  * to the detailed representation of a workflow.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "workflow-link")
+@XmlType(namespace = WORKFLOW_CONFIGURATION_NAMESPACE, name = "workflow-link")
 public class WorkflowLink implements LimsLink<Workflow>, Serializable
 {
     private static final long serialVersionUID = 1335890809720204629L;

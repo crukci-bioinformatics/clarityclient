@@ -18,6 +18,8 @@
 
 package com.genologics.ri.artifactgroup;
 
+import static com.genologics.ri.Namespaces.ARTIFACT_GROUP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -35,7 +37,7 @@ import com.genologics.ri.Linkable;
  * URI linking to the detailed representation of a artifactGroup.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "artifactgroup-link")
+@XmlType(namespace = ARTIFACT_GROUP_NAMESPACE, name = "artifactgroup-link")
 public class ArtifactGroupLink implements LimsLink<ArtifactGroup>, Serializable
 {
     private static final long serialVersionUID = 3168021328679428589L;

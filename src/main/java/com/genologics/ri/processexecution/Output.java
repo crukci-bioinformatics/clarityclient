@@ -23,6 +23,8 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlType;
 
+import static com.genologics.ri.Namespaces.PROCESS_EXECUTION_NAMESPACE;
+
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.Location;
 import com.genologics.ri.artifact.OutputType;
@@ -35,7 +37,7 @@ import com.genologics.ri.container.Container;
  * element.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "output", propOrder = { "location" })
+@XmlType(namespace = PROCESS_EXECUTION_NAMESPACE, name = "output", propOrder = { "location" })
 public class Output extends ArtifactBase
 {
     private static final long serialVersionUID = -923589090274221714L;

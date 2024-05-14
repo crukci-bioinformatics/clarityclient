@@ -18,6 +18,8 @@
 
 package com.genologics.ri.container;
 
+import static com.genologics.ri.Namespaces.CONTAINER_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +43,7 @@ import com.genologics.ri.Namespaces;
 @ClarityBatchRetrieveResult(entityClass = Container.class, batchCreate = true, batchUpdate = true)
 @XmlRootElement(name = "details")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "details", propOrder = { "containers" })
+@XmlType(namespace = CONTAINER_NAMESPACE, name = "details", propOrder = { "containers" })
 public class ContainerBatchFetchResult implements BatchUpdate<Container>, Serializable
 {
     private static final long serialVersionUID = 3942410984112211790L;

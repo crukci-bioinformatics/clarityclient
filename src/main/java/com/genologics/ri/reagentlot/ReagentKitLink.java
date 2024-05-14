@@ -18,6 +18,8 @@
 
 package com.genologics.ri.reagentlot;
 
+import static com.genologics.ri.Namespaces.REAGENT_LOT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +41,7 @@ import com.genologics.ri.reagentkit.ReagentKit;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagent-kit-link")
+@XmlType(namespace = REAGENT_LOT_NAMESPACE, name = "reagent-kit-link")
 public class ReagentKitLink implements LimsLink<ReagentKit>, Serializable
 {
     private static final long serialVersionUID = -5659881404760243462L;

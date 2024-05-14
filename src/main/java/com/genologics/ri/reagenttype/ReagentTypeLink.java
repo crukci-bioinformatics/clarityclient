@@ -18,6 +18,8 @@
 
 package com.genologics.ri.reagenttype;
 
+import static com.genologics.ri.Namespaces.REAGENT_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -37,7 +39,7 @@ import com.genologics.ri.Linkable;
  * linking to the detailed representation of a reagent type.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagent-type-link")
+@XmlType(namespace = REAGENT_TYPE_NAMESPACE, name = "reagent-type-link")
 public class ReagentTypeLink implements LimsEntityLink<ReagentType>, Serializable
 {
     private static final long serialVersionUID = -628102520150401023L;

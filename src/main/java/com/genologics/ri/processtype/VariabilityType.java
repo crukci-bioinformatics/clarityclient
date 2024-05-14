@@ -18,11 +18,13 @@
 
 package com.genologics.ri.processtype;
 
+import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlType;
 
-@XmlType(name = "variability-type")
+@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "variability-type")
 @XmlEnum
 public enum VariabilityType
 {

@@ -18,6 +18,8 @@
 
 package com.genologics.ri.process;
 
+import static com.genologics.ri.Namespaces.PROCESS_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -38,7 +40,7 @@ import com.genologics.ri.researcher.Researcher;
  * detailed representation of the technician that ran the Process.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "technician", propOrder = { "firstName", "lastName" })
+@XmlType(namespace = PROCESS_NAMESPACE, name = "technician", propOrder = { "firstName", "lastName" })
 public class Technician implements LimsLink<Researcher>, Serializable
 {
     private static final long serialVersionUID = 7149503177948978718L;

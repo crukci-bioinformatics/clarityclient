@@ -18,6 +18,8 @@
 
 package com.genologics.ri.automation;
 
+import static com.genologics.ri.Namespaces.AUTOMATION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -47,7 +49,7 @@ import com.genologics.ri.file.ClarityFile;
  */
 @ClarityEntity(uriSection = "configuration/automations")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "automation",
+@XmlType(namespace = AUTOMATION_NAMESPACE, name = "automation",
          propOrder = { "context", "script", "runProgramPerEvent", "channel", "files", "processTypes" })
 @XmlRootElement(name = "automation")
 public class Automation implements Locatable, Serializable

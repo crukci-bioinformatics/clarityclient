@@ -18,6 +18,8 @@
 
 package com.genologics.ri;
 
+import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +36,7 @@ import jakarta.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "links")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "links")
+@XmlType(namespace = ROOT_NAMESPACE, name = "links")
 public class Links implements Batch<Link>, Serializable
 {
     private static final long serialVersionUID = 8838137119064380847L;

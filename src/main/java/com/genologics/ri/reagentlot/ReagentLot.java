@@ -18,6 +18,8 @@
 
 package com.genologics.ri.reagentlot;
 
+import static com.genologics.ri.Namespaces.REAGENT_LOT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
@@ -49,7 +51,7 @@ import com.genologics.ri.researcher.Researcher;
 @ClarityEntity(uriSection = "reagentlots", creatable = true, updateable = true)
 @XmlRootElement(name = "reagent-lot")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagent-lot",
+@XmlType(namespace = REAGENT_LOT_NAMESPACE, name = "reagent-lot",
          propOrder = { "reagentKit", "name", "lotNumber", "createdDate", "lastModifiedDate",
                        "expiryDate", "createdBy", "lastModifiedBy", "storageLocation", "notes",
                        "status", "usageCount" })

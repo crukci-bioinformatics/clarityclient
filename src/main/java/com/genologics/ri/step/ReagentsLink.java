@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -35,7 +37,7 @@ import com.genologics.ri.Linkable;
  * Identifies the resource that represents the reagents added by the step.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagents-link")
+@XmlType(namespace = STEP_NAMESPACE, name = "reagents-link")
 public class ReagentsLink implements LimsLink<Reagents>, Serializable
 {
     private static final long serialVersionUID = 606802593515729159L;

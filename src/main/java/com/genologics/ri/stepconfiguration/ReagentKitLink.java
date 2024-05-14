@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import java.net.URI;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -38,7 +40,7 @@ import com.genologics.ri.reagentkit.ReagentKit;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagent-kit-link")
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "reagent-kit-link")
 public class ReagentKitLink extends LockableSetting implements LimsLink<ReagentKit>
 {
     private static final long serialVersionUID = -6108166879985602695L;

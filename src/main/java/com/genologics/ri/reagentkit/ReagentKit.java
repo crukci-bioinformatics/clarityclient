@@ -18,6 +18,8 @@
 
 package com.genologics.ri.reagentkit;
 
+import static com.genologics.ri.Namespaces.REAGENT_KIT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +42,8 @@ import com.genologics.ri.Linkable;
 @ClarityEntity(uriSection = "reagentkits", creatable = true, updateable = true)
 @XmlRootElement(name = "reagent-kit")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagent-kit", propOrder = { "name", "supplier", "catalogueNumber", "website", "archived" })
+@XmlType(namespace = REAGENT_KIT_NAMESPACE, name = "reagent-kit",
+         propOrder = { "name", "supplier", "catalogueNumber", "website", "archived" })
 public class ReagentKit implements Linkable<ReagentKit>, Serializable
 {
     private static final long serialVersionUID = 7467244485974104986L;

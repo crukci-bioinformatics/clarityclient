@@ -18,6 +18,8 @@
 
 package com.genologics.ri.containertype;
 
+import static com.genologics.ri.Namespaces.CONTAINER_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -34,7 +36,7 @@ import jakarta.xml.bind.annotation.XmlValue;
  * @deprecated This type is no longer supported.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "calibrant-well")
+@XmlType(namespace = CONTAINER_TYPE_NAMESPACE, name = "calibrant-well")
 @Deprecated
 public class CalibrantWell implements Serializable
 {

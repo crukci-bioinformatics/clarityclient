@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ import com.genologics.ri.reagenttype.ReagentType;
  */
 @ClarityEntity(uriSection = "steps", primaryEntity = Protocol.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "step",
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "step",
          propOrder = { "protocolStepIndex", "processType", "permittedContainerTypes", "permittedReagentCategories",
                        "requiredReagentKits", "permittedControlTypes", "permittedInstrumentTypes", "transitions",
                        "defaultGrouping", "queueFields", "iceBucketFields", "stepFields", "sampleFields",

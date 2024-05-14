@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stage;
 
+import static com.genologics.ri.Namespaces.STAGE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.regex.Matcher;
@@ -43,7 +45,7 @@ import com.genologics.ri.workflowconfiguration.Workflow;
  */
 @ClarityEntity(uriSection = "stages", primaryEntity = Workflow.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "stage", propOrder = { "workflow", "protocol", "step" })
+@XmlType(namespace = STAGE_NAMESPACE, name = "stage", propOrder = { "workflow", "protocol", "step" })
 @XmlRootElement(name = "stage")
 public class Stage implements Linkable<Stage>, Serializable
 {

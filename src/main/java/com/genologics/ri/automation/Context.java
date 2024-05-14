@@ -18,6 +18,8 @@
 
 package com.genologics.ri.automation;
 
+import static com.genologics.ri.Namespaces.AUTOMATION_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlType;
 
@@ -26,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  * @since 2.26
  */
-@XmlType(name = "context")
+@XmlType(namespace = AUTOMATION_NAMESPACE, name = "context")
 @XmlEnum
 public enum Context
 {

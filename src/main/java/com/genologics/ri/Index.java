@@ -18,6 +18,8 @@
 
 package com.genologics.ri;
 
+import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * of links to the available resources in that version in the system.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "index")
+@XmlType(namespace = ROOT_NAMESPACE, name = "index")
 public class Index implements Batch<Link>, Serializable
 {
     private static final long serialVersionUID = -458228684534981324L;

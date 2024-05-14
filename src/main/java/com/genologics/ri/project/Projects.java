@@ -18,6 +18,8 @@
 
 package com.genologics.ri.project;
 
+import static com.genologics.ri.Namespaces.PROJECT_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,7 +48,8 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = Project.class)
 @XmlRootElement(name = "projects")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "projects", propOrder = { "projects", "previousPage", "nextPage" })
+@XmlType(namespace = PROJECT_NAMESPACE, name = "projects",
+         propOrder = { "projects", "previousPage", "nextPage" })
 public class Projects implements PaginatedBatch<ProjectLink>, Serializable
 {
     private static final long serialVersionUID = -507792514854460064L;

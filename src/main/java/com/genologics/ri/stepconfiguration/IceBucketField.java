@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -32,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "icebucketfield")
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "icebucketfield")
 public class IceBucketField extends Field
 {
     private static final long serialVersionUID = -2716908183459254115L;

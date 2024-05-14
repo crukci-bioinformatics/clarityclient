@@ -18,6 +18,8 @@
 
 package com.genologics.ri.file;
 
+import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -43,7 +45,8 @@ import com.genologics.ri.Linkable;
 @ClarityEntity(uriSection = "files", creatable = true, updateable = true, removable = true)
 @XmlRootElement(name = "file")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "file", propOrder = { "attachedTo", "contentLocation", "originalLocation", "originalName", "published" })
+@XmlType(namespace = FILE_NAMESPACE, name = "file",
+         propOrder = { "attachedTo", "contentLocation", "originalLocation", "originalName", "published" })
 public class ClarityFile implements LimsEntity<ClarityFile>, LimsEntityLink<ClarityFile>, Serializable
 {
     private static final long serialVersionUID = -6683975101172687186L;

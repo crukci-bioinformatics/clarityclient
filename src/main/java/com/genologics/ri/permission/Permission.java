@@ -18,6 +18,8 @@
 
 package com.genologics.ri.permission;
 
+import static com.genologics.ri.Namespaces.PERMISSION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -36,7 +38,8 @@ import com.genologics.ri.Linkable;
  */
 @ClarityEntity(uriSection = "permissions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "permission", propOrder = { "name", "action", "description" })
+@XmlType(namespace = PERMISSION_NAMESPACE, name = "permission",
+         propOrder = { "name", "action", "description" })
 @XmlRootElement(name = "permission")
 public class Permission implements Linkable<Permission>, Serializable
 {

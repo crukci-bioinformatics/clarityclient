@@ -18,6 +18,8 @@
 
 package com.genologics.ri.processtype;
 
+import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -32,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "file", propOrder = { "message" })
+@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "file", propOrder = { "message" })
 public class SharedResultFile implements Serializable
 {
     private static final long serialVersionUID = -4934343881979066853L;

@@ -19,6 +19,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +42,7 @@ import com.genologics.ri.processtype.ProcessType;
  * representation of the process type that the step is associated with.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "process-type")
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "process-type")
 public class ProcessTypeLink implements LimsLink<ProcessType>, Serializable
 {
     private static final long serialVersionUID = 8671368236853188031L;

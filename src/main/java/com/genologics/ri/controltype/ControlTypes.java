@@ -18,6 +18,8 @@
 
 package com.genologics.ri.controltype;
 
+import static com.genologics.ri.Namespaces.CONTROL_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ import com.genologics.ri.ClarityQueryResult;
 @ClarityQueryResult(entityClass = ControlType.class)
 @XmlRootElement(name = "control-types")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "control-types")
+@XmlType(namespace = CONTROL_TYPE_NAMESPACE, name = "control-types")
 public class ControlTypes implements Batch<ControlTypeLink>, Serializable
 {
     private static final long serialVersionUID = 5668622843069816173L;

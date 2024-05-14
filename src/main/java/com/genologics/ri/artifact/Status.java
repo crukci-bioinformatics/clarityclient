@@ -18,6 +18,8 @@
 
 package com.genologics.ri.artifact;
 
+import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlType;
 
@@ -26,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  * @since 2.20
  */
-@XmlType(name = "status")
+@XmlType(namespace = ARTIFACT_NAMESPACE, name = "status")
 @XmlEnum
 public enum Status
 {

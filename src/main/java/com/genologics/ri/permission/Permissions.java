@@ -18,6 +18,8 @@
 
 package com.genologics.ri.permission;
 
+import static com.genologics.ri.Namespaces.PERMISSION_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,7 +41,7 @@ import com.genologics.ri.ClarityQueryResult;
  */
 @ClarityQueryResult(entityClass = Permission.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "permissions")
+@XmlType(namespace = PERMISSION_NAMESPACE, name = "permissions")
 @XmlRootElement(name = "permissions")
 public class Permissions implements Batch<PermissionLink>, Serializable
 {

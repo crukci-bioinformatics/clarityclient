@@ -18,6 +18,8 @@
 
 package com.genologics.ri.reagentkit;
 
+import static com.genologics.ri.Namespaces.REAGENT_KIT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -44,7 +46,8 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = ReagentKit.class)
 @XmlRootElement(name = "reagent-kits")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagent-kits", propOrder = { "reagentKits", "nextPage", "previousPage" })
+@XmlType(namespace = REAGENT_KIT_NAMESPACE, name = "reagent-kits",
+         propOrder = { "reagentKits", "nextPage", "previousPage" })
 public class ReagentKits implements PaginatedBatch<ReagentKitLink>, Serializable
 {
     private static final long serialVersionUID = 719305311109268363L;

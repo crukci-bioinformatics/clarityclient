@@ -18,6 +18,8 @@
 
 package com.genologics.ri.artifact;
 
+import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +42,7 @@ import com.genologics.ri.Locatable;
 @ClarityEntity(uriSection = "artifacts", uriSubsection = "demux")
 @XmlRootElement(name = "demux")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "demux", propOrder = { "artifact", "demuxDetails" })
+@XmlType(namespace = ARTIFACT_NAMESPACE, name = "demux", propOrder = { "artifact", "demuxDetails" })
 public class Demux implements Locatable, Serializable
 {
     private static final long serialVersionUID = 8873892961025197978L;

@@ -20,6 +20,7 @@ package com.genologics.ri.project;
 
 import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
 import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
+import static com.genologics.ri.Namespaces.PROJECT_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
 import java.io.Serializable;
@@ -56,7 +57,7 @@ import com.genologics.ri.userdefined.UDT;
 @ClarityEntity(uriSection = "projects", creatable = true, updateable = true)
 @XmlRootElement(name = "project")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "project",
+@XmlType(namespace = PROJECT_NAMESPACE, name = "project",
          propOrder = { "name", "openDate", "closeDate", "invoiceDate", "researcher", "type",
                        "fields", "externalIds", "files" })
 public class Project implements LimsEntity<Project>, UDFHolder, Serializable

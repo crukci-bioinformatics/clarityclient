@@ -18,6 +18,8 @@
 
 package com.genologics.ri.artifactgroup;
 
+import static com.genologics.ri.Namespaces.ARTIFACT_GROUP_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,7 +49,8 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = ArtifactGroup.class)
 @XmlRootElement(name = "artifactgroups")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "artifactgroups", propOrder = { "artifactGroups", "previousPage", "nextPage" })
+@XmlType(namespace = ARTIFACT_GROUP_NAMESPACE, name = "artifactgroups",
+         propOrder = { "artifactGroups", "previousPage", "nextPage" })
 public class ArtifactGroups implements PaginatedBatch<ArtifactGroupLink>, Serializable
 {
     private static final long serialVersionUID = 2682947388238084051L;

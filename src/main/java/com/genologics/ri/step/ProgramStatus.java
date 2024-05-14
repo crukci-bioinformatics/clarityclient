@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +42,7 @@ import com.genologics.ri.Linkable;
  */
 @ClarityEntity(uriSection = "steps", uriSubsection = "programstatus", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "program-status", propOrder = { "step", "configuration", "status", "message" })
+@XmlType(namespace = STEP_NAMESPACE, name = "program-status", propOrder = { "step", "configuration", "status", "message" })
 @XmlRootElement(name = "program-status")
 public class ProgramStatus implements Linkable<ProgramStatus>, Serializable
 {

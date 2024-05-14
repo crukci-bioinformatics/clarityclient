@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -36,7 +38,7 @@ import com.genologics.ri.artifact.Artifact;
  * Provides input URI links.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "input")
+@XmlType(namespace = STEP_NAMESPACE, name = "input")
 public class Input implements LimsLink<Artifact>, Serializable
 {
     private static final long serialVersionUID = -2525215280378480778L;

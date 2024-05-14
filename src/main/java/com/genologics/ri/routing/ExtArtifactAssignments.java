@@ -18,6 +18,8 @@
 
 package com.genologics.ri.routing;
 
+import static com.genologics.ri.Namespaces.ROUTING_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ import com.genologics.ri.stage.Stage;
 import com.genologics.ri.workflowconfiguration.Workflow;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "extArtifactAssignments")
+@XmlType(namespace = ROUTING_NAMESPACE, name = "extArtifactAssignments")
 public class ExtArtifactAssignments implements Serializable
 {
     private static final long serialVersionUID = 5445690350646421054L;

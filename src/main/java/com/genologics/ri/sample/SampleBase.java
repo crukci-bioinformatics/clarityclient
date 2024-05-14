@@ -20,6 +20,7 @@ package com.genologics.ri.sample;
 
 import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
 import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
+import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
 import java.io.Serializable;
@@ -59,7 +60,7 @@ import com.genologics.ri.userdefined.UDT;
  * </p>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "samplebase",
+@XmlType(namespace = SAMPLE_NAMESPACE, name = "samplebase",
          propOrder = { "name", "dateReceived", "dateCompleted", "project", "controlType", "submitter",
                        "artifact", "bioSource", "type", "fields", "externalIds", "files" })
 @XmlSeeAlso({ SampleCreation.class, Sample.class })

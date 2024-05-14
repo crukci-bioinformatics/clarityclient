@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -30,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * those on the actual step.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "field")
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "field")
 @XmlSeeAlso({ QueueField.class, IceBucketField.class })
 public class Field extends LockableSetting
 {

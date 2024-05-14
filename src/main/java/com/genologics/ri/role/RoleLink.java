@@ -18,6 +18,8 @@
 
 package com.genologics.ri.role;
 
+import static com.genologics.ri.Namespaces.ROLE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -37,7 +39,7 @@ import com.genologics.ri.LimsLink;
  * @since 2.19
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "role-link")
+@XmlType(namespace = ROLE_NAMESPACE, name = "role-link")
 public class RoleLink implements LimsLink<Role>, Serializable
 {
     private static final long serialVersionUID = -6515590246139208584L;

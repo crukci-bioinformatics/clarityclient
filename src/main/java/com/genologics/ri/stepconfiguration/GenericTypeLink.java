@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -35,7 +37,7 @@ import org.apache.commons.lang3.ClassUtils;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "generic-type-link", propOrder = { "value" })
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "generic-type-link")
 public class GenericTypeLink implements Serializable
 {
     private static final long serialVersionUID = -7599295833392440499L;

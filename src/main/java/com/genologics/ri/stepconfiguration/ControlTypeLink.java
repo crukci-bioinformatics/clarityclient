@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import java.net.URI;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -36,7 +38,7 @@ import com.genologics.ri.controltype.ControlType;
  * linking to the detailed representation of a ControlType.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "control-type-link")
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "control-type-link")
 public class ControlTypeLink extends LockableSetting implements LimsLink<ControlType>
 {
     private static final long serialVersionUID = -6200561684960024319L;

@@ -18,6 +18,7 @@
 
 package com.genologics.ri.researcher;
 
+import static com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE;
 import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 import static org.apache.commons.lang3.StringUtils.isNoneEmpty;
@@ -53,7 +54,7 @@ import com.genologics.ri.userdefined.UDT;
 @ClarityEntity(uriSection = "researchers", creatable = true, updateable = true, removable = true)
 @XmlRootElement(name = "researcher")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "researcher",
+@XmlType(namespace = RESEARCHER_NAMESPACE, name = "researcher",
          propOrder = { "firstName", "lastName", "phone", "fax", "email", "lab", "type", "fields",
                        "externalIds", "credentials", "initials" })
 public class Researcher implements LimsEntity<Researcher>, UDFHolder, Serializable

@@ -18,6 +18,8 @@
 
 package com.genologics.ri.processtype;
 
+import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -34,7 +36,7 @@ import com.genologics.ri.container.Container;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "container-type-link")
+@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "container-type-link")
 public class ContainerTypeLink implements LimsLink<Container>, Serializable
 {
     private static final long serialVersionUID = 3628143663166434766L;

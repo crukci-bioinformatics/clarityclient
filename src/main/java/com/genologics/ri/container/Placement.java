@@ -19,16 +19,10 @@
 package com.genologics.ri.container;
 
 import static com.genologics.ri.Location.WELL_POSITION_SPLITTER;
+import static com.genologics.ri.Namespaces.CONTAINER_NAMESPACE;
 
 import java.io.Serializable;
 import java.net.URI;
-
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlSchemaType;
-import jakarta.xml.bind.annotation.XmlType;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +31,13 @@ import com.genologics.ri.LimsEntityLink;
 import com.genologics.ri.LimsEntityLinkable;
 import com.genologics.ri.artifact.Artifact;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlSchemaType;
+import jakarta.xml.bind.annotation.XmlType;
+
 /**
  *
  * Placement is a child element of container and provides a URI linking to the
@@ -44,7 +45,7 @@ import com.genologics.ri.artifact.Artifact;
  * the container.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "placement", propOrder = { "wellPosition" })
+@XmlType(namespace = CONTAINER_NAMESPACE, name = "placement", propOrder = { "wellPosition" })
 public class Placement implements LimsEntityLink<Artifact>, Serializable, Comparable<Placement>
 {
     private static final long serialVersionUID = -4089394834813900531L;

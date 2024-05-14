@@ -18,11 +18,13 @@
 
 package com.genologics.ri.processtype;
 
+import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlType;
 
-@XmlType(name = "output-generation-type")
+@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "output-generation-type")
 @XmlEnum
 public enum OutputGenerationType
 {

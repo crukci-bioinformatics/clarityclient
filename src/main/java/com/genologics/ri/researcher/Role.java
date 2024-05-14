@@ -18,6 +18,8 @@
 
 package com.genologics.ri.researcher;
 
+import static com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -42,7 +44,7 @@ import com.genologics.ri.Linkable;
  * When adding a new role you must provide at least one of: URI, name, or roleName.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "role")
+@XmlType(namespace = RESEARCHER_NAMESPACE, name = "role")
 public class Role implements LimsLink<com.genologics.ri.role.Role>, Serializable
 {
     public static final String SYSTEM_ADMIN_ROLE = "System Administrator";

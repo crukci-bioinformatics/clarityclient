@@ -18,6 +18,8 @@
 
 package com.genologics.ri.containertype;
 
+import static com.genologics.ri.Namespaces.CONTAINER_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,7 +48,8 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = ContainerType.class)
 @XmlRootElement(name = "container-types")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "container-types", propOrder = { "containerTypes", "previousPage", "nextPage" })
+@XmlType(namespace = CONTAINER_TYPE_NAMESPACE, name = "container-types",
+         propOrder = { "containerTypes", "previousPage", "nextPage" })
 public class ContainerTypes implements PaginatedBatch<ContainerTypeLink>, Serializable
 {
     private static final long serialVersionUID = 8642031910932251369L;

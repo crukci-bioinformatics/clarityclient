@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -31,7 +33,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * suitable for use when copying protocol steps, but should not be manipulated.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "step-property")
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "step-property")
 public class StepProperty extends LockableSetting
 {
     private static final long serialVersionUID = -4406681767879834495L;

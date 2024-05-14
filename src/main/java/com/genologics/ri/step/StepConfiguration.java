@@ -19,6 +19,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +41,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  *         Identifies the configuration information for the step run.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "step-configuration")
+@XmlType(namespace = STEP_NAMESPACE, name = "step-configuration")
 public class StepConfiguration implements LimsLink<ProtocolStep>, Serializable
 {
     private static final long serialVersionUID = 7902167896883448736L;

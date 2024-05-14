@@ -18,6 +18,8 @@
 
 package com.genologics.ri.processtemplate;
 
+import static com.genologics.ri.Namespaces.PROCESS_TEMPLATE_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,7 +48,8 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = ProcessTemplate.class)
 @XmlRootElement(name = "process-templates")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "process-templates", propOrder = { "processTemplates", "previousPage", "nextPage" })
+@XmlType(namespace = PROCESS_TEMPLATE_NAMESPACE, name = "process-templates",
+         propOrder = { "processTemplates", "previousPage", "nextPage" })
 public class ProcessTemplates implements PaginatedBatch<ProcessTemplateLink>, Serializable
 {
     private static final long serialVersionUID = -1986524456179019901L;

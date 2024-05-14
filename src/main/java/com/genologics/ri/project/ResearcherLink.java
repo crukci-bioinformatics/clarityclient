@@ -18,6 +18,8 @@
 
 package com.genologics.ri.project;
 
+import static com.genologics.ri.Namespaces.PROJECT_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -38,7 +40,7 @@ import com.genologics.ri.researcher.Researcher;
  * detailed representation of the Researcher for the Project.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "researcher")
+@XmlType(namespace = PROJECT_NAMESPACE, name = "researcher")
 public class ResearcherLink implements LimsEntityLink<Researcher>, Serializable
 {
     private static final long serialVersionUID = -7754124824899651369L;

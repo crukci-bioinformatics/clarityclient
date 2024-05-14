@@ -18,6 +18,8 @@
 
 package com.genologics.ri.reagenttype;
 
+import static com.genologics.ri.Namespaces.REAGENT_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * attributes describing a special type of reagent type.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "special-type")
+@XmlType(namespace = REAGENT_TYPE_NAMESPACE, name = "special-type")
 public class SpecialType implements Serializable
 {
     private static final long serialVersionUID = 2227997075421321531L;

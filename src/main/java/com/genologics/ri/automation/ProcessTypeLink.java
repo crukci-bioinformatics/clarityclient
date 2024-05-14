@@ -18,6 +18,8 @@
 
 package com.genologics.ri.automation;
 
+import static com.genologics.ri.Namespaces.AUTOMATION_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +41,7 @@ import com.genologics.ri.processtype.ProcessType;
  * @since 2.26
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "process-type")
+@XmlType(namespace = AUTOMATION_NAMESPACE, name = "process-type")
 public class ProcessTypeLink implements LimsLink<ProcessType>, Serializable
 {
     private static final long serialVersionUID = 1189833674343873526L;

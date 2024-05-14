@@ -18,6 +18,8 @@
 
 package com.genologics.ri.processexecution;
 
+import static com.genologics.ri.Namespaces.PROCESS_EXECUTION_NAMESPACE;
+
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -37,7 +39,7 @@ import com.genologics.ri.artifact.Artifact;
  * defining common elements for both input and output Artifacts.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "artifactbase", propOrder = { "qcFlag" })
+@XmlType(namespace = PROCESS_EXECUTION_NAMESPACE, name = "artifactbase")
 @XmlSeeAlso({ Input.class, Output.class })
 public abstract class ArtifactBase implements Serializable
 {

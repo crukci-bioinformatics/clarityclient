@@ -18,6 +18,8 @@
 
 package com.genologics.ri.container;
 
+import static com.genologics.ri.Namespaces.CONTAINER_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlType;
@@ -32,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  * @since 2.31.6
  */
-@XmlType(name = "container-state")
+@XmlType(namespace = CONTAINER_NAMESPACE, name = "container-state")
 @XmlEnum
 public enum ContainerState
 {

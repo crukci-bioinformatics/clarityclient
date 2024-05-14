@@ -19,6 +19,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +41,7 @@ import com.genologics.ri.Linkable;
  * @since 2.22
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "automatic-next-step-link")
+@XmlType(namespace = STEP_NAMESPACE, name = "automatic-next-step-link")
 public class AutomaticNextStepLink implements LimsLink<ProcessStep>, Serializable
 {
     private static final long serialVersionUID = -7710114187126292590L;

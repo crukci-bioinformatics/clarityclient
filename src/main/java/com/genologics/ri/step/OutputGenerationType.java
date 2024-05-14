@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlType;
@@ -25,7 +27,7 @@ import jakarta.xml.bind.annotation.XmlType;
 /**
  * @since 2.18
  */
-@XmlType(name = "output-generation-type")
+@XmlType(namespace = STEP_NAMESPACE, name = "output-generation-type")
 @XmlEnum
 public enum OutputGenerationType
 {

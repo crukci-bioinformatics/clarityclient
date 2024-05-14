@@ -18,6 +18,8 @@
 
 package com.genologics.ri.step;
 
+import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,8 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  */
 @ClarityEntity(uriSection = "steps", creatable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "step-creation", propOrder = { "configuration", "containerType", "reagentCategory", "inputs" })
+@XmlType(namespace = STEP_NAMESPACE, name = "step-creation",
+         propOrder = { "configuration", "containerType", "reagentCategory", "inputs" })
 @XmlRootElement(name = "step-creation")
 public class StepCreation implements Serializable
 {

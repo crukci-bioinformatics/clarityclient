@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -28,7 +30,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * EPP trigger configuration for the Protocol Step.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "epp-trigger")
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "epp-trigger")
 public class EppTrigger extends LockableSetting
 {
     private static final long serialVersionUID = 8850458905996420686L;

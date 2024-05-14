@@ -18,6 +18,8 @@
 
 package com.genologics.ri.artifact;
 
+import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +39,7 @@ import com.genologics.ri.Namespaces;
 @ClarityBatchRetrieveResult(entityClass = Artifact.class, batchUpdate = true)
 @XmlRootElement(name = "details")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "details")
+@XmlType(namespace = ARTIFACT_NAMESPACE, name = "details")
 public class ArtifactBatchFetchResult implements BatchUpdate<Artifact>, Serializable
 {
     private static final long serialVersionUID = -1280235468943933621L;

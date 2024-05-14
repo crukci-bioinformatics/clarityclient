@@ -18,10 +18,12 @@
 
 package com.genologics.ri.processexecution;
 
+import static com.genologics.ri.Namespaces.PROCESS_EXECUTION_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlType;
 
-@XmlType(name = "qc-flag")
+@XmlType(namespace = PROCESS_EXECUTION_NAMESPACE, name = "qc-flag")
 @XmlEnum
 public enum QCFlag
 {

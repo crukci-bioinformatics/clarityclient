@@ -18,6 +18,8 @@
 
 package com.genologics.ri.file;
 
+import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +43,7 @@ import com.genologics.ri.Namespaces;
 @ClarityBatchRetrieveResult(entityClass = ClarityFile.class, batchUpdate = true)
 @XmlRootElement(name = "details")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "details")
+@XmlType(namespace = FILE_NAMESPACE, name = "details")
 public class ClarityFileBatchFetchResult implements BatchUpdate<ClarityFile>, Serializable
 {
     private static final long serialVersionUID = -536166874357106044L;

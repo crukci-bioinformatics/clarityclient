@@ -18,6 +18,8 @@
 
 package com.genologics.ri.reagenttype;
 
+import static com.genologics.ri.Namespaces.REAGENT_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,7 +48,8 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = ReagentType.class)
 @XmlRootElement(name = "reagent-types")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reagent-types", propOrder = { "reagentTypes", "previousPage", "nextPage" })
+@XmlType(namespace = REAGENT_TYPE_NAMESPACE, name = "reagent-types",
+         propOrder = { "reagentTypes", "previousPage", "nextPage" })
 public class ReagentTypes implements PaginatedBatch<ReagentTypeLink>, Serializable
 {
     private static final long serialVersionUID = -3173542275521810830L;

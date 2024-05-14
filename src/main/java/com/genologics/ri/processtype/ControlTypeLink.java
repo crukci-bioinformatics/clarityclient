@@ -18,6 +18,8 @@
 
 package com.genologics.ri.processtype;
 
+import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
+
 import java.io.Serializable;
 import java.net.URI;
 
@@ -35,7 +37,7 @@ import com.genologics.ri.controltype.ControlType;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "control-type-link")
+@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "control-type-link")
 public class ControlTypeLink implements LimsLink<ControlType>, Serializable
 {
     private static final long serialVersionUID = 3029231159973544772L;

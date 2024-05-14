@@ -18,6 +18,8 @@
 
 package com.genologics.ri.userdefined;
 
+import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
+
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -43,7 +45,7 @@ import com.genologics.ri.configuration.FieldType;
  * Field is the value and data type of a user-defined field.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "field")
+@XmlType(namespace = UDF_NAMESPACE, name = "field")
 public class UDF implements Serializable
 {
     private static final long serialVersionUID = -3019516615900521203L;

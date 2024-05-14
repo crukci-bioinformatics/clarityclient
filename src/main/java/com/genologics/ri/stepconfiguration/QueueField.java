@@ -18,6 +18,8 @@
 
 package com.genologics.ri.stepconfiguration;
 
+import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
+
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -30,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * those on the actual step
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "queuefield")
+@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "queuefield")
 public class QueueField extends Field
 {
     private static final long serialVersionUID = -3020055581011697956L;
