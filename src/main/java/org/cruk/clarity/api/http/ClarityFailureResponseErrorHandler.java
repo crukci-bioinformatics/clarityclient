@@ -42,6 +42,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
  *
  * @see JaxbUnmarshallingAspect
  */
+@SuppressWarnings("exports")
 public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHandler
 {
     /**
@@ -54,6 +55,11 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
      */
     public ClarityFailureResponseErrorHandler()
     {
+    }
+
+    public ClarityFailureResponseErrorHandler(Jaxb2Marshaller marshaller)
+    {
+        setMarshaller(marshaller);
     }
 
     /**

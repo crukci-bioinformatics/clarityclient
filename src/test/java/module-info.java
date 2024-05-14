@@ -23,9 +23,6 @@ import org.cruk.clarity.api.impl.ClarityAPIImpl;
 
 open module org.cruk.clarity.api
 {
-    provides ClarityAPI with ClarityAPIImpl;
-    provides ClarityProcessAutomation with ClarityProcessAutomationImpl;
-
     requires transitive jakarta.annotation;
     requires transitive jakarta.xml.bind;
     requires static ehcache;

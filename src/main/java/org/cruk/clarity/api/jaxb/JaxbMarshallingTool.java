@@ -25,6 +25,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -33,12 +34,22 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
  * <p>Used to help debugging of the REST client by marshalling the object
  * back into XML form for printing.</p>
  */
+@Component("clarityMarshallingTool")
 public class JaxbMarshallingTool
 {
     /**
      * The marshaller.
      */
     private Jaxb2Marshaller marshaller;
+
+    public JaxbMarshallingTool()
+    {
+    }
+
+    public JaxbMarshallingTool(Jaxb2Marshaller marshaller)
+    {
+        setMarshaller(marshaller);
+    }
 
     /**
      * Set the marshaller used to create the XML.

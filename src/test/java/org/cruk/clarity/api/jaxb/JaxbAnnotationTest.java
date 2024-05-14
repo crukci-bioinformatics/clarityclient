@@ -29,9 +29,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -127,10 +129,6 @@ public class JaxbAnnotationTest
     @Autowired
     protected Jaxb2Marshaller marshaller;
 
-    @Autowired
-    @Qualifier("clarityJaxbMarshallerProperties")
-    protected Map<String, Object> marshallerProperties;
-
     protected DocumentBuilder docBuilder;
 
     protected File exampleDirectory = new File("src/test/jaxb");
@@ -216,9 +214,13 @@ public class JaxbAnnotationTest
     @Test
     public void testExceptionSimple() throws Throwable
     {
+        Map<String, Object> marshallerProperties = new HashMap<>();
+        marshallerProperties.put(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshallerProperties.put(Marshaller.JAXB_ENCODING, "UTF-8");
+
         // Cannot use configured because of aspects.
         Jaxb2Marshaller exceptionMarshaller = new Jaxb2Marshaller();
-        exceptionMarshaller.setPackagesToScan(new String[] { "com.genologics.ri.exception" });
+        exceptionMarshaller.setPackagesToScan("com.genologics.ri.exception");
         exceptionMarshaller.setMarshallerProperties(marshallerProperties);
 
         Jaxb2Marshaller original = marshaller;

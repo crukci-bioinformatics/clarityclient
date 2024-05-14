@@ -22,9 +22,11 @@ import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.core5.http.HttpRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * Testing aspect that reports on the calls being made by the HTTP client
@@ -32,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * time the call took to execute.
  */
 @Aspect
+@Component("clarityHttpClientTimingAspect")
 public class HttpClientTimingAspect
 {
     /**
@@ -53,6 +56,7 @@ public class HttpClientTimingAspect
      * @see HttpClient#execute(HttpUriRequest)
      */
     @SuppressWarnings("exports")
+    @Around("execution(public * execute(..)) and bean(clarityHttpClient)")
     public Object timeCall(ProceedingJoinPoint pjp) throws Throwable
     {
         if (!logger.isDebugEnabled())

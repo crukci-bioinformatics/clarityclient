@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -74,6 +75,11 @@ public class LatestVersionsResetAspect
     {
     }
 
+    public LatestVersionsResetAspect(ClarityAPIInternal api)
+    {
+        setClarityAPI(api);
+    }
+
     /**
      * Sets the API being used.
      *
@@ -94,6 +100,7 @@ public class LatestVersionsResetAspect
      *
      * @see ClarityAPIInternal#cancelStatefulOverride(String)
      */
+    @After("execution(public * *(..)) and bean(clarityAPI)")
     public void cancelStatefulOverride(JoinPoint jp)
     {
         String methodName = jp.getSignature().getName();

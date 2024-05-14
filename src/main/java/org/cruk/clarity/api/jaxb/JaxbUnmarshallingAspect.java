@@ -18,12 +18,14 @@
 
 package org.cruk.clarity.api.jaxb;
 
-import jakarta.xml.bind.JAXBElement;
-
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.clarity.api.ClarityException;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.stereotype.Component;
+
+import jakarta.xml.bind.JAXBElement;
 
 /**
  * Aspect that wraps the unmarshalling of responses from the
@@ -39,6 +41,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
  * @see JAXBElement
  */
 @Aspect
+@Component("clarityUnmarshallingAspect")
 public class JaxbUnmarshallingAspect
 {
     /**
@@ -60,6 +63,7 @@ public class JaxbUnmarshallingAspect
      *
      * @see Jaxb2Marshaller#unmarshal(javax.xml.transform.Source)
      */
+    @Around("execution(public * unmarshal(..)) and bean(clarityJaxbMarshaller)")
     public Object objectUnmarshalled(ProceedingJoinPoint pjp) throws Throwable
     {
         Object unmarshalled = pjp.proceed();

@@ -25,7 +25,9 @@ import org.cruk.clarity.api.automation.ClarityProcessAutomation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import com.genologics.ri.LimsLink;
 import com.genologics.ri.Link;
@@ -46,6 +48,7 @@ import com.genologics.ri.workflowconfiguration.Workflow;
  *
  * @since 2.31.2
  */
+@Component("clarityProcessAutomation")
 public class ClarityProcessAutomationImpl implements ClarityProcessAutomation
 {
     /**
@@ -97,6 +100,7 @@ public class ClarityProcessAutomationImpl implements ClarityProcessAutomation
      * @param api The Clarity API.
      */
     @Autowired
+    @Qualifier("clarityAPI")
     public void setClarityAPI(ClarityAPI api)
     {
         this.api = api;

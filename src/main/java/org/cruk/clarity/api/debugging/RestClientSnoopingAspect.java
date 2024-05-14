@@ -20,6 +20,7 @@ package org.cruk.clarity.api.debugging;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.clarity.api.jaxb.JaxbMarshallingTool;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -40,6 +42,7 @@ import org.springframework.web.client.RestTemplate;
  * @see RestTemplate
  */
 @Aspect
+@Component("clarityRestClientSnoopingAspect")
 public class RestClientSnoopingAspect
 {
     private Logger logger = LoggerFactory.getLogger(RestClientSnoopingAspect.class);
@@ -49,6 +52,15 @@ public class RestClientSnoopingAspect
      */
     private JaxbMarshallingTool marshaller;
 
+
+    public RestClientSnoopingAspect()
+    {
+    }
+
+    public RestClientSnoopingAspect(JaxbMarshallingTool marshaller)
+    {
+        setMarshaller(marshaller);
+    }
 
     /**
      * Set the tool to convert an object back into XML for printing.
@@ -76,6 +88,7 @@ public class RestClientSnoopingAspect
      * @see RestTemplate#getForEntity(java.net.URI, Class)
      * @see RestTemplate#getForObject(java.net.URI, Class)
      */
+    @Around("execution(public * get*(..)) and bean(clarityRestTemplate)")
     public Object checkGet(ProceedingJoinPoint pjp) throws Throwable
     {
         Object uri = pjp.getArgs()[0];
@@ -120,6 +133,7 @@ public class RestClientSnoopingAspect
      * @see RestTemplate#postForEntity(java.net.URI, Object, Class)
      * @see RestTemplate#postForObject(java.net.URI, Object, Class)
      */
+    @Around("(execution(public * put*(..)) or execution(public * post*(..))) and bean(clarityRestTemplate)")
     public Object checkPutOrPost(ProceedingJoinPoint pjp) throws Throwable
     {
         Object uri = pjp.getArgs()[0];
@@ -163,6 +177,7 @@ public class RestClientSnoopingAspect
      *
      * @see RestTemplate#exchange(java.net.URI, HttpMethod, HttpEntity, Class)
      */
+    @Around("execution(public * exchange*(..)) and bean(clarityRestTemplate)")
     public Object checkExchange(ProceedingJoinPoint pjp) throws Throwable
     {
         Object uri = pjp.getArgs()[0];
@@ -208,6 +223,7 @@ public class RestClientSnoopingAspect
      *
      * @see RestTemplate#delete(java.net.URI)
      */
+    @Around("execution(public * delete*(..)) and bean(clarityRestTemplate)")
     public Object checkDelete(ProceedingJoinPoint pjp) throws Throwable
     {
         Object uri = pjp.getArgs()[0];

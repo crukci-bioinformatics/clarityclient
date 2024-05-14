@@ -82,6 +82,7 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.integration.sftp.session.SftpSession;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
@@ -130,6 +131,7 @@ import jakarta.xml.bind.annotation.XmlTransient;
  * @see Jaxb2Marshaller
  * @see HttpClient
  */
+@Service("clarityAPI")
 public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 {
     /**

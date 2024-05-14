@@ -96,4 +96,5 @@ module org.cruk.clarity.api
     exports org.cruk.clarity.api.http;
     exports org.cruk.clarity.api.impl;
     exports org.cruk.clarity.api.jaxb;
+    exports org.cruk.clarity.api.spring;
 }
