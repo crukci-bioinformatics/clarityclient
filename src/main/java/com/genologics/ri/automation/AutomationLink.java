@@ -18,8 +18,6 @@
 
 package com.genologics.ri.automation;
 
-import static com.genologics.ri.Namespaces.AUTOMATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -35,7 +33,7 @@ import com.genologics.ri.LimsLink;
  * @since 2.26
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = AUTOMATION_NAMESPACE, name = "automation-link")
+@XmlType(name = "automation-link")
 public class AutomationLink implements LimsLink<Automation>, Serializable
 {
     private static final long serialVersionUID = 3268594731404978793L;

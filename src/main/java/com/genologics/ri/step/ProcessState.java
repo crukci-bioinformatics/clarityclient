@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlType;
@@ -32,7 +30,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * a finite set of possible values and it's easier to work with
  * an enumeration in Java code than just a string.
  */
-@XmlType(namespace = STEP_NAMESPACE, name = "process-state")
+@XmlType(name = "process-state")
 @XmlEnum
 public enum ProcessState
 {

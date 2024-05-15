@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtype;
 
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -37,7 +35,7 @@ import jakarta.xml.bind.annotation.XmlValue;
  * not be manipulated.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "process-type-attribute")
+@XmlType(name = "process-type-attribute")
 public class ProcessTypeAttribute implements Serializable
 {
     private static final long serialVersionUID = 2626426609413434344L;

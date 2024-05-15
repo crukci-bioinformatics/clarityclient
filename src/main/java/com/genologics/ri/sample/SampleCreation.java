@@ -18,8 +18,6 @@
 
 package com.genologics.ri.sample;
 
-import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -45,7 +43,7 @@ import com.genologics.ri.Location;
  */
 @XmlRootElement(name = "samplecreation")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = SAMPLE_NAMESPACE, name = "samplecreation", propOrder = { "location" })
+@XmlType(name = "samplecreation", propOrder = { "location" })
 public class SampleCreation extends SampleBase
 {
     private static final long serialVersionUID = 8233679374775813938L;

@@ -18,8 +18,6 @@
 
 package com.genologics.ri.queue;
 
-import static com.genologics.ri.Namespaces.QUEUE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -57,8 +55,7 @@ import com.genologics.ri.PaginatedBatch;
  */
 @ClarityEntity(uriSection = "queues", cacheable = false)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = QUEUE_NAMESPACE, name = "queue",
-         propOrder = { "artifacts", "previousPage", "nextPage" })
+@XmlType(name = "queue", propOrder = { "artifacts", "previousPage", "nextPage" })
 @XmlRootElement(name = "queue")
 public class Queue implements PaginatedBatch<ArtifactLink>, Linkable<Queue>, Serializable
 {

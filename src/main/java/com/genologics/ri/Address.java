@@ -18,8 +18,6 @@
 
 package com.genologics.ri;
 
-import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -30,7 +28,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * Address contains the related fields of a mailing address.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROOT_NAMESPACE, name = "address",
+@XmlType(name = "address",
          propOrder = { "street", "city", "state", "country", "postalCode", "institution", "department" })
 public class Address implements Serializable
 {

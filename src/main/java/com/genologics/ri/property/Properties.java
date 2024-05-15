@@ -18,8 +18,6 @@
 
 package com.genologics.ri.property;
 
-import static com.genologics.ri.Namespaces.PROPERTY_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,8 +45,7 @@ import com.genologics.ri.protocolconfiguration.Protocol;
  */
 @ClarityQueryResult(entityClass = Protocol.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROPERTY_NAMESPACE, name = "properties",
-         propOrder = { "properties", "previousPage", "nextPage" })
+@XmlType(name = "properties", propOrder = { "properties", "previousPage", "nextPage" })
 public class Properties implements PaginatedBatch<PropertyLink>, Serializable
 {
     private static final long serialVersionUID = -4193984606951017687L;

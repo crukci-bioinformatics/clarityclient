@@ -18,8 +18,6 @@
 
 package com.genologics.ri.role;
 
-import static com.genologics.ri.Namespaces.ROLE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -42,7 +40,7 @@ import com.genologics.ri.ClarityQueryResult;
  */
 @ClarityQueryResult(entityClass = Role.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROLE_NAMESPACE, name = "roles")
+@XmlType(name = "roles")
 @XmlRootElement(name = "roles")
 public class Roles implements Batch<RoleLink>, Serializable
 {

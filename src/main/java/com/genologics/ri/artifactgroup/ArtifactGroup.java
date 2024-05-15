@@ -18,8 +18,6 @@
 
 package com.genologics.ri.artifactgroup;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_GROUP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -43,7 +41,7 @@ import com.genologics.ri.Locatable;
 @ClarityEntity(uriSection = "artifactgroups")
 @XmlRootElement(name = "artifactgroup")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ARTIFACT_GROUP_NAMESPACE, name = "artifactgroup", propOrder = { "name", "artifacts" })
+@XmlType(name = "artifactgroup", propOrder = { "name", "artifacts" })
 public class ArtifactGroup implements Locatable, Serializable
 {
     private static final long serialVersionUID = 2205878179459911556L;

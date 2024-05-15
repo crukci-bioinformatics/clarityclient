@@ -18,8 +18,6 @@
 
 package com.genologics.ri.exception;
 
-import static com.genologics.ri.Namespaces.EXCEPTION_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -61,7 +59,7 @@ import org.cruk.clarity.api.jaxb.JaxbUnmarshallingAspect;
  */
 @XmlRootElement(name = "exception")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = EXCEPTION_NAMESPACE, name = "exception", propOrder = { "message", "suggestedActions" })
+@XmlType(name = "exception", propOrder = { "message", "suggestedActions" })
 public class Exception implements Serializable
 {
     private static final long serialVersionUID = 8552752622433159544L;

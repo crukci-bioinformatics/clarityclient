@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -46,7 +44,7 @@ import com.genologics.ri.artifact.Artifact;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "input-output-map", propOrder = { "input", "output" })
+@XmlType(name = "input-output-map", propOrder = { "input", "output" })
 public class InputOutputMap implements Serializable
 {
     private static final long serialVersionUID = -6553131277891392216L;

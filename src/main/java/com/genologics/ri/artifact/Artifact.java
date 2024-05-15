@@ -18,7 +18,6 @@
 
 package com.genologics.ri.artifact;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
 import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
@@ -67,7 +66,7 @@ import com.genologics.ri.userdefined.UDFHolder;
 @ClarityEntity(uriSection = "artifacts", updateable = true, stateful = true)
 @XmlRootElement(name = "artifact")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ARTIFACT_NAMESPACE, name = "artifact",
+@XmlType(name = "artifact",
          propOrder = { "name", "type", "outputType", "parentProcess", "qcFlag", "location",
                        "workingFlag", "samples", "reagentLabels", "controlType", "fields", "file",
                        "artifactGroups", "workflowStages", "demux" })

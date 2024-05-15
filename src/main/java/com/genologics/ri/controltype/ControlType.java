@@ -18,8 +18,6 @@
 
 package com.genologics.ri.controltype;
 
-import static com.genologics.ri.Namespaces.CONTROL_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -37,7 +35,7 @@ import com.genologics.ri.Linkable;
 @ClarityEntity(uriSection = "controltypes", creatable = true, updateable = true)
 @XmlRootElement(name = "control-type")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONTROL_TYPE_NAMESPACE, name = "control-type",
+@XmlType(name = "control-type",
          propOrder = { "supplier", "catalogueNumber", "website", "concentration", "archived", "singleStep" })
 public class ControlType implements Linkable<ControlType>, Serializable
 {

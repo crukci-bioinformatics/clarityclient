@@ -18,8 +18,6 @@
 
 package com.genologics.ri.configuration;
 
-import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,8 +46,7 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = Field.class)
 @XmlRootElement(name = "udfs")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONFIGURATION_NAMESPACE, name = "udfs",
-         propOrder = { "udfConfigLinks", "previousPage", "nextPage" })
+@XmlType(name = "udfs", propOrder = { "udfConfigLinks", "previousPage", "nextPage" })
 public class Udfs implements PaginatedBatch<UdfConfigLink>, Serializable
 {
     private static final long serialVersionUID = -5458422132487888319L;

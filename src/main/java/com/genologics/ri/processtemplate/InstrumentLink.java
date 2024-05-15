@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtemplate;
 
-import static com.genologics.ri.Namespaces.PROCESS_TEMPLATE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -41,7 +39,7 @@ import com.genologics.ri.instrument.Instrument;
  * Process Template.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TEMPLATE_NAMESPACE, name = "instrument")
+@XmlType(name = "instrument")
 public class InstrumentLink implements LimsEntityLink<Instrument>, Serializable
 {
     private static final long serialVersionUID = -2255676271595073801L;

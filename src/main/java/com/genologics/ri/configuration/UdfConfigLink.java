@@ -18,8 +18,6 @@
 
 package com.genologics.ri.configuration;
 
-import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.LimsLink;
  */
 @XmlRootElement(name = "udfconfig")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONFIGURATION_NAMESPACE, name = "udfconfig-link")
+@XmlType(name = "udfconfig-link")
 public class UdfConfigLink implements LimsLink<Field>, Serializable
 {
     private static final long serialVersionUID = -164190204904044681L;

@@ -18,8 +18,6 @@
 
 package com.genologics.ri.configuration;
 
-import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlEnumValue;
 import jakarta.xml.bind.annotation.XmlType;
@@ -27,7 +25,7 @@ import jakarta.xml.bind.annotation.XmlType;
 /**
  * UDF field types.
  */
-@XmlType(namespace = CONFIGURATION_NAMESPACE, name = "field-type")
+@XmlType(name = "field-type")
 @XmlEnum
 public enum FieldType
 {

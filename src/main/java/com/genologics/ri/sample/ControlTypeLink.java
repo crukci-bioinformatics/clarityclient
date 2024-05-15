@@ -18,8 +18,6 @@
 
 package com.genologics.ri.sample;
 
-import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +38,7 @@ import com.genologics.ri.controltype.ControlType;
  * associated, the Sample will not have an associated Project.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = SAMPLE_NAMESPACE, name = "controlType")
+@XmlType(name = "controlType")
 public class ControlTypeLink implements LimsLink<ControlType>, Serializable
 {
     private static final long serialVersionUID = 4125221399101385098L;

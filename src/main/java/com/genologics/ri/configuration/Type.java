@@ -18,8 +18,6 @@
 
 package com.genologics.ri.configuration;
 
-import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -43,8 +41,7 @@ import com.genologics.ri.Linkable;
 @ClarityEntity(uriSection = "configuration/udts")
 @XmlRootElement(name = "type")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONFIGURATION_NAMESPACE, name = "type",
-         propOrder = { "fieldDefinitions", "attachToName", "attachToCategory" })
+@XmlType(name = "type", propOrder = { "fieldDefinitions", "attachToName", "attachToCategory" })
 public class Type implements Linkable<Type>, Batch<FieldLink>, Serializable
 {
     private static final long serialVersionUID = 6975337629090720371L;

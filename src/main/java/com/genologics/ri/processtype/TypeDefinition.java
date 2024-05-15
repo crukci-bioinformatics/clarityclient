@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtype;
 
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -41,7 +39,7 @@ import com.genologics.ri.configuration.Field;
  * the configuration of a user-defined type for the process type.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "type-definition")
+@XmlType(name = "type-definition")
 public class TypeDefinition implements LimsLink<Field>, Serializable
 {
     private static final long serialVersionUID = 2990437613974395091L;

@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +37,7 @@ import com.genologics.ri.artifact.Artifact;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "escalation", propOrder = { "request", "review", "escalatedArtifacts" })
+@XmlType(name = "escalation", propOrder = { "request", "review", "escalatedArtifacts" })
 public class Escalation implements Serializable
 {
     private static final long serialVersionUID = -7363821101050828859L;

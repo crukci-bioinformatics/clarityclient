@@ -18,8 +18,6 @@
 
 package com.genologics.ri.artifact;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -32,7 +30,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * or reagent that has been added to the Artifact.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ARTIFACT_NAMESPACE, name = "reagent-label")
+@XmlType(name = "reagent-label")
 public class ReagentLabel implements Serializable
 {
     private static final long serialVersionUID = 7859734987217470470L;

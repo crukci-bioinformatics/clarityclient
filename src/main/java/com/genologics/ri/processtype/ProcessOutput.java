@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtype;
 
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,7 @@ import com.genologics.ri.configuration.FieldLink;
  * output generation types for the process
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "process-output",
+@XmlType(name = "process-output",
          propOrder = { "artifactType", "displayName", "outputGenerationType",
                        "variabilityType", "numberOfOutputs", "outputName",
                        "fieldDefinitions", "assignWorkingFlag" })

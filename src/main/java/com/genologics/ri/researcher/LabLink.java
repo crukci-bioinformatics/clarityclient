@@ -18,8 +18,6 @@
 
 package com.genologics.ri.researcher;
 
-import static com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +38,7 @@ import com.genologics.ri.lab.Lab;
  * detailed representation of the lab for the researcher.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = RESEARCHER_NAMESPACE, name = "lab")
+@XmlType(name = "lab")
 public class LabLink implements LimsEntityLink<Lab>, Serializable
 {
     private static final long serialVersionUID = -2199818978989305791L;

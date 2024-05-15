@@ -18,8 +18,6 @@
 
 package com.genologics.ri.queue;
 
-import static com.genologics.ri.Namespaces.QUEUE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.Date;
@@ -43,7 +41,7 @@ import com.genologics.ri.artifact.Artifact;
  * @since 2.19
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = QUEUE_NAMESPACE, name = "artifact-link", propOrder = { "queueTime", "location" })
+@XmlType(name = "artifact-link", propOrder = { "queueTime", "location" })
 public class ArtifactLink implements LimsEntityLink<Artifact>, Serializable
 {
     private static final long serialVersionUID = -531351200403814712L;

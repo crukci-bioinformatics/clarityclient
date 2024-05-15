@@ -18,7 +18,6 @@
 
 package com.genologics.ri.sample;
 
-import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
 import java.io.Serializable;
@@ -44,7 +43,7 @@ import com.genologics.ri.userdefined.UDF;
  * @deprecated Biosource is not supported in Clarity.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = SAMPLE_NAMESPACE, name = "biosource", propOrder = { "description", "fields" })
+@XmlType(name = "biosource", propOrder = { "description", "fields" })
 @Deprecated
 public class BioSource implements Serializable
 {

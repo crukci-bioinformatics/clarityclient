@@ -18,8 +18,6 @@
 
 package com.genologics.ri.containertype;
 
-import static com.genologics.ri.Namespaces.CONTAINER_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -82,7 +80,7 @@ import com.genologics.ri.Linkable;
 @ClarityEntity(uriSection = "containertypes", creatable = true, updateable = true)
 @XmlRootElement(name = "container-type")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONTAINER_TYPE_NAMESPACE, name = "container-type",
+@XmlType(name = "container-type",
          propOrder = { "tube", "calibrantWells", "unavailableWells", "columns", "rows" })
 public class ContainerType implements Linkable<ContainerType>, Serializable
 {

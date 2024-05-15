@@ -18,8 +18,6 @@
 
 package com.genologics.ri.artifact;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -38,7 +36,7 @@ import com.genologics.ri.step.ProcessStep;
  * @since 2.26
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ARTIFACT_NAMESPACE, name = "pool-step")
+@XmlType(name = "pool-step")
 public class PoolStep implements LimsLink<ProcessStep>, Serializable
 {
     private static final long serialVersionUID = 2462830072429085619L;

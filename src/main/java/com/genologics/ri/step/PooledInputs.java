@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ import com.genologics.ri.artifact.Artifact;
  * Provides pooled input groups.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "pooled-inputs")
+@XmlType(name = "pooled-inputs", propOrder = { "inputs" })
 public class PooledInputs implements Serializable
 {
     private static final long serialVersionUID = -3807477794297469797L;

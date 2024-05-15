@@ -18,12 +18,10 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlType;
 
-@XmlType(namespace = STEP_NAMESPACE, name = "status")
+@XmlType(name = "status")
 @XmlEnum
 public enum Status
 {

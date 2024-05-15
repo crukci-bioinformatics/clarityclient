@@ -18,7 +18,6 @@
 
 package com.genologics.ri.processexecution;
 
-import static com.genologics.ri.Namespaces.PROCESS_EXECUTION_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
 import java.io.Serializable;
@@ -51,7 +50,7 @@ import com.genologics.ri.userdefined.UDT;
  */
 @XmlRootElement(name = "process")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_EXECUTION_NAMESPACE, name = "process",
+@XmlType(name = "process",
          propOrder = { "processType", "dateRun", "technician", "inputOutputMaps",
                        "type", "fields", "instrument", "parameter" })
 public class ExecutableProcess implements UDFHolder, Serializable

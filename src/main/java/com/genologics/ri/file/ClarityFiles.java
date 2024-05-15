@@ -18,8 +18,6 @@
 
 package com.genologics.ri.file;
 
-import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,8 +45,7 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = ClarityFile.class)
 @XmlRootElement(name = "files")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = FILE_NAMESPACE, name = "files",
-         propOrder = { "files", "previousPage", "nextPage" })
+@XmlType(name = "files", propOrder = { "files", "previousPage", "nextPage" })
 public class ClarityFiles implements PaginatedBatch<FileLink>, Serializable
 {
     private static final long serialVersionUID = -1824449685486824569L;

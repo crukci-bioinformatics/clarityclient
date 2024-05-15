@@ -18,8 +18,6 @@
 
 package com.genologics.ri.instrumenttype;
 
-import static com.genologics.ri.Namespaces.INSTRUMENT_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -45,8 +43,7 @@ import com.genologics.ri.Linkable;
 @ClarityEntity(uriSection = "configuration/instrumenttypes")
 @XmlRootElement(name = "instrument-type")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = INSTRUMENT_TYPE_NAMESPACE, name = "instrument-type",
-         propOrder = { "name", "vendor", "processTypes" })
+@XmlType(name = "instrument-type", propOrder = { "name", "vendor", "processTypes" })
 public class InstrumentType implements Linkable<InstrumentType>, Serializable
 {
     private static final long serialVersionUID = 7273963191417975L;

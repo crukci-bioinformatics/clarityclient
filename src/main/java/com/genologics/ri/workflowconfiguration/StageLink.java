@@ -18,8 +18,6 @@
 
 package com.genologics.ri.workflowconfiguration;
 
-import static com.genologics.ri.Namespaces.WORKFLOW_CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.stage.Stage;
  * samples can be associated in order to be queued)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = WORKFLOW_CONFIGURATION_NAMESPACE, name = "stage-link")
+@XmlType(name = "stage-link")
 public class StageLink implements LimsLink<Stage>, Serializable
 {
     private static final long serialVersionUID = -2216914758853864373L;

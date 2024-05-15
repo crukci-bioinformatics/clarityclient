@@ -18,8 +18,6 @@
 
 package com.genologics.ri.configuration;
 
-import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ import com.genologics.ri.Linkable;
 @ClarityEntity(uriSection = "configuration/udfs", updateable = true)
 @XmlRootElement(name = "field")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONFIGURATION_NAMESPACE, name = "field",
+@XmlType(name = "field",
          propOrder = { "name", "attachToName", "precision", "unitLabel", "typeDefinition", "showInLablink",
                        "allowNonPresetValues", "firstPresetIsDefaultValue", "showInTables", "editable",
                        "deviation", "controlledVocabulary", "parentUri", "childUris", "presets",

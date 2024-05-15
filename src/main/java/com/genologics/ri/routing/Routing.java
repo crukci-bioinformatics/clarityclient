@@ -18,8 +18,6 @@
 
 package com.genologics.ri.routing;
 
-import static com.genologics.ri.Namespaces.ROUTING_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +33,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * The root element for a routing API call
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROUTING_NAMESPACE, name = "routing", propOrder = { "assignedRoutes", "unassignedRoutes" })
+@XmlType(name = "routing", propOrder = { "assignedRoutes", "unassignedRoutes" })
 @XmlRootElement(name = "routing")
 public class Routing implements Serializable
 {

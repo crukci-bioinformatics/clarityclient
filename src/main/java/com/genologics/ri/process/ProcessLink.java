@@ -18,8 +18,6 @@
 
 package com.genologics.ri.process;
 
-import static com.genologics.ri.Namespaces.PROCESS_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -38,7 +36,7 @@ import com.genologics.ri.LimsEntityLinkable;
  * the detailed representation of a process.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_NAMESPACE, name = "process-link")
+@XmlType(name = "process-link")
 public class ProcessLink implements LimsEntityLink<ClarityProcess>, Serializable
 {
     private static final long serialVersionUID = 6298646614909486599L;

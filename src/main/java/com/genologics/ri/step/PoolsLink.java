@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -37,7 +35,7 @@ import com.genologics.ri.Linkable;
  * Identifies the resource that represents the pools added by the step.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "pools-link")
+@XmlType(name = "pools-link")
 public class PoolsLink implements LimsLink<Pools>, Serializable
 {
 

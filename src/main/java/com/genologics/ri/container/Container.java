@@ -18,7 +18,6 @@
 
 package com.genologics.ri.container;
 
-import static com.genologics.ri.Namespaces.CONTAINER_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
@@ -50,7 +49,7 @@ import com.genologics.ri.userdefined.UDT;
 @ClarityEntity(uriSection = "containers", creatable = true, updateable = true, removable = true)
 @XmlRootElement(name = "container")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONTAINER_NAMESPACE, name = "container",
+@XmlType(name = "container",
          propOrder = { "name", "containerType", "occupiedWells", "placements", "type", "fields", "state" })
 public class Container implements LimsEntity<Container>, UDFHolder, Serializable
 {

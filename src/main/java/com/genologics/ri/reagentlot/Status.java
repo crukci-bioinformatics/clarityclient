@@ -18,12 +18,8 @@
 
 package com.genologics.ri.reagentlot;
 
-import static com.genologics.ri.Namespaces.REAGENT_LOT_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlEnum;
-import jakarta.xml.bind.annotation.XmlType;
 
-@XmlType(namespace = REAGENT_LOT_NAMESPACE, name = "status")
 @XmlEnum
 public enum Status
 {

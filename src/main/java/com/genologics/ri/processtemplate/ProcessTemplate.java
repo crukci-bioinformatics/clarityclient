@@ -18,7 +18,6 @@
 
 package com.genologics.ri.processtemplate;
 
-import static com.genologics.ri.Namespaces.PROCESS_TEMPLATE_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
 import java.io.Serializable;
@@ -50,7 +49,7 @@ import com.genologics.ri.userdefined.UDT;
 @ClarityEntity(uriSection = "processtemplates")
 @XmlRootElement(name = "process-template")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TEMPLATE_NAMESPACE, name = "process-template",
+@XmlType(name = "process-template",
          propOrder = { "name", "processType", "technician", "instrument", "parameter",
                        "type", "fields", "defaultTemplate" })
 public class ProcessTemplate implements Linkable<ProcessTemplate>, UDFHolder, Serializable

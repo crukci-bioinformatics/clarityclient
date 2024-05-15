@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -41,7 +39,7 @@ import com.genologics.ri.container.Container;
  * Provides a URI linking to the output artifact and container placement.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "output-placement")
+@XmlType(name = "output-placement")
 public class OutputPlacement implements LimsLink<Artifact>, Serializable
 {
     private static final long serialVersionUID = 5187719712136408829L;

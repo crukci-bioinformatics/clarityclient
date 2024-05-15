@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtemplate;
 
-import static com.genologics.ri.Namespaces.PROCESS_TEMPLATE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -41,7 +39,7 @@ import com.genologics.ri.processtype.ProcessType;
  * that the Process Template is associated with.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TEMPLATE_NAMESPACE, name = "process-type")
+@XmlType(name = "process-type")
 public class ProcessTypeLink implements LimsLink<ProcessType>, Serializable
 {
     private static final long serialVersionUID = -4446494931025385173L;

@@ -18,8 +18,6 @@
 
 package com.genologics.ri.lab;
 
-import static com.genologics.ri.Namespaces.LAB_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.Linkable;
  * detailed representation of a lab.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = LAB_NAMESPACE, name = "lab-link")
+@XmlType(name = "lab-link", propOrder = { "name" })
 public class LabLink implements LimsEntityLink<Lab>, Serializable
 {
     private static final long serialVersionUID = 5826900114630147822L;

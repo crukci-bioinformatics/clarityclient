@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processexecution;
 
-import static com.genologics.ri.Namespaces.PROCESS_EXECUTION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -41,7 +39,7 @@ import com.genologics.ri.instrument.Instrument;
  * to be valid for process execution.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_EXECUTION_NAMESPACE, name = "instrument")
+@XmlType(name = "instrument")
 public class InstrumentLink implements LimsEntityLink<Instrument>, Serializable
 {
     private static final long serialVersionUID = 7189991495122756369L;

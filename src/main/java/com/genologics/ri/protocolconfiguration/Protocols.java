@@ -18,8 +18,6 @@
 
 package com.genologics.ri.protocolconfiguration;
 
-import static com.genologics.ri.Namespaces.PROTOCOL_CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -44,7 +42,7 @@ import com.genologics.ri.ClarityQueryResult;
  */
 @ClarityQueryResult(entityClass = Protocol.class)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROTOCOL_CONFIGURATION_NAMESPACE, name = "protocols")
+@XmlType(name = "protocols")
 @XmlRootElement(name = "protocols")
 public class Protocols implements Batch<ProtocolLink>, Serializable
 {

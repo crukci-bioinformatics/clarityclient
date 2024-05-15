@@ -18,8 +18,6 @@
 
 package com.genologics.ri.process;
 
-import static com.genologics.ri.Namespaces.PROCESS_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -38,7 +36,7 @@ import com.genologics.ri.LimsEntityLinkable;
  * the Process that created the Artifact.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_NAMESPACE, name = "parent-process")
+@XmlType(name = "parent-process")
 public class ParentProcessLink implements LimsEntityLink<ClarityProcess>, Serializable
 {
     private static final long serialVersionUID = -6557381570589306115L;

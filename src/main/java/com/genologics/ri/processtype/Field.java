@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtype;
 
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -41,7 +39,7 @@ import org.apache.commons.lang3.ClassUtils;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "field")
+@XmlType(name = "field")
 @XmlSeeAlso({ QueueField.class, IceBucketField.class })
 public class Field implements Serializable
 {

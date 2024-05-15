@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processexecution;
 
-import static com.genologics.ri.Namespaces.PROCESS_EXECUTION_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -35,7 +33,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * process parameter this element represents.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_EXECUTION_NAMESPACE, name = "parameter")
+@XmlType(name = "parameter")
 public class Parameter implements Serializable
 {
     private static final long serialVersionUID = 8161442493380982959L;

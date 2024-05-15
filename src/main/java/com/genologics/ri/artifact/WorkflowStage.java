@@ -18,8 +18,6 @@
 
 package com.genologics.ri.artifact;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.regex.Matcher;
@@ -40,7 +38,7 @@ import com.genologics.ri.stage.Stage;
  * @since 2.20
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ARTIFACT_NAMESPACE, name = "workflow-stage")
+@XmlType(name = "workflow-stage")
 public class WorkflowStage implements LimsLink<Stage>, Serializable
 {
     /**

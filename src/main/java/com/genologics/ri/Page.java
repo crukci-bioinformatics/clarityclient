@@ -18,8 +18,6 @@
 
 package com.genologics.ri;
 
-import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -44,7 +42,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * </p>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROOT_NAMESPACE, name = "page")
+@XmlType(name = "page")
 public class Page implements Locatable, Serializable
 {
     private static final long serialVersionUID = -5699038454764689725L;

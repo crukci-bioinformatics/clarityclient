@@ -18,8 +18,6 @@
 
 package com.genologics.ri.role;
 
-import static com.genologics.ri.Namespaces.ROLE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +38,7 @@ import com.genologics.ri.permission.Permission;
  * @since 2.19
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROLE_NAMESPACE, name = "permission-link")
+@XmlType(name = "permission-link")
 public class PermissionLink implements LimsLink<Permission>, Serializable
 {
     private static final long serialVersionUID = 6570314965797232412L;

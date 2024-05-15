@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.Linkable;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "details-link")
+@XmlType(name = "details-link")
 public class StepDetailsLink implements LimsLink<StepDetails>, Serializable
 {
     private static final long serialVersionUID = -3461183102550868643L;

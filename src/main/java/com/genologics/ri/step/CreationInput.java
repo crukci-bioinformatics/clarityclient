@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -43,7 +41,7 @@ import com.genologics.ri.controltype.ControlType;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "creation-input")
+@XmlType(name = "creation-input")
 public class CreationInput implements LimsLink<Artifact>, Serializable
 {
     private static final long serialVersionUID = 8275002091544701688L;

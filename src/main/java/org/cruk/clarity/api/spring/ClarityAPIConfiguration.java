@@ -32,8 +32,6 @@ import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBContextFactory;
 import jakarta.xml.bind.Marshaller;
 
 /**
@@ -143,8 +141,6 @@ public class ClarityAPIConfiguration
         Map<String, Object> marshallerProps = new HashMap<>();
         marshallerProps.put(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         marshallerProps.put(Marshaller.JAXB_ENCODING, "UTF-8");
-
-        JAXBContext context = JAXBContext.newInstance();
 
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
         marshaller.setPackagesToScan(packages);

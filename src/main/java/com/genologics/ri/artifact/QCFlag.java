@@ -18,12 +18,10 @@
 
 package com.genologics.ri.artifact;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlType;
 
-@XmlType(namespace = ARTIFACT_NAMESPACE, name = "qc-flag")
+@XmlType(name = "qc-flag")
 @XmlEnum
 public enum QCFlag
 {

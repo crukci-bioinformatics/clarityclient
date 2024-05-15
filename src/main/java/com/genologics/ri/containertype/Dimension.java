@@ -25,8 +25,6 @@
 
 package com.genologics.ri.containertype;
 
-import static com.genologics.ri.Namespaces.CONTAINER_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -41,7 +39,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * coordinate system of the container type.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONTAINER_TYPE_NAMESPACE, name = "dimension", propOrder = { "alpha", "offset", "size" })
+@XmlType(name = "dimension", propOrder = { "alpha", "offset", "size" })
 public class Dimension implements Serializable
 {
     private static final long serialVersionUID = -1931190014491768673L;

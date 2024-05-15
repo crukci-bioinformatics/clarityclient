@@ -19,7 +19,6 @@
 package com.genologics.ri.process;
 
 import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
-import static com.genologics.ri.Namespaces.PROCESS_NAMESPACE;
 import static com.genologics.ri.Namespaces.UDF_NAMESPACE;
 
 import java.io.Serializable;
@@ -58,7 +57,7 @@ import com.genologics.ri.userdefined.UDT;
 @ClarityEntity(uriSection = "processes", cacheable = true, creatable = true, updateable = true)
 @XmlRootElement(name = "process")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_NAMESPACE, name = "process",
+@XmlType(name = "process",
          propOrder = { "processType", "dateRun", "technician", "inputOutputMaps", "type", "fields",
                        "files", "protocolName", "instrument", "parameter" })
 public class ClarityProcess implements LimsEntity<ClarityProcess>, UDFHolder, Serializable

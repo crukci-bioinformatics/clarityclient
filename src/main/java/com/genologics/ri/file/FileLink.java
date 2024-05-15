@@ -18,8 +18,6 @@
 
 package com.genologics.ri.file;
 
-import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +38,7 @@ import com.genologics.ri.LimsEntityLinkable;
  * </p>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = FILE_NAMESPACE, name = "file-link")
+@XmlType(name = "file-link")
 public class FileLink implements LimsLink<ClarityFile>, Serializable
 {
     private static final long serialVersionUID = -2151598768590902010L;

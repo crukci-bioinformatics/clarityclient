@@ -18,15 +18,13 @@
 
 package com.genologics.ri.stepconfiguration;
 
-import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlType;
 
 /**
  * @since 2.23
  */
-@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "style")
+@XmlType(name = "style")
 @XmlEnum
 public enum Style
 {

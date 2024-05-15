@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtype;
 
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlEnum;
 import jakarta.xml.bind.annotation.XmlType;
 
@@ -28,7 +26,7 @@ import jakarta.xml.bind.annotation.XmlType;
  *
  * @since 2.25
  */
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "trigger-type")
+@XmlType(name = "trigger-type")
 @XmlEnum
 public enum TriggerType
 {

@@ -18,8 +18,6 @@
 
 package com.genologics.ri.sample;
 
-import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.researcher.Researcher;
  * detailed representation of the submitter for the Sample.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = SAMPLE_NAMESPACE, name = "submitter", propOrder = { "firstName", "lastName" })
+@XmlType(name = "submitter", propOrder = { "firstName", "lastName" })
 public class Submitter implements LimsLink<Researcher>, Serializable
 {
     private static final long serialVersionUID = 1302200229944706575L;

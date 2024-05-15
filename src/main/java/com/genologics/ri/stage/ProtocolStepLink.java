@@ -18,8 +18,6 @@
 
 package com.genologics.ri.stage;
 
-import static com.genologics.ri.Namespaces.STAGE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -38,7 +36,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  * Protocol Step link for the stage.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STAGE_NAMESPACE, name = "step")
+@XmlType(name = "step")
 public class ProtocolStepLink implements LimsLink<ProtocolStep>, Serializable
 {
     private static final long serialVersionUID = -8628711111931596088L;

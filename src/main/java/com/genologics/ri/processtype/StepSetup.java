@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtype;
 
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "step-setup", propOrder = { "files" })
+@XmlType(name = "step-setup", propOrder = { "files" })
 public class StepSetup implements Serializable
 {
     private static final long serialVersionUID = 2084961137587517113L;

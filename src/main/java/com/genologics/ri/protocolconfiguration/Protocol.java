@@ -18,8 +18,6 @@
 
 package com.genologics.ri.protocolconfiguration;
 
-import static com.genologics.ri.Namespaces.PROTOCOL_CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -53,8 +51,7 @@ import com.genologics.ri.stepconfiguration.ProtocolStep;
  */
 @ClarityEntity(uriSection = "configuration/protocols")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROTOCOL_CONFIGURATION_NAMESPACE, name = "protocol",
-         propOrder = { "steps", "protocolProperties" })
+@XmlType(name = "protocol", propOrder = { "steps", "protocolProperties" })
 @XmlRootElement(name = "protocol")
 public class Protocol implements Linkable<Protocol>, Serializable
 {

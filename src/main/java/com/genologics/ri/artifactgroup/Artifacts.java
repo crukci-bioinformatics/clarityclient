@@ -18,8 +18,6 @@
 
 package com.genologics.ri.artifactgroup;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_GROUP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -37,7 +35,7 @@ import com.genologics.ri.Locatable;
  * artifactGroup The link to an artifactList, filtered on artifactgroupID
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ARTIFACT_GROUP_NAMESPACE, name = "artifacts")
+@XmlType(name = "artifacts")
 public class Artifacts implements Locatable, Serializable
 {
     private static final long serialVersionUID = -2118023404939650487L;

@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -40,7 +38,7 @@ import com.genologics.ri.reagentlot.ReagentLot;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "reagent-lot-link")
+@XmlType(name = "reagent-lot-link")
 public class ReagentLotLink implements LimsEntityLink<ReagentLot>, Serializable
 {
     private static final long serialVersionUID = -5183820950832194933L;

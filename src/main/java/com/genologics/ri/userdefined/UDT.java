@@ -37,7 +37,7 @@ import com.genologics.ri.configuration.FieldType;
  * Type is the name and user-defined fields of a user-defined type.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = UDF_NAMESPACE, name = "type")
+@XmlType(name = "type")
 public class UDT implements UDFHolder, Serializable
 {
     private static final long serialVersionUID = -6550385282803073762L;

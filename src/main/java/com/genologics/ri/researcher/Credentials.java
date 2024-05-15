@@ -18,8 +18,6 @@
 
 package com.genologics.ri.researcher;
 
-import static com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * stored for contact purposes only.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = RESEARCHER_NAMESPACE, name = "credentials",
-         propOrder = { "username", "password", "accountLocked", "roles" })
+@XmlType(name = "credentials", propOrder = { "username", "password", "accountLocked", "roles" })
 public class Credentials implements Serializable
 {
     private static final long serialVersionUID = -2712902822454057343L;

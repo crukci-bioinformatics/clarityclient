@@ -18,8 +18,6 @@
 
 package com.genologics.ri.process;
 
-import static com.genologics.ri.Namespaces.PROCESS_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -44,7 +42,7 @@ import com.genologics.ri.artifact.Artifact;
  * </p>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_NAMESPACE, name = "input-output-map", propOrder = { "input", "output" })
+@XmlType(name = "input-output-map", propOrder = { "input", "output" })
 public class InputOutputMap implements Serializable
 {
     private static final long serialVersionUID = 1174916419431443420L;

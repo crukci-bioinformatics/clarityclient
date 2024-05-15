@@ -18,8 +18,6 @@
 
 package com.genologics.ri.configuration;
 
-import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.LimsLink;
  */
 @XmlRootElement(name = "udtconfig")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONFIGURATION_NAMESPACE, name = "udtconfig-link")
+@XmlType(name = "udtconfig-link")
 public class UdtConfigLink implements LimsLink<Type>, Serializable
 {
     private static final long serialVersionUID = -9221186839753173309L;

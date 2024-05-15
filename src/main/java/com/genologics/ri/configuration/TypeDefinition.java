@@ -18,8 +18,6 @@
 
 package com.genologics.ri.configuration;
 
-import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.Linkable;
  * with the user-defined field, if applicable.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONFIGURATION_NAMESPACE, name = "type-definition")
+@XmlType(name = "type-definition")
 public class TypeDefinition implements LimsLink<Type>, Serializable
 {
     private static final long serialVersionUID = 7368802583367288257L;

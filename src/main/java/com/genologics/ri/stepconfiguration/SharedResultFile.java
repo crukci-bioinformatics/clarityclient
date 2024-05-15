@@ -18,8 +18,6 @@
 
 package com.genologics.ri.stepconfiguration;
 
-import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -33,7 +31,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * The file element describes a shared result file output that will be displayed in the step-setup view.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "file")
+@XmlType(name = "file")
 public class SharedResultFile implements Serializable
 {
     private static final long serialVersionUID = 5837529395773779245L;

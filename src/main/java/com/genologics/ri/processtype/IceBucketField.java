@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtype;
 
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
-
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -34,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "icebucketfield")
+@XmlType(name = "icebucketfield")
 public class IceBucketField extends Field
 {
     private static final long serialVersionUID = 8915614372544937283L;

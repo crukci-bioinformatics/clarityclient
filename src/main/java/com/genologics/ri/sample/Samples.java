@@ -18,8 +18,6 @@
 
 package com.genologics.ri.sample;
 
-import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,8 +46,7 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = Sample.class)
 @XmlRootElement(name = "samples")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = SAMPLE_NAMESPACE, name = "samples",
-         propOrder = { "samples", "previousPage", "nextPage" })
+@XmlType(name = "samples", propOrder = { "samples", "previousPage", "nextPage" })
 public class Samples implements PaginatedBatch<SampleLink>, Serializable
 {
     private static final long serialVersionUID = 7481910467952402185L;

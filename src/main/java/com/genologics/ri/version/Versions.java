@@ -18,8 +18,6 @@
 
 package com.genologics.ri.version;
 
-import static com.genologics.ri.Namespaces.VERSION_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,7 +39,7 @@ import com.genologics.ri.ClarityQueryResult;
 @ClarityQueryResult(entityClass = Version.class)
 @XmlRootElement(name = "versions")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = VERSION_NAMESPACE, name = "versions")
+@XmlType(name = "versions")
 public class Versions implements Batch<Version>, Serializable
 {
     private static final long serialVersionUID = -1555363240810423322L;

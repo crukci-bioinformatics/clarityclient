@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -46,8 +44,7 @@ import com.genologics.ri.artifact.Artifact;
  */
 @ClarityEntity(uriSection = "steps", uriSubsection = "pools", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "pools",
-         propOrder = { "step", "configuration", "pooledInputs", "availableInputs" })
+@XmlType(name = "pools", propOrder = { "step", "configuration", "pooledInputs", "availableInputs" })
 @XmlRootElement(name = "pools")
 public class Pools implements Linkable<Pools>, Serializable
 {

@@ -18,8 +18,6 @@
 
 package com.genologics.ri.protocolconfiguration;
 
-import static com.genologics.ri.Namespaces.PROTOCOL_CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -34,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * suitable for use when copying protocols, but should not be manipulated.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROTOCOL_CONFIGURATION_NAMESPACE, name = "protocol-property")
+@XmlType(name = "protocol-property")
 public class ProtocolProperty implements Serializable
 {
     private static final long serialVersionUID = -2121684009872156372L;

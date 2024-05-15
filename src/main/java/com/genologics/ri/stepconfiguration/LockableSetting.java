@@ -18,8 +18,6 @@
 
 package com.genologics.ri.stepconfiguration;
 
-import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -35,7 +33,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * @since 2.25
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "lockable-setting")
+@XmlType(name = "lockable-setting")
 @XmlSeeAlso({ StepSetup.class, EppTrigger.class, Field.class,
               ControlTypeLink.class, ReagentKitLink.class, StepProperty.class })
 public class LockableSetting implements Serializable

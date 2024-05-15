@@ -18,8 +18,6 @@
 
 package com.genologics.ri;
 
-import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.regex.Pattern;
@@ -47,7 +45,7 @@ import com.genologics.ri.container.Container;
  * </p>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROOT_NAMESPACE, name = "location", propOrder = { "container", "wellPosition" })
+@XmlType(name = "location", propOrder = { "container", "wellPosition" })
 public class Location implements LimsEntityLink<Container>, Serializable, Comparable<Location>
 {
     public static final Pattern WELL_POSITION_SPLITTER = Pattern.compile(":");

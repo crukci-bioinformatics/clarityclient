@@ -18,8 +18,6 @@
 
 package com.genologics.ri.sample;
 
-import static com.genologics.ri.Namespaces.SAMPLE_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +43,7 @@ import com.genologics.ri.Namespaces;
 @ClarityBatchRetrieveResult(entityClass = Sample.class, batchCreate = true, batchUpdate = true)
 @XmlRootElement(name = "details")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = SAMPLE_NAMESPACE, name = "details", propOrder = { "samples", "sampleCreations" })
+@XmlType(name = "details", propOrder = { "samples", "sampleCreations" })
 public class SampleBatchFetchResult implements BatchUpdate<Sample>, Serializable
 {
     private static final long serialVersionUID = 8207729034543316762L;

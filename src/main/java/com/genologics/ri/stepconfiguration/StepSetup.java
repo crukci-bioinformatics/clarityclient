@@ -18,8 +18,6 @@
 
 package com.genologics.ri.stepconfiguration;
 
-import static com.genologics.ri.Namespaces.STEP_CONFIGURATION_NAMESPACE;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +33,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * Step-setup is a child element that describes the shared result file placeholder information for the step-setup view.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_CONFIGURATION_NAMESPACE, name = "step-setup")
+@XmlType(name = "step-setup")
 public class StepSetup extends LockableSetting
 {
     private static final long serialVersionUID = 3706069288148584102L;

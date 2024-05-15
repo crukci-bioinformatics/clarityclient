@@ -18,8 +18,6 @@
 
 package com.genologics.ri.routing;
 
-import static com.genologics.ri.Namespaces.ROUTING_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -34,7 +32,7 @@ import com.genologics.ri.Linkable;
 import com.genologics.ri.artifact.Artifact;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROUTING_NAMESPACE, name = "artifact")
+@XmlType(name = "artifact")
 public class ArtifactLink implements LimsLink<Artifact>, Serializable
 {
     private static final long serialVersionUID = -5098969484639468234L;

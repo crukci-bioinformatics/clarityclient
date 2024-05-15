@@ -18,8 +18,6 @@
 
 package com.genologics.ri.container;
 
-import static com.genologics.ri.Namespaces.CONTAINER_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -42,7 +40,7 @@ import com.genologics.ri.containertype.ContainerType;
  * are labelled.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONTAINER_NAMESPACE, name = "container-type")
+@XmlType(name = "container-type")
 public class ContainerTypeLink implements LimsLink<ContainerType>, Serializable
 {
     private static final long serialVersionUID = 8897150572324942993L;

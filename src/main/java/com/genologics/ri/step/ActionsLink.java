@@ -19,8 +19,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.Linkable;
  *         Identifies the resource that represents the actions applied or to be applied by the step.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "actions-link")
+@XmlType(name = "actions-link")
 public class ActionsLink implements LimsLink<Actions>, Serializable
 {
     private static final long serialVersionUID = 3468768301588893685L;

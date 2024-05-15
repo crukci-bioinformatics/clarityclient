@@ -19,7 +19,6 @@
 package com.genologics.ri.processtype;
 
 import static com.genologics.ri.Namespaces.FILE_NAMESPACE;
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,8 +41,7 @@ import com.genologics.ri.file.ClarityFile;
  * process-type.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "parameter",
-         propOrder = { "file", "script", "runProgramPerEvent", "channel", "invocationType", "files" })
+@XmlType(name = "parameter", propOrder = { "file", "script", "runProgramPerEvent", "channel", "invocationType", "files" })
 public class Parameter implements Serializable
 {
     private static final long serialVersionUID = -803288179230938758L;

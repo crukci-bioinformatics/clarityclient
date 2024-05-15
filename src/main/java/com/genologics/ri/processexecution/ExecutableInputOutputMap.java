@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processexecution;
 
-import static com.genologics.ri.Namespaces.PROCESS_EXECUTION_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,7 +49,7 @@ import com.genologics.ri.container.Container;
  * and therefore, does not create outputs, you can omit the output element.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_EXECUTION_NAMESPACE, name = "input-output-map", propOrder = { "inputs", "output" })
+@XmlType(name = "input-output-map", propOrder = { "inputs", "output" })
 public class ExecutableInputOutputMap implements Serializable
 {
     private static final long serialVersionUID = -5751963471358280360L;

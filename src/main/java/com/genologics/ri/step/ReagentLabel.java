@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -33,7 +31,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * the name of a label or reagent that has been added to the Artifact.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "reagent-label")
+@XmlType(name = "reagent-label")
 public class ReagentLabel implements Serializable
 {
 

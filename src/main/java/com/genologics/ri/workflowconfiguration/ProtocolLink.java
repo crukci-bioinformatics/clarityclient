@@ -18,8 +18,6 @@
 
 package com.genologics.ri.workflowconfiguration;
 
-import static com.genologics.ri.Namespaces.WORKFLOW_CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -39,7 +37,7 @@ import com.genologics.ri.protocolconfiguration.Protocol;
  * to the detailed representation of a protocol.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = WORKFLOW_CONFIGURATION_NAMESPACE, name = "protocol-link")
+@XmlType(name = "protocol-link")
 public class ProtocolLink implements LimsLink<Protocol>, Serializable
 {
     private static final long serialVersionUID = 2721431278437928217L;

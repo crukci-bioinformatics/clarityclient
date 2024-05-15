@@ -18,8 +18,6 @@
 
 package com.genologics.ri.artifact;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -38,7 +36,7 @@ import com.genologics.ri.sample.Sample;
  * @since 2.26
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ARTIFACT_NAMESPACE, name = "demux-artifact-sample")
+@XmlType(name = "demux-artifact-sample")
 public class DemuxArtifactSample implements LimsEntityLink<Sample>, Serializable
 {
     private static final long serialVersionUID = 7139520312009522858L;

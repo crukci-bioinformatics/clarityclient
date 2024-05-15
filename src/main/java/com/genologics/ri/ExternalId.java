@@ -18,8 +18,6 @@
 
 package com.genologics.ri;
 
-import static com.genologics.ri.Namespaces.ROOT_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -46,7 +44,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * </p>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROOT_NAMESPACE, name = "externalid")
+@XmlType(name = "externalid")
 public class ExternalId implements Locatable, Serializable
 {
     private static final long serialVersionUID = -6268759708863731052L;

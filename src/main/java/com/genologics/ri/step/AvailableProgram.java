@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -36,7 +34,7 @@ import jakarta.xml.bind.annotation.XmlType;
  * @since 2.18
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "available-program")
+@XmlType(name = "available-program")
 public class AvailableProgram implements Serializable
 {
     private static final long serialVersionUID = -4101189878995002052L;

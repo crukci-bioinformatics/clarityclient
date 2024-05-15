@@ -50,4 +50,6 @@ open module org.cruk.clarity.api
     requires static org.junit.jupiter.api;
     requires static org.junit.jupiter.engine;
     requires static org.junit.jupiter.params;
+    requires static org.glassfish.jaxb.core;
+    requires static org.glassfish.jaxb.runtime;
 }

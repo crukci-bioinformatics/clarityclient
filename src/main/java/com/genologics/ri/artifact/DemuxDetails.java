@@ -18,8 +18,6 @@
 
 package com.genologics.ri.artifact;
 
-import static com.genologics.ri.Namespaces.ARTIFACT_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +37,7 @@ import com.genologics.ri.step.ProcessStep;
  * @since 2.26
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ARTIFACT_NAMESPACE, name = "demux-details", propOrder = { "poolStep", "artifacts" })
+@XmlType(name = "demux-details", propOrder = { "poolStep", "artifacts" })
 public class DemuxDetails implements Serializable
 {
     private static final long serialVersionUID = -6725351237693935651L;

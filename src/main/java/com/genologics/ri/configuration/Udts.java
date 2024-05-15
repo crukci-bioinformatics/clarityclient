@@ -18,8 +18,6 @@
 
 package com.genologics.ri.configuration;
 
-import static com.genologics.ri.Namespaces.CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,8 +47,7 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = Type.class)
 @XmlRootElement(name = "udts")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = CONFIGURATION_NAMESPACE, name = "udts",
-         propOrder = { "udtConfigLinks", "previousPage", "nextPage" })
+@XmlType(name = "udts", propOrder = { "udtConfigLinks", "previousPage", "nextPage" })
 public class Udts implements PaginatedBatch<UdtConfigLink>, Serializable
 {
     private static final long serialVersionUID = -3512684674322879203L;

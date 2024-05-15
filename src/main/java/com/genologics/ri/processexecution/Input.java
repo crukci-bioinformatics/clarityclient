@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processexecution;
 
-import static com.genologics.ri.Namespaces.PROCESS_EXECUTION_NAMESPACE;
-
 import java.net.URI;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -38,7 +36,7 @@ import com.genologics.ri.artifact.Artifact;
  * the Process. Input is a child element of input-output-map.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_EXECUTION_NAMESPACE, name = "input")
+@XmlType(name = "input")
 public class Input extends ArtifactBase implements LimsLink<Artifact>
 {
     private static final long serialVersionUID = -8366721361957628940L;

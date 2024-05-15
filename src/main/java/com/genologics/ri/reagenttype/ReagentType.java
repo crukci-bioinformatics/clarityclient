@@ -18,8 +18,6 @@
 
 package com.genologics.ri.reagenttype;
 
-import static com.genologics.ri.Namespaces.REAGENT_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -45,7 +43,7 @@ import com.genologics.ri.Link;
 @ClarityEntity(uriSection = "reagenttypes")
 @XmlRootElement(name = "reagent-type")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = REAGENT_TYPE_NAMESPACE, name = "reagent-type", propOrder = { "specialType", "reagentCategory" })
+@XmlType(name = "reagent-type", propOrder = { "specialType", "reagentCategory" })
 public class ReagentType implements LimsEntity<ReagentType>, Serializable
 {
     private static final long serialVersionUID = -7390347729777321516L;

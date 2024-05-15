@@ -18,8 +18,6 @@
 
 package com.genologics.ri.step;
 
-import static com.genologics.ri.Namespaces.STEP_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -38,7 +36,7 @@ import com.genologics.ri.container.Container;
  * Provides a URI linking to a selected container to be used for placement.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = STEP_NAMESPACE, name = "container")
+@XmlType(name = "container")
 public class ContainerLink implements LimsLink<Container>, Serializable
 {
     private static final long serialVersionUID = 7495526539351739682L;

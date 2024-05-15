@@ -18,8 +18,6 @@
 
 package com.genologics.ri.researcher;
 
-import static com.genologics.ri.Namespaces.RESEARCHER_NAMESPACE;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,8 +46,7 @@ import com.genologics.ri.PaginatedBatch;
 @ClarityQueryResult(entityClass = Researcher.class)
 @XmlRootElement(name = "researchers")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = RESEARCHER_NAMESPACE, name = "researchers",
-         propOrder = { "researchers", "previousPage", "nextPage" })
+@XmlType(name = "researchers", propOrder = { "researchers", "previousPage", "nextPage" })
 public class Researchers implements PaginatedBatch<ResearcherLink>, Serializable
 {
     private static final long serialVersionUID = 1730166894555776245L;

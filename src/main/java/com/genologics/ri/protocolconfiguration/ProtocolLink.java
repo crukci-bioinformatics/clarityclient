@@ -18,8 +18,6 @@
 
 package com.genologics.ri.protocolconfiguration;
 
-import static com.genologics.ri.Namespaces.PROTOCOL_CONFIGURATION_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 
@@ -33,7 +31,7 @@ import com.genologics.ri.LimsLink;
 import com.genologics.ri.Linkable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROTOCOL_CONFIGURATION_NAMESPACE, name = "protocol-link")
+@XmlType(name = "protocol-link")
 public class ProtocolLink implements LimsLink<Protocol>, Serializable
 {
     private static final long serialVersionUID = 5561496957381579448L;

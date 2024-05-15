@@ -18,8 +18,6 @@
 
 package com.genologics.ri.processtype;
 
-import static com.genologics.ri.Namespaces.PROCESS_TYPE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -45,7 +43,7 @@ import com.genologics.ri.configuration.FieldLink;
 @ClarityEntity(uriSection = "processtypes")
 @XmlRootElement(name = "process-type")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = PROCESS_TYPE_NAMESPACE, name = "process-type",
+@XmlType(name = "process-type",
          propOrder = { "fieldDefinitions", "parameters", "typeDefinitions", "processInputs",
                        "processOutputs", "processTypeAttributes",
                        "permittedContainers", "permittedReagentCategories", "requiredReagentKits",

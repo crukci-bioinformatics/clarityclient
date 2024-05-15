@@ -18,8 +18,6 @@
 
 package com.genologics.ri.role;
 
-import static com.genologics.ri.Namespaces.ROLE_NAMESPACE;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.ArrayList;
@@ -45,7 +43,7 @@ import com.genologics.ri.Linkable;
  */
 @ClarityEntity(uriSection = "roles", updateable = true)
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(namespace = ROLE_NAMESPACE, name = "role", propOrder = { "name", "researchers", "permissions" })
+@XmlType(name = "role", propOrder = { "name", "researchers", "permissions" })
 @XmlRootElement(name = "role")
 public class Role implements Linkable<Role>, Serializable
 {
