@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.hc.client5.http.auth.Credentials;
-import org.cruk.clarity.api.cache.CacheStatefulBehaviour;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.genologics.ri.LimsEntity;
@@ -364,33 +363,6 @@ public interface ClarityAPI
      */
     <E extends Locatable>
     URI limsIdToUri(String outerLimsid, String innerLimsid, Class<E> entityClass);
-
-    /**
-     * This method was used to overrides the cache behaviour for the next call on the
-     * same thread. It has been replaced by {@link #overrideStateful(StatefulOverride)}
-     * which does the correct thing. Momentarily changing how the cache worked didn't solve the
-     * problem this was intended for (up to date QC flags on artifacts).
-     *
-     * <p>
-     * The values map as:
-     * </p>
-     * <ol>
-     * <li>{@link CacheStatefulBehaviour#EXACT} becomes {@link StatefulOverride#EXACT}.</li>
-     * <li>{@link CacheStatefulBehaviour#LATEST} becomes {@link StatefulOverride#LATEST}.</li>
-     * <li>{@link CacheStatefulBehaviour#ANY} or {@code null} clears the override.</li>
-     * </ol>
-     *
-     * @param behaviour The cache behaviour for the next call from the current
-     * thread.
-     *
-     * @since 2.24.3
-     *
-     * @deprecated Calls through to {@link #overrideStateful(StatefulOverride)} with a
-     * conversion of the {@code behaviour} value to {@code StatefulOverride},
-     * so behaviour is maintained but one should update code to use {@code overrideStateful}.
-     */
-    @Deprecated
-    void nextCallCacheOverride(CacheStatefulBehaviour behaviour);
 
     /**
      * Forces the API to fetch stateful entities according to the rule given for

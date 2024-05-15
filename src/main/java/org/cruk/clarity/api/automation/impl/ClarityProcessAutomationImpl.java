@@ -26,6 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +51,7 @@ import com.genologics.ri.workflowconfiguration.Workflow;
  * @since 2.31.2
  */
 @Component("clarityProcessAutomation")
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ClarityProcessAutomationImpl implements ClarityProcessAutomation
 {
     /**
@@ -59,7 +62,7 @@ public class ClarityProcessAutomationImpl implements ClarityProcessAutomation
     /**
      * Logger.
      */
-    protected Logger logger = LoggerFactory.getLogger(ClarityProcessAutomationImpl.class);
+    protected Logger logger = LoggerFactory.getLogger(ClarityProcessAutomation.class);
 
     /**
      * Clarity API.

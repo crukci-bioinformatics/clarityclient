@@ -28,6 +28,7 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Aspect to ensure that the API will not fetch the latest versions of stateful entities
@@ -36,6 +37,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @since 2.24.8
  */
 @Aspect
+@Component("clarityLatestVersionsResetAspect")
 public class LatestVersionsResetAspect
 {
     /**

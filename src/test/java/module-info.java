@@ -25,7 +25,6 @@ open module org.cruk.clarity.api
 {
     requires transitive jakarta.annotation;
     requires transitive jakarta.xml.bind;
-    requires static ehcache;
     requires org.apache.commons.beanutils;
     requires org.apache.commons.collections4;
     requires org.apache.commons.io;

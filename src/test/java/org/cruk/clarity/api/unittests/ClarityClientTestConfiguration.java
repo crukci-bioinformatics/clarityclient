@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.cruk.clarity.api.ClarityAPI;
-import org.cruk.clarity.api.spring.ClarityAPIConfiguration;
+import org.cruk.clarity.api.spring.ClarityClientConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Import;
 import jakarta.annotation.PostConstruct;
 
 @Configuration
-@Import(ClarityAPIConfiguration.class)
+@Import(ClarityClientConfiguration.class)
 public class ClarityClientTestConfiguration
 {
     @Autowired

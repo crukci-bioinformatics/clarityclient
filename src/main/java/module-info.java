@@ -24,14 +24,13 @@ import org.cruk.clarity.api.impl.ClarityAPIImpl;
 /**
  * The Clarity Java client for Clarity 6+.
  */
-open module org.cruk.clarity.api
+module org.cruk.clarity.api
 {
     provides ClarityAPI with ClarityAPIImpl;
     provides ClarityProcessAutomation with ClarityProcessAutomationImpl;
 
     requires transitive jakarta.annotation;
     requires transitive jakarta.xml.bind;
-    requires static ehcache;
     requires org.apache.commons.beanutils;
     requires org.apache.commons.collections4;
     requires org.apache.commons.io;
@@ -43,14 +42,14 @@ open module org.cruk.clarity.api
     requires org.apache.sshd.sftp;
     requires org.aspectj.weaver;
     requires org.slf4j;
-    requires spring.beans;
-    requires spring.core;
-    requires spring.context;
+    requires transitive spring.beans;
+    requires transitive spring.core;
+    requires transitive spring.context;
     requires spring.integration.core;
     requires spring.integration.file;
     requires spring.integration.sftp;
-    requires spring.oxm;
-    requires spring.web;
+    requires transitive spring.oxm;
+    requires transitive spring.web;
 
     exports com.genologics.ri;
     exports com.genologics.ri.artifact;
@@ -91,7 +90,6 @@ open module org.cruk.clarity.api
     exports org.cruk.clarity.api;
     exports org.cruk.clarity.api.automation;
     exports org.cruk.clarity.api.automation.impl;
-    exports org.cruk.clarity.api.cache;
     exports org.cruk.clarity.api.debugging;
     exports org.cruk.clarity.api.http;
     exports org.cruk.clarity.api.impl;

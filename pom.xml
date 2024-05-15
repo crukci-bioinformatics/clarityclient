@@ -215,7 +215,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.2.5</version>
                     <configuration>
-                        <useModulePath>true</useModulePath>
+                        <useModulePath>false</useModulePath>
                         <trimStackTrace>false</trimStackTrace>
                     </configuration>
                 </plugin>
@@ -424,7 +424,6 @@
                         <link>https://commons.apache.org/proper/commons-lang/javadocs/api-release</link>
                         <link>https://docs.spring.io/spring-framework/docs/6.1.x/javadoc-api</link>
                         <link>https://docs.spring.io/spring-integration/docs/6.2.x/api</link>
-                        <link>https://www.ehcache.org/apidocs/3.10.0</link>
                         <link>https://hc.apache.org/httpcomponents-client-5.3.x/current/httpclient5/apidocs</link>
                         <link>https://hc.apache.org/httpcomponents-core-5.2.x/current/httpcore5/apidocs</link>
                         <link>https://eclipse.dev/aspectj/doc/released/weaver-api</link>
@@ -570,19 +569,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.ehcache</groupId>
-                <artifactId>ehcache</artifactId>
-                <version>3.10.8</version>
-                <classifier>jakarta</classifier>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.glassfish.jaxb</groupId>
-                        <artifactId>jaxb-runtime</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
                 <version>1.9.22</version>
@@ -715,12 +701,6 @@
         <dependency>
             <groupId>org.apache.sshd</groupId>
             <artifactId>sshd-sftp</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <classifier>jakarta</classifier>
         </dependency>
 
         <dependency>

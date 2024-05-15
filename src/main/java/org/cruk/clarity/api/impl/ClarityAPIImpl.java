@@ -67,7 +67,6 @@ import org.cruk.clarity.api.ClarityUpdateException;
 import org.cruk.clarity.api.IllegalSearchTermException;
 import org.cruk.clarity.api.InvalidURIException;
 import org.cruk.clarity.api.StatefulOverride;
-import org.cruk.clarity.api.cache.CacheStatefulBehaviour;
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1165,30 +1164,6 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                      '/' + entityAnno.uriSection() + '/' + innerLimsid;
 
         return uri;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Deprecated
-    @SuppressWarnings("incomplete-switch")
-    public void nextCallCacheOverride(CacheStatefulBehaviour behaviour)
-    {
-        if (behaviour != null)
-        {
-            switch (behaviour)
-            {
-                case EXACT:
-                    overrideStateful(StatefulOverride.EXACT);
-                    return;
-
-                case LATEST:
-                    overrideStateful(StatefulOverride.LATEST);
-                    return;
-            }
-        }
-
-        overrideStateful(null);
     }
 
     /**
