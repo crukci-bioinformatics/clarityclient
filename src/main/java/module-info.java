@@ -24,7 +24,7 @@ import org.cruk.clarity.api.impl.ClarityAPIImpl;
 /**
  * The Clarity Java client for Clarity 6+.
  */
-module org.cruk.clarity.api
+open module org.cruk.clarity.api
 {
     provides ClarityAPI with ClarityAPIImpl;
     provides ClarityProcessAutomation with ClarityProcessAutomationImpl;
