@@ -215,7 +215,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.2.5</version>
                     <configuration>
-                        <useModulePath>false</useModulePath>
+                        <useModulePath>true</useModulePath>
                         <trimStackTrace>false</trimStackTrace>
                     </configuration>
                 </plugin>
@@ -456,7 +456,7 @@
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
-                <version>1.10.0</version>
+                <version>1.10.1</version>
             </dependency>
             <dependency>
                 <groupId>commons-codec</groupId>
