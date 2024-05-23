@@ -115,7 +115,7 @@ public class ObjectFactory {
         return new JAXBElement<Samples>(_Samples_QNAME, Samples.class, null, value);
     }
 
-    @XmlElementDecl(namespace = "SAMPLE_NAMESPACE", name = "details")
+    @XmlElementDecl(namespace = SAMPLE_NAMESPACE, name = "details")
     public JAXBElement<SampleBatchFetchResult> createDetails(SampleBatchFetchResult value) {
         return new JAXBElement<SampleBatchFetchResult>(_Details_QNAME, SampleBatchFetchResult.class, null, value);
     }

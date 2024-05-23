@@ -58,6 +58,7 @@ import jakarta.xml.bind.Marshaller;
 @ComponentScan({"org.cruk.clarity.api.debugging",
                 "org.cruk.clarity.api.impl",
                 "org.cruk.clarity.api.jaxb"})
+@SuppressWarnings("exports")
 public class ClarityClientConfiguration
 {
     public ClarityClientConfiguration()
