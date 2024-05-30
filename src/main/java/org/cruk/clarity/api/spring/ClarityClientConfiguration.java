@@ -3,7 +3,6 @@ package org.cruk.clarity.api.spring;
 import static jakarta.xml.bind.Marshaller.JAXB_ENCODING;
 import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -42,26 +41,10 @@ import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 /**
-    Take care not to include a bean of type
-    {@code org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator}.
-
-    This creates JDK proxies around the CGLIB proxies needed for the Jaxb2Marshaller,
-    which then cannot be set as they aren't actually a type of Jaxb2Marshaller.
-
-    This took two days to find but five seconds to fix.
-
-    The error one sees is:
-
-    <pre>
-    java.lang.IllegalStateException: Cannot convert value of type [com.sun.proxy.$Proxy implementing ...]
-    to required type [org.springframework.oxm.jaxb.Jaxb2Marshaller] for property 'jaxbMarshaller':
-    no matching editors or conversion strategy found
-    </pre>
-
-    The fix is the "proxyTargetClass" attribute.
+ * Main Spring configuration for the Clarity Client.
  */
 @Configuration
-@EnableAspectJAutoProxy(proxyTargetClass = false)
+@EnableAspectJAutoProxy(proxyTargetClass = false)  // See the note at the bottom of the class about proxies.
 @ComponentScan({"org.cruk.clarity.api.debugging",
                 "org.cruk.clarity.api.impl",
                 "org.cruk.clarity.api.jaxb"})
@@ -209,26 +192,82 @@ public class ClarityClientConfiguration
         return template;
     }
 
+    /**
+     * Proxy handler for a simple pass through proxy. This is used for narrowing Jaxb2Marshaller
+     * to a single interface, as it implements both Marshaller and Unmarshaller. It makes things
+     * a little easier with Spring autowiring if this is separated out into objects that only
+     * implement one of these interfaces. It allows the JaxbMarshaller to be created more than
+     * once (which seems to be necessary, even though they are identical) without a clash of there
+     * being more than one bean.
+     *
+     * @param <T> The interface to be proxied.
+     * @param <O> An instance of an object that implements T.
+     */
     private static class PassThroughInvocationHandler<T, O extends T> implements InvocationHandler
     {
+        /**
+         * The object proxied.
+         */
         private O proxied;
+
+        /**
+         * The interface to proxy.
+         */
         private Class<T> proxyInterface;
 
+        /**
+         * Constructor.
+         *
+         * @param thing The object to be proxied.
+         * @param pi The interface to proxy.
+         */
         PassThroughInvocationHandler(O thing, Class<T> pi)
         {
             proxied = thing;
             proxyInterface = pi;
         }
 
+        /**
+         * Convenience method to create a proxy for the interface that passes through
+         * to the object set.
+         *
+         * @return The proxy.
+         */
         T createProxy()
         {
             Object proxy = Proxy.newProxyInstance(getClass().getClassLoader(), new Class<?>[] { proxyInterface }, this);
             return proxyInterface.cast(proxy);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
         {
             return method.invoke(proxied, args);
         }
     }
 }
+
+/*
+ * A note from the previous XML configuration about proxy problems.
+ * These should have gone, especially as we're now always using interfaces.
+
+    Take care not to include a bean of type
+    {@code org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator}.
+
+    This creates JDK proxies around the CGLIB proxies needed for the Jaxb2Marshaller,
+    which then cannot be set as they aren't actually a type of Jaxb2Marshaller.
+
+    This took two days to find but five seconds to fix.
+
+    The error one sees is:
+
+    <pre>
+    java.lang.IllegalStateException: Cannot convert value of type [com.sun.proxy.$Proxy implementing ...]
+    to required type [org.springframework.oxm.jaxb.Jaxb2Marshaller] for property 'jaxbMarshaller':
+    no matching editors or conversion strategy found
+    </pre>
+
+    The fix is the "proxyTargetClass" attribute.
+*/
