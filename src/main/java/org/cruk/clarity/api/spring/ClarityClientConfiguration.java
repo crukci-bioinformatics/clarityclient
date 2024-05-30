@@ -1,5 +1,12 @@
 package org.cruk.clarity.api.spring;
 
+import static jakarta.xml.bind.Marshaller.JAXB_ENCODING;
+import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
+
+import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,12 +34,12 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
+import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
-
-import jakarta.xml.bind.Marshaller;
 
 /**
     Take care not to include a bean of type
@@ -54,7 +61,7 @@ import jakarta.xml.bind.Marshaller;
     The fix is the "proxyTargetClass" attribute.
  */
 @Configuration
-@EnableAspectJAutoProxy(proxyTargetClass = true)
+@EnableAspectJAutoProxy(proxyTargetClass = false)
 @ComponentScan({"org.cruk.clarity.api.debugging",
                 "org.cruk.clarity.api.impl",
                 "org.cruk.clarity.api.jaxb"})
@@ -127,11 +134,10 @@ public class ClarityClientConfiguration
     @Bean
     public ResponseErrorHandler clarityExceptionErrorHandler()
     {
-        return new ClarityFailureResponseErrorHandler(clarityJaxbMarshaller());
+        return new ClarityFailureResponseErrorHandler(clarityJaxbUnmarshaller());
     }
 
-    @Bean
-    public Jaxb2Marshaller clarityJaxbMarshaller()
+    protected Jaxb2Marshaller createJaxbMarshaller()
     {
         Module module = ClarityAPI.class.getModule();
         String[] packages = module.getPackages().stream()
@@ -140,25 +146,53 @@ public class ClarityClientConfiguration
                     .toArray(new String[0]);
 
         Map<String, Object> marshallerProps = new HashMap<>();
-        marshallerProps.put(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshallerProps.put(Marshaller.JAXB_ENCODING, "UTF-8");
+        marshallerProps.put(JAXB_FORMATTED_OUTPUT, true);
+        marshallerProps.put(JAXB_ENCODING, "UTF-8");
 
-        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setPackagesToScan(packages);
-        marshaller.setMarshallerProperties(marshallerProps);
-        return marshaller;
+        Jaxb2Marshaller m = new Jaxb2Marshaller();
+        m.setPackagesToScan(packages);
+        m.setMarshallerProperties(marshallerProps);
+
+        return m;
+    }
+
+    @Bean
+    public Marshaller clarityJaxbMarshaller()
+    {
+        return new PassThroughInvocationHandler<>(createJaxbMarshaller(), Marshaller.class).createProxy();
+    }
+
+    @Bean
+    public Unmarshaller clarityJaxbUnmarshaller()
+    {
+        return new PassThroughInvocationHandler<>(createJaxbMarshaller(), Unmarshaller.class).createProxy();
+    }
+
+    @Bean
+    public List<Class<?>> clarityJaxbClasses()
+    {
+        var marshaller = createJaxbMarshaller();
+        marshaller.getJaxbContext();
+        return Arrays.asList(marshaller.getClassesToBeBound());
+    }
+
+    protected RestTemplate createRestTemplate()
+    {
+        var converter = new MarshallingHttpMessageConverter(clarityJaxbMarshaller(), clarityJaxbUnmarshaller());
+
+        List<HttpMessageConverter<?>> converters = Arrays.asList(converter);
+
+        RestTemplate template = new RestTemplate(clarityClientHttpRequestFactory());
+        template.setMessageConverters(converters);
+        template.setErrorHandler(clarityExceptionErrorHandler());
+
+        return template;
     }
 
     @Bean
     public RestOperations clarityRestTemplate()
     {
-        List<HttpMessageConverter<?>> converters =
-                Arrays.asList(new MarshallingHttpMessageConverter(clarityJaxbMarshaller()));
-
-        RestTemplate template = new RestTemplate(clarityClientHttpRequestFactory());
-        template.setMessageConverters(converters);
-        template.setErrorHandler(clarityExceptionErrorHandler());
-        return template;
+        return createRestTemplate();
     }
 
     @Bean
@@ -173,5 +207,28 @@ public class ClarityClientConfiguration
         template.setMessageConverters(converters);
         template.setErrorHandler(clarityExceptionErrorHandler());
         return template;
+    }
+
+    private static class PassThroughInvocationHandler<T, O extends T> implements InvocationHandler
+    {
+        private O proxied;
+        private Class<T> proxyInterface;
+
+        PassThroughInvocationHandler(O thing, Class<T> pi)
+        {
+            proxied = thing;
+            proxyInterface = pi;
+        }
+
+        T createProxy()
+        {
+            Object proxy = Proxy.newProxyInstance(getClass().getClassLoader(), new Class<?>[] { proxyInterface }, this);
+            return proxyInterface.cast(proxy);
+        }
+
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
+        {
+            return method.invoke(proxied, args);
+        }
     }
 }

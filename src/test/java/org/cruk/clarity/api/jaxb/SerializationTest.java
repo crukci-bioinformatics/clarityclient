@@ -18,6 +18,8 @@
 
 package org.cruk.clarity.api.jaxb;
 
+import static jakarta.xml.bind.Marshaller.JAXB_ENCODING;
+import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -38,19 +40,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.Marshaller;
-import jakarta.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.stream.StreamSource;
+
+import jakarta.xml.bind.JAXBElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -121,7 +123,7 @@ public class SerializationTest
     static final int modifierMask = Modifier.TRANSIENT | Modifier.STATIC | Modifier.FINAL;
 
     @Autowired
-    protected Jaxb2Marshaller marshaller;
+    protected Unmarshaller unmarshaller;
 
     protected DocumentBuilder docBuilder;
 
@@ -203,23 +205,23 @@ public class SerializationTest
     public void testExceptionSimple() throws Throwable
     {
         Map<String, Object> marshallerProperties = new HashMap<>();
-        marshallerProperties.put(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshallerProperties.put(Marshaller.JAXB_ENCODING, "UTF-8");
+        marshallerProperties.put(JAXB_FORMATTED_OUTPUT, true);
+        marshallerProperties.put(JAXB_ENCODING, "UTF-8");
 
         // Cannot use configured because of aspects.
         Jaxb2Marshaller exceptionMarshaller = new Jaxb2Marshaller();
         exceptionMarshaller.setPackagesToScan("com.genologics.ri.exception");
         exceptionMarshaller.setMarshallerProperties(marshallerProperties);
 
-        Jaxb2Marshaller original = marshaller;
+        Unmarshaller original = unmarshaller;
         try
         {
-            marshaller = exceptionMarshaller;
+            unmarshaller = exceptionMarshaller;
             fetchMarshalAndSerialize(com.genologics.ri.exception.Exception.class);
         }
         finally
         {
-            marshaller = original;
+            unmarshaller = original;
         }
     }
 
@@ -518,15 +520,15 @@ public class SerializationTest
 
         File exampleFile = new File(exampleDirectory, className.toLowerCase() + ".xml");
 
-        Object unmarshalled = marshaller.unmarshal(new StreamSource(new FileReader(exampleFile)));
+        Object unmarshalled = unmarshaller.unmarshal(new StreamSource(new FileReader(exampleFile)));
 
         // In the case where the simple serialisation test for the exception
         // hasn't got the unmarshalling aspect around it.
         // See JaxbUnmarshallingAspect.
 
-        if (unmarshalled instanceof JAXBElement<?>)
+        if (unmarshalled instanceof JAXBElement<?> element)
         {
-            unmarshalled = ((JAXBElement<?>)unmarshalled).getValue();
+            unmarshalled = element.getValue();
         }
 
         ByteArrayOutputStream bstream = new ByteArrayOutputStream(65536);

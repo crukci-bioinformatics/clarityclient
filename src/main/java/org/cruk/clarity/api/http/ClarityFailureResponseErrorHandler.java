@@ -23,6 +23,8 @@ import java.io.IOException;
 
 import javax.xml.transform.stream.StreamSource;
 
+import jakarta.xml.bind.JAXBElement;
+
 import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.jaxb.JaxbUnmarshallingAspect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 /**
  * REST client error handler that looks at the response body when there is a failure
  * code (an HTTP 400 or 500 code) and sees if the body contains a Clarity
  * {@code exception} message. If it does, that is thrown instead.
- * <p>This handler relies on the exception conversion aspect around the JAXB2
+ *
+ * <p>This handler relies on the exception conversion aspect around the JAXB
  * unmarshaller.</p>
  *
  * @see JaxbUnmarshallingAspect
@@ -46,9 +49,9 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
 public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHandler
 {
     /**
-     * The marshaller.
+     * The unmarshaller.
      */
-    private Jaxb2Marshaller marshaller;
+    private Unmarshaller unmarshaller;
 
     /**
      * Empty constructor.
@@ -57,21 +60,21 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
     {
     }
 
-    public ClarityFailureResponseErrorHandler(Jaxb2Marshaller marshaller)
+    public ClarityFailureResponseErrorHandler(Unmarshaller unmarshaller)
     {
-        setMarshaller(marshaller);
+        setMarshaller(unmarshaller);
     }
 
     /**
-     * Set the marshaller used to create the XML.
+     * Set the unmarshaller used to create the XML.
      *
-     * @param marshaller The Jaxb2Marshaller.
+     * @param unmarshaller The Jaxb Unmarshaller.
      */
     @Autowired
-    @Qualifier("clarityJaxbMarshaller")
-    public void setMarshaller(Jaxb2Marshaller marshaller)
+    @Qualifier("clarityJaxbUnmarshaller")
+    public void setMarshaller(Unmarshaller unmarshaller)
     {
-        this.marshaller = marshaller;
+        this.unmarshaller = unmarshaller;
     }
 
     /**
@@ -116,11 +119,15 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
 
             try
             {
-                Object content = marshaller.unmarshal(new StreamSource(new ByteArrayInputStream(body)));
+                Object content = unmarshaller.unmarshal(new StreamSource(new ByteArrayInputStream(body)));
 
                 // Should be handled by the ClarityExceptionAspect, but in case
                 // that isn't in place...
 
+                if (content instanceof JAXBElement<?> element)
+                {
+                    content = element.getValue();
+                }
                 if (content instanceof com.genologics.ri.exception.Exception ge)
                 {
                     throw new ClarityException(ge, statusCode);

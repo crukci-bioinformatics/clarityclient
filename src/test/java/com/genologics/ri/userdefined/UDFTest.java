@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,9 +32,10 @@ import java.util.List;
 import javax.xml.transform.stream.StreamSource;
 
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.genologics.ri.artifact.Artifact;
@@ -42,22 +44,28 @@ import com.genologics.ri.artifact.Artifact;
 public class UDFTest
 {
     @Autowired
-    protected Jaxb2Marshaller marshaller;
+    protected Unmarshaller unmarshaller;
 
     protected File exampleDirectory = new File("src/test/jaxb");
 
     private final Collection<UDF> nullCollection = null;
     private final UDFHolder nullHolder = null;
 
-    public UDFTest() throws Exception
+    private Artifact a;
+
+    public UDFTest()
     {
+    }
+
+    @BeforeEach
+    void loadArtifact() throws IOException
+    {
+        a = (Artifact)unmarshaller.unmarshal(new StreamSource(new File(exampleDirectory, "artifact.xml")));
     }
 
     @Test
     public void testGetUDF() throws Exception
     {
-        Artifact a = (Artifact)marshaller.unmarshal(new StreamSource(new File(exampleDirectory, "artifact.xml")));
-
         try
         {
             UDF.getUDF(a.getUserDefinedFields(), null);
@@ -121,8 +129,6 @@ public class UDFTest
     @Test
     public void testGetUDFValue() throws Exception
     {
-        Artifact a = (Artifact)marshaller.unmarshal(new StreamSource(new File(exampleDirectory, "artifact.xml")));
-
         try
         {
             UDF.getUDFValue(a.getUserDefinedFields(), null);
@@ -248,8 +254,6 @@ public class UDFTest
     @Test
     public void testGetUDFFromObject() throws Exception
     {
-        Artifact a = (Artifact)marshaller.unmarshal(new StreamSource(new File(exampleDirectory, "artifact.xml")));
-
         try
         {
             UDF.getUDF(a, null);
@@ -313,8 +317,6 @@ public class UDFTest
     @Test
     public void testGetUDFValueFromObject() throws Exception
     {
-        Artifact a = (Artifact)marshaller.unmarshal(new StreamSource(new File(exampleDirectory, "artifact.xml")));
-
         try
         {
             UDF.getUDFValue(a, null);

@@ -18,14 +18,13 @@
 
 package org.cruk.clarity.api.jaxb;
 
+import jakarta.xml.bind.JAXBElement;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.cruk.clarity.api.ClarityException;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
-
-import jakarta.xml.bind.JAXBElement;
 
 /**
  * Aspect that wraps the unmarshalling of responses from the
@@ -37,11 +36,11 @@ import jakarta.xml.bind.JAXBElement;
  *
  * @see com.genologics.ri.exception.Exception
  * @see ClarityException
- * @see Jaxb2Marshaller
  * @see JAXBElement
  */
 @Aspect
 @Component("clarityUnmarshallingAspect")
+@SuppressWarnings("exports")
 public class JaxbUnmarshallingAspect
 {
     /**
@@ -60,10 +59,8 @@ public class JaxbUnmarshallingAspect
      *
      * @throws Throwable if there is another throwable from continuing
      * the join point control chain.
-     *
-     * @see Jaxb2Marshaller#unmarshal(javax.xml.transform.Source)
      */
-    @Around("execution(public * unmarshal(..)) and bean(clarityJaxbMarshaller)")
+    @Around("execution(public * unmarshal(..)) and bean(clarityJaxbUnmarshaller)")
     public Object objectUnmarshalled(ProceedingJoinPoint pjp) throws Throwable
     {
         Object unmarshalled = pjp.proceed();
@@ -72,7 +69,6 @@ public class JaxbUnmarshallingAspect
         {
             unmarshalled = element.getValue();
         }
-
         if (unmarshalled instanceof com.genologics.ri.exception.Exception ge)
         {
             throw new ClarityException(ge);

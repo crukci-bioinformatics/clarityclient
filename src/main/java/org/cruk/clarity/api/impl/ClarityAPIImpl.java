@@ -359,24 +359,24 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
     }
 
     /**
-     * Set the Jaxb marshaller.
+     * Set the list of classes that are managed by the Clarity JAXB context.
      *
-     * <p>This operation also immediately scans the classes managed by the marshaller
+     * <p>This operation also immediately scans the classes
      * to find those supporting classes for retrieving lists of links to a given entity
      * and classes that allow batch fetch and update of entities.
      * </p>
      *
-     * @param jaxbMarshaller The Jaxb marshaller.
+     * @param classesToBeBound The classes that are managed by JAXB.
      */
     @Autowired
-    @Qualifier("clarityJaxbMarshaller")
+    @Qualifier("clarityJaxbClasses")
     @SuppressWarnings("exports")
-    public void setJaxbMarshaller(Jaxb2Marshaller jaxbMarshaller)
+    public void setJaxbConfig(List<Class<?>> classesToBeBound)
     {
         entityToListClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
         entityToBatchRetrieveClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
 
-        for (Class<?> possibleClass : jaxbMarshaller.getClassesToBeBound())
+        for (Class<?> possibleClass : classesToBeBound)
         {
             ClarityQueryResult queryAnno = possibleClass.getAnnotation(ClarityQueryResult.class);
             ClarityBatchRetrieveResult batchAnno = possibleClass.getAnnotation(ClarityBatchRetrieveResult.class);

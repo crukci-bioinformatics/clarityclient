@@ -41,6 +41,8 @@ import java.util.Map;
 
 import javax.xml.transform.stream.StreamSource;
 
+import jakarta.annotation.PostConstruct;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
@@ -55,21 +57,22 @@ import org.apache.hc.core5.http.protocol.HttpContext;
 import org.cruk.clarity.api.debugging.RestClientSnoopingAspect;
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
 import org.cruk.clarity.api.impl.ClarityAPIImpl;
-import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.cruk.clarity.api.spring.ClarityClientConfiguration;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.oxm.Unmarshaller;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -79,34 +82,30 @@ import com.genologics.ri.sample.Samples;
 /*
  * Can't use the wired standard configuration as it's all changed around with the mocks.
  */
+@SpringJUnitConfig(ClarityAPIPaginatedBatchTest.MyConfiguration.class)
 public class ClarityAPIPaginatedBatchTest
 {
-    private static ConfigurableApplicationContext context;
+    @Autowired
+    Unmarshaller unmarshaller;
 
-    ClarityAPIImpl localApi;
-    Jaxb2Marshaller marshaller;
+    @Autowired
+    @Qualifier("clarityFullRestTemplate")
     RestTemplate restTemplate;
+
+    @Autowired
+    @Qualifier("clarityAPIImpl")
+    ClarityAPIImpl localApi;
 
     File[] pageFiles;
     ResponseEntity<Samples> response1, response2, response3;
 
-    @BeforeAll
-    public static void start()
+    public ClarityAPIPaginatedBatchTest()
     {
-        context = new AnnotationConfigApplicationContext(ClarityClientTestConfiguration.class);
     }
 
-    @AfterAll
-    public static void finish()
+    @PostConstruct
+    public void setupAPI() throws MalformedURLException, IOException
     {
-        context.close();
-    }
-
-    public ClarityAPIPaginatedBatchTest() throws MalformedURLException
-    {
-        marshaller = context.getBean(Jaxb2Marshaller.class);
-        restTemplate = context.getBean("clarityRestTemplate", RestTemplate.class);
-        localApi = context.getBean(ClarityAPIImpl.class);
         localApi.setServer(new URL("http://lims.cri.camres.org:8080"));
 
         pageFiles = new File[] {
@@ -115,11 +114,11 @@ public class ClarityAPIPaginatedBatchTest
                 new File("src/test/xml/multipagefetch-3.xml")
         };
 
-        Samples page1 = (Samples)marshaller.unmarshal(new StreamSource(pageFiles[0]));
+        Samples page1 = (Samples)unmarshaller.unmarshal(new StreamSource(pageFiles[0]));
         response1 = new ResponseEntity<Samples>(page1, HttpStatus.OK);
-        Samples page2 = (Samples)marshaller.unmarshal(new StreamSource(pageFiles[1]));
+        Samples page2 = (Samples)unmarshaller.unmarshal(new StreamSource(pageFiles[1]));
         response2 = new ResponseEntity<Samples>(page2, HttpStatus.OK);
-        Samples page3 = (Samples)marshaller.unmarshal(new StreamSource(pageFiles[2]));
+        Samples page3 = (Samples)unmarshaller.unmarshal(new StreamSource(pageFiles[2]));
         response3 = new ResponseEntity<Samples>(page3, HttpStatus.OK);
     }
 
@@ -355,6 +354,25 @@ public class ClarityAPIPaginatedBatchTest
             {
                 contentStream.close();
             }
+        }
+    }
+
+    @Configuration
+    static class MyConfiguration extends ClarityClientConfiguration
+    {
+        @Bean
+        public RestTemplate clarityFullRestTemplate()
+        {
+            return createRestTemplate();
+        }
+
+        @Bean
+        public ClarityAPIImpl clarityAPIImpl()
+        {
+            ClarityAPIImpl apiImpl = new ClarityAPIImpl();
+            apiImpl.setRestClient(clarityFullRestTemplate());
+            apiImpl.setJaxbConfig(clarityJaxbClasses());
+            return apiImpl;
         }
     }
 }

@@ -27,7 +27,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
@@ -39,18 +39,18 @@ import com.genologics.ri.sample.SampleBatchFetchResult;
 public class BatchFetchDecodingTest
 {
     @Autowired
-    protected Jaxb2Marshaller marshaller;
+    protected Unmarshaller unmarshaller;
 
     public BatchFetchDecodingTest()
     {
     }
 
     @Test
-    public void testDecodeBatchFetchArtifactResult()
+    public void testDecodeBatchFetchArtifactResult() throws Exception
     {
         File resultFile = new File("src/test/xml/batchfetchdecodingtest-artifacts.xml");
 
-        Object result = marshaller.unmarshal(new StreamSource(resultFile));
+        Object result = unmarshaller.unmarshal(new StreamSource(resultFile));
 
         assertEquals(ArtifactBatchFetchResult.class, result.getClass(), "Decoded result is unexpected");
 
@@ -60,11 +60,11 @@ public class BatchFetchDecodingTest
     }
 
     @Test
-    public void testDecodeBatchFetchContainerResult()
+    public void testDecodeBatchFetchContainerResult() throws Exception
     {
         File resultFile = new File("src/test/xml/batchfetchdecodingtest-containers.xml");
 
-        Object result = marshaller.unmarshal(new StreamSource(resultFile));
+        Object result = unmarshaller.unmarshal(new StreamSource(resultFile));
 
         assertEquals(ContainerBatchFetchResult.class, result.getClass(), "Decoded result is unexpected");
 
@@ -74,11 +74,11 @@ public class BatchFetchDecodingTest
     }
 
     @Test
-    public void testDecodeBatchFetchSampleResult()
+    public void testDecodeBatchFetchSampleResult() throws Exception
     {
         File resultFile = new File("src/test/xml/batchfetchdecodingtest-samples.xml");
 
-        Object result = marshaller.unmarshal(new StreamSource(resultFile));
+        Object result = unmarshaller.unmarshal(new StreamSource(resultFile));
 
         assertEquals(SampleBatchFetchResult.class, result.getClass(), "Decoded result is unexpected");
 
@@ -88,11 +88,11 @@ public class BatchFetchDecodingTest
     }
 
     @Test
-    public void testDecodeBatchFetchClarityFileResult()
+    public void testDecodeBatchFetchClarityFileResult() throws Exception
     {
         File resultFile = new File("src/test/xml/batchfetchdecodingtest-files.xml");
 
-        Object result = marshaller.unmarshal(new StreamSource(resultFile));
+        Object result = unmarshaller.unmarshal(new StreamSource(resultFile));
 
         assertEquals(ClarityFileBatchFetchResult.class, result.getClass(), "Decoded result is unexpected");
 

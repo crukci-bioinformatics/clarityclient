@@ -24,7 +24,8 @@ import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.oxm.Marshaller;
+import org.springframework.oxm.Unmarshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -40,7 +41,10 @@ public class UnicodeTest
     protected AuthenticatingClientHttpRequestFactory httpRequestFactory;
 
     @Autowired
-    protected Jaxb2Marshaller marshaller;
+    protected Marshaller marshaller;
+
+    @Autowired
+    protected Unmarshaller unmarshaller;
 
     @Autowired
     protected ClarityAPI api;
@@ -57,7 +61,7 @@ public class UnicodeTest
     {
         final String originalXml = FileUtils.readFileToString(unicodeEntityFile, UTF_8);
 
-        ClarityProcess unmarshalled = (ClarityProcess)marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
+        ClarityProcess unmarshalled = (ClarityProcess)unmarshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
 
         StringWriter writer = new StringWriter();
 
@@ -100,7 +104,7 @@ public class UnicodeTest
         CRUKCICheck.assumeInCrukCI();
         checkCredentialsSet();
 
-        ClarityProcess unmarshalled = (ClarityProcess)marshaller.unmarshal(new StreamSource(unicodeEntityFile));
+        ClarityProcess unmarshalled = (ClarityProcess)unmarshaller.unmarshal(new StreamSource(unicodeEntityFile));
         String unicodeComment = unmarshalled.getUDFValue("Comments");
         assertNotNull(unicodeComment, "Cannot find comment");
 
