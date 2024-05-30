@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.hc.client5.http.auth.CredentialsProvider;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.config.ConnectionConfig;
@@ -135,6 +136,11 @@ public class ClarityClientConfiguration
         Jaxb2Marshaller m = new Jaxb2Marshaller();
         m.setPackagesToScan(packages);
         m.setMarshallerProperties(marshallerProps);
+
+        // Expands the packages into classes.
+        m.getJaxbContext();
+        assert ObjectUtils.isNotEmpty(m.getClassesToBeBound()) : "Classes have not been found from packages.";
+        m.setPackagesToScan();
 
         return m;
     }
