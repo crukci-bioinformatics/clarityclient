@@ -3,7 +3,6 @@ package org.cruk.clarity.api.spring;
 import static jakarta.xml.bind.Marshaller.JAXB_ENCODING;
 import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -12,9 +11,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.hc.client5.http.auth.CredentialsProvider;
 import org.apache.hc.client5.http.classic.HttpClient;
@@ -57,18 +59,23 @@ public class ClarityClientConfiguration
 
     public ClarityClientConfiguration()
     {
+        this(ArrayUtils.EMPTY_CLASS_ARRAY);
+    }
+
+    protected ClarityClientConfiguration(Class<?>... additionalPackageClasses)
+    {
         Module module = ClarityAPI.class.getModule();
-        String[] packages = module.getPackages().stream()
-                    .filter(p -> p.startsWith("com.genologics.ri"))
-                    .collect(Collectors.toSet())
-                    .toArray(new String[0]);
+        Set<String> packages = module.getPackages().stream()
+                .filter(p -> p.startsWith("com.genologics.ri"))
+                .collect(Collectors.toSet());
+        Stream.of(additionalPackageClasses).map(c -> c.getPackageName()).forEach(p -> packages.add(p));
 
         Map<String, Object> marshallerProps = new HashMap<>();
         marshallerProps.put(JAXB_FORMATTED_OUTPUT, true);
         marshallerProps.put(JAXB_ENCODING, "UTF-8");
 
         jaxb2 = new Jaxb2Marshaller();
-        jaxb2.setPackagesToScan(packages);
+        jaxb2.setPackagesToScan(packages.toArray(new String[packages.size()]));
         jaxb2.setMarshallerProperties(marshallerProps);
 
         // Expands the packages into classes.
