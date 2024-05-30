@@ -3,6 +3,7 @@ package org.cruk.clarity.api.spring;
 import static jakarta.xml.bind.Marshaller.JAXB_ENCODING;
 import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -52,8 +53,30 @@ import org.springframework.web.client.RestTemplate;
 @SuppressWarnings("exports")
 public class ClarityClientConfiguration
 {
+    private Jaxb2Marshaller jaxb2;
+
     public ClarityClientConfiguration()
     {
+        Module module = ClarityAPI.class.getModule();
+        String[] packages = module.getPackages().stream()
+                    .filter(p -> p.startsWith("com.genologics.ri"))
+                    .collect(Collectors.toSet())
+                    .toArray(new String[0]);
+
+        Map<String, Object> marshallerProps = new HashMap<>();
+        marshallerProps.put(JAXB_FORMATTED_OUTPUT, true);
+        marshallerProps.put(JAXB_ENCODING, "UTF-8");
+
+        jaxb2 = new Jaxb2Marshaller();
+        jaxb2.setPackagesToScan(packages);
+        jaxb2.setMarshallerProperties(marshallerProps);
+
+        // Expands the packages into classes.
+        jaxb2.getJaxbContext();
+        assert ObjectUtils.isNotEmpty(jaxb2.getClassesToBeBound()) : "Classes have not been found from packages.";
+
+        // Cannot have both packages and classes set if afterPropertiesSet() is called more than once.
+        jaxb2.setPackagesToScan();
     }
 
     public int httpConnectTimeout()
@@ -121,48 +144,22 @@ public class ClarityClientConfiguration
         return new ClarityFailureResponseErrorHandler(clarityJaxbUnmarshaller());
     }
 
-    protected Jaxb2Marshaller createJaxbMarshaller()
-    {
-        Module module = ClarityAPI.class.getModule();
-        String[] packages = module.getPackages().stream()
-                    .filter(p -> p.startsWith("com.genologics.ri"))
-                    .collect(Collectors.toSet())
-                    .toArray(new String[0]);
-
-        Map<String, Object> marshallerProps = new HashMap<>();
-        marshallerProps.put(JAXB_FORMATTED_OUTPUT, true);
-        marshallerProps.put(JAXB_ENCODING, "UTF-8");
-
-        Jaxb2Marshaller m = new Jaxb2Marshaller();
-        m.setPackagesToScan(packages);
-        m.setMarshallerProperties(marshallerProps);
-
-        // Expands the packages into classes.
-        m.getJaxbContext();
-        assert ObjectUtils.isNotEmpty(m.getClassesToBeBound()) : "Classes have not been found from packages.";
-        m.setPackagesToScan();
-
-        return m;
-    }
-
     @Bean
     public Marshaller clarityJaxbMarshaller()
     {
-        return new PassThroughInvocationHandler<>(createJaxbMarshaller(), Marshaller.class).createProxy();
+        return new PassThroughInvocationHandler<>(jaxb2, Marshaller.class).createProxy();
     }
 
     @Bean
     public Unmarshaller clarityJaxbUnmarshaller()
     {
-        return new PassThroughInvocationHandler<>(createJaxbMarshaller(), Unmarshaller.class).createProxy();
+        return new PassThroughInvocationHandler<>(jaxb2, Unmarshaller.class).createProxy();
     }
 
     @Bean
     public List<Class<?>> clarityJaxbClasses()
     {
-        var marshaller = createJaxbMarshaller();
-        marshaller.getJaxbContext();
-        return Arrays.asList(marshaller.getClassesToBeBound());
+        return Arrays.asList(jaxb2.getClassesToBeBound());
     }
 
     protected RestTemplate createRestTemplate()
