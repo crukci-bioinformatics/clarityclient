@@ -370,7 +370,6 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      */
     @Autowired
     @Qualifier("clarityJaxbClasses")
-    @SuppressWarnings("exports")
     public void setJaxbConfig(List<Class<?>> classesToBeBound)
     {
         entityToListClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();

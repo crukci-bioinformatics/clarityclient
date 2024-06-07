@@ -33,6 +33,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.oxm.Unmarshaller;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 /**
@@ -46,6 +47,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
  * @see JaxbUnmarshallingAspect
  */
 @SuppressWarnings("exports")
+@Component("clarityExceptionErrorHandler")
 public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHandler
 {
     /**
@@ -62,7 +64,7 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
 
     public ClarityFailureResponseErrorHandler(Unmarshaller unmarshaller)
     {
-        setMarshaller(unmarshaller);
+        setUnmarshaller(unmarshaller);
     }
 
     /**
@@ -72,7 +74,7 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
      */
     @Autowired
     @Qualifier("clarityJaxbUnmarshaller")
-    public void setMarshaller(Unmarshaller unmarshaller)
+    public void setUnmarshaller(Unmarshaller unmarshaller)
     {
         this.unmarshaller = unmarshaller;
     }

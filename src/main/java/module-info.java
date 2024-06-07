@@ -40,8 +40,9 @@ open module org.cruk.clarity.api
     requires org.apache.httpcomponents.core5.httpcore5.h2;
     requires org.apache.sshd.osgi;
     requires org.apache.sshd.sftp;
-    requires org.aspectj.weaver;
+    requires transitive org.aspectj.weaver;
     requires org.slf4j;
+    requires transitive spring.aop;
     requires transitive spring.beans;
     requires transitive spring.core;
     requires transitive spring.context;
