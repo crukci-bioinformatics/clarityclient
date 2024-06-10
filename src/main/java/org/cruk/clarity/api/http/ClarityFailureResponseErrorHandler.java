@@ -27,13 +27,10 @@ import jakarta.xml.bind.JAXBElement;
 
 import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.jaxb.JaxbUnmarshallingAspect;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.oxm.Unmarshaller;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 /**
@@ -47,7 +44,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
  * @see JaxbUnmarshallingAspect
  */
 @SuppressWarnings("exports")
-@Component("clarityExceptionErrorHandler")
+// Can't declare this as a component as it causes a circular bean dependency.
 public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHandler
 {
     /**
@@ -62,6 +59,11 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
     {
     }
 
+    /**
+     * Constructor with the unmarshaller.
+     *
+     * @param unmarshaller The Jaxb Unmarshaller.
+     */
     public ClarityFailureResponseErrorHandler(Unmarshaller unmarshaller)
     {
         setUnmarshaller(unmarshaller);
@@ -72,8 +74,6 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
      *
      * @param unmarshaller The Jaxb Unmarshaller.
      */
-    @Autowired
-    @Qualifier("clarityJaxbUnmarshaller")
     public void setUnmarshaller(Unmarshaller unmarshaller)
     {
         this.unmarshaller = unmarshaller;

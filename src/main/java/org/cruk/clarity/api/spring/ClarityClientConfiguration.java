@@ -25,6 +25,7 @@ import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.auth.CredentialsProviderBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.cruk.clarity.api.ClarityAPI;
+import org.cruk.clarity.api.http.ClarityFailureResponseErrorHandler;
 import org.cruk.clarity.api.http.HttpComponentsClientHttpRequestFactoryBasicAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -57,10 +58,6 @@ import org.springframework.web.client.RestTemplate;
 @SuppressWarnings("exports")
 public class ClarityClientConfiguration
 {
-    @Autowired
-    @Qualifier("clarityExceptionErrorHandler")
-    private ResponseErrorHandler clarityExceptionErrorHandler;
-
     private Jaxb2Marshaller jaxb2;
 
     public ClarityClientConfiguration()
@@ -169,6 +166,12 @@ public class ClarityClientConfiguration
         return Arrays.asList(jaxb2.getClassesToBeBound());
     }
 
+    @Bean
+    public ResponseErrorHandler clarityExceptionErrorHandler()
+    {
+        return new ClarityFailureResponseErrorHandler(clarityJaxbUnmarshaller());
+    }
+
     protected RestTemplate createRestTemplate()
     {
         var converter = new MarshallingHttpMessageConverter(clarityJaxbMarshaller(), clarityJaxbUnmarshaller());
@@ -177,7 +180,7 @@ public class ClarityClientConfiguration
 
         RestTemplate template = new RestTemplate(clarityClientHttpRequestFactory());
         template.setMessageConverters(converters);
-        template.setErrorHandler(clarityExceptionErrorHandler);
+        template.setErrorHandler(clarityExceptionErrorHandler());
 
         return template;
     }
@@ -198,7 +201,7 @@ public class ClarityClientConfiguration
 
         RestTemplate template = new RestTemplate(clarityClientHttpRequestFactory());
         template.setMessageConverters(converters);
-        template.setErrorHandler(clarityExceptionErrorHandler);
+        template.setErrorHandler(clarityExceptionErrorHandler());
         return template;
     }
 
