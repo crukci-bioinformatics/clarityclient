@@ -118,12 +118,16 @@ available in Maven won't work well with newer JREs.
 
 ## Other Branches
 
-The `master` branch is the same as this branch but it set up for Jakarta
-EE 9. At the time of writing (April 2022) there isn't a complete version of
-Wildfly that implements EE 9, only a preview. The preview is missing
-the JMS system and so isn't quite ready for full deployment. Wildfly 27 is
-due to deliver this, so once that is out code can be moved to EE9. In the
-mean time, use this branch until the newer application server is released.
+The `master` branch is the same as this branch but with a slightly different
+artifact naming (it no longer includes the "ee8" part).
+The move to EE10 was going to be on the master branch with the EE8 code
+on this "ee8" branch, but work done on the client in the move to EE10 has
+involved such substantial changes to the code beyond changing the namespace
+of the EE classes that it's been created as a new project. This is available
+as [Clarity Client 2](https://github.com/crukci-bioinformatics/clarityclient2).
+
+This branch will not be maintained going forward; use the "master" branch.
 
 Illumina is due to stop support for Clarity versions 4 and 5 in June 2022,
 so one would expect no more changes on those branches.
+
