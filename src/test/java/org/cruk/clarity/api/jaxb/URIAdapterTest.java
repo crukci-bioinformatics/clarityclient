@@ -18,9 +18,9 @@
 
 package org.cruk.clarity.api.jaxb;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import static org.cruk.clarity.api.jaxb.URIAdapter.removeStateParameter;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 
 public class URIAdapterTest
 {
+
     @Test
     public void testRemoveStateParameterString()
     {

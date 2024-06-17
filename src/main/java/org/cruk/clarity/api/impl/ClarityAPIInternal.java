@@ -34,17 +34,11 @@ import com.genologics.ri.Locatable;
  * aspects that surround the API.
  * </p>
  *
- * <p>
- * In earlier versions this was a stand alone interface. To aid proxying and to keep
- * only one bean in the context, this has been changed to be an extension of the
- * main public interface.
- * </p>
- *
  * @see ClarityAPI
  *
  * @since 2.24.9
  */
-public interface ClarityAPIInternal extends ClarityAPI
+public interface ClarityAPIInternal
 {
     /**
      * Helper method for the cache, this method returns whether the next call

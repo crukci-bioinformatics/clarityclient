@@ -35,17 +35,20 @@ you add our repository's details to your POM:
 ```
 
 If you are not running in an EE8 container, you will also need to provide
-a JAXB implementation in your final code. This should be one of the Jakarta EE 10
-implementations, namely a Glassfish implementation version 4.x.x:
+a JAXB implementation in your final code. This should be one of the EE8
+implementations, namely a Glassfish implementation version 2.x.x:
 
 ```XML
 <dependency>
     <groupId>org.glassfish.jaxb</groupId>
     <artifactId>jaxb-runtime</artifactId>
-    <version>4.0.5</version>
+    <version>2.3.6</version>
     <scope>runtime</scope>
 </dependency>
 ```
+
+The `com.sun.xml.bind:jaxb-impl` artifacts available in Maven won't
+work well with newer JREs.
 
 ### Without Maven
 

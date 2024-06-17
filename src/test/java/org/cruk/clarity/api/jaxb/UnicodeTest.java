@@ -1,5 +1,7 @@
 package org.cruk.clarity.api.jaxb;
 
+import static com.genologics.ri.userdefined.UDF.getUDFValue;
+import static com.genologics.ri.userdefined.UDF.setUDF;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -24,8 +26,7 @@ import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.ResourceAccessException;
 
@@ -41,10 +42,7 @@ public class UnicodeTest
     protected AuthenticatingClientHttpRequestFactory httpRequestFactory;
 
     @Autowired
-    protected Marshaller marshaller;
-
-    @Autowired
-    protected Unmarshaller unmarshaller;
+    protected Jaxb2Marshaller marshaller;
 
     @Autowired
     protected ClarityAPI api;
@@ -61,7 +59,7 @@ public class UnicodeTest
     {
         final String originalXml = FileUtils.readFileToString(unicodeEntityFile, UTF_8);
 
-        ClarityProcess unmarshalled = (ClarityProcess)unmarshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
+        ClarityProcess unmarshalled = (ClarityProcess)marshaller.unmarshal(new StreamSource(new StringReader(originalXml)));
 
         StringWriter writer = new StringWriter();
 
@@ -104,8 +102,8 @@ public class UnicodeTest
         CRUKCICheck.assumeInCrukCI();
         checkCredentialsSet();
 
-        ClarityProcess unmarshalled = (ClarityProcess)unmarshaller.unmarshal(new StreamSource(unicodeEntityFile));
-        String unicodeComment = unmarshalled.getUDFValue("Comments");
+        ClarityProcess unmarshalled = (ClarityProcess)marshaller.unmarshal(new StreamSource(unicodeEntityFile));
+        String unicodeComment = getUDFValue(unmarshalled, "Comments");
         assertNotNull(unicodeComment, "Cannot find comment");
 
         try
@@ -116,7 +114,7 @@ public class UnicodeTest
             c.setContainerType(tubeType);
             c.setName("Unicode Unit Test Tube");
             c.setUserDefinedType("SLX Container");
-            c.getUserDefinedType().setUDF("Special Sequencing Instructions", unicodeComment);
+            setUDF(c.getUserDefinedType(), "Special Sequencing Instructions", unicodeComment);
 
             api.create(c);
             assertNotNull(c.getUri(), "New container URI not set");
@@ -125,7 +123,7 @@ public class UnicodeTest
             {
                 Container copy = api.retrieve(c.getUri(), Container.class);
 
-                String retrievedComment = copy.getUserDefinedType().getUDFValue("Special Sequencing Instructions", true);
+                String retrievedComment = getUDFValue(copy.getUserDefinedType(), "Special Sequencing Instructions", true);
 
                 assertEquals(unicodeComment, retrievedComment, "Original unicode text and that retrieved from the server don't match.");
             }

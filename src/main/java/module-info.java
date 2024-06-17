@@ -24,33 +24,30 @@ import org.cruk.clarity.api.impl.ClarityAPIImpl;
 /**
  * The Clarity Java client for Clarity 6+.
  */
-open module org.cruk.clarity.api
+module org.cruk.clarity.api
 {
     provides ClarityAPI with ClarityAPIImpl;
     provides ClarityProcessAutomation with ClarityProcessAutomationImpl;
 
-    requires transitive jakarta.annotation;
-    requires transitive jakarta.xml.bind;
-    requires org.apache.commons.beanutils;
-    requires org.apache.commons.collections4;
+    requires transitive java.annotation;
+    requires transitive java.xml.bind;
+    requires commons.beanutils;
+    requires ehcache;
+    requires jsch;
     requires org.apache.commons.io;
     requires org.apache.commons.lang3;
-    requires org.apache.httpcomponents.client5.httpclient5;
-    requires org.apache.httpcomponents.core5.httpcore5;
-    requires org.apache.httpcomponents.core5.httpcore5.h2;
-    requires org.apache.sshd.osgi;
-    requires org.apache.sshd.sftp;
-    requires transitive org.aspectj.weaver;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.apache.httpcomponents.httpcore;
+    requires org.aspectj.runtime;
     requires org.slf4j;
-    requires transitive spring.aop;
-    requires transitive spring.beans;
-    requires transitive spring.core;
-    requires transitive spring.context;
+    requires spring.beans;
+    requires spring.core;
+    requires spring.context;
     requires spring.integration.core;
     requires spring.integration.file;
     requires spring.integration.sftp;
-    requires transitive spring.oxm;
-    requires transitive spring.web;
+    requires spring.oxm;
+    requires spring.web;
 
     exports com.genologics.ri;
     exports com.genologics.ri.artifact;
@@ -91,9 +88,9 @@ open module org.cruk.clarity.api
     exports org.cruk.clarity.api;
     exports org.cruk.clarity.api.automation;
     exports org.cruk.clarity.api.automation.impl;
+    exports org.cruk.clarity.api.cache;
     exports org.cruk.clarity.api.debugging;
     exports org.cruk.clarity.api.http;
     exports org.cruk.clarity.api.impl;
     exports org.cruk.clarity.api.jaxb;
-    exports org.cruk.clarity.api.spring;
 }

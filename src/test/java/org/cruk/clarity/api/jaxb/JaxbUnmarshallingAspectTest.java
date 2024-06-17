@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -31,27 +30,27 @@ import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class JaxbUnmarshallingAspectTest
 {
     @Autowired
-    protected Unmarshaller unmarshaller;
+    protected Jaxb2Marshaller marshaller;
 
     public JaxbUnmarshallingAspectTest()
     {
     }
 
     @Test
-    public void testExceptionAspect() throws IOException
+    public void testExceptionAspect()
     {
         Source source = new StreamSource(new File("src/test/xml/exceptionaspecttest-exception.xml"));
 
         try
         {
-            unmarshaller.unmarshal(source);
+            marshaller.unmarshal(source);
             fail("Didn't get a ClarityException when unmarshalling an exception.");
         }
         catch (ClarityException e)

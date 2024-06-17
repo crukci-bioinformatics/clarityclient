@@ -224,7 +224,7 @@ public class ClarityAPITest
         ClarityAPIImpl api = new ClarityAPIImpl();
         api.setHttpRequestFactory(mock(AuthenticatingClientHttpRequestFactory.class));
 
-        Map<String, Object> searchTerms = new HashMap<>();
+        Map<String, Object> searchTerms = new HashMap<String, Object>();
 
         try
         {

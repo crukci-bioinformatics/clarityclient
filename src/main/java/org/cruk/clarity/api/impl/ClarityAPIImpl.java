@@ -23,7 +23,6 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.join;
-import static org.cruk.clarity.api.jaxb.URIAdapter.removeStateParameter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +48,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.annotation.PostConstruct;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.ConvertUtilsBean;
@@ -56,17 +59,16 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.hc.client5.http.auth.Credentials;
-import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
-import org.apache.hc.client5.http.classic.HttpClient;
-import org.apache.sshd.sftp.common.SftpConstants;
-import org.apache.sshd.sftp.common.SftpException;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.HttpClient;
 import org.cruk.clarity.api.ClarityAPI;
 import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.ClarityUpdateException;
 import org.cruk.clarity.api.IllegalSearchTermException;
 import org.cruk.clarity.api.InvalidURIException;
 import org.cruk.clarity.api.StatefulOverride;
+import org.cruk.clarity.api.cache.CacheStatefulBehaviour;
 import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,10 +80,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.integration.file.remote.session.Session;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
-import org.springframework.integration.sftp.session.SftpSession;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestOperations;
@@ -104,7 +105,6 @@ import com.genologics.ri.Location;
 import com.genologics.ri.PaginatedBatch;
 import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.file.ClarityFile;
-import com.genologics.ri.instrument.Instrument;
 import com.genologics.ri.process.ClarityProcess;
 import com.genologics.ri.processexecution.ExecutableProcess;
 import com.genologics.ri.queue.Queue;
@@ -115,9 +115,8 @@ import com.genologics.ri.step.ProcessStep;
 import com.genologics.ri.step.ProgramStatus;
 import com.genologics.ri.step.StepCreation;
 import com.genologics.ri.stepconfiguration.ProtocolStep;
-
-import jakarta.annotation.PostConstruct;
-import jakarta.xml.bind.annotation.XmlTransient;
+import com.jcraft.jsch.ChannelSftp.LsEntry;
+import com.jcraft.jsch.SftpException;
 
 
 /**
@@ -130,7 +129,6 @@ import jakarta.xml.bind.annotation.XmlTransient;
  * @see Jaxb2Marshaller
  * @see HttpClient
  */
-@Service("clarityAPI")
 public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 {
     /**
@@ -163,6 +161,17 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
      * The protocol in URIs and URLs for SFTP.
      */
     private static final String SFTP_PROTOCOL = "sftp";
+
+    /**
+     * The part of the URI that specifies the state number.
+     */
+    private static final String STATE_TERM = "state=";
+
+    /**
+     * Regular expression for splitting on ampersand.
+     * @see #removeStateParameter(URI)
+     */
+    private static final Pattern AMPERSAND_SPLIT = Pattern.compile("&");
 
 
     /**
@@ -359,23 +368,24 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
     }
 
     /**
-     * Set the list of classes that are managed by the Clarity JAXB context.
+     * Set the Jaxb marshaller.
      *
-     * <p>This operation also immediately scans the classes
+     * <p>This operation also immediately scans the classes managed by the marshaller
      * to find those supporting classes for retrieving lists of links to a given entity
      * and classes that allow batch fetch and update of entities.
      * </p>
      *
-     * @param classesToBeBound The classes that are managed by JAXB.
+     * @param jaxbMarshaller The Jaxb marshaller.
      */
     @Autowired
-    @Qualifier("clarityJaxbClasses")
-    public void setJaxbConfig(List<Class<?>> classesToBeBound)
+    @Qualifier("clarityJaxbMarshaller")
+    @SuppressWarnings("exports")
+    public void setJaxbMarshaller(Jaxb2Marshaller jaxbMarshaller)
     {
         entityToListClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
         entityToBatchRetrieveClassMap = new HashMap<Class<? extends Locatable>, Class<?>>();
 
-        for (Class<?> possibleClass : classesToBeBound)
+        for (Class<?> possibleClass : jaxbMarshaller.getClassesToBeBound())
         {
             ClarityQueryResult queryAnno = possibleClass.getAnnotation(ClarityQueryResult.class);
             ClarityBatchRetrieveResult batchAnno = possibleClass.getAnnotation(ClarityBatchRetrieveResult.class);
@@ -537,7 +547,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
     @Override
     public void setCredentials(String username, String password)
     {
-        apiCredentials = new UsernamePasswordCredentials(username, password.toCharArray());
+        apiCredentials = new UsernamePasswordCredentials(username, password);
         if (serverAddress != null)
         {
             httpRequestFactory.setCredentials(serverAddress, apiCredentials);
@@ -556,9 +566,9 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             httpRequestFactory.setCredentials(serverAddress, httpCredentials);
         }
 
-        if (httpCredentials instanceof UsernamePasswordCredentials upCredentials)
+        if (httpCredentials instanceof UsernamePasswordCredentials)
         {
-            apiCredentials = upCredentials;
+            apiCredentials = (UsernamePasswordCredentials)httpCredentials;
         }
     }
 
@@ -586,7 +596,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             throw new IllegalArgumentException("username cannot be null");
         }
 
-        filestoreCredentials = new UsernamePasswordCredentials(username, password.toCharArray());
+        filestoreCredentials = new UsernamePasswordCredentials(username, password);
 
         filestoreSessionFactory.setUser(username);
         filestoreSessionFactory.setPassword(password);
@@ -1080,16 +1090,6 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         checkServerSet();
 
-        // Special case for instrument when asked for its full lims id, eg. "55-10"
-        // The URI can only have the last part of this, creating a URI ending with the
-        // simple number only, ie. "55-10" becomes "/10" in the URI.
-        // See Redmine 7273.
-
-        if (Instrument.class.equals(entityClass) && limsid.startsWith("55-"))
-        {
-            limsid = limsid.substring(3);
-        }
-
         StringBuilder uri = new StringBuilder(apiRoot);
         uri.append(entityAnno.uriSection()).append('/').append(limsid);
         if (isNotEmpty(entityAnno.uriSubsection()))
@@ -1163,6 +1163,30 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                      '/' + entityAnno.uriSection() + '/' + innerLimsid;
 
         return uri;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Deprecated
+    @SuppressWarnings("incomplete-switch")
+    public void nextCallCacheOverride(CacheStatefulBehaviour behaviour)
+    {
+        if (behaviour != null)
+        {
+            switch (behaviour)
+            {
+                case EXACT:
+                    overrideStateful(StatefulOverride.EXACT);
+                    return;
+
+                case LATEST:
+                    overrideStateful(StatefulOverride.LATEST);
+                    return;
+            }
+        }
+
+        overrideStateful(null);
     }
 
     /**
@@ -2629,7 +2653,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         checkFilestoreSet();
 
-        SftpSession session = filestoreSessionFactory.getSession();
+        Session<LsEntry> session = filestoreSessionFactory.getSession();
         try
         {
             URI targetURL = targetFile.getContentLocation();
@@ -2700,9 +2724,9 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
         ClarityEntity entityAnno = checkEntityAnnotated(ClarityFile.class);
 
         ClarityFile realFile;
-        if (file instanceof ClarityFile cf)
+        if (file instanceof ClarityFile)
         {
-            realFile = cf;
+            realFile = (ClarityFile)file;
             if (realFile.getContentLocation() == null)
             {
                 // Don't know where the actual file is, so fetch to get the full info.
@@ -2737,24 +2761,25 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
         ClientHttpResponse response = request.execute();
 
-        if (response.getStatusCode().is2xxSuccessful())
+        switch (response.getStatusCode().series())
         {
-            try (InputStream in = response.getBody())
-            {
-                byte[] buffer = new byte[8192];
-                IOUtils.copyLarge(in, resultStream, buffer);
-            }
-            finally
-            {
-                resultStream.flush();
-            }
-            logger.debug("{} download successful.", fileURL);
-        }
-        else
-        {
-            logger.debug("{} download failed. HTTP {}", fileURL, response.getStatusCode());
-            throw new IOException("Could not download file " + realFile.getLimsid() +
-                                  " (HTTP " + response.getStatusCode() + "): " + response.getStatusText());
+            case SUCCESSFUL:
+                try (InputStream in = response.getBody())
+                {
+                    byte[] buffer = new byte[8192];
+                    IOUtils.copyLarge(in, resultStream, buffer);
+                }
+                finally
+                {
+                    resultStream.flush();
+                }
+                logger.debug("{} download successful.", fileURL);
+                break;
+
+            default:
+                logger.debug("{} download failed. HTTP {}", fileURL, response.getStatusCode());
+                throw new IOException("Could not download file " + realFile.getLimsid() +
+                                      " (HTTP " + response.getStatusCode() + "): " + response.getStatusText());
         }
     }
 
@@ -2774,9 +2799,9 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
         }
 
         ClarityFile realFile;
-        if (file instanceof ClarityFile cf)
+        if (file instanceof ClarityFile)
         {
-            realFile = cf;
+            realFile = (ClarityFile)file;
             if (realFile.getContentLocation() == null)
             {
                 // Don't know where the actual file is, so fetch to get the full info.
@@ -2796,7 +2821,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
 
             checkFilestoreSet();
 
-            try (SftpSession session = filestoreSessionFactory.getSession())
+            try (Session<LsEntry> session = filestoreSessionFactory.getSession())
             {
                 session.remove(targetURL.getPath());
             }
@@ -2828,7 +2853,7 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                 catch (SftpException se)
                 {
                     // See if it's just a "file not found".
-                    if (se.getStatus() == SftpConstants.SSH_FX_NO_SUCH_FILE)
+                    if (se.id == 2)
                     {
                         logger.warn("File {} does not exist on {}", targetURL.getPath(), targetURL.getHost());
                     }
@@ -3017,8 +3042,10 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
                         appendQueryTerm(query, param, v);
                     }
                 }
-                else if (value instanceof Iterable<?> values)
+                else if (value instanceof Iterable)
                 {
+                    Iterable<?> values = (Iterable<?>)value;
+
                     if (!values.iterator().hasNext())
                     {
                         throw new IllegalSearchTermException(
@@ -3366,6 +3393,91 @@ public class ClarityAPIImpl implements ClarityAPI, ClarityAPIInternal
             id = id.substring(lastSlash + 1);
         }
         return id;
+    }
+
+    /**
+     * Strip the state parameter from a URI.
+     *
+     * @param uri The original URI.
+     *
+     * @return The URI minus the state parameter.
+     *
+     * @throws InvalidURIException if the newly formed URI is somehow invalid.
+     * This shouldn't ever happen.
+     */
+    protected URI removeStateParameter(URI uri)
+    {
+        String query = uri.getRawQuery();
+        if (isNotEmpty(query))
+        {
+            StringBuilder newQuery = new StringBuilder(query.length());
+
+            boolean hasStateParameter = false;
+            for (String term : AMPERSAND_SPLIT.split(query))
+            {
+                if (isNotBlank(term))
+                {
+                    if (term.startsWith(STATE_TERM))
+                    {
+                        hasStateParameter = true;
+                    }
+                    else
+                    {
+                        if (newQuery.length() > 0)
+                        {
+                            newQuery.append('&');
+                        }
+                        newQuery.append(term);
+                    }
+                }
+            }
+
+            // Don't need a new URI object if nothing has been removed.
+            if (hasStateParameter)
+            {
+                String nq = null;
+                if (newQuery.length() > 0)
+                {
+                    nq = newQuery.toString();
+                }
+
+                try
+                {
+                    return new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
+                                   uri.getPath(), nq, uri.getFragment());
+                }
+                catch (URISyntaxException e)
+                {
+                    // This should never happen, as we're creating the URI from an existing, valid
+                    // URI object. It could only happen if something goes wrong with recreating the
+                    // query string.
+                    throw new InvalidURIException("Could not recreate a URI: ", e);
+                }
+            }
+        }
+
+        return uri;
+    }
+
+    /**
+     * Strip the state parameter from a URI in string form.
+     *
+     * @param uri The original URI string.
+     *
+     * @return The URI minus the state parameter.
+     *
+     * @throws InvalidURIException if there is a problem parsing {@code uri} into a URI object.
+     */
+    protected String removeStateParameter(String uri)
+    {
+        try
+        {
+            return removeStateParameter(new URI(uri)).toString();
+        }
+        catch (URISyntaxException e)
+        {
+            throw new InvalidURIException(e);
+        }
     }
 
     /**

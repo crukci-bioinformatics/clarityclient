@@ -18,8 +18,6 @@
 
 package org.cruk.clarity.api.jaxb;
 
-import static jakarta.xml.bind.Marshaller.JAXB_ENCODING;
-import static jakarta.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,9 +29,10 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -42,9 +41,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ClassUtils;
@@ -56,8 +52,7 @@ import org.custommonkey.xmlunit.Difference;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.Unmarshaller;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.w3c.dom.Document;
@@ -130,10 +125,11 @@ import com.genologics.ri.workflowconfiguration.Workflows;
 public class JaxbAnnotationTest
 {
     @Autowired
-    protected Marshaller marshaller;
+    protected Jaxb2Marshaller marshaller;
 
     @Autowired
-    protected Unmarshaller unmarshaller;
+    @Qualifier("clarityJaxbMarshallerProperties")
+    protected Map<String, Object> marshallerProperties;
 
     protected DocumentBuilder docBuilder;
 
@@ -220,24 +216,20 @@ public class JaxbAnnotationTest
     @Test
     public void testExceptionSimple() throws Throwable
     {
-        Map<String, Object> marshallerProperties = new HashMap<>();
-        marshallerProperties.put(JAXB_FORMATTED_OUTPUT, true);
-        marshallerProperties.put(JAXB_ENCODING, "UTF-8");
-
         // Cannot use configured because of aspects.
         Jaxb2Marshaller exceptionMarshaller = new Jaxb2Marshaller();
-        exceptionMarshaller.setPackagesToScan("com.genologics.ri.exception");
+        exceptionMarshaller.setPackagesToScan(new String[] { "com.genologics.ri.exception" });
         exceptionMarshaller.setMarshallerProperties(marshallerProperties);
 
-        Unmarshaller original = unmarshaller;
+        Jaxb2Marshaller original = marshaller;
         try
         {
-            unmarshaller = exceptionMarshaller;
+            marshaller = exceptionMarshaller;
             fetchMarshalAndCompare(com.genologics.ri.exception.Exception.class);
         }
         finally
         {
-            unmarshaller = original;
+            marshaller = original;
         }
     }
 
@@ -557,11 +549,11 @@ public class JaxbAnnotationTest
     {
         try (Reader reader = new StringReader(xml))
         {
-            Object unmarshalled = unmarshaller.unmarshal(new StreamSource(reader));
+            Object unmarshalled = marshaller.unmarshal(new StreamSource(reader));
 
-            if (unmarshalled instanceof JAXBElement<?> element)
+            if (unmarshalled instanceof JAXBElement<?>)
             {
-                unmarshalled = element.getValue();
+                unmarshalled = ((JAXBElement<?>)unmarshalled).getValue();
             }
 
             assertEquals(entityClass, unmarshalled.getClass(), "Class of unmarshalled object doesn't match expected.");

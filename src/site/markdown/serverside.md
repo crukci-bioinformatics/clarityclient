@@ -1,4 +1,4 @@
-## Using The CRUK-CI Client Within A Jakarta EE 10 Application Server
+## Using The CRUK-CI Client Within A Jakarta EE 8 Application Server
 
 ### Using the cache in an application server
 
@@ -23,15 +23,3 @@ WEB-INF/classes/org/cruk/clarity/api/ehcache.xml
 ```
 
 This will take precedence over the file in the client JAR.
-
-Note that to use the `jakarta` namespace, the Maven dependency for
-ehcache needs the "jakarta" classifier:
-
-```XML
-<dependency>
-    <groupId>org.ehcache</groupId>
-    <artifactId>ehcache</artifactId>
-    <version>3.10.8</version>
-    <classifier>jakarta</classifier>
-</dependency>
-```

@@ -155,6 +155,15 @@ public class URLInputStreamResource extends AbstractResource
     }
 
     /**
+     * Make sure things are closed.
+     */
+    @Override
+    protected void finalize()
+    {
+        close();
+    }
+
+    /**
      * Close the resource's input stream and disconnect the URL connection.
      */
     public void close()

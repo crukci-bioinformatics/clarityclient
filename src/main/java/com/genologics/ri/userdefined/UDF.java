@@ -26,11 +26,11 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Collection;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAttribute;
-import jakarta.xml.bind.annotation.XmlType;
-import jakarta.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 
 import org.apache.commons.lang3.ClassUtils;
 
@@ -461,12 +461,14 @@ public class UDF implements Serializable
             else
             {
                 String better = "UDF \"{0}\" does not exist on {1} {2}";
-                if (thing instanceof LimsEntityLinkable<?> linkable)
+                if (thing instanceof LimsEntityLinkable<?>)
                 {
+                    LimsEntityLinkable<?> linkable = (LimsEntityLinkable<?>)thing;
                     failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), linkable.getLimsid());
                 }
-                else if (thing instanceof Locatable locatable)
+                else if (thing instanceof Locatable)
                 {
+                    Locatable locatable = (Locatable)thing;
                     failMessage = MessageFormat.format(better, name, ClassUtils.getShortClassName(thing.getClass()), locatable.getUri());
                 }
                 else

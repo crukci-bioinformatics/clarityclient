@@ -18,8 +18,8 @@
 
 package com.genologics.ri.processtype;
 
-import jakarta.xml.bind.annotation.XmlEnum;
-import jakarta.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * The trigger-point enumeration lists the possible values of the EPP Trigger point attribute.

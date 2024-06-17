@@ -23,31 +23,26 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.cruk.clarity.api.ClarityAPI;
-import org.cruk.clarity.api.spring.ClarityClientConfiguration;
+import org.cruk.clarity.api.impl.ClarityAPIImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.ImportResource;
 
 @Configuration
-@Import(ClarityClientConfiguration.class)
+@ImportResource("classpath:/org/cruk/clarity/api/clarity-client-context.xml")
 public class ClarityClientTestConfiguration
 {
-    @Autowired
-    @Qualifier("clarityAPI")
-    protected ClarityAPI api;
-
     public ClarityClientTestConfiguration()
     {
     }
 
-    @PostConstruct
-    public void setTestCredentials()
+    @Bean
+    public ClarityAPI clarityAPI()
     {
+        ClarityAPIImpl api = new ClarityAPIImpl();
+
         try (InputStream propsIn = getClass().getResourceAsStream("/testcredentials.properties"))
         {
             if (propsIn != null)
@@ -62,5 +57,7 @@ public class ClarityClientTestConfiguration
             Logger logger = LoggerFactory.getLogger(getClass());
             logger.error("Could not read from credentials file: ", e);
         }
+
+        return api;
     }
 }

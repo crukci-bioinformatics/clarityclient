@@ -23,34 +23,30 @@ import java.io.IOException;
 
 import javax.xml.transform.stream.StreamSource;
 
-import jakarta.xml.bind.JAXBElement;
-
 import org.cruk.clarity.api.ClarityException;
 import org.cruk.clarity.api.jaxb.JaxbUnmarshallingAspect;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 /**
  * REST client error handler that looks at the response body when there is a failure
  * code (an HTTP 400 or 500 code) and sees if the body contains a Clarity
  * {@code exception} message. If it does, that is thrown instead.
- *
- * <p>This handler relies on the exception conversion aspect around the JAXB
+ * <p>This handler relies on the exception conversion aspect around the JAXB2
  * unmarshaller.</p>
  *
  * @see JaxbUnmarshallingAspect
  */
-@SuppressWarnings("exports")
-// Can't declare this as a component as it causes a circular bean dependency.
 public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHandler
 {
     /**
-     * The unmarshaller.
+     * The marshaller.
      */
-    private Unmarshaller unmarshaller;
+    private Jaxb2Marshaller marshaller;
 
     /**
      * Empty constructor.
@@ -60,23 +56,15 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
     }
 
     /**
-     * Constructor with the unmarshaller.
+     * Set the marshaller used to create the XML.
      *
-     * @param unmarshaller The Jaxb Unmarshaller.
+     * @param marshaller The Jaxb2Marshaller.
      */
-    public ClarityFailureResponseErrorHandler(Unmarshaller unmarshaller)
+    @Autowired
+    @Qualifier("clarityJaxbMarshaller")
+    public void setMarshaller(Jaxb2Marshaller marshaller)
     {
-        setUnmarshaller(unmarshaller);
-    }
-
-    /**
-     * Set the unmarshaller used to create the XML.
-     *
-     * @param unmarshaller The Jaxb Unmarshaller.
-     */
-    public void setUnmarshaller(Unmarshaller unmarshaller)
-    {
-        this.unmarshaller = unmarshaller;
+        this.marshaller = marshaller;
     }
 
     /**
@@ -87,9 +75,9 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
      * @return {@code true} if the response is not in the 200 series of HTTP codes.
      */
     @Override
-    protected boolean hasError(HttpStatusCode statusCode)
+    protected boolean hasError(HttpStatus statusCode)
     {
-        return !statusCode.is2xxSuccessful();
+        return statusCode.series() != HttpStatus.Series.SUCCESSFUL;
     }
 
     /**
@@ -108,10 +96,9 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
      * @see JaxbUnmarshallingAspect
      */
     @Override
-    @SuppressWarnings("exports")
     public void handleError(ClientHttpResponse response) throws IOException
     {
-        HttpStatusCode statusCode = response.getStatusCode();
+        HttpStatus statusCode = response.getStatusCode();
         if (statusCode.is4xxClientError() || statusCode == HttpStatus.INTERNAL_SERVER_ERROR)
         {
             // Try and decode the message body. If it forms a Clarity exception,
@@ -121,18 +108,14 @@ public class ClarityFailureResponseErrorHandler extends DefaultResponseErrorHand
 
             try
             {
-                Object content = unmarshaller.unmarshal(new StreamSource(new ByteArrayInputStream(body)));
+                Object content = marshaller.unmarshal(new StreamSource(new ByteArrayInputStream(body)));
 
                 // Should be handled by the ClarityExceptionAspect, but in case
                 // that isn't in place...
 
-                if (content instanceof JAXBElement<?> element)
+                if (content instanceof com.genologics.ri.exception.Exception)
                 {
-                    content = element.getValue();
-                }
-                if (content instanceof com.genologics.ri.exception.Exception ge)
-                {
-                    throw new ClarityException(ge, statusCode);
+                    throw new ClarityException((com.genologics.ri.exception.Exception)content, statusCode);
                 }
             }
             catch (ClarityException e)

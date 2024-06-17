@@ -24,7 +24,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * Base for date adapters. Uses a thread local to keep thread safe with the

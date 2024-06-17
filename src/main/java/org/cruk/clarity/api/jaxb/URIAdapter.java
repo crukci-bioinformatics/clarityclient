@@ -20,14 +20,17 @@ package org.cruk.clarity.api.jaxb;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.net.URIBuilder;
-import org.cruk.clarity.api.InvalidURIException;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 
 /**
  * Convert to and from URI objects, correctly encoding the query string.
@@ -38,9 +41,19 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 public class URIAdapter extends XmlAdapter<String, URI>
 {
     /**
+     * UTF-8 character set for URL encoding.
+     */
+    private static final Charset UTF8 = Charset.forName("UTF-8");
+
+    /**
+     * Pattern for removing "state=" terms in the query string.
+     */
+    private static final Pattern STATE_PATTERN = Pattern.compile("([\\?&]?)state=\\d+(&?)");
+
+    /**
      * Flag indicating whether the state removing behaviour should be used.
      */
-    private final static boolean REMOVE_STATE = false;
+    private static final boolean REMOVE_STATE = false;
 
 
     public URIAdapter()
@@ -59,14 +72,7 @@ public class URIAdapter extends XmlAdapter<String, URI>
     @Override
     public URI unmarshal(String v) throws URISyntaxException
     {
-        if (REMOVE_STATE)
-        {
-            return v == null ? null : removeState(new URIBuilder(v)).build();
-        }
-        else
-        {
-            return v == null ? null : new URI(v);
-        }
+        return v == null ? null : new URI(escapeString(v));
     }
 
     /**
@@ -75,36 +81,61 @@ public class URIAdapter extends XmlAdapter<String, URI>
      * @param v The URI to print.
      *
      * @return The URI as a string, or null if {@code v} is null.
-     *
-     * @throws URISyntaxException if the URI cannot be parsed.
      */
     @Override
-    public String marshal(URI v) throws URISyntaxException
+    public String marshal(URI v)
     {
-        if (REMOVE_STATE)
+        String s = null;
+        if (v != null)
         {
-            return v == null ? null : removeState(new URIBuilder(v)).toString();
+            s = v.toString();
+            if (REMOVE_STATE)
+            {
+                s = removeStateParameter(s);
+            }
         }
-        else
-        {
-            return v == null ? null : v.toString();
-        }
+        return s;
     }
 
     /**
-     * Remove the state parameter from a URI builder.
+     * Escape a string before conversion to a URI and, according to setting,
+     * remove the state parameter.
      *
-     * @param builder The builder to manipulate.
+     * @param v The URI in string form.
      *
-     * @return A reference to {@code builder}.
+     * @return The encoded URI.
      */
-    private static URIBuilder removeState(URIBuilder builder)
+    private String escapeString(String v)
     {
-        if (!builder.isQueryEmpty())
+        if (v != null)
         {
-            List<NameValuePair> queryParts = builder.getQueryParams();
+            int queryStart = v.indexOf('?');
+            if (queryStart >= 0)
+            {
+                List<NameValuePair> queryParts = URLEncodedUtils.parse(v.substring(queryStart + 1), UTF8);
+                removeStateParameter(queryParts);
 
-            Iterator<NameValuePair> iter = queryParts.iterator();
+                v = v.substring(0, queryStart);
+                if (!queryParts.isEmpty())
+                {
+                    v += '?' + URLEncodedUtils.format(queryParts, UTF8);
+                }
+            }
+        }
+        return v;
+    }
+
+    /**
+     * Look for a parameter called "state" and remove it from the list if
+     * it is found.
+     *
+     * @param terms The name value pair terms.
+     */
+    private void removeStateParameter(List<NameValuePair> terms)
+    {
+        if (REMOVE_STATE)
+        {
+            Iterator<NameValuePair> iter = terms.iterator();
             while (iter.hasNext())
             {
                 if ("state".equals(iter.next().getName()))
@@ -112,33 +143,27 @@ public class URIAdapter extends XmlAdapter<String, URI>
                     iter.remove();
                 }
             }
-
-            builder.setParameters(queryParts);
         }
-        return builder;
     }
 
     /**
-     * Remove any "state" parameter from the given URI.
+     * Remove any "state=" parameter from the given URI.
      *
      * @param uri The URI to modify.
      *
      * @return A new URI which is {@code uri} without the state information.
-     *
-     * @throws InvalidURIException if the URI cannot be manipulated.
      */
-    @SuppressWarnings("unused")
     public static URI removeStateParameter(URI uri)
     {
         if (uri != null)
         {
             try
             {
-                uri = removeState(new URIBuilder(uri)).build();
+                uri = new URI(removeStateParameter(uri.toString()));
             }
             catch (URISyntaxException e)
             {
-                throw new InvalidURIException("Removing state information from URI " + uri + " failed.", e);
+                throw new AssertionError("Removing state information from URI " + uri + " failed: " + e.getMessage());
             }
         }
         return uri;
@@ -150,22 +175,30 @@ public class URIAdapter extends XmlAdapter<String, URI>
      * @param uri The URI to modify.
      *
      * @return A string which is {@code uri} without the state information.
-     *
-     * @throws InvalidURIException if the URI cannot be manipulated.
      */
-    @SuppressWarnings("unused")
     public static String removeStateParameter(String uri)
     {
         if (uri != null)
         {
-            try
+            StringBuffer builder = new StringBuffer();
+
+            Matcher m = STATE_PATTERN.matcher(uri);
+            while (m.find())
             {
-                uri = removeState(new URIBuilder(uri)).toString();
+                String replacement = "";
+
+                if (StringUtils.isNotEmpty(m.group(2)))
+                {
+                    // There are more options after the state parameter.
+                    // Need to put the first question mark or ampersand back.
+                    replacement = m.group(1);
+                }
+
+                m.appendReplacement(builder, replacement);
             }
-            catch (URISyntaxException e)
-            {
-                throw new InvalidURIException("Removing state information from URI " + uri + " failed.", e);
-            }
+            m.appendTail(builder);
+
+            uri = builder.toString();
         }
 
         return uri;

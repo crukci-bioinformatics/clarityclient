@@ -19,15 +19,11 @@
 package org.cruk.clarity.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.atMost;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -45,26 +41,18 @@ import java.util.Random;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import jakarta.annotation.PostConstruct;
-
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.output.NullOutputStream;
-import org.cruk.clarity.api.http.AuthenticatingClientHttpRequestFactory;
-import org.cruk.clarity.api.impl.ClarityAPIImpl;
-import org.cruk.clarity.api.spring.ClarityClientConfiguration;
+import org.cruk.clarity.api.unittests.ClarityClientTestConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.oxm.Marshaller;
-import org.springframework.oxm.Unmarshaller;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.web.client.RestTemplate;
 
@@ -75,47 +63,26 @@ import com.genologics.ri.artifact.Artifact;
 import com.genologics.ri.artifact.ArtifactBatchFetchResult;
 import com.genologics.ri.artifact.ArtifactLink;
 
-/*
- * Can't use the wired standard configuration as it's all changed around with the mocks.
- */
-@SpringJUnitConfig(ClarityAPIBatchOperationTest.MyConfiguration.class)
+@SpringJUnitConfig(classes = ClarityClientTestConfiguration.class)
 public class ClarityAPIBatchOperationTest
 {
     private ClarityAPI api;
 
     @Autowired
-    @Qualifier("clarityClientHttpRequestFactory")
-    private AuthenticatingClientHttpRequestFactory httpRequestFactory;
-
-    @Autowired
-    @Qualifier("clarityFullRestTemplate")
+    @Qualifier("clarityRestTemplate")
     private RestTemplate restTemplate;
 
     @Autowired
-    @Qualifier("clarityJaxbUnmarshaller")
-    private Unmarshaller unmarshaller;
+    private Jaxb2Marshaller marshaller;
 
-    @Autowired
-    @Qualifier("clarityJaxbMarshaller")
-    private Marshaller marshaller;
-
-    @Autowired
-    @Qualifier("clarityJaxbClasses")
-    private List<Class<?>> jaxbClasses;
-
-    public ClarityAPIBatchOperationTest()
+    public ClarityAPIBatchOperationTest() throws MalformedURLException
     {
     }
 
-    @PostConstruct
-    public void setup() throws MalformedURLException
+    @Autowired
+    public void setClarityAPI(ClarityAPI api) throws MalformedURLException
     {
-        var impl = new ClarityAPIImpl();
-        impl.setRestClient(restTemplate);
-        impl.setHttpRequestFactory(httpRequestFactory);
-        impl.setJaxbConfig(jaxbClasses);
-        api = impl;
-
+        this.api = api;
         api.setServer(new URL("http://limsdev.cri.camres.org:8080"));
     }
 
@@ -173,12 +140,13 @@ public class ClarityAPIBatchOperationTest
 
         ClientHttpResponse httpResponse = mock(ClientHttpResponse.class);
         when(httpResponse.getStatusCode()).thenReturn(HttpStatus.OK);
+        when(httpResponse.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
         when(httpResponse.getHeaders()).thenReturn(headers);
         when(httpResponse.getBody()).thenReturn(responseStream);
 
         ClientHttpRequest httpRequest = mock(ClientHttpRequest.class);
         when(httpRequest.getHeaders()).thenReturn(headers);
-        when(httpRequest.getBody()).thenReturn(NullOutputStream.INSTANCE);
+        when(httpRequest.getBody()).thenReturn(NULL_OUTPUT_STREAM);
         when(httpRequest.execute()).thenReturn(httpResponse);
 
         ClientHttpRequestFactory mockFactory = mock(ClientHttpRequestFactory.class);
@@ -208,7 +176,7 @@ public class ClarityAPIBatchOperationTest
         String expectedReply = FileUtils.readFileToString(expectedResultFile, UTF_8);
 
         ArtifactBatchFetchResult updateArtifactsFetch =
-                (ArtifactBatchFetchResult)unmarshaller.unmarshal(new StreamSource(expectedResultFile));
+                (ArtifactBatchFetchResult)marshaller.unmarshal(new StreamSource(expectedResultFile));
 
         List<Artifact> artifacts = updateArtifactsFetch.getArtifacts();
 
@@ -250,22 +218,24 @@ public class ClarityAPIBatchOperationTest
 
         ClientHttpResponse httpResponse1 = mock(ClientHttpResponse.class);
         when(httpResponse1.getStatusCode()).thenReturn(HttpStatus.OK);
+        when(httpResponse1.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
         when(httpResponse1.getHeaders()).thenReturn(headers);
         when(httpResponse1.getBody()).thenReturn(response1Stream);
 
         ClientHttpRequest httpRequest1 = mock(ClientHttpRequest.class);
         when(httpRequest1.getHeaders()).thenReturn(headers);
-        when(httpRequest1.getBody()).thenReturn(NullOutputStream.INSTANCE);
+        when(httpRequest1.getBody()).thenReturn(NULL_OUTPUT_STREAM);
         when(httpRequest1.execute()).thenReturn(httpResponse1);
 
         ClientHttpResponse httpResponse2 = mock(ClientHttpResponse.class);
         when(httpResponse2.getStatusCode()).thenReturn(HttpStatus.OK);
+        when(httpResponse2.getRawStatusCode()).thenReturn(HttpStatus.OK.value());
         when(httpResponse2.getHeaders()).thenReturn(headers);
         when(httpResponse2.getBody()).thenReturn(response2Stream);
 
         ClientHttpRequest httpRequest2 = mock(ClientHttpRequest.class);
         when(httpRequest2.getHeaders()).thenReturn(headers);
-        when(httpRequest2.getBody()).thenReturn(NullOutputStream.INSTANCE);
+        when(httpRequest2.getBody()).thenReturn(NULL_OUTPUT_STREAM);
         when(httpRequest2.execute()).thenReturn(httpResponse2);
 
         ClientHttpRequestFactory mockFactory = mock(ClientHttpRequestFactory.class);
@@ -295,15 +265,5 @@ public class ClarityAPIBatchOperationTest
 
         verify(mockFactory, times(1)).createRequest(updateUri, HttpMethod.POST);
         verify(mockFactory, times(1)).createRequest(retrieveUri, HttpMethod.POST);
-    }
-
-    @Configuration
-    static class MyConfiguration extends ClarityClientConfiguration
-    {
-        @Bean
-        public RestTemplate clarityFullRestTemplate()
-        {
-            return createRestTemplate();
-        }
     }
 }
